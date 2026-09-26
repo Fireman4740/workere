@@ -1,0 +1,16 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Run outputs and built datasets (regenerable; the datasets are on the Hub as <account>/<name>-workere)
+logs/
+mlruns/
+mlflow.db
+data/

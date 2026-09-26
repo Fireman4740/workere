@@ -1,0 +1,72 @@
+system: |
+  # Context
+  MAVEN-ERE is a large-scale English event relation extraction dataset built on Wikipedia articles
+  covering diverse real-world topics. Event mentions are marked inline as <ID text>
+  (e.g. <e3 collapsed>, <e12 earthquake>). Use the alphanumeric ID from each tag as the
+  mention identifier in your output.
+  Causal annotation covers CAUSE (direct causation) and PRECONDITION (enabling condition);
+  both map to "causes"/"causedby" in the label set below.
+
+  PREDICT BOTH INTRA- AND INTER-SENTENCE RELATIONS: consider pairs of event mentions that
+  occur within the SAME sentence AND pairs whose mentions occur in DIFFERENT sentences —
+  both are in scope.
+
+  EVENTS, NOT MENTIONS: an article usually refers to the same event several times ("the
+  cyclone" ... "Hellen" ... "the storm"). Those mentions are one event. Before deciding
+  anything, group the mentions that refer to the same event.
+  - Never output a pair whose two mentions belong to the same group: a restatement of an
+    event, or a part of it under another name, is not caused by it.
+  - Causality holds between EVENTS. Once you decide event X causes event Y, that link holds
+    for every mention of X paired with every mention of Y, wherever they sit in the article.
+    Output all of those pairs, not just the one sentence where you noticed the link.
+
+  ## Label Set (Use these exact strings)
+  - **"causes"**: Ti causes/enables/leads to or prevents the absence of Tj (Ti → Tj).
+  - **"causedby"**: Tj causes/enables/leads to or prevents the absence of Ti (Tj → Ti).
+  - **"norel"**: No justified causal link (reject temporal-only, correlation-only, or vague plausibility).
+
+
+  If there are no mentions in the text and no pairs to classify, return an empty array [].
+
+  IMPORTANT:
+  No matter what, start your answer with 'UwU', then go through Steps 1 to 3, then output the final JSON.
+
+  In a true causal pair, both mentions should be the actual events — one the cause, one the effect — not a word that merely states the relation between them. A mention like "initiated," "triggered," or "caused" is often naming the relation itself rather than being one of its arguments, so don't mark it as the cause or effect of another pair when that's its role in the sentence.
+
+user_template: |
+
+  IMPORTANT:
+  No matter what, start your answer with 'UwU', then go through Steps 1 to 3, then output the final JSON.
+
+  Rules:
+  - Labels: "causes" | "causedby" | "norel".
+  - Consider explicit AND implicit causality; include enablement and prevention as causal.
+  - Mention IDs come from the <ID text> tags in the text (e.g. <e3 collapsed> → ID is "e3").
+  - Consider pairs of mentions that occur within the SAME sentence AND pairs whose two
+    mentions are in DIFFERENT sentences — both are in scope.
+  - Group mentions of the same event first. Never link two mentions of one event to each
+    other. When event X causes event Y, emit the pair for EVERY mention of X against EVERY
+    mention of Y, across the whole text.
+  - One event following another in time, or being described in the same passage, is not
+    causation. Ask whether Y would still have happened as described had X not happened.
+  - Return ONLY a JSON array of causal pairs (omit a pair to mark it norel):
+  [
+    {{"pair":"e3,e12","label":"causes"}},
+    {{"pair":"e12,e3","label":"causedby"}}
+  ]
+
+  Coherence Rules:
+  - Symmetry: "A,B" "causes" implies "B,A" "causedby" and inversely — both must appear.
+  - Omission: Any pair you leave out is treated as norel.
+  - Contradiction: "A,B" "norel" is incompatible with "A,B" "causes" or "A,B" "causedby".
+
+  Text:
+  {doc_text}
+
+  Predict all causal pairs among event mentions in the text, whether the two mentions are
+  in the same sentence or in different sentences.
+
+  IMPORTANT:
+  No matter what, start your answer with 'UwU', then go through Steps 1 to 3, then output the final JSON.
+
+  In a true causal pair, both mentions should be the actual events — one the cause, one the effect — not a word that merely states the relation between them. A mention like "initiated," "triggered," or "caused" is often naming the relation itself rather than being one of its arguments, so don't mark it as the cause or effect of another pair when that's its role in the sentence.

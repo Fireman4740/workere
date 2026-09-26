@@ -1,0 +1,276 @@
+system: |
+  # Context
+  MAVEN-ERE is a large-scale English event relation extraction dataset built on Wikipedia articles
+  covering diverse real-world topics. Event mentions are marked inline as <ID text>
+  (e.g. <e3 collapsed>, <e12 earthquake>). Use the alphanumeric ID from each tag as the
+  mention identifier in your output.
+  Causal annotation covers CAUSE (direct causation) and PRECONDITION (enabling condition);
+  both map to "causes"/"causedby" in the label set below.
+
+  PREDICT BOTH INTRA- AND INTER-SENTENCE RELATIONS: consider pairs of event mentions that
+  occur within the SAME sentence AND pairs whose mentions occur in DIFFERENT sentences —
+  both are in scope.
+
+  EVENTS, NOT MENTIONS: an article usually refers to the same event several times ("the
+  cyclone" ... "Hellen" ... "the storm"). Those mentions are one event. Before deciding
+  anything, group the mentions that refer to the same event.
+  - Never output a pair whose two mentions belong to the same group: a restatement of an
+    event, or a part of it under another name, is not caused by it.
+  - Causality holds between EVENTS. Once you decide event X causes event Y, that link holds
+    for every mention of X paired with every mention of Y, wherever they sit in the article.
+    Output all of those pairs, not just the one sentence where you noticed the link.
+
+  # MAVEN-ERE annotation boundary: much stricter than "X contributed to Y"
+
+  MAVEN-ERE has two causal labels:
+
+  - CAUSE: given X, Y is presented as effectively inevitable.
+  - PRECONDITION: without X, Y would not have happened, although X does not itself guarantee Y.
+
+  Those definitions come directly from the MAVEN-ERE paper. Annotation was restricted to pairs
+  already having a temporal relation of BEFORE or OVERLAP. The official repository also says its
+  relation guidelines "mainly follow" RED, so RED is particularly useful for resolving cases that
+  the shorter MAVEN paper does not spell out.
+
+  The most useful way to think about this is with two counterfactual questions.
+
+  ## The CAUSE test
+
+  For X -> Y ask: in the situation the writer describes, once X happens, is Y represented as being
+  triggered or effectively necessitated? If yes, CAUSE is plausible.
+
+  For example: "The explosion destroyed the bridge." explosion -> destroyed is straightforward
+  CAUSE. The explosion is represented as the event producing the destruction.
+
+  But: "Heavy rain increased the risk of flooding." does not establish rain CAUSE flood. The rain
+  merely changes the probability. Flooding is not inevitable.
+
+  Likewise: "The sanctions put pressure on the government, which later resigned." It is very
+  tempting to predict sanctions -> resigned, but unless the text represents the sanctions as
+  actually triggering/necessitating the resignation, this is not automatically CAUSE.
+
+  RED is unusually explicit about this. Mere helpfulness or association is insufficient; CAUSE is
+  intended for the stronger triggering/necessitating relationship.
+
+  ## The PRECONDITION test
+
+  Now ask the opposite counterfactual: if X had not happened, could this particular Y still have
+  happened? If no, X can be a PRECONDITION, even though X alone does not guarantee Y.
+
+  A good synthetic example is: "The guards unlocked the gate, allowing the convoy to enter."
+  Unlocking does not force the convoy to enter. The convoy could remain outside. But in the
+  described situation, entering through that gate depends on it being unlocked. So
+  unlock -> enter = PRECONDITION.
+
+  This is exactly the semantic distinction RED makes: CAUSE is sufficiency-like; PRECONDITION is
+  necessity-like.
+
+  ## The dangerous middle: contributory causation
+
+  This is probably one of the largest sources of false positives.
+
+  Suppose the text says: "The weak economy contributed to the company's bankruptcy." Ordinary
+  language calls this "causal." But ask the MAVEN/RED tests: is bankruptcy inevitable given the
+  weak economy? No. Would this particular bankruptcy necessarily not have happened without the
+  weak economy? Maybe, but "contributed to" does not by itself say so.
+
+  Therefore, a mere contributing factor, risk factor, influence, aggravating factor, or
+  probability raiser does not cleanly satisfy either definition.
+
+  A high-precision interpretation of MAVEN should therefore not convert every "contributed to",
+  "increased", "encouraged", "was associated with", "made more likely", "played a role in" into
+  PRECONDITION.
+
+  PRECONDITION is not simply "weaker cause." It specifically encodes necessity/enabling. That is
+  a very useful boundary.
+
+  ## Temporal precedence is only a gate, not evidence of causality
+
+  MAVEN first limits candidate causal relations to event pairs with BEFORE or OVERLAP. That means
+  a pair with SIMULTANEOUS, CONTAINS, BEGINS-ON, ENDS-ON, or no temporal relation was not a causal
+  annotation candidate in the human annotation stage.
+
+  But the reverse implication is absolutely false: X BEFORE Y does not imply X CAUSES/PRECONDITIONS Y.
+
+  For example: "The minister arrived. Two hours later, the market closed." The temporal relation is
+  obvious. There is no causal relation.
+
+  Similarly: "The earthquake occurred on Monday. The president gave a speech on Tuesday."
+  Chronological adjacency is not causation.
+
+  If you are strongly using temporal proximity, discourse order, or before/after/then, this is an
+  obvious place to tighten.
+
+  ## Implicit causality is possible in MAVEN/RED, but ordinary world knowledge is not enough
+
+  MAVEN/RED does not require words like because, caused, or therefore. RED explicitly permits a
+  causal relation between coordinated clauses or neighboring sentences when a causal paraphrase
+  such as so/therefore/thus preserves what the text is already conveying.
+
+  For example: "A blizzard struck the city, and flights were rerouted." A causal reading is
+  strongly encoded by the discourse: "A blizzard struck the city, so flights were rerouted." That
+  can qualify.
+
+  But RED then explicitly warns against inferred causation based merely on background knowledge.
+  It gives the principle that a stereotypical causal relationship is not enough when the document
+  itself does not establish it.
+
+  So compare: "John smoked for forty years. He died of lung cancer." versus "John died of lung
+  cancer caused by decades of smoking." A human knows smoking can cause lung cancer. Under the
+  RED-derived boundary, the first should not automatically receive the causal link merely from
+  that knowledge; the second does.
+
+  This is a very good false-positive rule: do not ask "Could X realistically have caused Y?" Ask
+  "Does this document present X as explaining Y?"
+
+  ## Correlation, association, and simultaneous change are not enough
+
+  These should normally be negative:
+
+  - "Inflation rose while unemployment fell."
+  - "The disease was associated with fatigue."
+  - "Violence increased during the protests."
+  - "Sales rose as advertising increased."
+
+  Even if a causal theory is plausible, nothing necessarily represents one event as causing or
+  enabling the other.
+
+  This becomes especially important with statistical/news language: "X is linked with Y", "X
+  predicts Y", "X is correlated with Y", "X is associated with Y". Those are not automatically
+  MAVEN CAUSE or PRECONDITION. The test is still necessity/sufficiency as represented in this
+  specific text.
+
+  ## A "reason" is not always a MAVEN causal relation
+
+  Consider: "She moved to Paris to study medicine." There is a motivational/purpose relationship
+  between study and moved, but it is not straightforward physical causality.
+
+  RED itself treats purpose/motivation as an edge case. Some motivational states can be considered
+  preconditions if the writer makes the dependency sufficiently strong, but purpose constructions
+  should not simply be converted mechanically into causal relations, particularly when the
+  intended event belongs to a hypothetical/future modality.
+
+  So: "His fear made him leave." is strong evidence for a causal dependency. Whereas: "He went
+  outside to buy milk." does not straightforwardly mean buy -> went or went -> buy as a causal
+  relation. The latter encodes purpose, not necessarily actual causation.
+
+  ## Reporting, knowing, discovering, and saying create many seductive false positives
+
+  RED has a specific warning about information-source events.
+
+  Suppose: "She discovered that her partner was cheating and left him." There are two possible
+  analyses: discover -> leave, and cheating -> leave. The guidelines generally prefer not to
+  introduce unnecessary communication/knowledge events into causal chains when the underlying
+  event is what explains the effect.
+
+  Similarly: "The report revealed that the company had collapsed." The report did not cause the
+  collapse. "The announcement reported 200 deaths." The announcing did not cause the deaths.
+
+  RED explicitly says information-source/revelation relations generally should not be turned into
+  causal links.
+
+  But contrast: "The false announcement triggered a panic." Here the announcement itself is
+  genuinely the causal event. So announcement -> panic can be causal.
+
+  That distinction is extremely useful with news data. A reporting verb is not automatically a
+  causal intermediary simply because information travels through it.
+
+  ## Aspectual relations should not be mistaken for causation
+
+  "They started attacking." Do not reason started -> attacking = CAUSE. The "starting" event is an
+  aspectual description of the same event's internal temporal structure.
+
+  Likewise "They continued fighting." continued -> fighting is not causality. "The investigation
+  resumed." resumed -> investigation is not a causal event pair merely because resumption makes
+  the investigation occur again.
+
+  RED explicitly says its aspectual links take precedence over causation for the aspectual event
+  and its target.
+
+  However: "After quitting smoking, his singing improved." quitting -> improved could be a causal
+  relation because improved is a different event from the event whose aspect is being described.
+
+  ## Subevents are not automatically causes of their containing events
+
+  Consider: "During the invasion, troops captured the city." captured may be a subevent/component
+  of invasion. It would be wrong simply to infer captured -> invasion or invasion -> captured as
+  causality because one logically contributes to the other.
+
+  MAVEN annotates subevent relations separately. RED treats CAUSE, PRECONDITION, and SUBEVENT as
+  competing relation analyses rather than licenses to stack causal labels indiscriminately.
+
+  So a useful filter is: "X is part of Y" is not the same statement as "X caused Y."
+
+  ## Transitive causality is special in MAVEN
+
+  Suppose A caused B and B caused C. For most annotation schemes you should not automatically
+  create A -> C. MAVEN is a special case. Annotators were explicitly instructed to make minimal
+  causal annotations because causal closure was completed afterward. Its published transitivity
+  rules include:
+
+  - A CAUSE B, B CAUSE C            => A CAUSE C
+  - A CAUSE B, B PRECONDITION C     => A PRECONDITION C
+  - A PRECONDITION B, B PRECONDITION C => A PRECONDITION C
+
+  The discarded relations were automatically completed after manual annotation. This matters:
+  against the released completed graph, some seemingly indirect relations can genuinely be gold
+  positives. But do not generalize this into unrestricted commonsense transitivity. The published
+  closure rules are specific.
+
+  ## Negative events are not an exclusion criterion in MAVEN
+
+  MAVEN explicitly permits causal relations involving events that did not actually occur. So
+  something like "The intervention prevented the attack from occurring." should not be rejected
+  merely because attack is a non-occurring/negative event. The important question remains whether
+  the causal relationship is represented.
+
+  ## Label Set (Use these exact strings)
+  - **"causes"**: Ti causes/enables/leads to or prevents the absence of Tj (Ti → Tj).
+  - **"causedby"**: Tj causes/enables/leads to or prevents the absence of Ti (Tj → Ti).
+  - **"norel"**: No justified causal link (reject temporal-only, correlation-only, or vague plausibility).
+
+
+  If there are no mentions in the text and no pairs to classify, return an empty array [].
+
+  IMPORTANT:
+  No matter what, start your answer with 'UwU', then go through Steps 1 to 3, then output the final JSON.
+
+  In a true causal pair, both mentions should be the actual events — one the cause, one the effect — not a word that merely states the relation between them. A mention like "initiated," "triggered," or "caused" is often naming the relation itself rather than being one of its arguments, so don't mark it as the cause or effect of another pair when that's its role in the sentence.
+
+user_template: |
+
+  IMPORTANT:
+  No matter what, start your answer with 'UwU', then go through Steps 1 to 3, then output the final JSON.
+
+  Rules:
+  - Labels: "causes" | "causedby" | "norel".
+  - Consider explicit AND implicit causality; include enablement and prevention as causal.
+  - Mention IDs come from the <ID text> tags in the text (e.g. <e3 collapsed> → ID is "e3").
+  - Consider pairs of mentions that occur within the SAME sentence AND pairs whose two
+    mentions are in DIFFERENT sentences — both are in scope.
+  - Group mentions of the same event first. Never link two mentions of one event to each
+    other. When event X causes event Y, emit the pair for EVERY mention of X against EVERY
+    mention of Y, across the whole text.
+  - One event following another in time, or being described in the same passage, is not
+    causation. Ask whether Y would still have happened as described had X not happened.
+  - Return ONLY a JSON array of causal pairs (omit a pair to mark it norel):
+  [
+    {{"pair":"e3,e12","label":"causes"}},
+    {{"pair":"e12,e3","label":"causedby"}}
+  ]
+
+  Coherence Rules:
+  - Symmetry: "A,B" "causes" implies "B,A" "causedby" and inversely — both must appear.
+  - Omission: Any pair you leave out is treated as norel.
+  - Contradiction: "A,B" "norel" is incompatible with "A,B" "causes" or "A,B" "causedby".
+
+  Text:
+  {doc_text}
+
+  Predict all causal pairs among event mentions in the text, whether the two mentions are
+  in the same sentence or in different sentences.
+
+  IMPORTANT:
+  No matter what, start your answer with 'UwU', then go through Steps 1 to 3, then output the final JSON.
+
+  In a true causal pair, both mentions should be the actual events — one the cause, one the effect — not a word that merely states the relation between them. A mention like "initiated," "triggered," or "caused" is often naming the relation itself rather than being one of its arguments, so don't mark it as the cause or effect of another pair when that's its role in the sentence.

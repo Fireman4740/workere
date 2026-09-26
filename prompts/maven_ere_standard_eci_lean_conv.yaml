@@ -1,0 +1,75 @@
+system: |
+  # Context
+  MAVEN-ERE is a large-scale English event relation extraction dataset built on Wikipedia articles
+  covering diverse real-world topics. Event mentions are marked inline as <ID text>
+  (e.g. <e3 collapsed>, <e12 earthquake>). Use the alphanumeric ID from each tag as the
+  mention identifier in your output.
+  Causal annotation covers CAUSE (direct causation) and PRECONDITION (enabling condition);
+  both map to "causes"/"causedby" in the label set below.
+
+  PREDICT BOTH INTRA- AND INTER-SENTENCE RELATIONS: consider pairs of event mentions that
+  occur within the SAME sentence AND pairs whose mentions occur in DIFFERENT sentences —
+  both are in scope.
+
+  YOU ARE REPRODUCING AN ANNOTATION, NOT ADJUDICATING CAUSALITY. The labels you are scored
+  against were produced by human annotators working to a narrower and less consistent
+  standard than your own judgement. Many links that are defensible on the text were simply
+  not marked, and a few that were marked are questionable. Your task is to predict what
+  THOSE annotators recorded, including where you would have decided otherwise.
+
+  The worked example below is your evidence about their standard. Read it as a sample of
+  their behaviour, not as an illustration of the instructions: notice how many links they
+  drew for a document of that size, how far apart the linked events sat, how direct the
+  connection had to be before they marked it, and which tempting connections they passed
+  over. Match that behaviour. If your own reading of a pair says "causal" but the example
+  suggests these annotators would not have recorded it, do not output it.
+
+
+  ## Label Set (Use these exact strings)
+  - **"causes"**: Ti causes/enables/leads to or prevents the absence of Tj (Ti → Tj).
+  - **"causedby"**: Tj causes/enables/leads to or prevents the absence of Ti (Tj → Ti).
+  - **"norel"**: No justified causal link (reject temporal-only, correlation-only, or vague plausibility).
+
+
+  If there are no mentions in the text and no pairs to classify, return an empty array [].
+
+  IMPORTANT:
+  No matter what, start your answer with 'UwU', then go through Steps 1 to 3, then output the final JSON.
+
+  In a true causal pair, both mentions should be the actual events — one the cause, one the effect — not a word that merely states the relation between them. A mention like "initiated," "triggered," or "caused" is often naming the relation itself rather than being one of its arguments, so don't mark it as the cause or effect of another pair when that's its role in the sentence.
+
+user_template: |
+
+  IMPORTANT:
+  No matter what, start your answer with 'UwU', then go through Steps 1 to 3, then output the final JSON.
+
+  Rules:
+  - Predict what the annotators of this corpus recorded, not what is causally true. The
+    example above is your only evidence of their standard — match its density and its
+    threshold for what counts, and leave out links they would have passed over.
+  - Labels: "causes" | "causedby" | "norel".
+  - Consider explicit AND implicit causality; include enablement and prevention as causal.
+  - Mention IDs come from the <ID text> tags in the text (e.g. <e3 collapsed> → ID is "e3").
+  - Consider pairs of mentions that occur within the SAME sentence AND pairs whose two
+    mentions are in DIFFERENT sentences — both are in scope.
+  - Return ONLY a JSON array of causal pairs (omit a pair to mark it norel):
+  [
+    {{"pair":"e3,e12","label":"causes"}},
+    {{"pair":"e12,e3","label":"causedby"}}
+  ]
+
+  Coherence Rules:
+  - Symmetry: "A,B" "causes" implies "B,A" "causedby" and inversely — both must appear.
+  - Omission: Any pair you leave out is treated as norel.
+  - Contradiction: "A,B" "norel" is incompatible with "A,B" "causes" or "A,B" "causedby".
+
+  Text:
+  {doc_text}
+
+  Predict all causal pairs among event mentions in the text, whether the two mentions are
+  in the same sentence or in different sentences.
+
+  IMPORTANT:
+  No matter what, start your answer with 'UwU', then go through Steps 1 to 3, then output the final JSON.
+
+  In a true causal pair, both mentions should be the actual events — one the cause, one the effect — not a word that merely states the relation between them. A mention like "initiated," "triggered," or "caused" is often naming the relation itself rather than being one of its arguments, so don't mark it as the cause or effect of another pair when that's its role in the sentence.

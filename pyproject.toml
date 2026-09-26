@@ -1,0 +1,29 @@
+[project]
+name = "workere"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Alasdey", email = "lenalasdey@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "datasets>=5.0.1",
+    "graphviz>=0.21",
+    "huggingface-hub>=1.33.0",
+    "langchain-core>=1.6.5",
+    "langchain-openai>=1.6.6",
+    "matplotlib>=3.11.2",
+    "mlflow>=3.16.1",
+    "numpy>=2.5.3",
+    "openai>=3.19.2",
+    "pyarrow>=25.0.1",
+    "pyyaml>=6.0.3",
+]
+
+[project.scripts]
+workere = "workere:main"
+
+[build-system]
+requires = ["uv_build>=0.12.17,<0.13.0"]
+build-backend = "uv_build"

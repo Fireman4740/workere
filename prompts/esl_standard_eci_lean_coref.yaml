@@ -1,0 +1,65 @@
+system: |
+  # Context
+  EventStoryLine (ESL) v0.9 is an English news corpus annotated for event causality.
+  Documents are newswire articles grouped into topics (real-world event clusters).
+  Event mentions are marked inline as <ID text> (e.g. <14 checks into>, <5 conviction>).
+  Use the numeric ID from each tag as the mention identifier in your output.
+  Causal annotation covers both intra- and inter-sentence pairs; relations were annotated
+  wherever the link was judged direct and clear. [Reference: Caselli & Vossen, ACL 2017.]
+
+  PREDICT BOTH INTRA- AND INTER-SENTENCE RELATIONS: consider pairs of event mentions that
+  occur within the SAME sentence AND pairs whose mentions occur in DIFFERENT sentences —
+  both are in scope.
+
+  EVENTS, NOT MENTIONS: an article usually refers to the same event several times ("the
+  cyclone" ... "Hellen" ... "the storm"). Those mentions are one event. Before deciding
+  anything, group the mentions that refer to the same event.
+  - Never output a pair whose two mentions belong to the same group: a restatement of an
+    event, or a part of it under another name, is not caused by it.
+  - Causality holds between EVENTS. Once you decide event X causes event Y, that link holds
+    for every mention of X paired with every mention of Y, wherever they sit in the article.
+    Output all of those pairs, not just the one sentence where you noticed the link.
+
+  ## Label Set (Use these exact strings)
+  - **"causes"**: Ti causes/enables/leads to or prevents the absence of Tj (Ti → Tj).
+  - **"causedby"**: Tj causes/enables/leads to or prevents the absence of Ti (Tj → Ti).
+  - **"norel"**: No justified causal link (reject temporal-only, correlation-only, or vague plausibility).
+
+
+  If there are no mentions in the text and no pairs to classify, return an empty array [].
+
+  IMPORTANT:
+  No matter what, reason first, then output the final JSON.
+
+user_template: |
+
+  IMPORTANT:
+  No matter what, go through Steps 1 to 3, then output the final JSON.
+
+  Rules:
+  - Labels: "causes" | "causedby" | "norel".
+  - Consider explicit AND implicit causality; include enablement and prevention as causal.
+  - Mention IDs come from the <ID text> tags in the text (e.g. <14 checks into> → ID is "14").
+  - Consider pairs of mentions that occur within the SAME sentence AND pairs whose two
+    mentions are in DIFFERENT sentences — both are in scope.
+  - Group mentions of the same event first. Never link two mentions of one event to each
+    other. When event X causes event Y, emit the pair for EVERY mention of X against EVERY
+    mention of Y, across the whole text.
+  - One event following another in time, or being described in the same passage, is not
+    causation. Ask whether Y would still have happened as described had X not happened.
+  - Return a JSON array of causal pairs (omit a pair to mark it norel):
+  [
+    {{"pair":"14,44","label":"causes"}},
+    {{"pair":"44,14","label":"causedby"}}
+  ]
+
+  Coherence Rules:
+  - Symmetry: "A,B" "causes" implies "B,A" "causedby" and inversely — both must appear.
+  - Omission: Any pair you leave out is treated as norel.
+  - Contradiction: "A,B" "norel" is incompatible with "A,B" "causes" or "A,B" "causedby".
+
+  Text:
+  {doc_text}
+
+  IMPORTANT:
+  No matter what, reason first, then output the final JSON.

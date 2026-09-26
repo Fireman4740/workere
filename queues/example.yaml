@@ -1,0 +1,53 @@
+# queues/example.yaml — the queue format (identical to agentere's; agentere queue files run as-is).
+#
+#   python run.py --queue queues/example.yaml
+#   python run.py --queue queues/example.yaml --only esc_base
+#
+# `experiments` is a list of {name, overrides}; overrides are deep-merged onto config.yaml and
+# must name keys it declares. Any other top-level key (here `_defaults`) is ignored — it only
+# holds YAML anchors for the entries to share.
+
+_defaults:
+  model: &model
+    default_model_id: "deepseek/deepseek-v4-flash"
+    temperature: 0.0
+    reasoning_effort: "high"
+  experiment: &experiment
+    resampling: {enabled: true, n_runs: 5, distinct_fewshots: true}
+    concurrency: 50
+    doc_concurrency: 50
+  few_shot: &few_shot
+    enabled: true
+    n_examples: 1
+    pool_size: 10
+    cot_generation: {enabled: true, blind: false, rewrite: true}
+
+experiments:
+  - name: esc_base
+    overrides:
+      active_dataset: "event_story_line"
+      model: *model
+      experiment: *experiment
+      few_shot: *few_shot
+      syntax: {level: "mentions"}
+      datasets: {event_story_line: {prompt: "esl_standard_eci_lean", max_examples: 233}}
+
+  - name: esc_oracle_whitelist
+    overrides:
+      active_dataset: "event_story_line"
+      model: *model
+      experiment: *experiment
+      few_shot: *few_shot
+      syntax: {level: "mentions"}
+      mention_whitelist: {enabled: true, mode: "oracle"}
+      datasets: {event_story_line: {prompt: "esl_standard_eci_lean", max_examples: 233}}
+
+  - name: esc_oracle_coref_hint
+    overrides:
+      active_dataset: "event_story_line"
+      model: *model
+      experiment: *experiment
+      few_shot: *few_shot
+      syntax: {level: "mentions"}
+      coref_hint: {enabled: true, source: "esc_ecb", esl_root: "../agentere/data/EventStoryLine"}
+      datasets: {event_story_line: {prompt: "esl_standard_eci_lean", max_examples: 233}}

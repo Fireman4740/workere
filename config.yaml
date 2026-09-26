@@ -1,0 +1,315 @@
+# config.yaml — every setting of a run is declared here, once, and read by direct indexing.
+# Queue entries and `--set` overrides are deep-merged onto this file; a key it does not declare
+# is an error. Keys and meanings are agentere's, so agentere queue files and MLflow params line
+# up; additions are marked NEW.
+
+# Global RNG seed. Every seeded draw that is not tied to a single document reads it: the
+# document sample (data.shuffle_docs), the per-document few-shot draw and random vote
+# tie-breaks. Per-document pair shuffles stay seeded by doc id and are unaffected.
+seed: 42
+
+
+# =============================================================================
+# MODEL
+# =============================================================================
+model:
+  # default_model_id: "openai/gpt-5.5"
+  # default_model_id: "anthropic/claude-opus-4.7"
+  # default_model_id: "minimax/minimax-m2.7"
+  # default_model_id: "z-ai/glm-5.2"
+  # default_model_id: "moonshotai/kimi-k2.5"
+  # default_model_id: "openai/gpt-5-mini"
+  # default_model_id: "deepseek/deepseek-r1-0528"
+  # default_model_id: "allenai/olmo-3.1-32b-think" # No tools
+  # default_model_id: "x-ai/grok-4.1-fast"
+  # default_model_id: "inception/mercury-2" # Rate limits
+  # default_model_id: "deepseek/deepseek-v4-pro"
+  default_model_id: "deepseek/deepseek-v4-flash"
+  # default_model_id: "deepseek/deepseek-v3.2"
+  # default_model_id: "qwen/qwen3-next-80b-a3b-thinking"
+  # default_model_id: "google/gemini-2.5-flash-lite" # Doesn't work, not looked why
+  # default_model_id: "openai/gpt-oss-120b:nitro"
+  # default_model_id: "bytedance-seed/seed-1.6-flash" # Nope (never responded)
+  # default_model_id: "mistralai/mistral-small-3.2-24b-instruct"
+  base_url: "https://openrouter.ai/api/v1"
+  temperature: 0.0
+  # Sent as the top-level `reasoning_effort` field. deepseek-v4-flash offers "high" and "xhigh"
+  # only (lower selectors are mapped up). null omits the field and lets each provider apply
+  # its own default; it keys separately in the CoT cache.
+  reasoning_effort: "high"
+  # OpenRouter provider routing. `order` is a fallback chain, NOT a load balancer: every request
+  # goes to the first provider and moves down the list only on error. Measured decode medians on
+  # deepseek-v4-flash (tok/s): Novita 92.5 (n=206), Baidu 95.1 (n=4), GMICloud 75.0 (n=20),
+  # OpenInference 30.8, DigitalOcean 23.0. Alibaba is excluded: 5.8% of its generations came back
+  # HTTP 200 but truncated (finish_reason "error"). An empty list sends nothing (price routing).
+  # Applied to every call of the run — inference, CoT synthesis and tool sub-calls alike.
+  provider_order:
+    - "Baidu"
+    - "Novita"
+    - "GMICloud"
+    - "Azure"
+
+
+# =============================================================================
+# TRACKING
+# =============================================================================
+mlflow:
+  enabled: true
+  log_causal_graphs: true   # one TP/FP/FN causal graph SVG per document, as a run artifact
+  log_traces: true          # NEW. One MLflow trace per inference call (the MLflow UI view).
+                            # The JSONL trace file in the run directory is written either way;
+                            # agentere's 44,860 traces are most of its 3.3 GB mlflow.db.
+  tracking_uri: "sqlite:///mlflow.db"
+  experiment_name: "workere"
+
+# Prompt-keyed cache over the CoT-synthesis and tool sub-LLM calls. Keyed on the exact message
+# list plus model id, temperature, reasoning effort and bound tools. Inference is NEVER cached:
+# reported metrics always come from live calls. Replays carry no tokens and no cost.
+llm_cache:
+  enabled: true
+  path: "logs/llm_cache.sqlite"
+  namespace: ""          # any string; change it to invalidate every entry
+
+# NEW. Where and how the run executes. Not logged as MLflow params: nothing here can change a
+# prediction.
+runtime:
+  logdir: "logs/runs"          # one directory per run: report, config, traces, checkpoint
+  max_tool_rounds: 50          # model turns allowed in one tool loop before the call fails
+
+
+data:
+  shuffle_docs: true             # draw max_examples documents from anywhere in the split (seeded
+                                 # by `seed`); samples are nested — raising max_examples appends
+  shuffle_pair_list: true        # shuffle pair order within each document (seeded by doc id)
+  reshuffle_per_resample: true   # a different pair order per resample pass (seeded by doc id +
+                                 # pass index); only matters when the prompt lists pairs
+  binary_undirected: false       # collapse causes/causedby -> causal and dedupe pairs at load time
+  vote_to_binary: false          # post-hoc: sum directed votes over both directions into one
+                                 # causal/norel decision per unordered pair. Alternative to
+                                 # binary_undirected — don't set both.
+  binary_default: "norel"        # "norel" | "causal" — tie-break under vote_to_binary
+  novote_norel: true             # under vote_to_binary: a never-voted reverse direction counts as
+                                 # one implicit norel vote (false = OR of directions)
+  labels:                        # the directed label set of every standard-eci dataset
+    - "causes"
+    - "causedby"
+    - "norel"
+
+
+# ── Syntactic annotation (spaCy) ──
+# A parse-derived block appended after the document text wherever the document is shown: the
+# prediction prompt, the few-shot demonstrations, the CoT-synthesis input, the tool output. The
+# parser reads the dataset's own tokens (never the <ID surface> markup). English only; if spaCy
+# or en_core_web_sm is missing, no block is added anywhere and the run equals "off".
+syntax:
+  level: "off"    # "off" | "mentions" (lemma, POS, morphology, dep, head per mention)
+                  # | "args" (+ subj/obj/obl arguments, per-sentence connectives)
+                  # | "paths" (+ dependency path of every same-sentence pair; quadratic, capped)
+  discourse: []   # any of "skeleton" (one row per sentence over the whole document),
+                  # "participants" (named entities and the sentences they recur in),
+                  # "pos" (the whole text again, token/TAG) — independent of `level`
+
+
+# ── Coreference hint ── NEW (was scripts/experiments/coref_run.py, a monkeypatch)
+# Appends the document's event-coreference chains after the document text ("mentions on the
+# same line refer to the same event"), in the test prompt and in every demonstration. ORACLE
+# chains: an upper bound, not a deployable setting. Measured with agentere (run 762e4506, full
+# ESC): binary F1 36 -> 48.7.
+coref_hint:
+  enabled: false
+  source: "esc_ecb"               # "esc_ecb" (ESC; needs esl_root) | "maven_span" (MAVEN-ERE)
+  esl_root: "data/EventStoryLine" # clone of github.com/tommasoc80/EventStoryLine
+
+
+# ── Mention split ──
+# Covers a document's pair space with three calls instead of one: both mentions in the first
+# half (document order), one in each half, both in the second half. The blocks partition the
+# pair space, so every pair still gets exactly n_runs votes. Only an appended scope instruction
+# differs from the baseline. Measured a dud on ESC once the vote threshold is swept.
+mention_split:
+  enabled: false
+  filter_out_of_block: true   # drop predictions outside the call's block (the rate is logged)
+
+
+# ── Mention whitelist ──
+# A final scope instruction naming the only mentions in scope; the text itself is unmodified.
+#   "oracle": mentions in >= 1 gold causal pair (reads gold — an upper bound: +23 F1 MAVEN dev,
+#             +17.6 ESC). "file": ids from `path`, a JSON {doc_id: [mention ids]} (deployable).
+# `enforce` drops predictions naming an out-of-scope mention; obedience is logged either way.
+mention_whitelist:
+  enabled: false
+  mode: "oracle"
+  path: ""
+  enforce: false
+
+
+# ── Gold relation count ──
+# Appends the exact number of gold causal relations (distinct pairs) to the test prompt. Reads
+# gold: an upper bound on what a count predictor could buy.
+gold_count:
+  enabled: false
+
+
+experiment:
+  tracing: "false"          # LangSmith (LANGCHAIN_TRACING_V2)
+  tracing_name: "workere"   # LANGCHAIN_PROJECT
+  enable_tools: false
+  tools: []                 # any of coherence, counterfactual_check, encoder, bare_causes, eci,
+                            # eci_extractor, eci_extractor_intra, few_shot_examples, reprompt,
+                            # placeholder
+  concurrency: 100          # LLM calls in flight, across all documents and passes. Real now:
+                            # agentere's sync graph node ran on the default 28-thread executor,
+                            # so it never exceeded 28 in flight whatever this said.
+  doc_concurrency: 100      # documents open at once (bounds prompt building ahead of calls)
+  retries: 3                # extra attempts per call (parse failure, timeout, API error,
+                            # truncated generation)
+  retry_wait: 0             # seconds between attempts
+  timeout: 2400             # seconds per attempt
+  resampling:
+    enabled: false
+    n_runs: 3               # votes per pair
+    tie_breaking: "norel"   # "norel" | "random" (seeded)
+    distinct_fewshots: true # each pass gets its own few-shot set (n_runs * n_examples docs,
+                            # split round-robin; the pool must hold that many)
+
+
+# ── Few-shot examples ──
+few_shot:
+  enabled: true
+  repo_id: null           # NEW (declared; agentere read it with a default): null = the active
+                          # dataset's repo
+  split: "train"
+  n_examples: 3
+  pool_size: 140          # training docs kept in the pool (null = the full split)
+  shuffle_pool: true      # draw the pool from anywhere in the split (seeded by shuffle_pool_seed)
+  shuffle_pool_seed: 42
+  systematic: true        # true: demos injected as prior turns; false: the few_shot_examples tool
+  selection: "random"     # "random" | "similarity" (TF-IDF) | "mentions" (Jaccard over mention
+                          # texts) | "bert" (sentence-transformer cosine) | "smallest" (debugging)
+                          # The random draw is seeded per (seed, doc id): reproducible, and the
+                          # CoT pre-generation covers exactly the demos inference will use.
+  density_stratify: false # one demo per density quantile bin (causal relations per mention)
+  intra_only: false       # show only same-sentence gold relations wherever gold is shown
+  bert_model: "all-roberta-large-v1"
+  human_rationales:
+    dir: "few_shot_rationales"  # one .txt/.md per training doc; text after an "Answer:" line is
+                                 # the assistant turn; "--- Step 2 ---" separates turns
+    only: false                  # true: the pool is exactly the documents with a rationale file
+  cot_generation:
+    enabled: true
+    blind: false          # true: blind attempt, then a gold-guided correction
+    rewrite: true         # decontamination pass stripping foreknowledge phrasing
+    negation: false       # NEW (was scripts/experiments/negation_cot_run.py): the synthesized
+                          # reasoning must also argue why tempting pairs are norel. Part of the
+                          # CoT cache key, so it can never replay a positives-only CoT.
+    cache_path: "logs/cot_cache.json"  # keyed by doc id + fingerprint of model, prompt and gold
+                                       # formatting — the same keys as agentere's cache
+    dump_dir: "logs/cot_dumps"         # <dump_dir>/<run>/<doc_id>.txt for reading (null = off)
+
+
+reprompt:
+  systematic: false       # true: the original task is re-injected as a reprompt tool result
+
+tools_config:
+  eci_extractor:
+    model_id: "deepseek/deepseek-v3.2"
+    concurrency: 10
+
+encoder:
+  path: "encoder_baseline/logs/MAVEN-ERE-Causal-Events_test_2026_02_12_14_51_27/predictions.json"
+  filter_norel:
+    enabled: true
+    delta: 0.20   # keep NoRel pairs only when max relation prob >= threshold - delta
+
+
+# =============================================================================
+# ACTIVE DATASET
+# =============================================================================
+active_dataset: "event_story_line"
+# active_dataset: "maven_ere"
+# active_dataset: "meci"
+# active_dataset: "causal_timebank"
+
+datasets:
+  maven_ere:
+    name: "MAVEN-ERE-Causal"
+    repo_id: "Nofing/MAVEN-ERE-standard-eci"
+    split: "test"
+    text_field: "text"
+    ann_field: "annots"
+    prompt: "maven_ere_standard_eci_intra_lean"
+    rule_set: "maven-ere"
+    constrain_to_pair_list: false
+    # `kfold` only excludes same-fold documents (doc_idx % n_folds) from a document's few-shot
+    # pool. It is NOT a train/test split: every document is evaluated and metrics are pooled.
+    kfold:
+      enabled: false
+      n_folds: -1
+    max_examples: 710
+
+  meci:
+    name: "MECI-v0.1"
+    repo_id: "Nofing/MECI-v0.1-public-standard-eci"
+    split: "test"
+    text_field: "text"
+    ann_field: "annots"
+    rule_set: "meci"
+    constrain_to_pair_list: true
+    kfold:
+      enabled: false
+      n_folds: -1
+    prompt: "meci_standard_eci"
+    max_examples: 1
+
+  causal_timebank:
+    name: "CausalTimeBank-standard-eci"
+    repo_id: "Nofing/CausalTimeBank-standard-eci"
+    split: "train"
+    text_field: "text"
+    ann_field: "annots"
+    rule_set: "causal_timebank"
+    constrain_to_pair_list: false
+    kfold:
+      enabled: true
+      n_folds: 10
+    prompt: "causal_timebank_syntax"
+    max_examples: 50
+
+  event_story_line:
+    name: "EventStoryLine-0.9"
+    repo_id: "Nofing/EventStoryLine-0.9-standard-eci"
+    split: "train"
+    text_field: "text"
+    ann_field: "annots"
+    rule_set: "esl"
+    constrain_to_pair_list: false
+    kfold:
+      enabled: true
+      n_folds: 5
+    prompt: "esl_standard_eci_intra_lean"
+    max_examples: 50
+
+
+# =============================================================================
+# RULE SETS (coherence tool)
+# In the label space the standard-eci datasets and every prompt actually use: causes /
+# causedby / norel. agentere's sets were written for the pre-standardisation labels
+# (CAUSE, PRECONDITION, FALLING_ACTION, EffectCause), which no current prediction carries, so
+# the coherence tool could never trigger; causal_timebank's was empty and made it error.
+# dir: "12" pair (m1,m2), "21" (m2,m1), "13" (m1,m3), "31", "23", "32".
+# =============================================================================
+rule_sets:
+  maven-ere:
+    - {type: "two", if: {rel: "causes"}, then: {rel: "causedby", dir: "21"}, negated: false}
+    - {type: "two", if: {rel: "causedby"}, then: {rel: "causes", dir: "21"}, negated: false}
+    - {type: "three", if1: {rel: "causes"}, if2: {rel: "causes"}, then: {rel: "causes", dir: "13"}, negated: false}
+  meci:
+    - {type: "two", if: {rel: "causes"}, then: {rel: "causedby", dir: "21"}, negated: false}
+    - {type: "two", if: {rel: "causedby"}, then: {rel: "causes", dir: "21"}, negated: false}
+  causal_timebank:
+    - {type: "two", if: {rel: "causes"}, then: {rel: "causedby", dir: "21"}, negated: false}
+    - {type: "two", if: {rel: "causedby"}, then: {rel: "causes", dir: "21"}, negated: false}
+  esl:
+    - {type: "two", if: {rel: "causes"}, then: {rel: "causedby", dir: "21"}, negated: false}
+    - {type: "two", if: {rel: "causedby"}, then: {rel: "causes", dir: "21"}, negated: false}
+    - {type: "three", if1: {rel: "causes"}, if2: {rel: "causes"}, then: {rel: "causes", dir: "13"}, negated: false}
