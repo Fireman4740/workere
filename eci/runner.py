@@ -39,10 +39,17 @@ ModelFactory = Callable[..., object]
 
 
 def default_factory(cfg: dict) -> ModelFactory:
+    """One run's models. They share one HTTP client that this run owns and closes (`aclose`), so
+    no connection outlives the run's event loop (see make_chat_model)."""
+    from openai import DefaultAsyncHttpxClient
+    http = DefaultAsyncHttpxClient()
+
     def make(model_id: str, temperature: float, reasoning_effort, cache):
         return make_chat_model(model_id=model_id, temperature=temperature,
                                reasoning_effort=reasoning_effort, base_url=cfg["model"]["base_url"],
-                               provider_order=cfg["model"]["provider_order"], cache=cache)
+                               provider_order=cfg["model"]["provider_order"], cache=cache,
+                               http_async_client=http)
+    make.aclose = http.aclose
     return make
 
 
@@ -240,6 +247,10 @@ class Runner:
             print(f"\nRun interrupted. Finished documents are in {self.run_dir.checkpoint}.\n"
                   f"Resume with:  python run.py --resume {self.run_dir.path}", file=sys.stderr)
             raise
+        finally:
+            close = getattr(self.factory, "aclose", None)   # test factories own no connections
+            if close is not None:
+                await close()
         print(f"Done in {time.monotonic() - t0:.0f}s")
         return report
 

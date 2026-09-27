@@ -39,7 +39,7 @@ from typing import Any, Callable, Dict, List, Optional, Sequence
 from langchain_core.caches import BaseCache
 from langchain_core.load import dumps, loads
 from langchain_core.messages import AIMessage, BaseMessage, ToolMessage
-from langchain_core.outputs import Generation
+from langchain_core.outputs import ChatGeneration, Generation
 
 
 class TruncatedResponse(ValueError):
@@ -91,7 +91,9 @@ class SqliteLLMCache(BaseCache):
             self.misses += 1
             return None
         try:
-            gens = [loads(blob) for blob in json.loads(row[0])]
+            # Only what update() stores: a stricter future default (chat messages only) would
+            # reject ChatGeneration, and every entry would then be dropped below as unreadable.
+            gens = [loads(blob, allowed_objects=[ChatGeneration, AIMessage]) for blob in json.loads(row[0])]
         except Exception as e:
             print(f"[llm_cache] dropping undeserializable entry {key[:12]}: {e}")
             with self._lock:
@@ -243,10 +245,14 @@ class TraceWriter:
 # ── Client ────────────────────────────────────────────────────────────────────
 
 def make_chat_model(*, model_id: str, temperature: float, reasoning_effort: Optional[str],
-                    base_url: str, provider_order: Sequence[str], cache):
+                    base_url: str, provider_order: Sequence[str], cache, http_async_client):
     """ChatOpenAI against OpenRouter. `provider` is an OpenRouter-only body field, so it rides in
     extra_body (model_kwargs would be splatted into the SDK's create() and rejected). A None
-    reasoning_effort sends no field at all, so the provider's default applies."""
+    reasoning_effort sends no field at all, so the provider's default applies.
+
+    `http_async_client` must belong to the current run: without one, langchain-openai shares a
+    process-wide client whose idle keep-alive connections stay bound to the event loop that
+    opened them, so the next run of a queue (a new asyncio.run) fails with "Event loop is closed"."""
     from langchain_openai import ChatOpenAI
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
@@ -254,7 +260,7 @@ def make_chat_model(*, model_id: str, temperature: float, reasoning_effort: Opti
     extra_body = {"provider": {"order": list(provider_order), "allow_fallbacks": True}} if provider_order else None
     return ChatOpenAI(model=model_id, temperature=temperature, reasoning_effort=reasoning_effort,
                       api_key=api_key, base_url=base_url, extra_body=extra_body, cache=cache,
-                      max_retries=0)
+                      max_retries=0, http_async_client=http_async_client)
 
 
 @dataclass

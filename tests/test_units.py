@@ -1,10 +1,16 @@
-"""Unit tests: config strictness, parsing, voting, scope, coherence, rationales, the LLM cache.
+"""Unit tests: config strictness, parsing, voting, scope, coherence, rationales, the LLM cache,
+connections across the runs of a queue.
 Run: python -m unittest tests.test_units -v"""
 from __future__ import annotations
 
+import asyncio
+import json
+import os
 import random
 import tempfile
+import threading
 import unittest
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 import yaml
@@ -173,6 +179,52 @@ class LLMCache(unittest.TestCase):
         self.assertTrue(hit.message.response_metadata["cache_hit"])
         self.assertIsNone(cache.lookup("p", "other-model"))
         self.assertEqual((cache.hits, cache.misses), (1, 1))
+
+
+class _KeepAliveChat(BaseHTTPRequestHandler):
+    """A minimal OpenAI-compatible endpoint that keeps connections open, as OpenRouter does."""
+    protocol_version = "HTTP/1.1"
+
+    def do_POST(self):
+        self.rfile.read(int(self.headers["Content-Length"]))
+        body = json.dumps({"id": "x", "object": "chat.completion", "created": 0, "model": "m",
+                           "choices": [{"index": 0, "finish_reason": "stop",
+                                        "message": {"role": "assistant", "content": "ok"}}],
+                           "usage": {"prompt_tokens": 1, "completion_tokens": 1, "total_tokens": 2}}).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def log_message(self, *args):
+        pass
+
+
+class QueueConnections(unittest.TestCase):
+    def test_consecutive_runs_do_not_reuse_a_closed_loop(self):
+        """Each queue entry is its own asyncio.run. langchain-openai's shared client kept the first
+        run's keep-alive connections, and the second run failed with "Event loop is closed"."""
+        from eci.runner import default_factory
+        server = ThreadingHTTPServer(("127.0.0.1", 0), _KeepAliveChat)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.shutdown)
+        cfg = {"model": {"base_url": f"http://127.0.0.1:{server.server_port}/v1", "provider_order": []}}
+        os.environ.setdefault("OPENROUTER_API_KEY", "unused-by-the-local-server")
+
+        async def one_run():
+            factory = default_factory(cfg)
+            model = factory("m", 0.0, None, None)
+            try:
+                return await asyncio.gather(*[model.ainvoke("hi") for _ in range(5)], return_exceptions=True)
+            finally:
+                close = getattr(factory, "aclose", None)   # as Runner.run does
+                if close is not None:
+                    await close()
+
+        for run in range(3):
+            outcomes = asyncio.run(one_run())
+            self.assertEqual([type(o).__name__ for o in outcomes], ["AIMessage"] * 5, f"run {run + 1}: {outcomes}")
 
 
 if __name__ == "__main__":
