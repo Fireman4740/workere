@@ -157,10 +157,10 @@ experiment:
   tools: []                 # any of coherence, counterfactual_check, encoder, bare_causes, eci,
                             # eci_extractor, eci_extractor_intra, few_shot_examples, reprompt,
                             # placeholder
-  concurrency: 100          # LLM calls in flight, across all documents and passes. Real now:
+  concurrency: 200          # LLM calls in flight, across all documents and passes. Real now:
                             # agentere's sync graph node ran on the default 28-thread executor,
                             # so it never exceeded 28 in flight whatever this said.
-  doc_concurrency: 100      # documents open at once (bounds prompt building ahead of calls)
+  doc_concurrency: 200      # documents open at once (bounds prompt building ahead of calls)
   retries: 3                # extra attempts per call (parse failure, timeout, API error,
                             # truncated generation)
   retry_wait: 0             # seconds between attempts
