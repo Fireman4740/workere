@@ -42,7 +42,8 @@ def cmd_sweep(a):
     if a.coref:
         variants += ["+coref", "+coref_edges"]
     if a.closure:
-        variants += ["+trans", "+trans1", "+trans1(unanim)"] + (["+coref+trans"] if a.coref else [])
+        variants += ["+trans", "+trans1", "+trans1(unanim)"] + \
+            (["+coref+trans", "+coref+trans1", "+trans1+coref"] if a.coref else [])
     payload = {}
     for run in loaded:
         chains = None

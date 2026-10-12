@@ -91,10 +91,10 @@ uv sync
 read -s OPENROUTER_API_KEY && export OPENROUTER_API_KEY
 ```
 ```bash
-uv run run.py --queue queues/baseline_coref.yaml --only r3_ctb r3_esc r3_maven
-uv run run.py --queue queues/baseline_coref.yaml --only r7_ctb r7_esc
+# Run a queue file with one or multiple experiments
 uv run run.py --queue queues/baseline_coref.yaml --only r7_maven 
 ```
 ```bash
+# To run the mlflow server
 uv run mlflow server --host 0.0.0.0 --backend-store-uri sqlite:///mlflow.db --port 5000
 ```

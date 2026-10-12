@@ -44,10 +44,10 @@ model:
   # HTTP 200 but truncated (finish_reason "error"). An empty list sends nothing (price routing).
   # Applied to every call of the run — inference, CoT synthesis and tool sub-calls alike.
   provider_order:
-    - "Baidu"
     - "Novita"
-    - "GMICloud"
-    - "Azure"
+    # - "Baidu"
+    # - "GMICloud"
+    # - "Azure"
 
 
 # =============================================================================
