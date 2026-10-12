@@ -22,6 +22,9 @@ Variants (all post-hoc, zero model calls):
   +trans / +trans1 / +trans1(unanim) / +coref+trans   directed transitive closure a->b, b->c
                   => a->c: to a fixpoint, one step, one step on unanimous premises only, and
                   after propagation (= maven_posthoc_sweep.py)
+  +coref+trans1   propagation, then one transitive step over the propagated edges
+  +trans1+coref   one transitive step, then propagation of the result (a subset of the above:
+                  it cannot chain through two different mentions of one event)
 Propagated or derived pairs that no report row mentions are scored too — as false positives
 when they are not gold — so a transform cannot inflate precision by construction.
 """
@@ -34,8 +37,9 @@ from eci.metrics import prf
 from eci.posthoc.runs import DocVotes, Pair, RunVotes
 
 SCOPES = ("all", "intra", "inter")
-CHAIN_VARIANTS = ("+coref", "+coref_edges", "+coref+trans")
-ALL_VARIANTS = ("base", "+coref", "+coref_edges", "+trans", "+trans1", "+trans1(unanim)", "+coref+trans")
+CHAIN_VARIANTS = ("+coref", "+coref_edges", "+coref+trans", "+coref+trans1", "+trans1+coref")
+ALL_VARIANTS = ("base", "+coref", "+coref_edges", "+trans", "+trans1", "+trans1(unanim)", "+coref+trans",
+                "+coref+trans1", "+trans1+coref")
 
 
 def predicted(doc: DocVotes, t: int) -> Set[Pair]:
@@ -112,6 +116,10 @@ def variant_pairs(doc: DocVotes, t: int, n_runs: int, variant: str, chains: dict
         return base | materialise({(a, c) for a, b in hi for b2, c in hi if b2 == b and c != a} | e)
     if variant == "+coref+trans":
         return base | materialise(transitive(propagate(e, chains)))
+    if variant == "+coref+trans1":
+        return base | materialise(transitive(propagate(e, chains), steps=1))
+    if variant == "+trans1+coref":
+        return base | materialise(propagate(transitive(e, steps=1), chains))
     raise ValueError(variant)
 
 

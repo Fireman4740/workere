@@ -1,0 +1,60 @@
+# queues/baseline_coref_zeroshot_r7.yaml — baseline_coref_zeroshot.yaml with 7 resamples.
+#
+#   export OPENROUTER_API_KEY=...
+#   python run.py --queue queues/baseline_coref_zeroshot_r7.yaml
+#   python run.py --queue queues/baseline_coref_zeroshot_r7.yaml --only zs7_ctb
+#
+# Everything else as baseline_coref_zeroshot.yaml: deepseek-v4-flash; no few-shot demos; syntax off;
+# every evaluation document (CTB 183, ESC 233, MAVEN-ERE 710); no tools; no oracle whitelist,
+# coreference hint or gold count. Prompt: coreference-aware on ESC and MAVEN-ERE, CTB's usual prompt
+# on CTB. Seven passes per document, aggregated by vote (distinct_fewshots has no effect without demos).
+#
+# With no demos and temperature 0.0, the 7 passes of a document send byte-identical requests; any
+# disagreement between them comes from the endpoint's nondeterminism. Check pass agreement on the
+# CTB run (--only zs7_ctb) before paying for MAVEN-ERE.
+#
+# Estimated cost (2026-10-05, Novita): 7 x the single-pass zero-shot runs 561fa716 / d2a9b32c /
+# 580e0be8 ($0.51 / $1.00 / $3.25) = CTB ~$3.6, ESC ~$7.0, MAVEN-ERE ~$22.8, ~$33 in total.
+#
+# Order: cheapest first (CTB, ESC, MAVEN-ERE), so a spending cap cuts the most expensive run.
+
+_defaults:
+  base: &base
+    model: {default_model_id: "deepseek/deepseek-v4-flash", temperature: 0.0, reasoning_effort: "high"}
+    few_shot:
+      enabled: false
+      n_examples: 1
+      pool_size: 20
+      selection: "random"
+      systematic: true
+      density_stratify: false
+      intra_only: false
+      cot_generation: {enabled: true, blind: false, rewrite: true, negation: false}
+    syntax: {level: "off", discourse: []}
+    mention_whitelist: {enabled: false}
+    coref_hint: {enabled: false}
+    gold_count: {enabled: false}
+    mention_split: {enabled: false}
+  r7: &r7
+    enable_tools: false
+    tools: []
+    concurrency: 50
+    doc_concurrency: 50
+    resampling: {enabled: true, n_runs: 7, distinct_fewshots: true}
+  ctb: &ctb
+    causal_timebank: {repo_id: "Nofing/CausalTimeBank-standard-eci-workere", split: "train",
+                      prompt: "causal_timebank_syntax", max_examples: 183}
+  esc: &esc
+    event_story_line: {repo_id: "Nofing/EventStoryLine-0.9-standard-eci-workere", split: "train",
+                       prompt: "esl_standard_eci_lean_coref", max_examples: 233}
+  maven: &maven
+    maven_ere: {repo_id: "Nofing/MAVEN-ERE-standard-eci-workere", split: "test",
+                prompt: "maven_ere_standard_eci_lean_coref", max_examples: 710}
+
+experiments:
+  - name: zs7_ctb
+    overrides: {<<: *base, active_dataset: "causal_timebank", experiment: *r7, datasets: *ctb}
+  - name: zs7_esc
+    overrides: {<<: *base, active_dataset: "event_story_line", experiment: *r7, datasets: *esc}
+  - name: zs7_maven
+    overrides: {<<: *base, active_dataset: "maven_ere", experiment: *r7, datasets: *maven}

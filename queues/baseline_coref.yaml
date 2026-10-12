@@ -28,7 +28,7 @@ _defaults:
       density_stratify: false
       intra_only: false
       cot_generation: {enabled: true, blind: false, rewrite: true, negation: false}
-    syntax: {level: "mentions", discourse: []}
+    syntax: {level: "off", discourse: []}
     mention_whitelist: {enabled: false}
     coref_hint: {enabled: false}
     gold_count: {enabled: false}
@@ -57,12 +57,12 @@ _defaults:
 
 experiments:
   # ── 3 resamples ──
-  - name: r3_ctb
-    overrides: {<<: *base, active_dataset: "causal_timebank", experiment: *r3, datasets: *ctb}
-  - name: r3_esc
-    overrides: {<<: *base, active_dataset: "event_story_line", experiment: *r3, datasets: *esc}
-  - name: r3_maven
-    overrides: {<<: *base, active_dataset: "maven_ere", experiment: *r3, datasets: *maven}
+  # - name: r3_ctb
+  #   overrides: {<<: *base, active_dataset: "causal_timebank", experiment: *r3, datasets: *ctb}
+  # - name: r3_esc
+  #   overrides: {<<: *base, active_dataset: "event_story_line", experiment: *r3, datasets: *esc}
+  # - name: r3_maven
+  #   overrides: {<<: *base, active_dataset: "maven_ere", experiment: *r3, datasets: *maven}
 
   # ── 7 resamples ──
   - name: r7_ctb

@@ -1,0 +1,56 @@
+# queues/baseline_coref_1shot.yaml — baseline_coref.yaml with one few-shot demo and no resampling.
+#
+#   export OPENROUTER_API_KEY=...
+#   python run.py --queue queues/baseline_coref_1shot.yaml
+#   python run.py --queue queues/baseline_coref_1shot.yaml --only fs1_ctb fs1_esc fs1_maven
+#
+# Everything else as baseline_coref.yaml: deepseek-v4-flash; 1 few-shot demo, drawn at random
+# (seeded per document) from a pool of 20 training documents (same-fold documents excluded on ESC
+# and CTB); CoT synthesized for the demo, no blind step (the pool's CoTs are already cached by the
+# baseline runs); syntax off; every evaluation document (CTB 183, ESC 233, MAVEN-ERE 710); no
+# tools; no oracle whitelist, coreference hint or gold count. Prompt: coreference-aware on ESC and
+# MAVEN-ERE, CTB's usual prompt on CTB. One pass per document (resampling off), so it sits between
+# baseline_coref_zeroshot.yaml (0 demos, 1 pass) and baseline_coref.yaml's r7 runs (1 demo, 7 passes).
+#
+# Order: cheapest first (CTB, ESC, MAVEN-ERE), so a spending cap cuts the most expensive run.
+
+_defaults:
+  base: &base
+    model: {default_model_id: "deepseek/deepseek-v4-flash", temperature: 0.0, reasoning_effort: "high"}
+    few_shot:
+      enabled: true
+      n_examples: 1
+      pool_size: 20
+      selection: "random"
+      systematic: true
+      density_stratify: false
+      intra_only: false
+      cot_generation: {enabled: true, blind: false, rewrite: true, negation: false}
+    syntax: {level: "off", discourse: []}
+    mention_whitelist: {enabled: false}
+    coref_hint: {enabled: false}
+    gold_count: {enabled: false}
+    mention_split: {enabled: false}
+  r1: &r1
+    enable_tools: false
+    tools: []
+    concurrency: 50
+    doc_concurrency: 50
+    resampling: {enabled: false, n_runs: 3, distinct_fewshots: true}
+  ctb: &ctb
+    causal_timebank: {repo_id: "Nofing/CausalTimeBank-standard-eci-workere", split: "train",
+                      prompt: "causal_timebank_syntax", max_examples: 183}
+  esc: &esc
+    event_story_line: {repo_id: "Nofing/EventStoryLine-0.9-standard-eci-workere", split: "train",
+                       prompt: "esl_standard_eci_lean_coref", max_examples: 233}
+  maven: &maven
+    maven_ere: {repo_id: "Nofing/MAVEN-ERE-standard-eci-workere", split: "test",
+                prompt: "maven_ere_standard_eci_lean_coref", max_examples: 710}
+
+experiments:
+  - name: fs1_ctb
+    overrides: {<<: *base, active_dataset: "causal_timebank", experiment: *r1, datasets: *ctb}
+  - name: fs1_esc
+    overrides: {<<: *base, active_dataset: "event_story_line", experiment: *r1, datasets: *esc}
+  - name: fs1_maven
+    overrides: {<<: *base, active_dataset: "maven_ere", experiment: *r1, datasets: *maven}
