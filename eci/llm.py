@@ -26,6 +26,7 @@ import asyncio
 import json
 import os
 import sqlite3
+import sys
 import threading
 import time
 import urllib.request
@@ -153,6 +154,7 @@ class Ledger:
     missed every tool sub-call except eci_extractor's."""
     roles: Dict[str, RoleUsage] = field(default_factory=dict)
     errors: Dict[str, int] = field(default_factory=dict)
+    providers: Dict[str, int] = field(default_factory=dict)   # live calls per serving provider
 
     def role(self, name: str) -> RoleUsage:
         return self.roles.setdefault(name, RoleUsage())
@@ -161,6 +163,9 @@ class Ledger:
         u = self.role(role)
         u.calls += 1
         u.seconds += seconds
+        rmeta = ai.response_metadata or {}
+        if rmeta.get("provider") and not rmeta.get("cache_hit"):
+            self.providers[rmeta["provider"]] = self.providers.get(rmeta["provider"], 0) + 1
         meta = ai.usage_metadata or {}
         u.input_tokens += meta.get("input_tokens", 0) or 0
         u.output_tokens += meta.get("output_tokens", 0) or 0
@@ -185,7 +190,8 @@ class Ledger:
 
     def as_dict(self) -> dict:
         return {"roles": {k: vars(v) for k, v in self.roles.items()},
-                "total": vars(self.totals()), "errors": dict(self.errors)}
+                "total": vars(self.totals()), "errors": dict(self.errors),
+                "providers": dict(sorted(self.providers.items(), key=lambda kv: -kv[1]))}
 
 
 _PRICES: Optional[Dict[str, tuple]] = None
@@ -244,23 +250,108 @@ class TraceWriter:
 
 # ── Client ────────────────────────────────────────────────────────────────────
 
+# What langchain-openai already keeps of a response, a choice and a message.
+_KEPT_RESPONSE = {"choices", "usage", "model", "id", "system_fingerprint"}
+_KEPT_CHOICE = {"message", "finish_reason", "logprobs", "index"}
+_KEPT_MESSAGE = {"role", "content", "tool_calls", "function_call", "audio"}
+
+_OpenRouterChat = None
+
+
+def _openrouter_chat():
+    """ChatOpenAI that keeps everything OpenRouter returns. langchain-openai keeps a message's
+    content and tool calls and the response's model, id and usage, and drops the rest: the
+    `reasoning` text (calls billed 1,000+ reasoning tokens carried no record of what was
+    reasoned), `reasoning_details`, which `provider` served the call, `native_finish_reason`.
+    Extra message fields go to `additional_kwargs`, extra response and choice fields to
+    `response_metadata`. Neither is sent back: langchain-openai serializes only role, content
+    and tool calls, so requests are byte-identical."""
+    global _OpenRouterChat
+    if _OpenRouterChat is not None:
+        return _OpenRouterChat
+    from langchain_openai import ChatOpenAI
+
+    class OpenRouterChat(ChatOpenAI):
+        # The LLM cache key embeds the serialized model, class id and name included: keep
+        # ChatOpenAI's so every entry cached before this class existed still hits.
+        @classmethod
+        def lc_id(cls) -> List[str]:
+            return ChatOpenAI.lc_id()
+
+        def get_name(self, suffix: Optional[str] = None, *, name: Optional[str] = None) -> str:
+            return super().get_name(suffix, name=name or self.name or "ChatOpenAI")
+
+        def _create_chat_result(self, response, generation_info=None):
+            result = super()._create_chat_result(response, generation_info)
+            raw = response if isinstance(response, dict) else response.model_dump(warnings=False)
+            top = {k: v for k, v in raw.items() if k not in _KEPT_RESPONSE and v is not None}
+            for gen, choice in zip(result.generations, raw["choices"]):
+                gen.message.additional_kwargs.update(
+                    {k: v for k, v in choice["message"].items() if k not in _KEPT_MESSAGE and v is not None})
+                gen.message.response_metadata.update(
+                    {**top, **{k: v for k, v in choice.items() if k not in _KEPT_CHOICE and v is not None}})
+            return result
+
+    _OpenRouterChat = OpenRouterChat
+    return _OpenRouterChat
+
+
 def make_chat_model(*, model_id: str, temperature: float, reasoning_effort: Optional[str],
                     base_url: str, provider_order: Sequence[str], cache, http_async_client):
-    """ChatOpenAI against OpenRouter. `provider` is an OpenRouter-only body field, so it rides in
-    extra_body (model_kwargs would be splatted into the SDK's create() and rejected). A None
-    reasoning_effort sends no field at all, so the provider's default applies.
+    """ChatOpenAI against OpenRouter (see _openrouter_chat). `provider` is an OpenRouter-only
+    body field, so it rides in extra_body (model_kwargs would be splatted into the SDK's create()
+    and rejected). A None reasoning_effort sends no field at all, so the provider's default applies.
 
     `http_async_client` must belong to the current run: without one, langchain-openai shares a
     process-wide client whose idle keep-alive connections stay bound to the event loop that
     opened them, so the next run of a queue (a new asyncio.run) fails with "Event loop is closed"."""
-    from langchain_openai import ChatOpenAI
     api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
         raise RuntimeError("OPENROUTER_API_KEY is not set")
     extra_body = {"provider": {"order": list(provider_order), "allow_fallbacks": True}} if provider_order else None
-    return ChatOpenAI(model=model_id, temperature=temperature, reasoning_effort=reasoning_effort,
-                      api_key=api_key, base_url=base_url, extra_body=extra_body, cache=cache,
-                      max_retries=0, http_async_client=http_async_client)
+    return _openrouter_chat()(model=model_id, temperature=temperature, reasoning_effort=reasoning_effort,
+                              api_key=api_key, base_url=base_url, extra_body=extra_body, cache=cache,
+                              max_retries=0, http_async_client=http_async_client)
+
+
+def _chat_dict(m: BaseMessage) -> dict:
+    """A message in OpenAI chat format, plus what that format has no slot for on an answer:
+    its reasoning and other provider fields, finish reason, serving provider and token usage."""
+    from langchain_core.messages import convert_to_openai_messages
+    d = convert_to_openai_messages(m)
+    if isinstance(m, AIMessage):
+        d.update({k: v for k, v in m.additional_kwargs.items() if k not in d and v is not None})
+        d["response_metadata"] = m.response_metadata
+        d["usage_metadata"] = m.usage_metadata
+    return d
+
+
+def _end_open_descendants(span) -> None:
+    """End, as errors, the spans under `span` still open when it ends. A timeout cancels the
+    generation inside LangChain's agenerate, whose gather re-raises the cancellation without
+    calling on_llm_error, so the autologged span is never ended — and MLflow exports a trace only
+    once all its spans have ended: every timed-out attempt's trace was held in memory, never
+    written."""
+    from mlflow.entities import SpanStatus, SpanStatusCode
+    from mlflow.tracing.trace_manager import InMemoryTraceManager
+    with InMemoryTraceManager.get_instance().get_trace(span.trace_id) as t:
+        spans = dict(t.span_dict) if t else {}
+
+    def under(s) -> bool:
+        while s.parent_id is not None:
+            if s.parent_id == span.span_id:
+                return True
+            s = spans.get(s.parent_id)
+            if s is None:
+                return False
+        return False
+
+    exc = sys.exc_info()[1]
+    status = SpanStatus(SpanStatusCode.ERROR, f"ended with its attempt: {type(exc).__name__}: {exc}"
+                        if exc else "ended with its attempt")
+    for s in spans.values():
+        if s.end_time_ns is None and s.span_id != span.span_id and under(s):
+            s.end(status=status)
 
 
 @dataclass
@@ -323,11 +414,46 @@ class ChatClient:
             out = f"Error: {type(e).__name__}: {e}"
         return ToolMessage(content=str(out), tool_call_id=tc["id"])
 
-    def _span(self, meta: CallMeta):
+    def _span(self, meta: CallMeta, attempt: int):
+        """One span per attempt; the autologged LangChain spans beneath it show each round and
+        each tool call."""
         if not self.mlflow_traces:
             return nullcontext()
         import mlflow
-        return mlflow.start_span(name=meta.role, span_type="CHAT_MODEL")
+        return mlflow.start_span(name=meta.role, span_type="CHAT_MODEL", attributes={
+            k: v for k, v in {"doc_id": meta.doc_id, "pass": meta.pass_idx, "block": meta.block,
+                              "attempt": attempt, "model": getattr(self.model, "model_name", None),
+                              "temperature": getattr(self.model, "temperature", None),
+                              "reasoning_effort": getattr(self.model, "reasoning_effort", None),
+                              "extra_body": getattr(self.model, "extra_body", None)}.items()
+            if v is not None})
+
+    @staticmethod
+    def _span_open(span, meta: CallMeta, attempt: int, messages: List[BaseMessage]) -> None:
+        """Inputs set before the call, so a failed attempt shows what it was sent: the whole
+        conversation (system prompt, demos, user turn)."""
+        if span is None:
+            return
+        import mlflow
+        span.set_inputs({"messages": [_chat_dict(m) for m in messages]})
+        if span.parent_id is None:   # a tool sub-call's span is nested: the orchestrator's trace keeps its tags
+            mlflow.update_current_trace(tags={"doc_id": meta.doc_id, "role": meta.role, "attempt": str(attempt),
+                                              **({"pass": str(meta.pass_idx)} if meta.pass_idx is not None else {}),
+                                              **({"block": meta.block} if meta.block else {}),
+                                              **meta.tags})
+
+    @staticmethod
+    def _span_close(span, added: List[BaseMessage]) -> None:
+        """Outputs, and the provider that served them — known only once an answer arrives."""
+        span.set_outputs({"messages": [_chat_dict(m) for m in added]})
+        providers = ",".join(sorted({m.response_metadata.get("provider") for m in added
+                                     if isinstance(m, AIMessage)} - {None}))
+        if providers:
+            span.set_attribute("provider", providers)
+            if span.parent_id is None:
+                import mlflow
+                mlflow.update_current_trace(tags={"provider": providers})
+        _end_open_descendants(span)
 
     async def once(self, messages: List[BaseMessage], meta: CallMeta, tools=None, attempt: int = 0,
                    validate: Optional[Callable[[AIMessage], Any]] = None):
@@ -339,16 +465,14 @@ class ChatClient:
                   "block": meta.block, "attempt": attempt}
         msgs = list(messages)
         try:
-            with self._span(meta) as span:
-                await asyncio.wait_for(self._attempt(msgs, tools, meta), self.timeout)
-                value = validate(msgs[-1]) if validate else None
-                if span is not None:
-                    import mlflow
-                    span.set_inputs({"messages": [m.content for m in messages[-1:]]})
-                    span.set_outputs({"content": msgs[-1].content})
-                    mlflow.update_current_trace(tags={"doc_id": meta.doc_id, "role": meta.role,
-                                                      **({"pass": str(meta.pass_idx)} if meta.pass_idx is not None else {}),
-                                                      **meta.tags})
+            with self._span(meta, attempt) as span:
+                self._span_open(span, meta, attempt, messages)
+                try:
+                    await asyncio.wait_for(self._attempt(msgs, tools, meta), self.timeout)
+                    value = validate(msgs[-1]) if validate else None
+                finally:   # every turn this attempt added, however far it got
+                    if span is not None:
+                        self._span_close(span, msgs[len(messages):])
         except BaseException as e:
             if isinstance(e, Exception):
                 self.ledger.fail(meta.role, e)

@@ -132,6 +132,63 @@ class Pipeline(unittest.TestCase):
         errors = [json.loads(l)["error"] for l in run_dir.file(".traces.jsonl").read_text().splitlines()]
         self.assertEqual(sum(e is not None for e in errors), 3)
 
+    def test_every_attempt_is_a_full_mlflow_trace(self):
+        """One trace per attempt of every role, failed and timed-out ones included, holding the
+        whole conversation sent and every field of each answer. Before: inference only, the last
+        user turn and the answer text only, and a timed-out attempt's trace was never written
+        (its autologged span stayed open, and MLflow writes a trace once all its spans end)."""
+        import mlflow
+        cfg = small_config(self.tmp, mlflow={"log_traces": True}, experiment={"timeout": 1})
+        docs, respond = oracle(cfg)
+        slow, broken = docs[0].text, docs[1].text
+        seen = set()
+
+        def answer(messages, idx):
+            if broken in messages[-1].content and "broken" not in seen:
+                seen.add("broken")
+                return "I will not answer in JSON."
+            return AIMessage(content=respond(messages, idx), additional_kwargs={"reasoning": f"thought {idx}"},
+                             response_metadata={"finish_reason": "stop", "provider": "Novita"},
+                             usage_metadata={"input_tokens": 100, "output_tokens": 10, "total_tokens": 110})
+
+        class Model(Scripted):
+            async def _agenerate(self, messages, stop=None, run_manager=None, **kw):
+                if slow in messages[-1].content and "slow" not in seen:
+                    seen.add("slow")
+                    await asyncio.sleep(3)
+                return await super()._agenerate(messages, stop, run_manager, **kw)
+
+        report, run_dir = self.run_once(cfg, Model(respond=answer))
+        self.assertEqual(report["binary"]["f1"], 1.0)
+        mlflow.flush_trace_async_logging()
+        attempts = [json.loads(l) for l in run_dir.file(".traces.jsonl").read_text().splitlines()]
+        exp = mlflow.get_experiment_by_name(cfg["mlflow"]["experiment_name"]).experiment_id
+        traces = mlflow.search_traces(locations=[exp], return_type="list", max_results=10_000)
+        self.assertEqual(len(traces), len(attempts))
+        self.assertEqual({t.info.tags["role"] for t in traces}, {"inference", "cot"})
+        self.assertEqual(sorted(t.info.state.value for t in traces if t.info.state.value != "OK"), ["ERROR"] * 2)
+        roots = [next(s for s in t.data.spans if s.parent_id is None) for t in traces]
+        # Every message of every attempt, as the trace file has them.
+        self.assertEqual(sum(len(r.inputs["messages"]) + len(r.outputs["messages"]) for r in roots),
+                         sum(len(a["messages"]) for a in attempts))
+        for t, root in zip(traces, roots):
+            if t.info.tags["role"] == "inference":
+                self.assertEqual([m["role"] for m in root.inputs["messages"]],
+                                 ["system", "user", "assistant", "user"])          # one demo
+            if t.info.state.value == "OK":
+                out = root.outputs["messages"][-1]
+                self.assertTrue(out["reasoning"].startswith("thought"))
+                self.assertEqual(out["response_metadata"]["provider"], "Novita")
+                self.assertEqual(t.info.tags["provider"], "Novita")
+            self.assertTrue(any(s.span_type == "CHAT_MODEL" and s.parent_id for s in t.data.spans))  # autologged
+        timed_out = next(t for t in traces if "TimeoutError" in (t.data.spans[0].status.description or ""))
+        self.assertTrue(all(s.status.status_code == "ERROR" for s in timed_out.data.spans))
+        # The serving provider, per run: every answer that arrived except the unparseable one.
+        served = report["usage"]["total"]["calls"] - 1
+        self.assertEqual(report["usage"]["providers"], {"Novita": served})
+        run = mlflow.MlflowClient().get_run((run_dir.path / "mlflow_run_id").read_text())
+        self.assertEqual((run.data.tags["provider"], run.data.tags["provider_calls"]), ("Novita", f"Novita:{served}"))
+
     def test_crash_then_resume_pays_only_for_the_rest(self):
         cfg = small_config(self.tmp, few_shot={"enabled": False},
                            experiment={"doc_concurrency": 1, "concurrency": 3})

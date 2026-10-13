@@ -148,13 +148,22 @@ class Tracker:
         self.run_dir = run_dir
         self.run_id: Optional[str] = None
         if not self.enabled:
+            if "mlflow.langchain" in sys.modules:   # an earlier run of this queue turned autolog on
+                import mlflow.langchain
+                mlflow.langchain.autolog(disable=True)
             return
         import mlflow
+        import mlflow.langchain
         import mlflow.utils.validation as val
         # Stored in full rather than silently truncated.
         val.MAX_TAG_VAL_LENGTH = val.MAX_TRACE_TAG_VAL_LENGTH = val.MAX_PARAM_VAL_LENGTH = 10_000_000
         mlflow.set_tracking_uri(cfg["mlflow"]["tracking_uri"])
         mlflow.set_experiment(cfg["mlflow"]["experiment_name"])
+        # Each round and tool call of an LLM attempt, as spans under ChatClient's attempt span.
+        # Inline: the default runs the callback on a worker thread, which loses the asyncio
+        # task's context and starts detached traces — why agentere gave up on autolog.
+        # Process-wide, so a queue run without traces switches it off.
+        mlflow.langchain.autolog(disable=not cfg["mlflow"]["log_traces"], run_tracer_inline=True)
 
     def start(self, git: dict) -> None:
         """Start (or, on resume, reopen) the MLflow run, params first."""
@@ -217,6 +226,11 @@ class Tracker:
             m["llm_cache_hits"] = usage["llm_cache"]["hits"]
             m["llm_cache_misses"] = usage["llm_cache"]["misses"]
         mlflow.log_metrics({k: float(v) for k, v in m.items()})
+        # Who actually served the run: provider_order is a fallback chain, so the param alone
+        # does not say (on 2026-10-13 an `order: [Novita]` run was served by OpenInference).
+        if usage["providers"]:
+            mlflow.set_tags({"provider": ",".join(usage["providers"]),
+                             "provider_calls": ",".join(f"{p}:{n}" for p, n in usage["providers"].items())})
         for path in artifacts:
             if path.exists():
                 mlflow.log_artifact(str(path))

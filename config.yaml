@@ -43,10 +43,12 @@ model:
   # OpenInference 30.8, DigitalOcean 23.0. Alibaba is excluded: 5.8% of its generations came back
   # HTTP 200 but truncated (finish_reason "error"). An empty list sends nothing (price routing).
   # Applied to every call of the run — inference, CoT synthesis and tool sub-calls alike.
+  # 2026-10-13: Novita no longer serves deepseek-v4-flash; `order: [Novita]` fell through to
+  # default routing (OpenInference, fp4, $1.152/M). Runs before this date were mostly Novita.
   provider_order:
-    - "Novita"
+    - "GMICloud"
+    # - "Novita"   # delisted for deepseek-v4-flash on 2026-10-13
     # - "Baidu"
-    # - "GMICloud"
     # - "Azure"
 
 
@@ -56,9 +58,11 @@ model:
 mlflow:
   enabled: true
   log_causal_graphs: true   # one TP/FP/FN causal graph SVG per document, as a run artifact
-  log_traces: true          # NEW. One MLflow trace per inference call (the MLflow UI view).
-                            # The JSONL trace file in the run directory is written either way;
-                            # agentere's 44,860 traces are most of its 3.3 GB mlflow.db.
+  log_traces: true          # NEW. One MLflow trace per LLM attempt — inference, CoT synthesis,
+                            # failed attempts included — holding the whole conversation (system
+                            # prompt, demos, reasoning, tool calls), with autologged spans per
+                            # round and tool call beneath. The JSONL trace file in the run
+                            # directory is written either way.
   tracking_uri: "sqlite:///mlflow.db"
   experiment_name: "workere"
 

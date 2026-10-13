@@ -78,11 +78,11 @@ class Runner:
         rt = cfg["runtime"]
         self.slots = asyncio.Semaphore(exp["concurrency"])
         common = dict(ledger=self.ledger, trace=self.trace, timeout=exp["timeout"],
-                      max_tool_rounds=rt["max_tool_rounds"])
+                      max_tool_rounds=rt["max_tool_rounds"],
+                      mlflow_traces=cfg["mlflow"]["enabled"] and cfg["mlflow"]["log_traces"])
         # Inference is never served from the LLM cache: reported metrics come from live calls.
         self.infer = ChatClient(self.factory(m["default_model_id"], m["temperature"], m["reasoning_effort"], False),
-                                slots=self.slots, mlflow_traces=cfg["mlflow"]["enabled"] and cfg["mlflow"]["log_traces"],
-                                **common)
+                                slots=self.slots, **common)
         self.cot = ChatClient(self.factory(m["default_model_id"], m["temperature"], m["reasoning_effort"],
                                            self.llm_cache), slots=self.slots, cache=self.llm_cache, **common)
         # Tool sub-calls run inside an orchestrator call that holds a slot: no shared budget.
@@ -351,6 +351,8 @@ class Runner:
         print(f"LLM calls {t['calls']} (+{t['failed_attempts']} failed attempts)  "
               f"tokens in {t['input_tokens']:,} out {t['output_tokens']:,}  "
               f"cost {'$%.4f' % cost if cost is not None else 'n/a'}"
+              + (f"  | providers {', '.join(f'{p} {n}' for p, n in usage['providers'].items())}"
+                 if usage["providers"] else "")
               + (f"  | llm cache {self.llm_cache.stats()}" if self.llm_cache else ""))
         print(f"report: {path}")
         return report

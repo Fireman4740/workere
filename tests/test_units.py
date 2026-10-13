@@ -201,6 +201,65 @@ class _KeepAliveChat(BaseHTTPRequestHandler):
         pass
 
 
+class _OpenRouterShaped(BaseHTTPRequestHandler):
+    """Answers as OpenRouter does for a reasoning model, and records each request body."""
+    protocol_version = "HTTP/1.1"
+    bodies: list = []
+
+    def do_POST(self):
+        self.bodies.append(json.loads(self.rfile.read(int(self.headers["Content-Length"]))))
+        body = json.dumps({"id": "gen-1", "provider": "Novita", "object": "chat.completion", "created": 0, "model": "m",
+                           "choices": [{"index": 0, "finish_reason": "stop", "native_finish_reason": "stop",
+                                        "message": {"role": "assistant", "content": "[]", "refusal": None,
+                                                    "reasoning": "First, group the mentions.",
+                                                    "reasoning_details": [{"type": "reasoning.text",
+                                                                           "text": "First, group the mentions."}]}}],
+                           "usage": {"prompt_tokens": 1, "completion_tokens": 9, "total_tokens": 10,
+                                     "completion_tokens_details": {"reasoning_tokens": 8}}}).encode()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def log_message(self, *args):
+        pass
+
+
+class ResponseFields(unittest.TestCase):
+    def test_everything_openrouter_returns_is_kept_and_never_sent_back(self):
+        """langchain-openai dropped the reasoning text and the serving provider: a call billed
+        reasoning tokens left no record of what was reasoned."""
+        from langchain_core.messages import AIMessage, HumanMessage
+        from langchain_openai import ChatOpenAI
+        from eci.llm import make_chat_model
+        server = ThreadingHTTPServer(("127.0.0.1", 0), _OpenRouterShaped)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.shutdown)
+        os.environ.setdefault("OPENROUTER_API_KEY", "unused-by-the-local-server")
+        kw = dict(model_id="m", temperature=0.0, reasoning_effort="high",
+                  base_url=f"http://127.0.0.1:{server.server_port}/v1", provider_order=["novita"], cache=None)
+
+        async def calls():
+            model = make_chat_model(**kw, http_async_client=None)
+            ai = await model.ainvoke([HumanMessage(content="q")])
+            await model.ainvoke([HumanMessage(content="q"), ai, HumanMessage(content="next")])
+            await model.ainvoke([HumanMessage(content="q"), AIMessage(content=ai.content), HumanMessage(content="next")])
+            return model, ai
+
+        model, ai = asyncio.run(calls())
+        self.assertEqual(ai.additional_kwargs["reasoning"], "First, group the mentions.")
+        self.assertEqual(ai.additional_kwargs["reasoning_details"][0]["type"], "reasoning.text")
+        self.assertEqual(ai.response_metadata["provider"], "Novita")
+        self.assertEqual(ai.response_metadata["native_finish_reason"], "stop")
+        self.assertEqual(ai.usage_metadata["output_token_details"]["reasoning"], 8)
+        # The kept fields never go back to the API, and the LLM cache keys are unchanged.
+        self.assertEqual(_OpenRouterShaped.bodies[1], _OpenRouterShaped.bodies[2])
+        plain = ChatOpenAI(model="m", temperature=0.0, reasoning_effort="high", api_key="k", base_url=kw["base_url"],
+                           extra_body={"provider": {"order": ["novita"], "allow_fallbacks": True}}, max_retries=0)
+        self.assertEqual(model._get_llm_string(), plain._get_llm_string())
+
+
 class QueueConnections(unittest.TestCase):
     def test_consecutive_runs_do_not_reuse_a_closed_loop(self):
         """Each queue entry is its own asyncio.run. langchain-openai's shared client kept the first

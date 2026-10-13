@@ -1,0 +1,68 @@
+# queues/maven50_models.yaml — five models on the same 50 MAVEN-ERE test documents, everything
+# else held fixed.
+#
+#   export OPENROUTER_API_KEY=...
+#   python run.py --queue queues/maven50_models.yaml [--only m50_haiku55 ...]
+#
+# As baseline_coref.yaml's r3 setting: 1 few-shot demo per pass, drawn at random (seeded per
+# document) from a pool of 20 training documents, a distinct demo per pass; CoT synthesized for
+# the demo by the model under test (CoT cache keys include the model id), no blind step; 3 passes;
+# coreference-aware prompt; syntax off; no tools, whitelist, coreference hint or gold count.
+# The same 50 documents in every run (shuffle_docs, seed 42). reasoning_effort "high" everywhere.
+#
+# Models and providers (OpenRouter list prices on 2026-10-13, per M tokens in / out):
+#   m50_v4flash     deepseek/deepseek-v4-flash (0423)  GMICloud   $0.05 / $0.182   — Novita, used by
+#                   every earlier run, no longer serves it
+#   m50_v41flash    deepseek/deepseek-v4.1-flash       GMICloud   $0.24 / $0.72    — same provider as above;
+#                   the latest flash: ~deepseek/deepseek-flash-latest resolves to it (checked
+#                   2026-10-13; ~deepseek/deepseek-v4-flash-latest resolves to v4-flash-0731)
+#   m50_haiku55     anthropic/claude-haiku-5.5         Anthropic  $0.10 / $0.50
+#   m50_gpt6lunapro openai/gpt-6-luna-pro              OpenAI     $0.10 / $0.50
+#   m50_v4pro0813   deepseek/deepseek-v4-pro-0813      DeepSeek   $0.66 / $1.98    — what
+#                   ~deepseek/deepseek-pro-latest resolves to (checked 2026-10-13); first-party API
+# Haiku 5.5 and GPT-6 Luna Pro take no temperature: OpenRouter drops the 0.0 we send. Their
+# reasoning text comes back as returned: full on Anthropic, a summary (+ encrypted blob) on OpenAI.
+
+_defaults:
+  base: &base
+    few_shot:
+      enabled: true
+      n_examples: 1
+      pool_size: 20
+      selection: "random"
+      systematic: true
+      density_stratify: false
+      intra_only: false
+      cot_generation: {enabled: true, blind: false, rewrite: true, negation: false}
+    syntax: {level: "off", discourse: []}
+    mention_whitelist: {enabled: false}
+    coref_hint: {enabled: false}
+    gold_count: {enabled: false}
+    mention_split: {enabled: false}
+    active_dataset: "maven_ere"
+    experiment:
+      enable_tools: false
+      tools: []
+      concurrency: 50
+      doc_concurrency: 50
+      resampling: {enabled: true, n_runs: 3, distinct_fewshots: true}
+    datasets:
+      maven_ere: {repo_id: "Nofing/MAVEN-ERE-standard-eci-workere", split: "test",
+                  prompt: "maven_ere_standard_eci_lean_coref", max_examples: 50}
+
+experiments:
+  - name: m50_v4flash
+    overrides: {<<: *base, model: {default_model_id: "deepseek/deepseek-v4-flash", temperature: 0.0,
+                                   reasoning_effort: "high", provider_order: ["GMICloud"]}}
+  - name: m50_v41flash
+    overrides: {<<: *base, model: {default_model_id: "deepseek/deepseek-v4.1-flash", temperature: 0.0,
+                                   reasoning_effort: "high", provider_order: ["GMICloud"]}}
+  - name: m50_haiku55
+    overrides: {<<: *base, model: {default_model_id: "anthropic/claude-haiku-5.5", temperature: 0.0,
+                                   reasoning_effort: "high", provider_order: ["Anthropic"]}}
+  - name: m50_gpt6lunapro
+    overrides: {<<: *base, model: {default_model_id: "openai/gpt-6-luna-pro", temperature: 0.0,
+                                   reasoning_effort: "high", provider_order: ["OpenAI"]}}
+  - name: m50_v4pro0813
+    overrides: {<<: *base, model: {default_model_id: "deepseek/deepseek-v4-pro-0813", temperature: 0.0,
+                                   reasoning_effort: "high", provider_order: ["DeepSeek"]}}
