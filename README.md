@@ -5,6 +5,21 @@ which mention pairs are causally related (`causes` / `causedby` / `norel`). A re
 agentere with the same capabilities, the same config keys, the same prompts and the same report
 schema — so agentere queue files, MLflow params and analysis scripts all carry over.
 
+## Benchmark indépendant
+
+Le [banc d’évaluation](benchmark/README.md) accepte les prédictions de modèles externes,
+y compris des modèles décisionnels, sans charger le pipeline LLM. Il fournit des suites
+figées, un scoring hors ligne, un contrôle de parité historique, une comparaison des
+expériences et une tâche séparée de détection des mentions d’événements.
+
+```bash
+python3 -m benchmark.examples.demo --output-dir /tmp/workere-demo
+python3 -m benchmark --help
+```
+
+La validation des anciens scores reste en attente des rapports/prédictions historiques,
+absents de ce checkout. Les tests synthétiques ne constituent pas cette preuve.
+
 ## Run
 
 ```bash
@@ -57,6 +72,7 @@ eci/                   the package — one module per stage, in run order:
   config   data   syntax   chains   prompts   fewshot   llm   tools
   parse   voting   scope   metrics   report   tracking   runner   graphs
   posthoc/ runs  sweep  rescore  ranking  mining  traces
+benchmark/             model-independent evaluation; eci data/labels/metrics/report/voting re-export it
 notes/                 REPORT.md (the refactor), the dataprep audits
 tests/                 unit, offline pipeline (scripted model), and parity with agentere's runs
 ```
