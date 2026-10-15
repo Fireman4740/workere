@@ -288,7 +288,8 @@ class Benchmark(unittest.TestCase):
 
     def test_external_adapter_and_cli_in_isolated_stdlib_python(self):
         standalone = self.path / "standalone"
-        shutil.copytree(ROOT / "benchmark", standalone / "benchmark", ignore=shutil.ignore_patterns("__pycache__"))
+        shutil.copytree(ROOT / "benchmark", standalone / "benchmark",
+                        ignore=shutil.ignore_patterns("__pycache__", ".venv", "build", "dist", "*.egg-info"))
         inputs = list(model_inputs(self.suite))
         preds = [predict(row) for row in inputs]
         write_json(self.path / "suite.json", self.suite)

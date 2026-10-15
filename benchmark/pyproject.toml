@@ -1,0 +1,23 @@
+[project]
+name = "workere-benchmark"
+version = "0.2.0"
+description = "Model-independent entity and causal relation experimentation for workere"
+requires-python = ">=3.12"
+dependencies = ["pyyaml==6.0.3"]
+
+[project.optional-dependencies]
+hub = ["datasets==5.0.1"]
+
+[project.scripts]
+workere-benchmark = "benchmark.__main__:main"
+
+[build-system]
+requires = ["setuptools==84.0.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["benchmark", "benchmark.examples", "benchmark.plugins"]
+package-dir = {benchmark = "."}
+
+[tool.setuptools.package-data]
+benchmark = ["*.md", "*.json"]

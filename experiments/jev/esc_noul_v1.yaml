@@ -1,0 +1,51 @@
+schema: workere-experiment/v1
+name: esc-jev114-noul-v1-dev
+dataset:
+  name: esc
+  split: dev
+  source_config: ../../config.yaml
+  repo_id: Nofing/EventStoryLine-0.9-standard-eci-workere
+  revision: e6418e8747ac1c7fecf66d56ae41fbde7fd5967a
+  max_examples: 50  # cap only: ESC dev has 25 distinct documents; the plan reports the actual count
+  seed: 42
+protocol: relation_gold_mentions
+seed: 42
+plugins: [pipelines.jev.pipeline]
+models:
+  - {id: typesafe/jev-1.14, version: "1.14"}
+pipeline:
+  entity_extractor: {plugin: reference, version: "1"}
+  candidate_generator: {plugin: historical, version: "1"}
+  relation_predictor:
+    plugin: jev_decision
+    version: "1"
+    params:
+      threshold: 0.5
+      client:
+        provider: openrouter
+        endpoint: https://openrouter.ai/api/alpha/decisions
+        model: typesafe/jev-1.14
+        model_version: "1.14"
+        api_key_env: OPENROUTER_API_KEY
+        mode: live
+        timeout: 60
+        retries: 2
+        requests_per_minute: 120
+        max_calls: 60000
+        max_context_tokens: 32768
+        budget_usd: 0  # No paid call is authorized. Set only after explicit budget authorization.
+        max_cost_per_call_usd: 0.002
+        input_price_per_million: 0.042
+        cache_path: ../../logs/jev-decisions.sqlite
+evaluation:
+  primary_metric: binary
+  bootstrap_samples: 1000
+  confidence_level: 0.95
+  bootstrap_seed: 42
+  require_historical_parity: false
+  historical_reports: []
+execution:
+  allow_network: true
+  allow_paid: false
+  error_policy: raise
+output_dir: ../../logs/jev-runs
