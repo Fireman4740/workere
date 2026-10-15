@@ -181,10 +181,11 @@ def execute(config, *, output_root=None):
         metadata["components"] = manifest
         assets = _assets(cfg["pipeline"])
         metadata["assets"] = assets
+        environment = _source_receipt(run_dir, manifest)
         metadata["recipe_fingerprint"] = fingerprint({"suite": suite["fingerprint"], "protocol": cfg["protocol"],
             "pipeline": cfg["pipeline"], "plugins": cfg["plugins"], "models": cfg["models"],
-            "assets": assets})
-        write_json(run_dir / "environment.json", _source_receipt(run_dir, manifest))
+            "assets": assets, "implementation_sources": environment["sources_sha256"]})
+        write_json(run_dir / "environment.json", environment)
         inputs = list(public_inputs(suite, cfg["protocol"]))
         all_rows = []
         with (run_dir / "predictions.jsonl").open("x", encoding="utf-8") as predictions, \
