@@ -1,14 +1,15 @@
+# Full ESC split used by reported historical baseline e77431d6.
+# Historical prediction files are still required to prove parity. No inferred baseline scores.
 schema: workere-experiment/v1
-name: esc-mercury-noul-v1-smoke
+name: esc-mercury-noul-e77431d6-train233
 dataset:
   name: esc
-  split: dev
-  source_config: ../../config.yaml
+  split: train
+  source_config: esc_e77431d6_evaluation_reconstructed.yaml
   repo_id: Nofing/EventStoryLine-0.9-standard-eci-workere
   revision: e6418e8747ac1c7fecf66d56ae41fbde7fd5967a
   seed: 42
-  document_ids:
-  - 41_9ecbplus.xml
+  max_examples: 233
 protocol: relation_gold_mentions
 seed: 42
 plugins:
@@ -38,12 +39,13 @@ pipeline:
         timeout: 60
         retries: 1
         requests_per_minute: 20
-        max_calls: 200
+        max_calls: 244260
         max_context_tokens: 32768
         budget_usd: 0
         max_cost_per_call_usd: 0.002
         input_price_per_million: 0
         cache_path: ~/.local/share/openresearch/workere-decisions/cache.sqlite
+        expected_served_version: inception/mercury-decide-20260930
 evaluation:
   primary_metric: binary
   bootstrap_samples: 1000
