@@ -92,6 +92,16 @@ class NoulV1(unittest.TestCase):
         with self.assertRaises(DecisionError):
             bad.decide("missing probability", noul_question())
 
+    def test_rate_slots_are_shared_between_clients_using_the_same_cache(self):
+        a = self.client(model="respan/span-01-lite", mode="live", requests_per_minute=20)
+        b = self.client(model="inception/mercury-decide:free", mode="live", requests_per_minute=20)
+        with patch("pipelines.jev.client.time.time", return_value=1000):
+            self.assertEqual(a._rate_slot(), 0)
+            self.assertEqual(b._rate_slot(), 3)
+            self.assertEqual(a._rate_slot(), 6)
+        with patch("pipelines.jev.client.time.time", return_value=1010):
+            self.assertEqual(b._rate_slot(), 0)
+
     def test_noul_mock_runs_through_real_historical_scorer_and_replays_without_client(self):
         write_json(self.root / "suite.json", self.suite)
         cfg = {"schema": "workere-experiment/v1", "name": "jev-noul-mock", "seed": 42,

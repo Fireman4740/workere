@@ -65,7 +65,24 @@ class DecisionClient:
         self.cache = sqlite3.connect(path, check_same_thread=False, timeout=60)
         self.cache.execute("PRAGMA journal_mode=WAL")
         self.cache.execute("CREATE TABLE IF NOT EXISTS decisions_v1 (key TEXT PRIMARY KEY, request TEXT NOT NULL, response TEXT NOT NULL)")
+        self.cache.execute("CREATE TABLE IF NOT EXISTS rate_slots_v1 (scope TEXT PRIMARY KEY, next_at REAL NOT NULL)")
         self.cache.commit()
+
+    def _rate_slot(self):
+        """Share provider pacing across clients/processes using this cache on one host."""
+        scope = fingerprint({k: self.identity[k] for k in ("provider", "endpoint")})
+        with self.lock:
+            try:
+                self.cache.execute("BEGIN IMMEDIATE")
+                previous = self.cache.execute("SELECT next_at FROM rate_slots_v1 WHERE scope=?", (scope,)).fetchone()
+                now = time.time()
+                slot = max(now, previous[0] if previous else now)
+                self.cache.execute("INSERT OR REPLACE INTO rate_slots_v1 VALUES (?,?)", (scope, slot + 60 / self.rpm))
+                self.cache.commit()
+            except BaseException:
+                self.cache.rollback()
+                raise
+        return max(0, slot - now)
 
     def validate_request(self, state, questions):
         if not isinstance(state, str) or not state:
@@ -173,8 +190,7 @@ class DecisionClient:
                         raise BudgetExceeded("explicit paid budget exhausted or absent")
                     self.spent += reserve
                     self.calls += 1
-                    wait = max(0, self.next_request - time.monotonic()) if self.mode != "mock" else 0
-                    self.next_request = time.monotonic() + wait + 60 / self.rpm
+                wait = self._rate_slot() if self.mode != "mock" else 0
                 if wait:
                     time.sleep(wait)
                 start, cost, response, failure = time.perf_counter(), None, None, None
@@ -197,6 +213,7 @@ class DecisionClient:
                          "cost_usd": cost, "reserved_usd": reserve,
                          "latency_seconds": time.perf_counter() - start, "attempt": attempt,
                          "api_call": self.mode != "mock", "conservative_input_tokens": bound,
+                         "rate_limit_wait_seconds": wait,
                          "error": {"type": type(failure).__name__, "message":
                                    f"HTTP {failure.code}" if isinstance(failure, urllib.error.HTTPError)
                                    else str(failure)[:1000]} if failure else None}

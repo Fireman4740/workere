@@ -120,3 +120,9 @@ Elles reprennent les dépôts historiques non corrigés du `config.yaml`, explic
 notes Laya. CTB utilise son split train historique (pas de dev inventé) ; MAVEN utilise
 dev. Les dry-runs sur trois documents vérifient le chargement et le contexte ; ils ne
 mesurent aucune performance modèle et ne sont pas des baselines du benchmark corrigé.
+
+Les clients utilisant le même cache SQLite partagent aussi les créneaux de débit,
+par fournisseur et endpoint, entre processus du même hôte. Ainsi deux variantes
+concurrentes à 20 RPM partagent 20 requêtes/minute au lieu d'en envoyer 40. Cette
+attente est enregistrée séparément de la durée réseau de chaque tentative. Des
+machines ou caches distincts n'ont pas de limite commune : les coordonner séparément.
