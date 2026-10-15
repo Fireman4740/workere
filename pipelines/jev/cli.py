@@ -17,7 +17,20 @@ def main(argv=None):
     p.add_argument("--output", required=True)
     p.add_argument("--output-root")
     p.add_argument("--mock", action="store_true")
+    p = sub.add_parser("analyze")
+    p.add_argument("run_dir")
+    p.add_argument("--output-dir", required=True)
+    p = sub.add_parser("rethreshold")
+    p.add_argument("run_dir")
+    p.add_argument("--threshold", type=float, required=True)
+    p.add_argument("--output-dir", required=True)
     args = parser.parse_args(argv)
+    if args.command in {"analyze", "rethreshold"}:
+        from pipelines.jev.analysis import analyze, rethreshold
+        result = (analyze(args.run_dir, args.output_dir) if args.command == "analyze" else
+                  rethreshold(args.run_dir, args.threshold, args.output_dir))
+        print(json.dumps(result, ensure_ascii=False), flush=True)
+        return 0
     config = load_experiment(args.config)
     if args.command == "dry-run":
         from pipelines.jev.planning import plan

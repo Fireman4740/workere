@@ -20,4 +20,4 @@ packages = ["benchmark", "benchmark.examples", "benchmark.plugins"]
 package-dir = {benchmark = "."}
 
 [tool.setuptools.package-data]
-benchmark = ["*.md", "*.json"]
+benchmark = ["*.md", "*.json", "COMMIT.txt"]

@@ -82,6 +82,11 @@ def _source_receipt(run_dir, manifest):
         dirty = bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=package, text=True))
     except (OSError, subprocess.CalledProcessError):
         commit, dirty = None, None
+        revision = package / "COMMIT.txt"
+        if revision.is_file():
+            value = revision.read_text().strip()
+            if len(value) == 40 and all(c in "0123456789abcdef" for c in value):
+                commit, dirty = value, False
     files = {f"benchmark/{path.relative_to(package)}": path for path in package.rglob("*.py")
              if not {".venv", "build", "__pycache__"} & set(path.relative_to(package).parts)}
     for index, item in enumerate(manifest):
@@ -176,10 +181,11 @@ def execute(config, *, output_root=None):
         metadata["components"] = manifest
         assets = _assets(cfg["pipeline"])
         metadata["assets"] = assets
+        environment = _source_receipt(run_dir, manifest)
         metadata["recipe_fingerprint"] = fingerprint({"suite": suite["fingerprint"], "protocol": cfg["protocol"],
             "pipeline": cfg["pipeline"], "plugins": cfg["plugins"], "models": cfg["models"],
-            "assets": assets})
-        write_json(run_dir / "environment.json", _source_receipt(run_dir, manifest))
+            "assets": assets, "implementation_sources": environment["sources_sha256"]})
+        write_json(run_dir / "environment.json", environment)
         inputs = list(public_inputs(suite, cfg["protocol"]))
         all_rows = []
         with (run_dir / "predictions.jsonl").open("x", encoding="utf-8") as predictions, \
@@ -268,6 +274,16 @@ def execute(config, *, output_root=None):
                 pipeline.close()
             except Exception as exc:
                 metadata["cleanup_error"] = {"type": type(exc).__name__, "message": str(exc)[:1000]}
+        journal = run_dir / "decisions.jsonl"
+        if "resources" not in metadata and journal.exists():
+            # Fail-fast must retain accounting for successful and failed attempts already made.
+            events = read_jsonl(journal)
+            costs = [e.get("cost_usd") for e in events]
+            metadata["resources"] = {"api_calls": sum(bool(e.get("api_call", True)) for e in events),
+                "cache_hits": sum(bool(e.get("cache_hit")) for e in events), "decision_events": len(events),
+                "known_api_cost_usd": sum(c or 0 for c in costs),
+                "api_cost_usd": sum(costs) if all(c is not None for c in costs) else None,
+                "accounting_scope": "persisted decision attempts; evaluation incomplete"}
         metadata["finished_utc"] = _now()
         metadata["total_seconds"] = time.perf_counter() - started
         _replace_json(run_dir / "metadata.json", metadata)
