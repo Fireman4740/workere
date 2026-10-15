@@ -1,5 +1,5 @@
 schema: workere-experiment/v1
-name: esc-mercury-noul-v1-smoke
+name: esc-mercury-choice-v1-smoke
 dataset:
   name: esc
   split: dev
@@ -44,6 +44,8 @@ pipeline:
         max_cost_per_call_usd: 0.002
         input_price_per_million: 0
         cache_path: ~/.local/share/openresearch/workere-decisions/cache.sqlite
+      variant: choice
+      context_style: document
 evaluation:
   primary_metric: binary
   bootstrap_samples: 1000
