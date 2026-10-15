@@ -112,3 +112,11 @@ protocole d'inférence n'est pas directement comparable. Le comparateur refuse l
 suites différentes ; la migration historique reste **non validée** jusqu'au rejeu
 avec les artefacts originaux. Le chiffre des notes n'est jamais traité comme une
 nouvelle mesure.
+
+Des préparations sans API sont fournies pour CTB et MAVEN-ERE :
+`experiments/jev/causal_timebank_noul_mock.yaml` et `maven_ere_noul_mock.yaml`.
+Elles reprennent les dépôts historiques non corrigés du `config.yaml`, explicitement
+épinglés, sans les remplacer silencieusement par les dépôts corrigés des anciennes
+notes Laya. CTB utilise son split train historique (pas de dev inventé) ; MAVEN utilise
+dev. Les dry-runs sur trois documents vérifient le chargement et le contexte ; ils ne
+mesurent aucune performance modèle et ne sont pas des baselines du benchmark corrigé.
