@@ -42,11 +42,16 @@ def choice_question():
                      "NO_RELATION": "Neither causal direction is supported by the document."}}}
 
 
-def questions_for(variant, instructions=NOUL_INSTRUCTIONS):
+def questions_for(variant, instructions=None):
+    if instructions is not None and (not isinstance(instructions, str) or not instructions.strip()):
+        raise ValueError("decision instructions must be a nonempty string")
     if variant == "choice":
-        return choice_question()
+        question = choice_question()
+        if instructions is not None:
+            question["relation"]["instructions"] = instructions
+        return question
     if variant == "noul":
-        return noul_question(instructions)
+        return noul_question(NOUL_INSTRUCTIONS if instructions is None else instructions)
     raise ValueError("variant must be noul or choice")
 
 

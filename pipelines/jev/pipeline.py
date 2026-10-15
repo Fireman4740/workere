@@ -4,7 +4,7 @@ from benchmark.labels import CAUSES, CAUSED_BY, NOREL
 from benchmark.schema import Relation
 from pipelines.jev.client import DecisionClient, is_free
 from pipelines.jev.postprocessor import noul_label
-from pipelines.jev.state_builder import NOUL_INSTRUCTIONS, build_state, questions_for
+from pipelines.jev.state_builder import build_state, questions_for
 
 
 @register("relation_predictor", "jev_decision", version="1", requires_network=True, may_charge=True)
@@ -16,7 +16,7 @@ class JevDecisionPredictor:
         return {"requires_network": not mock, "may_charge": not mock and not is_free(client),
                 "mode": "mock" if mock else "inference"}
 
-    def __init__(self, client, threshold=.5, instructions=NOUL_INSTRUCTIONS, variant="noul", context_style="document"):
+    def __init__(self, client, threshold=.5, instructions=None, variant="noul", context_style="document"):
         # Reject incompatible question types before any model calls.
         if variant == "choice" and client["model"].startswith("respan/span-"):
             raise ValueError("Span supports noul only; choose Mercury for the Choice experiment")

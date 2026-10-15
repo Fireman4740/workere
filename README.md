@@ -77,6 +77,21 @@ notes/                 REPORT.md (the refactor), the dataprep audits
 tests/                 unit, offline pipeline (scripted model), and parity with agentere's runs
 ```
 
+## Modular decision pipelines
+
+The independent framework supports modular or monolithic producers, saved predictions,
+YAML experiments, campaigns, sweeps and offline comparison. See
+[benchmark/README.md](benchmark/README.md) and [the universal format](benchmark/FORMAT.md).
+The [JEV-compatible pipeline guide](pipelines/jev/README.md) includes free Span/Mercury
+experiments, Noul/Choice/Context variants, raw probabilities, cache and offline threshold
+analysis. Paid JEV inference is disabled until an explicit budget is configured.
+Historical score parity remains pending the original run artifacts.
+
+```bash
+uv sync --project benchmark --locked --extra hub
+uv run --project benchmark --locked --extra hub python -m pipelines.jev.cli dry-run --config experiments/jev/esc_mercury_noul_smoke.yaml --output /tmp/mercury-plan.json
+```
+
 ## Tests
 
 ```bash
@@ -95,7 +110,7 @@ A subset of agentere's environment: `langchain-core`, `langchain-openai`, `opena
 `mlflow`, `pyyaml`, `numpy`, `matplotlib`, `graphviz`; optional per feature: `spacy` +
 `en-core-web-sm` (syntax), `scikit-learn` (similarity selection, ranking), `sentence-transformers`
 + `torch` (bert selection, ranking), `pandas` (`runs --xlsx`). `langgraph` is no longer needed.
-No manifest is shipped: run it with agentere's environment, or declare these in your own.
+Use the repository's dependency manifest and lock. The independent evaluator has its own minimal, pinned manifest in `benchmark/`.
 
 ## Use
 ```bash

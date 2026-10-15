@@ -14,7 +14,7 @@ from benchmark.protocols import public_inputs
 from benchmark.suite import freeze
 from pipelines.jev.client import BudgetExceeded, DecisionClient
 from pipelines.jev.postprocessor import noul_label
-from pipelines.jev.state_builder import build_state, noul_question
+from pipelines.jev.state_builder import build_state, noul_question, questions_for
 from tests.test_benchmark import config, rows
 from tests.test_framework_protocols import component
 
@@ -47,6 +47,8 @@ class NoulV1(unittest.TestCase):
         self.assertNotIn('"label":', state)
         self.assertEqual(noul_label(.5), "causal")
         self.assertEqual(noul_label(.499), "norel")
+        self.assertEqual(questions_for("choice", "Custom decision question")["relation"]["instructions"], "Custom decision question")
+        self.assertEqual(questions_for("noul"), noul_question())
 
     def test_mock_cache_and_version_keys(self):
         client = self.client()
@@ -65,6 +67,7 @@ class NoulV1(unittest.TestCase):
         with self.assertRaises(BudgetExceeded):
             client.decide("rain caused flooding", noul_question())
         self.assertEqual(calls, [])
+        self.assertFalse(self.client(max_cost_per_call_usd=.0000001).decide("mock has no charge", noul_question())["cache_hit"])
         short = self.client(max_context_tokens=10)
         with self.assertRaisesRegex(RuntimeError, "context_overflow"):
             short.decide("rain caused flooding", noul_question())
@@ -101,6 +104,25 @@ class NoulV1(unittest.TestCase):
             self.assertEqual(a._rate_slot(), 6)
         with patch("pipelines.jev.client.time.time", return_value=1010):
             self.assertEqual(b._rate_slot(), 0)
+
+    def test_registered_postprocessor_reclassifies_both_ways_without_a_client(self):
+        from benchmark.interfaces import Context
+        from benchmark.schema import Prediction, Relation
+        from pipelines.jev.postprocessor import NoulPostProcessor
+        item = next(public_inputs(self.suite, "relations_gold"))
+        a, b = item.reference_entities[:2]
+        prediction = Prediction(item.document.id, item.reference_entities,
+            (Relation(a.id, b.id, "norel", .6),), {"decision_type": "noul", "threshold": .5,
+                "decision_scores": [{"source": a.id, "target": b.id, "positive_probability": .4}]})
+        context = Context(42, "relations_gold", item.document.id)
+        with patch.object(DecisionClient, "_send", side_effect=AssertionError("offline postprocessing")):
+            positive = NoulPostProcessor(.3).process(item.document, prediction, context)
+            negative = NoulPostProcessor(.8).process(item.document, positive, context)
+        self.assertEqual(positive.relations[0].label, "causal")
+        self.assertEqual(positive.relations[0].confidence, .4)
+        self.assertEqual(negative.relations[0].label, "norel")
+        self.assertEqual(negative.relations[0].confidence, .6)
+        self.assertEqual(prediction.metadata["threshold"], .5)
 
     def test_noul_mock_runs_through_real_historical_scorer_and_replays_without_client(self):
         write_json(self.root / "suite.json", self.suite)

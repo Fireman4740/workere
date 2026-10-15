@@ -126,3 +126,18 @@ par fournisseur et endpoint, entre processus du même hôte. Ainsi deux variante
 concurrentes à 20 RPM partagent 20 requêtes/minute au lieu d'en envoyer 40. Cette
 attente est enregistrée séparément de la durée réseau de chaque tentative. Des
 machines ou caches distincts n'ont pas de limite commune : les coordonner séparément.
+
+L'analyse exporte aussi `pair-probabilities.csv` : une ligne par décision avec les
+identifiants, surfaces, classe choisie, probabilité positive, confiance de classe,
+scope et version servie. Les listes d'erreurs contiennent les offsets en tokens et
+les phrases correspondantes, réservés à l'analyse évaluateur. Un diagnostic compare
+les deux ordres A/B sans modifier leurs prédictions.
+
+Pour une chaîne entièrement composable sur prédictions enregistrées, charger
+`pipelines.jev.postprocessor` et sélectionner
+`postprocessors: [{plugin: jev_noul_threshold, version: "1", params: {threshold: 0.3}}]`
+après le pipeline monolithique `saved_predictions`. Ce composant peut promouvoir
+une ancienne décision négative ou rejeter une positive à partir de `p(causal)` ;
+un simple filtre sur la confiance de la classe choisie ne permet pas ces deux sens.
+Choice garde sa classe structurée ; une projection binaire explicite est disponible
+avec la commande `rethreshold`, sans prétendre reproduire sa règle multiclasse.

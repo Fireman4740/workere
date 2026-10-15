@@ -89,9 +89,13 @@ class DecisionClient:
             raise ValueError("state must be a nonempty string")
         if not isinstance(questions, dict) or not questions:
             raise ValueError("questions must be a mapping")
+        if any(not isinstance(k, str) or not k for k in questions):
+            raise ValueError("question IDs must be nonempty strings")
         for q in questions.values():
             if not isinstance(q, dict) or q.get("type") not in {"noul", "choice"}:
                 raise ValueError("client requires typed noul or choice questions")
+            if not isinstance(q.get("instructions"), str) or not q["instructions"].strip():
+                raise ValueError("question instructions must be a nonempty string")
             criteria = q.get("criteria")
             if not isinstance(criteria, dict) or len(criteria) < 2 or not all(
                     isinstance(k, str) and isinstance(v, str) for k, v in criteria.items()):
@@ -105,7 +109,7 @@ class DecisionClient:
         bound = len(json.dumps(body, ensure_ascii=False).encode()) + 1024
         if bound > self.max_context:
             raise DecisionError(f"context_overflow: conservative bound {bound} exceeds {self.max_context}; no truncation applied")
-        if not self.free and bound * self.input_price / 1e6 > self.reservation:
+        if self.mode != "mock" and not self.free and bound * self.input_price / 1e6 > self.reservation:
             raise BudgetExceeded("per-call reservation is below the configured conservative input cost bound")
         return body, bound
 
