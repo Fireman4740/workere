@@ -40,7 +40,8 @@ def document_bootstrap(records, *, samples=1000, confidence=.95, seed=42):
     for (group, metric), values in distributions.items():
         intervals.setdefault(group, {})[metric] = [quantile(values, alpha), quantile(values, 1 - alpha)]
     return {"method": "percentile-bootstrap-over-documents", "samples": samples,
-            "confidence_level": confidence, "seed": seed, "documents": len(records), "intervals": intervals}
+            "confidence_level": confidence, "seed": seed, "documents": len(records), "intervals": intervals,
+            "warnings": ["One document: degenerate interval; no generalization evidence."] if len(records) == 1 else []}
 
 
 def run_variability(values, *, samples=1000, confidence=.95, seed=42):

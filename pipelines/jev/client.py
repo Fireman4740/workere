@@ -65,15 +65,41 @@ class DecisionClient:
         self.cache = sqlite3.connect(path, check_same_thread=False, timeout=60)
         self.cache.execute("PRAGMA journal_mode=WAL")
         self.cache.execute("CREATE TABLE IF NOT EXISTS decisions_v1 (key TEXT PRIMARY KEY, request TEXT NOT NULL, response TEXT NOT NULL)")
+        self.cache.execute("CREATE TABLE IF NOT EXISTS rate_slots_v1 (scope TEXT PRIMARY KEY, next_at REAL NOT NULL)")
         self.cache.commit()
+
+    def _rate_slot(self):
+        """Share provider pacing across clients/processes using this cache on one host."""
+        scope = fingerprint({k: self.identity[k] for k in ("provider", "endpoint")})
+        with self.lock:
+            try:
+                self.cache.execute("BEGIN IMMEDIATE")
+                previous = self.cache.execute("SELECT next_at FROM rate_slots_v1 WHERE scope=?", (scope,)).fetchone()
+                now = time.time()
+                slot = max(now, previous[0] if previous else now)
+                self.cache.execute("INSERT OR REPLACE INTO rate_slots_v1 VALUES (?,?)", (scope, slot + 60 / self.rpm))
+                self.cache.commit()
+            except BaseException:
+                self.cache.rollback()
+                raise
+        return max(0, slot - now)
 
     def validate_request(self, state, questions):
         if not isinstance(state, str) or not state:
             raise ValueError("state must be a nonempty string")
         if not isinstance(questions, dict) or not questions:
             raise ValueError("questions must be a mapping")
-        if any(q.get("type") != "noul" for q in questions.values()):
-            raise ValueError("v1 Noul client requires typed noul questions")
+        for q in questions.values():
+            if not isinstance(q, dict) or q.get("type") not in {"noul", "choice"}:
+                raise ValueError("client requires typed noul or choice questions")
+            criteria = q.get("criteria")
+            if not isinstance(criteria, dict) or len(criteria) < 2 or not all(
+                    isinstance(k, str) and isinstance(v, str) for k, v in criteria.items()):
+                raise ValueError("criteria must map class names to plain strings")
+            if q["type"] == "noul" and set(criteria) != {"true", "false"}:
+                raise ValueError("noul criteria must be true and false")
+            if q["type"] == "choice" and self.identity["model"].startswith("respan/span-"):
+                raise ValueError("Span currently supports noul only; no implicit model substitution")
         body = {"model": self.identity["model"], "state": state, "questions": questions}
         # UTF-8 bytes upper-bound text-token count conservatively, with a framing allowance.
         bound = len(json.dumps(body, ensure_ascii=False).encode()) + 1024
@@ -88,8 +114,19 @@ class DecisionClient:
             return self.transport(body)
         if self.mode == "mock":
             p = (int(fingerprint(body)[:8], 16) % 10001) / 10000
+            answers = {}
+            for key, q in body["questions"].items():
+                if q["type"] == "noul":
+                    answers[key] = {"type": "noul", "noul": p}
+                else:
+                    names = list(q["criteria"])
+                    weights = [1 + int(hashlib.sha256((body["state"] + name).encode()).hexdigest()[:6], 16) for name in names]
+                    probabilities = {name: w / sum(weights) for name, w in zip(names, weights)}
+                    choice = max(probabilities, key=probabilities.get)
+                    answers[key] = {"type": "choice", "choice": choice, "probabilities": probabilities,
+                                    "confidence": probabilities[choice]}
             return {"model": "mock/" + self.identity["model_version"], "provider": "mock",
-                    "answers": {key: {"type": "noul", "noul": p} for key in body["questions"]},
+                    "answers": answers,
                     "usage": {"cost": 0}, "mock": True}
         key = os.environ.get(self.key_env)
         if not key and self.key_env == "OPENROUTER_API_KEY":
@@ -106,11 +143,26 @@ class DecisionClient:
             raise DecisionError("response lacks an actual served model identity")
         if self.mode != "mock" and self.expected_version and response["model"] != self.expected_version:
             raise DecisionError(f"unexpected served model version: {response['model']}")
-        for key in body["questions"]:
+        for key, question in body["questions"].items():
             answer = response.get("answers", {}).get(key, {})
-            if answer.get("type") != "noul" or answer.get("noul") is None:
-                raise DecisionError(f"missing structured noul probability for {key}")
-            probability(answer["noul"])
+            if answer.get("type") != question["type"]:
+                raise DecisionError(f"missing structured {question['type']} answer for {key}")
+            if question["type"] == "noul":
+                if answer.get("noul") is None:
+                    raise DecisionError("missing positive probability")
+                probability(answer.get("noul"))
+            else:
+                probs = answer.get("probabilities")
+                if not isinstance(probs, dict) or set(probs) != set(question["criteria"]) or answer.get("choice") not in probs:
+                    raise DecisionError("choice response does not match the requested classes")
+                for value in probs.values():
+                    if value is None:
+                        raise DecisionError("missing class probability")
+                    probability(value)
+                if abs(sum(probs.values()) - 1) > 1e-4:
+                    raise DecisionError("choice probabilities do not sum to one")
+                if "confidence" in answer:
+                    probability(answer["confidence"])
 
     def decide(self, state, questions, on_attempt=None):
         body, bound = self.validate_request(state, questions)
@@ -138,8 +190,7 @@ class DecisionClient:
                         raise BudgetExceeded("explicit paid budget exhausted or absent")
                     self.spent += reserve
                     self.calls += 1
-                    wait = max(0, self.next_request - time.monotonic()) if self.mode != "mock" else 0
-                    self.next_request = time.monotonic() + wait + 60 / self.rpm
+                wait = self._rate_slot() if self.mode != "mock" else 0
                 if wait:
                     time.sleep(wait)
                 start, cost, response, failure = time.perf_counter(), None, None, None
@@ -162,6 +213,7 @@ class DecisionClient:
                          "cost_usd": cost, "reserved_usd": reserve,
                          "latency_seconds": time.perf_counter() - start, "attempt": attempt,
                          "api_call": self.mode != "mock", "conservative_input_tokens": bound,
+                         "rate_limit_wait_seconds": wait,
                          "error": {"type": type(failure).__name__, "message":
                                    f"HTTP {failure.code}" if isinstance(failure, urllib.error.HTTPError)
                                    else str(failure)[:1000]} if failure else None}
@@ -185,3 +237,9 @@ class DecisionClient:
 
     def close(self):
         self.cache.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.close()

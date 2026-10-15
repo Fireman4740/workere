@@ -1,0 +1,4 @@
+schema: workere-campaign/v1
+experiments:
+  - config: esc_span_noul_smoke.yaml
+  - config: esc_mercury_noul_smoke.yaml
