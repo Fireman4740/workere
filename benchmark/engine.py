@@ -82,6 +82,11 @@ def _source_receipt(run_dir, manifest):
         dirty = bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=package, text=True))
     except (OSError, subprocess.CalledProcessError):
         commit, dirty = None, None
+        revision = package / "COMMIT.txt"
+        if revision.is_file():
+            value = revision.read_text().strip()
+            if len(value) == 40 and all(c in "0123456789abcdef" for c in value):
+                commit, dirty = value, False
     files = {f"benchmark/{path.relative_to(package)}": path for path in package.rglob("*.py")
              if not {".venv", "build", "__pycache__"} & set(path.relative_to(package).parts)}
     for index, item in enumerate(manifest):

@@ -56,10 +56,12 @@ def resolve_config(value, source):
     if "seed" in cfg and "seeds" in cfg:
         raise ValueError("choose seed or seeds, not both")
     seeds = cfg.get("seeds", [cfg.get("seed", 42)])
-    if not isinstance(seeds, list) or not seeds or len(set(seeds)) != len(seeds):
+    if not isinstance(seeds, list) or not seeds:
         raise ValueError("seeds must be a nonempty array without duplicates")
     for seed in seeds:
         _integer(seed, "seed")
+    if len(set(seeds)) != len(seeds):
+        raise ValueError("duplicate seeds")
     if "seeds" not in cfg:
         cfg["seed"] = seeds[0]
     ds = cfg["dataset"]

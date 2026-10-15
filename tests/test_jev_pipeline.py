@@ -69,6 +69,29 @@ class NoulV1(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "context_overflow"):
             short.decide("rain caused flooding", noul_question())
 
+    def test_retry_journal_and_non_retryable_failure(self):
+        import urllib.error
+        from pipelines.jev.client import DecisionError
+        events, calls = [], []
+        def send(body):
+            calls.append(body)
+            if len(calls) == 1:
+                raise urllib.error.HTTPError("https://example.invalid", 429, "rate limited", {}, None)
+            return {"model": "test-served", "answers": {"causal": {"type": "noul", "noul": .7}}, "usage": {"cost": 0}}
+        client = self.client(model="respan/span-01-lite", mode="live", transport=send)
+        with patch("pipelines.jev.client.time.sleep"):
+            packet = client.decide("Rain caused flooding", noul_question(), on_attempt=events.append)
+        self.assertEqual(len(events), 2)
+        self.assertEqual(events[0]["error"]["message"], "HTTP 429")
+        self.assertEqual(packet["response"]["answers"]["causal"]["noul"], .7)
+        self.assertTrue(client.decide("Rain caused flooding", noul_question())["cache_hit"])
+        with self.assertRaises(BudgetExceeded):
+            self.client(model="respan/span-01-lite", mode="live", transport=send, max_calls=0).decide("other", noul_question())
+        bad = self.client(model="respan/span-01-lite", mode="live", retries=0,
+            transport=lambda body: {"model": "test", "answers": {"causal": {"type": "noul", "noul": None}}})
+        with self.assertRaises(DecisionError):
+            bad.decide("missing probability", noul_question())
+
     def test_noul_mock_runs_through_real_historical_scorer_and_replays_without_client(self):
         write_json(self.root / "suite.json", self.suite)
         cfg = {"schema": "workere-experiment/v1", "name": "jev-noul-mock", "seed": 42,

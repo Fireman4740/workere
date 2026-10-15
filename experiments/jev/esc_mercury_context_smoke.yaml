@@ -1,0 +1,60 @@
+schema: workere-experiment/v1
+name: esc-mercury-context-v1-smoke
+dataset:
+  name: esc
+  split: dev
+  source_config: ../../config.yaml
+  repo_id: Nofing/EventStoryLine-0.9-standard-eci-workere
+  revision: e6418e8747ac1c7fecf66d56ae41fbde7fd5967a
+  seed: 42
+  document_ids:
+  - 41_9ecbplus.xml
+protocol: relation_gold_mentions
+seed: 42
+plugins:
+- pipelines.jev.pipeline
+models:
+- id: inception/mercury-decide:free
+  version: mercury-decide-20260930
+pipeline:
+  entity_extractor:
+    plugin: reference
+    version: '1'
+  candidate_generator:
+    plugin: historical
+    version: '1'
+  relation_predictor:
+    plugin: jev_decision
+    version: '1'
+    params:
+      threshold: 0.5
+      client:
+        provider: openrouter
+        endpoint: https://openrouter.ai/api/alpha/decisions
+        model: inception/mercury-decide:free
+        model_version: mercury-decide-20260930
+        api_key_env: OPENROUTER_API_KEY
+        mode: live
+        timeout: 60
+        retries: 1
+        requests_per_minute: 20
+        max_calls: 200
+        max_context_tokens: 32768
+        budget_usd: 0
+        max_cost_per_call_usd: 0.002
+        input_price_per_million: 0
+        cache_path: ~/.local/share/openresearch/workere-decisions/cache.sqlite
+      variant: noul
+      context_style: explicit_context
+evaluation:
+  primary_metric: binary
+  bootstrap_samples: 1000
+  confidence_level: 0.95
+  bootstrap_seed: 42
+  require_historical_parity: false
+  historical_reports: []
+execution:
+  allow_network: true
+  allow_paid: false
+  error_policy: raise
+output_dir: ../../logs/jev-runs

@@ -1,0 +1,5 @@
+# Prefer the offline rethreshold command after inference: this sweep reuses the same SQLite cache.
+schema: workere-sweep/v1
+base: esc_mercury_noul_smoke.yaml
+grid:
+  pipeline.relation_predictor.params.threshold: [0.3, 0.5, 0.7]
