@@ -85,4 +85,6 @@ def markdown_table(comparison):
         lines.append("| " + " | ".join(fmt(v).replace("|", "\\|") for v in cells) + " |")
     lines += ["", "Latency/cost describe this execution. Historical model costs are unknown unless recorded; "
               "replay wall time is not inference latency. Seed-mean intervals and variances are in the JSON."]
+    if any(row.get("uncertainty", {}).get("documents") == 1 for row in comparison["runs"]):
+        lines += ["One-document bootstrap intervals are degenerate and provide no evidence of generalization."]
     return "\n".join(lines) + "\n"

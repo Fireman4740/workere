@@ -10,6 +10,117 @@ des anciens runs ne sont pas fournis dans ce checkout. Les tests synthétiques e
 comparaison avec le code de `dev` ne remplacent pas leur rejeu. Les commandes ci-dessous
 permettent de vérifier et d’importer ces résultats dès qu’ils sont accessibles.
 
+## Framework multipipelines
+
+Le moteur modulaire est disponible avec une CLI et un package installable indépendant.
+Les détails du contrat JSON sont dans [FORMAT.md](FORMAT.md), les interfaces dans
+[interfaces.py](interfaces.py) et les expériences décisionnelles dans
+[../pipelines/jev/README.md](../pipelines/jev/README.md).
+
+```bash
+uv sync --project benchmark --locked --extra hub
+uv run --project benchmark --locked python -m benchmark.examples.framework_demo --output-dir /tmp/framework-demo
+uv run --project benchmark --locked python -m benchmark batch /tmp/framework-demo/campaign.yaml --output /tmp/framework-receipt.json
+uv run --project benchmark --locked python -m benchmark sweep /tmp/framework-demo/sweep.yaml --dry-run --output /tmp/sweep-plan.json
+```
+
+Le générateur écrit des exemples **synthétiques** pour les trois protocoles, trois
+seeds et un sweep. Le package `benchmark/pyproject.toml` possède son propre verrou ;
+il ne dépend pas des bibliothèques d'inférence du projet. PyYAML suffit au moteur ;
+`--extra hub` ajoute le chargement Hugging Face. Un wheel construit avec
+`uv build --project benchmark` s'installe sans le reste du dépôt.
+
+Les protocoles restent séparés :
+
+| Protocole | Entrée modèle | Évaluation |
+|---|---|---|
+| `entity_extraction` | Texte, tokens, phrases | Spans exacts non typés |
+| `relation_gold_mentions` / `relations_gold` | Texte + mentions et candidats de référence | Scoring de relations historique |
+| `end_to_end` | Texte, tokens, phrases | Spans et relations à endpoints exacts ; nouvelle métrique explicitement versionnée |
+
+CTB, ESC et MAVEN-ERE possèdent les spans de mentions nécessaires à une mesure
+d'extraction **non typée**, distincte des relations. Un score d'extraction utilisant
+les mentions de référence n'est pas une mesure de détection ; l'oracle est donc limité
+au protocole de relations. Le bout en bout a un nouvel identifiant de protocole et
+n'est pas comparé aux scores historiques avec mentions gold.
+
+Une expérience YAML versionne dataset/split, protocole, modèle, composants,
+hyperparamètres, seed et évaluation. Les chemins relatifs partent du YAML.
+`dataset.suite` réutilise une suite figée ; `dataset.source_config` reprend le loader
+historique et accepte un repo/révision explicite. La seed dataset est indépendante
+des seeds du modèle : un sweep ne resélectionne pas involontairement ses documents.
+
+```yaml
+schema: workere-experiment/v1
+name: external-model-dev
+dataset: {name: esc, split: dev, suite: suite.json}
+protocol: relation_gold_mentions
+seeds: [13, 42, 2026]
+models: [{id: external/model, version: "revision-immutable"}]
+plugins: [my_package.predictor]
+pipeline:
+  entity_extractor: {plugin: reference, version: "1"}
+  candidate_generator: {plugin: historical, version: "1"}
+  relation_predictor: {plugin: my_model, version: "1", params: {}}
+evaluation: {primary_metric: binary, bootstrap_samples: 1000}
+execution: {allow_network: false, allow_paid: false, error_policy: raise}
+output_dir: runs
+```
+
+Ajouter un modèle prend un module et un YAML. Le registre refuse les plugins inconnus,
+doublons et versions incompatibles avant la construction des composants :
+
+```python
+from benchmark.registry import register
+from benchmark.schema import Relation
+
+@register("relation_predictor", "my_model", version="1")
+class MyModel:
+    def predict(self, document, entities, candidates, context):
+        return tuple(Relation(a, b, "norel", confidence=None) for a, b in candidates)
+```
+
+Le module exporte `EntityExtractor`, `CandidateGenerator`, `RelationPredictor` et
+`PostProcessor` sous forme de protocoles Python. Un modèle global peut enregistrer
+un plugin de type `pipeline`, implémenter `predict(inputs, context)` et retourner une
+`Prediction` complète ; le YAML utilise alors `pipeline.monolithic` plutôt que les
+composants. Le plugin `saved_predictions` rejoue directement du JSONL universel ;
+`legacy_report` importe un rapport historique après contrôle de parité.
+Le moteur peut appliquer une liste de `postprocessors` versionnés.
+
+```bash
+python3 -m benchmark run experiment.yaml --output receipt.json
+python3 -m benchmark run experiment1.yaml experiment2.yaml --output receipts.json
+python3 -m benchmark batch campaign.yaml --output campaign-receipt.json
+python3 -m benchmark sweep sweep.yaml --output sweep-receipt.json
+python3 -m benchmark reevaluate RUN --output replay.json
+python3 -m benchmark compare-runs RUN1 RUN2 --metric binary --output compare.json --markdown compare.md
+```
+
+Un campaign contient `schema: workere-campaign/v1`, puis `experiments` : liste de
+`{config: chemin.yaml, overrides: {...}}`. Un sweep contient
+`schema: workere-sweep/v1`, `base: chemin.yaml`, et `grid` : chemins pointés de paramètres
+existants vers leurs listes de valeurs. Le produit cartésien est développé, puis les
+seeds. `--dry-run` valide cette expansion sans construire les modèles. Pour compter
+les candidats et valider les requêtes décisionnelles réelles sans API, utiliser le
+`dry-run` de `pipelines.jev.cli`.
+
+Chaque run conserve YAML source et résolu, suite, entrées publiques, prédictions,
+métriques, erreurs, usage/coût/latence, versions et archive du code avec empreintes.
+Les échecs sont visibles ; un document en erreur ne disparaît pas du dénominateur.
+Le comparateur refuse des suites, splits ou protocoles différents. Il fournit P/R/F1,
+intra/inter quand disponibles, IC par bootstrap documentaire, coût et latence de cette
+exécution, variance entre seeds distinctes et IC de leur moyenne. Avec un seul run,
+la variance reste `null` ; avec un seul document, l'IC documentaire est dégénéré.
+Le temps d'un rejeu n'est jamais présenté comme une latence d'inférence historique.
+
+Les appels réseau et payants sont désactivés par défaut. Un plugin à accès externe
+doit déclarer ses besoins et enregistrer son usage via `context.record_usage` ; les
+coûts non fournis restent inconnus. Une configuration ne contenant aucun rapport
+historique porte `historical_parity: not_demonstrated`. Définir
+`evaluation.require_historical_parity: true` pour empêcher toute exécution tant que
+les rapports originaux n'ont pas été vérifiés et alignés sur la suite.
+
 ## Démarrage hors ligne
 
 Depuis la racine du dépôt, avec Python 3.12 ou ultérieur :

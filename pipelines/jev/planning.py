@@ -2,10 +2,9 @@
 from collections import Counter
 
 from benchmark.configuration import load_suite
-from benchmark.io import fingerprint, write_json
 from benchmark.protocols import public_inputs
 from pipelines.jev.client import OPENROUTER_ENDPOINT, is_free
-from pipelines.jev.state_builder import NOUL_INSTRUCTIONS, build_state, noul_question
+from pipelines.jev.state_builder import build_state, questions_for
 
 
 def plan(config):
@@ -15,13 +14,16 @@ def plan(config):
     params = cfg["pipeline"]["relation_predictor"]["params"]
     client = params["client"]
     suite = load_suite(config)
-    questions = noul_question(params.get("instructions", NOUL_INSTRUCTIONS))
+    variant = params.get("variant", "noul")
+    if variant == "choice" and client["model"].startswith("respan/span-"):
+        raise ValueError("Span does not support Choice; no requests submitted")
+    questions = questions_for(variant, params.get("instructions"))
     scopes, docs, examples, overflows = Counter(), [], [], []
     total_bytes = 0
     for inputs in public_inputs(suite, "relations_gold"):
         doc, refs = inputs.document, {e.id: e for e in inputs.reference_entities}
         for a, b in inputs.reference_candidates:
-            state = build_state(doc, refs[a], refs[b])
+            state = build_state(doc, refs[a], refs[b], params.get("context_style", "document"))
             body = {"model": client["model"], "state": state, "questions": questions}
             import json
             bound = len(json.dumps(body, ensure_ascii=False).encode()) + 1024
