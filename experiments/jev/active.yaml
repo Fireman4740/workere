@@ -1,5 +1,5 @@
 schema: workere-experiment/v1
-name: esc-span-noul-v1-smoke
+name: esc-mercury-noul-v1-smoke
 dataset:
   name: esc
   split: dev
@@ -14,8 +14,8 @@ seed: 42
 plugins:
 - pipelines.jev.pipeline
 models:
-- id: respan/span-01-lite
-  version: span-01-lite-20260925
+- id: inception/mercury-decide:free
+  version: mercury-decide-20260930
 pipeline:
   entity_extractor:
     plugin: reference
@@ -31,8 +31,8 @@ pipeline:
       client:
         provider: openrouter
         endpoint: https://openrouter.ai/api/alpha/decisions
-        model: respan/span-01-lite
-        model_version: span-01-lite-20260925
+        model: inception/mercury-decide:free
+        model_version: mercury-decide-20260930
         api_key_env: OPENROUTER_API_KEY
         mode: live
         timeout: 60
