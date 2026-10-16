@@ -1,4 +1,3 @@
-# d1-ultra Noul on the whole ESC dev split (topics 37, 41): tuning/selection set.
 schema: workere-experiment/v1
 name: esc-d1ultra-noul-dev25
 dataset:
@@ -48,6 +47,11 @@ pipeline:
         expected_served_version: liquid/d1-ultra-20261015
         retry_backoff_seconds: 2
         retry_max_wait_seconds: 3600
+        shared_budget:
+          path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
+          scope: esc-improvement-20261016-10usd
+          limit_usd: 10
+          initial_spend_usd: 5.224675
 evaluation:
   primary_metric: binary
   bootstrap_samples: 1000

@@ -1,4 +1,3 @@
-# d1-ultra Noul on the whole ESC dev split (topics 37, 41): tuning/selection set.
 schema: workere-experiment/v1
 name: esc-d1ultra-multi-smoke
 dataset:
@@ -8,7 +7,8 @@ dataset:
   revision: e6418e8747ac1c7fecf66d56ae41fbde7fd5967a
   seed: 42
   split: dev
-  document_ids: [41_9ecbplus.xml]
+  document_ids:
+  - 41_9ecbplus.xml
 protocol: relation_gold_mentions
 seed: 42
 plugins:
@@ -32,16 +32,25 @@ pipeline:
       extra_questions:
         same_event:
           instructions: Do both selected mentions denote the same real-world event?
-          criteria: {'true': Same event instance., 'false': Distinct event instances.}
+          criteria:
+            'true': Same event instance.
+            'false': Distinct event instances.
         before:
           instructions: Does event A occur before event B?
-          criteria: {'true': A precedes B., 'false': A does not precede B or timing is unknown.}
+          criteria:
+            'true': A precedes B.
+            'false': A does not precede B or timing is unknown.
         narrative:
-          instructions: Is either event an explanatory or enabling narrative link to the other?
-          criteria: {'true': Supported explanatory or enabling link., 'false': No such link.}
+          instructions: Is either event an explanatory or enabling narrative link
+            to the other?
+          criteria:
+            'true': Supported explanatory or enabling link.
+            'false': No such link.
         connector:
           instructions: Does an explicit causal connective link the two exact mentions?
-          criteria: {'true': Explicit causal connective links these mentions., 'false': No such connective.}
+          criteria:
+            'true': Explicit causal connective links these mentions.
+            'false': No such connective.
       client:
         provider: openrouter
         endpoint: https://openrouter.ai/api/alpha/decisions
@@ -61,6 +70,11 @@ pipeline:
         expected_served_version: liquid/d1-ultra-20261015
         retry_backoff_seconds: 2
         retry_max_wait_seconds: 3600
+        shared_budget:
+          path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
+          scope: esc-improvement-20261016-10usd
+          limit_usd: 10
+          initial_spend_usd: 5.224675
 evaluation:
   primary_metric: binary
   bootstrap_samples: 1000
