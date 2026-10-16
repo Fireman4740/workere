@@ -90,7 +90,7 @@ class DecisionClient:
                  timeout=60, retries=2, requests_per_minute=60, max_calls=100,
                  budget_usd=0, max_cost_per_call_usd=.002, input_price_per_million=.042,
                  max_context_tokens=32768, expected_served_version=None, transport=None,
-                 retry_backoff_seconds=1, retry_max_wait_seconds=86400):
+                 retry_backoff_seconds=1, retry_max_wait_seconds=86400, shared_budget=None):
         if mode not in {"mock", "live"} or not all(isinstance(v, str) and v for v in (model, model_version, provider, endpoint, api_key_env)):
             raise ValueError("invalid client identity or mode")
         for name, value in {"timeout": timeout, "requests_per_minute": requests_per_minute,
@@ -115,6 +115,11 @@ class DecisionClient:
         if self.retry_backoff > self.retry_max_wait:
             raise ValueError("retry_backoff_seconds exceeds retry_max_wait_seconds")
         self.calls, self.spent, self.next_request = 0, 0.0, 0.0
+        self.shared_budget = None
+        if shared_budget is not None:
+            from pipelines.jev.spend import SharedBudget
+            self.shared_budget = SharedBudget(**shared_budget)
+            print("PLAN_BUDGET " + json.dumps(self.shared_budget.status()), flush=True)
         self.lock = threading.RLock()
         self.key_locks = {}
         path = Path(cache_path)
@@ -274,6 +279,7 @@ class DecisionClient:
                         raise BudgetExceeded(f"maximum attempts reached ({self.max_calls})")
                     if self.spent + reserve > self.budget + 1e-12:
                         raise BudgetExceeded("explicit paid budget exhausted or absent")
+                    ticket = self.shared_budget.reserve(reserve) if reserve and self.shared_budget else None
                     self.spent += reserve
                     self.calls += 1
                 wait = self._rate_slot() if self.mode != "mock" else 0
@@ -295,6 +301,11 @@ class DecisionClient:
                                 raise BudgetExceeded("provider cost exceeded the configured per-attempt reservation")
                 except Exception as exc:
                     failure = exc
+                if ticket:
+                    try:
+                        self.shared_budget.settle(ticket, cost)
+                    except BudgetExceeded as exc:
+                        failure = exc
                 details = _http_details(failure) if isinstance(failure, urllib.error.HTTPError) else {}
                 retry = isinstance(failure, (TimeoutError, urllib.error.URLError, DecisionError))
                 if isinstance(failure, BudgetExceeded) or (isinstance(failure, urllib.error.HTTPError)
@@ -340,6 +351,8 @@ class DecisionClient:
 
     def close(self):
         self.cache.close()
+        if self.shared_budget:
+            self.shared_budget.close()
 
     def __enter__(self):
         return self
