@@ -14,6 +14,18 @@ def plan(config):
     params = cfg["pipeline"]["relation_predictor"]["params"]
     client = params["client"]
     suite = load_suite(config)
+    if cfg["pipeline"]["relation_predictor"]["plugin"] == "luna_document":
+        from benchmark.suite import documents
+        docs = documents(suite)
+        n_calls = len(docs) * params.get("passes", 7)
+        return {"schema": "workere-jev-plan/v1", "name": cfg["name"], "mode": "dry-run",
+            "api_calls_made": 0, "suite_fingerprint": suite["fingerprint"], "model": client["model"],
+            "reasoning_effort": client["reasoning_effort"], "documents": [{"id": d.id} for d in docs],
+            "document_count": len(docs), "calls_without_cache_or_retries": n_calls,
+            "context_overflows": [], "paid_budget_authorized_in_config": client["budget_usd"],
+            "estimated_input_cost_usd_at_configured_rate": None,
+            "cost_estimate_note": "Luna demos add input tokens; bounded by the explicit per-document paid cap.",
+            "historical_parity": "not_claimed"}
     variant = params.get("variant", "noul")
     if variant == "choice" and client["model"].startswith("respan/span-"):
         raise ValueError("Span does not support Choice; no requests submitted")

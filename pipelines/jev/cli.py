@@ -60,7 +60,8 @@ def main(argv=None):
         plans = [plan(config) for config in configs]
         result = plans[0] if len(plans) == 1 else {"schema": "workere-jev-campaign-plan/v1", "plans": plans,
             "calls_without_cache_or_retries": sum(p["calls_without_cache_or_retries"] for p in plans),
-            "estimated_input_cost_usd_at_configured_rate": sum(p["estimated_input_cost_usd_at_configured_rate"] for p in plans),
+            "estimated_input_cost_usd_at_configured_rate": (sum(p["estimated_input_cost_usd_at_configured_rate"] for p in plans)
+                if all(p["estimated_input_cost_usd_at_configured_rate"] is not None for p in plans) else None),
             "context_overflows": [o for p in plans for o in p["context_overflows"]]}
         write_json(args.output, result)
         print(json.dumps({k: v for k, v in result.items() if k != "plans"} if len(plans) > 1 else result,
