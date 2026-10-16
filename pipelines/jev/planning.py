@@ -4,7 +4,7 @@ from collections import Counter
 from benchmark.configuration import load_suite
 from benchmark.protocols import public_inputs
 from pipelines.jev.client import OPENROUTER_ENDPOINT, is_free
-from pipelines.jev.state_builder import build_state, questions_from_params
+from pipelines.jev.state_builder import build_state, questions_from_params, request_pairs
 
 
 def plan(config):
@@ -18,12 +18,19 @@ def plan(config):
     if variant == "choice" and client["model"].startswith("respan/span-"):
         raise ValueError("Span does not support Choice; no requests submitted")
     questions = questions_from_params(params)
+    demonstrations = None
+    if params.get("demonstrations"):
+        from pipelines.jev.demonstrations import RetrievedDemonstrations
+        demonstrations = RetrievedDemonstrations(**params["demonstrations"])
     scopes, docs, examples, overflows = Counter(), [], [], []
     total_bytes = 0
     for inputs in public_inputs(suite, "relations_gold"):
         doc, refs = inputs.document, {e.id: e for e in inputs.reference_entities}
-        for a, b in inputs.reference_candidates:
+        queries = request_pairs(doc, inputs.reference_entities, inputs.reference_candidates, params.get("unordered", False))
+        for a, b in queries:
             state = build_state(doc, refs[a], refs[b], params.get("context_style", "document"))
+            if demonstrations:
+                state = demonstrations.prefix(doc, refs[a], refs[b]) + state
             body = {"model": client["model"], "state": state, "questions": questions}
             import json
             bound = len(json.dumps(body, ensure_ascii=False).encode()) + 1024
@@ -34,7 +41,8 @@ def plan(config):
             scopes["unknown" if sa is None or sb is None else "intra" if sa == sb else "inter"] += 1
             if len(examples) < 2:
                 examples.append(body)
-        docs.append({"id": doc.id, "mentions": len(refs), "calls": len(inputs.reference_candidates)})
+        docs.append({"id": doc.id, "mentions": len(refs), "calls": len(queries),
+                     "ordered_candidates": len(inputs.reference_candidates)})
     n_calls = sum(d["calls"] for d in docs)
     free = is_free(client)
     return {"schema": "workere-jev-plan/v1", "name": cfg["name"], "mode": "dry-run", "api_calls_made": 0,
