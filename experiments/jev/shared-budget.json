@@ -1,0 +1,6 @@
+{
+  "path": "~/.local/share/openresearch/workere-decisions/plan-budget.sqlite",
+  "scope": "esc-improvement-20261016-10usd",
+  "limit_usd": 10,
+  "initial_spend_usd": 5.224675
+}
