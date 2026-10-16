@@ -24,7 +24,7 @@ pipeline:
     params:
       client:
         provider: openrouter
-        endpoint: https://openrouter.ai/api/v1/chat/completions
+        endpoint: https://openrouter.ai/api/v1/batches
         model: openai/gpt-6-luna:batch
         model_version: gpt-6-luna-20260922
         api_key_env: OPENROUTER_API_KEY
@@ -37,7 +37,7 @@ pipeline:
         budget_usd: 0.25
         max_cost_per_call_usd: 0.015
         input_price_per_million: 0.05
-        cache_path: ~/.local/share/openresearch/workere-decisions/luna-cache.sqlite
+        cache_path: ~/.local/share/openresearch/workere-decisions/luna-d15-1_19ecbplus.xml.sqlite
         retry_backoff_seconds: 2
         retry_max_wait_seconds: 3600
         reasoning_effort: high

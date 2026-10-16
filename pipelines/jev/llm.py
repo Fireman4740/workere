@@ -69,6 +69,8 @@ class ChatClient(DecisionClient):
         if self.mode == "mock":
             return {"model": "mock/" + self.identity["model_version"], "provider": "mock",
                     "choices": [{"finish_reason": "stop", "message": {"content": "[]"}}], "usage": {"cost": 0}}
+        if self.identity["model"].endswith(":batch"):
+            raise DecisionError("a :batch model must use decide_many through /api/v1/batches")
         with _IN_FLIGHT:
             return super()._send(body)
 
@@ -96,7 +98,8 @@ class LunaDocumentPredictor:
 
     def __init__(self, client, path, selection_path, repo_id, revision, passes=7):
         import yaml
-        self.client = ChatClient(**client)
+        from pipelines.jev.batch import BatchChatClient
+        self.client = BatchChatClient(**client)
         self.prompt = yaml.safe_load(Path(path).read_text())
         self.passes, self.bank = passes, []
         if self.client.mode != "mock":
@@ -110,7 +113,7 @@ class LunaDocumentPredictor:
         selected = random.Random(f"{context.seed}::{document.id}").sample(eligible, self.passes) if eligible else [None] * self.passes
         lock = threading.Lock()
 
-        def one(item):
+        def prepare(item):
             index, demo = item
             messages = [{"role": "system", "content": self.prompt["system"]}]
             if demo:
@@ -124,16 +127,18 @@ class LunaDocumentPredictor:
                     context.record_usage(cost_usd=event["cost_usd"], pass_index=index,
                         demonstration_id=demo["id"] if demo else None,
                         **{k: v for k, v in event.items() if k != "cost_usd"})
-            packet = self.client.decide(messages, {}, on_attempt=record)
+            return messages, record
+
+        prepared = [prepare(item) for item in enumerate(selected)]
+        packets = self.client.decide_many([m for m, _ in prepared], [callback for _, callback in prepared])
+        passes = []
+        for index, packet in enumerate(packets):
             triples = parse_triples(packet["response"]["choices"][0]["message"]["content"])
             allowed = set(candidates)
             triples = [(a, lab, b) for a, lab, b in triples if (a, b) in allowed and lab in {"causes", "causedby", "norel"}]
             print(f"llm document={document.id} pass={index + 1}/{self.passes} model={packet['response']['model']} "
                   f"cost_usd={context.cost_usd}", flush=True)
-            return triples
-
-        with ThreadPoolExecutor(max_workers=self.passes) as pool:
-            passes = list(pool.map(one, enumerate(selected)))
+            passes.append(triples)
         final, stats = aggregate(passes, NOREL, context.rng)
         labels = {(a, b): lab for a, lab, b in final}
         scores = []
