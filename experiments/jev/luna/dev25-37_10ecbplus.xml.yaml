@@ -35,13 +35,18 @@ pipeline:
         max_calls: 64
         max_context_tokens: 1050000
         budget_usd: 0.25
-        max_cost_per_call_usd: 0.015
+        max_cost_per_call_usd: 0.01
         input_price_per_million: 0.05
         cache_path: ~/.local/share/openresearch/workere-decisions/luna-dev25-37_10ecbplus.xml.sqlite
         retry_backoff_seconds: 2
         retry_max_wait_seconds: 3600
         reasoning_effort: high
         max_output_tokens: 32768
+        shared_budget:
+          path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
+          scope: esc-improvement-20261016-10usd
+          limit_usd: 10
+          initial_spend_usd: 5.224675
       path: ../../../prompts/esl_standard_eci_lean_coref.yaml
       selection_path: experiments/jev/document-selection.json
       repo_id: Nofing/EventStoryLine-0.9-standard-eci-workere

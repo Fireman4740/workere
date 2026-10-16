@@ -18,6 +18,7 @@ class BatchTransport(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / "cache.sqlite"
             messages = [[{"role": "user", "content": str(i)}] for i in range(2)]
+            budget = {"path": str(Path(temp) / "global.sqlite"), "scope": "test", "limit_usd": 1}
             events, calls, submitted = [], [], []
             def http(method, url, payload=None):
                 calls.append(method)
@@ -31,16 +32,18 @@ class BatchTransport(unittest.TestCase):
                     "results": [{"custom_id": r["custom_id"], "error": None, "response": {"status_code": 200,
                         "body": {"model": "openai/gpt-6-luna-20260922", "choices": [{"finish_reason": "stop",
                                   "message": {"content": "[]"}}]}}} for r in reversed(submitted)]}
-            with self.client(path) as client, patch.object(client, "_http", http), patch("pipelines.jev.batch.time.sleep"):
+            with self.client(path, shared_budget=budget) as client, patch.object(client, "_http", http), patch("pipelines.jev.batch.time.sleep"):
                 packets = client.decide_many(messages, [events.append] * 2)
                 self.assertEqual(len(packets), 2)
                 self.assertEqual(sum(e["cost_usd"] for e in events), .002)
+                self.assertAlmostEqual(client.shared_budget.status()["accounted_or_reserved_usd"], .002)
                 self.assertTrue(all(r["body"]["reasoning"]["effort"] == "high" for r in submitted))
                 # Simulate a process exiting before caching the received responses.
                 client.cache.execute("DELETE FROM decisions_v1"); client.cache.commit()
-            with self.client(path) as client, patch.object(client, "_http", side_effect=AssertionError("must recover receipt")):
+            with self.client(path, shared_budget=budget) as client, patch.object(client, "_http", side_effect=AssertionError("must recover receipt")):
                 packets = client.decide_many(messages, [events.append] * 2)
                 self.assertEqual(len(packets), 2)
+                self.assertAlmostEqual(client.shared_budget.status()["accounted_or_reserved_usd"], .002)
             self.assertEqual(calls.count("POST"), 1)
             self.assertEqual(calls.count("GET"), 1)
 

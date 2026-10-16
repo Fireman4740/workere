@@ -43,6 +43,7 @@ class BatchChatClient(ChatClient):
 
     def _poll(self, batch, manifest_path):
         deadline, previous, last_log = time.monotonic() + 25 * 3600, None, 0
+        ticket = batch.get("budget_ticket")
         while batch.get("status") not in TERMINAL:
             if time.monotonic() > deadline:
                 raise DecisionError("batch polling timeout; receipt retained for resumption")
@@ -65,6 +66,8 @@ class BatchChatClient(ChatClient):
                 continue
             except (TimeoutError, urllib.error.URLError):
                 continue  # polling an existing id is idempotent
+            if ticket:
+                batch["budget_ticket"] = ticket
             _save(manifest_path, batch)
         return batch
 
@@ -107,8 +110,9 @@ class BatchChatClient(ChatClient):
                     raise BudgetExceeded("previous batch submission has an uncertain outcome; inspect receipt before any resubmission")
                 submitted = False
             else:
+                ticket = self.shared_budget.reserve(reserve) if self.shared_budget else None
                 _save(path, {"status": "submitting", "requested_model": self.identity["model"],
-                             "requests": payload["requests"], "reservation_usd": reserve})
+                             "requests": payload["requests"], "reservation_usd": reserve, "budget_ticket": ticket})
                 try:
                     batch = self._http("POST", BATCH_ENDPOINT, payload)
                     if not isinstance(batch.get("id"), str):
@@ -118,6 +122,7 @@ class BatchChatClient(ChatClient):
                     raise DecisionError(f"batch submission HTTP {exc.code}; no sync fallback") from exc
                 except Exception as exc:
                     raise BudgetExceeded("batch submission outcome uncertain; durable receipt prevents duplicate paid submission") from exc
+                batch["budget_ticket"] = ticket
                 _save(path, batch)
                 submitted = True
         self.spent += reserve
@@ -137,6 +142,8 @@ class BatchChatClient(ChatClient):
         total_cost = (batch.get("usage") or {}).get("cost")
         if total_cost is not None and (type(total_cost) not in (int, float) or not math.isfinite(total_cost) or total_cost < 0):
             raise DecisionError("invalid batch-reported cost")
+        if self.shared_budget and batch.get("budget_ticket"):
+            self.shared_budget.settle(batch["budget_ticket"], total_cost)
         allocated = total_cost / len(pending) if total_cost is not None else None
         errors = []
         for key, body, callback in zip(keys, bodies, callbacks):
