@@ -48,6 +48,24 @@ Le cache SQLite conserve les réponses réussies ; un nouveau lancement avec les
 mêmes entrées les réutilise. Une erreur d'API interrompt l'évaluation (`raise`) :
 aucun score complet n'est publié pour un corpus partiellement traité.
 
+### Reprise après limitation du provider
+
+La première tentative complète (`dfa23986-77a1-4a69-b0ea-b3701fc586bd`) s'est
+arrêtée après 4 253 décisions réussies et deux erreurs HTTP 429 sur la paire
+suivante. Dix documents étaient entièrement traités. Toutes les réponses réussies
+ont été conservées et vérifiées dans le cache partagé ; il reste 117 877
+décisions inédites. Aucun score global ne peut être tiré de cette tentative.
+
+La reprise conserve exactement les documents, états, questions, modèle et seuil.
+Seul le traitement des erreurs réseau change : six reprises au maximum, attente
+exponentielle de 60 secondes et respect du délai `Retry-After` ou
+`X-RateLimit-Reset` fourni par le serveur. L'attente maximale autorisée est
+90 000 secondes par reprise ; un délai serveur supérieur provoque un arrêt,
+jamais une requête anticipée. Un délai de limitation HTTP 429 est partagé entre
+les clients utilisant le même cache. Les en-têtes de limitation et codes d'erreur
+sont sauvegardés, sans en-têtes d'authentification. Aucune clé de cache ne dépend
+de ces paramètres de transport : les 4 253 décisions ne sont pas rappelées.
+
 ## Vérifier la baseline et comparer
 
 Il faut retrouver le rapport JSON original de `e77431d6`, contenant `config`,

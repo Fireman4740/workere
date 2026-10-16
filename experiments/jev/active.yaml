@@ -1,5 +1,4 @@
-# Full ESC split used by reported historical baseline e77431d6.
-# Historical prediction files are still required to prove parity. No inferred baseline scores.
+# Free Mercury full ESC evaluation; preserve inputs and successful cached decisions.
 schema: workere-experiment/v1
 name: esc-mercury-noul-e77431d6-train233
 dataset:
@@ -37,7 +36,7 @@ pipeline:
         api_key_env: OPENROUTER_API_KEY
         mode: live
         timeout: 60
-        retries: 1
+        retries: 6
         requests_per_minute: 20
         max_calls: 244260
         max_context_tokens: 32768
@@ -46,6 +45,8 @@ pipeline:
         input_price_per_million: 0
         cache_path: ~/.local/share/openresearch/workere-decisions/cache.sqlite
         expected_served_version: inception/mercury-decide-20260930
+        retry_backoff_seconds: 60
+        retry_max_wait_seconds: 90000
 evaluation:
   primary_metric: binary
   bootstrap_samples: 1000

@@ -1,5 +1,7 @@
 """Noul end-to-end and API safety tests. Mock results never stand in for model measurements."""
 import copy
+import io
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -104,6 +106,65 @@ class NoulV1(unittest.TestCase):
             self.assertEqual(a._rate_slot(), 6)
         with patch("pipelines.jev.client.time.time", return_value=1010):
             self.assertEqual(b._rate_slot(), 0)
+
+    def test_retry_after_is_honored_and_diagnostics_exclude_credentials(self):
+        import urllib.error
+        calls, events = [], []
+        def send(body):
+            calls.append(body)
+            if len(calls) == 1:
+                raise urllib.error.HTTPError("https://example.invalid", 429, "limited", {
+                    "Retry-After": "120", "X-RateLimit-Remaining": "0",
+                    "Authorization": "must-not-be-persisted"},
+                    io.BytesIO(json.dumps({"error": {"metadata": {
+                        "error_type": "rate_limit_exceeded", "raw": "must-not-be-persisted"}}}).encode()))
+            return {"model": "served", "answers": {"causal": {"type": "noul", "noul": .7}}, "usage": {"cost": 0}}
+        client = self.client(model="inception/mercury-decide:free", mode="live", transport=send)
+        with patch.object(client, "_rate_slot", return_value=0), patch("pipelines.jev.client.time.sleep") as sleep:
+            client.decide("unchanged public state", noul_question(), on_attempt=events.append)
+        self.assertEqual(sum(c.args[0] for c in sleep.call_args_list), 120)
+        self.assertEqual(events[0]["retry_delay_seconds"], 120)
+        self.assertEqual(events[0]["error"]["http_status"], 429)
+        self.assertEqual(events[0]["error"]["provider_metadata"]["error_type"], "rate_limit_exceeded")
+        self.assertNotIn("must-not-be-persisted", json.dumps(events))
+        # A repair's scheduling changes must reuse successful decisions unchanged.
+        resumed = self.client(model="inception/mercury-decide:free", mode="live", max_calls=0,
+                              retries=6, retry_backoff_seconds=60)
+        self.assertTrue(resumed.decide("unchanged public state", noul_question())["cache_hit"])
+        self.assertEqual(resumed.calls, 0)
+
+    def test_retry_date_reset_and_long_cooldown_never_retry_early(self):
+        import urllib.error
+        from pipelines.jev.client import _server_wait, DecisionError
+        self.assertEqual(_server_wait({"retry-after": "Thu, 01 Jan 1970 00:18:20 GMT"}, 1000), 100)
+        self.assertEqual(_server_wait({"retry-after": "3", "x-ratelimit-reset": "1120"}, 1000), 120)
+        self.assertEqual(_server_wait({"retry-after": "NaN", "x-ratelimit-reset": "garbage"}, 1000), 0)
+        def send(body):
+            raise urllib.error.HTTPError("https://example.invalid", 429, "limited", {"Retry-After": "300"}, None)
+        client = self.client(model="inception/mercury-decide:free", mode="live", transport=send,
+                              retry_max_wait_seconds=120)
+        with patch.object(client, "_rate_slot", return_value=0), patch("pipelines.jev.client.time.sleep") as sleep:
+            with self.assertRaisesRegex(DecisionError, "no early retry"):
+                client.decide("blocked state", noul_question())
+        self.assertEqual(client.calls, 1)
+        sleep.assert_not_called()
+
+    def test_429_cooldown_is_shared_and_401_is_not_retried(self):
+        import urllib.error
+        from pipelines.jev.client import DecisionError
+        a = self.client(model="inception/mercury-decide:free", mode="live", requests_per_minute=20)
+        b = self.client(model="respan/span-01-lite", mode="live", requests_per_minute=20)
+        with patch("pipelines.jev.client.time.time", return_value=1000):
+            a._defer_requests(120)
+            self.assertEqual(b._rate_slot(), 120)
+        def send(body):
+            raise urllib.error.HTTPError("https://example.invalid", 401, "unauthorized", {}, None)
+        c = self.client(model="inception/mercury-decide:free", mode="live", transport=send)
+        with patch.object(c, "_rate_slot", return_value=0), patch("pipelines.jev.client.time.sleep") as sleep:
+            with self.assertRaisesRegex(DecisionError, "HTTP 401"):
+                c.decide("another state", noul_question())
+        self.assertEqual(c.calls, 1)
+        sleep.assert_not_called()
 
     def test_registered_postprocessor_reclassifies_both_ways_without_a_client(self):
         from benchmark.interfaces import Context

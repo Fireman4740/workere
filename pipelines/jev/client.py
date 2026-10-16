@@ -10,6 +10,8 @@ import threading
 import time
 import urllib.error
 import urllib.request
+from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 
 from benchmark.io import fingerprint
@@ -17,6 +19,7 @@ from benchmark.schema import probability
 
 OPENROUTER_ENDPOINT = "https://openrouter.ai/api/alpha/decisions"
 FREE_MODELS = {"inception/mercury-decide:free", "respan/span-01-lite", "respan/span-01-lite:free"}
+RETRY_HEADERS = {"retry-after", "x-ratelimit-limit", "x-ratelimit-remaining", "x-ratelimit-reset"}
 
 
 class DecisionError(RuntimeError):
@@ -25,6 +28,54 @@ class DecisionError(RuntimeError):
 
 class BudgetExceeded(DecisionError):
     pass
+
+
+def _http_details(error):
+    """Keep only diagnostic rate headers and scalar error codes, never request headers."""
+    out = {"http_status": error.code, "headers": {
+        key.lower(): str(value)[:200] for key, value in (error.headers or {}).items()
+        if key.lower() in RETRY_HEADERS}}
+    try:
+        body = json.loads(error.read(65536))
+        detail = body.get("error", {})
+        metadata = detail.get("metadata", {})
+        out["provider_metadata"] = {key: metadata[key][:200] if isinstance(metadata[key], str) else metadata[key] for key in
+            ("error_type", "reason", "limit_source", "provider_code", "provider_name")
+            if isinstance(metadata.get(key), (str, int, float, bool))
+            and (not isinstance(metadata[key], float) or math.isfinite(metadata[key]))}
+    except (ValueError, TypeError, AttributeError, OSError):
+        pass
+    return out
+
+
+def _date_seconds(value):
+    try:
+        date = parsedate_to_datetime(value)
+    except (ValueError, TypeError, OverflowError):
+        date = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    return date.replace(tzinfo=date.tzinfo or timezone.utc).timestamp()
+
+
+def _server_wait(headers, now):
+    """Retry-After is seconds or an HTTP date; reset is an absolute epoch/date."""
+    waits = [0.0]
+    for key in ("retry-after", "x-ratelimit-reset"):
+        value = headers.get(key)
+        if value is None:
+            continue
+        try:
+            try:
+                number = float(value)
+                if key == "x-ratelimit-reset":
+                    number = number / 1000 if number > 1e12 else number
+                    number -= now
+            except ValueError:
+                number = _date_seconds(value) - now
+            if math.isfinite(number) and number >= 0:
+                waits.append(number)
+        except (ValueError, TypeError, OverflowError):
+            continue
+    return max(waits)
 
 
 def is_free(config):
@@ -38,11 +89,14 @@ class DecisionClient:
                  api_key_env="OPENROUTER_API_KEY", mode="mock", cache_path="logs/jev-cache.sqlite",
                  timeout=60, retries=2, requests_per_minute=60, max_calls=100,
                  budget_usd=0, max_cost_per_call_usd=.002, input_price_per_million=.042,
-                 max_context_tokens=32768, expected_served_version=None, transport=None):
+                 max_context_tokens=32768, expected_served_version=None, transport=None,
+                 retry_backoff_seconds=1, retry_max_wait_seconds=86400):
         if mode not in {"mock", "live"} or not all(isinstance(v, str) and v for v in (model, model_version, provider, endpoint, api_key_env)):
             raise ValueError("invalid client identity or mode")
         for name, value in {"timeout": timeout, "requests_per_minute": requests_per_minute,
-                            "max_cost_per_call_usd": max_cost_per_call_usd}.items():
+                            "max_cost_per_call_usd": max_cost_per_call_usd,
+                            "retry_backoff_seconds": retry_backoff_seconds,
+                            "retry_max_wait_seconds": retry_max_wait_seconds}.items():
             if type(value) not in (int, float) or not math.isfinite(value) or value <= 0:
                 raise ValueError(f"{name} must be positive")
         for name, value in {"budget_usd": budget_usd, "input_price_per_million": input_price_per_million}.items():
@@ -57,6 +111,9 @@ class DecisionClient:
         self.max_calls, self.budget, self.reservation = max_calls, budget_usd, max_cost_per_call_usd
         self.input_price, self.max_context = input_price_per_million, max_context_tokens
         self.expected_version = expected_served_version
+        self.retry_backoff, self.retry_max_wait = retry_backoff_seconds, retry_max_wait_seconds
+        if self.retry_backoff > self.retry_max_wait:
+            raise ValueError("retry_backoff_seconds exceeds retry_max_wait_seconds")
         self.calls, self.spent, self.next_request = 0, 0.0, 0.0
         self.lock = threading.RLock()
         self.key_locks = {}
@@ -83,6 +140,20 @@ class DecisionClient:
                 self.cache.rollback()
                 raise
         return max(0, slot - now)
+
+    def _defer_requests(self, seconds):
+        """A provider cooldown also applies to other clients sharing this cache."""
+        scope = fingerprint({k: self.identity[k] for k in ("provider", "endpoint")})
+        with self.lock:
+            try:
+                self.cache.execute("BEGIN IMMEDIATE")
+                previous = self.cache.execute("SELECT next_at FROM rate_slots_v1 WHERE scope=?", (scope,)).fetchone()
+                next_at = max(time.time() + seconds, previous[0] if previous else 0)
+                self.cache.execute("INSERT OR REPLACE INTO rate_slots_v1 VALUES (?,?)", (scope, next_at))
+                self.cache.commit()
+            except BaseException:
+                self.cache.rollback()
+                raise
 
     def validate_request(self, state, questions):
         if not isinstance(state, str) or not state:
@@ -213,14 +284,23 @@ class DecisionClient:
                                 raise BudgetExceeded("provider cost exceeded the configured per-attempt reservation")
                 except Exception as exc:
                     failure = exc
+                details = _http_details(failure) if isinstance(failure, urllib.error.HTTPError) else {}
+                retry = isinstance(failure, (TimeoutError, urllib.error.URLError, DecisionError))
+                if isinstance(failure, BudgetExceeded) or (isinstance(failure, urllib.error.HTTPError)
+                        and failure.code not in {429, 500, 502, 503, 504}):
+                    retry = False
+                retry = retry and attempt < self.retries
+                delay = max(min(self.retry_backoff * 2 ** min(attempt, 30), self.retry_max_wait),
+                            _server_wait(details.get("headers", {}), time.time())) if retry else None
                 event = {"cache_key": key, "cache_hit": False, "request": body, "response": response,
                          "cost_usd": cost, "reserved_usd": reserve,
                          "latency_seconds": time.perf_counter() - start, "attempt": attempt,
                          "api_call": self.mode != "mock", "conservative_input_tokens": bound,
                          "rate_limit_wait_seconds": wait,
+                         "retry_delay_seconds": delay,
                          "error": {"type": type(failure).__name__, "message":
                                    f"HTTP {failure.code}" if isinstance(failure, urllib.error.HTTPError)
-                                   else str(failure)[:1000]} if failure else None}
+                                   else str(failure)[:1000], **details} if failure else None}
                 if on_attempt:
                     on_attempt(event)
                 if failure is None:
@@ -229,14 +309,22 @@ class DecisionClient:
                                            (key, json.dumps(body), json.dumps(response)))
                         self.cache.commit()
                     return {"response": response, "cache_key": key, "cache_hit": False}
-                retry = isinstance(failure, (TimeoutError, urllib.error.URLError, DecisionError))
-                if isinstance(failure, (BudgetExceeded,)) or (isinstance(failure, urllib.error.HTTPError)
-                        and failure.code not in {429, 500, 502, 503, 504}):
-                    retry = False
-                if not retry or attempt == self.retries:
+                if not retry:
                     raise DecisionError(f"decision failed after {attempt + 1} attempt(s): "
                                         + event["error"]["message"]) from failure
-                time.sleep(min(2 ** attempt, 8))
+                if delay > self.retry_max_wait:
+                    raise DecisionError(f"provider requires {delay:.0f}s cooldown, above the configured "
+                                        f"{self.retry_max_wait:.0f}s limit; no early retry") from failure
+                if details.get("http_status") == 429:
+                    self._defer_requests(delay)
+                print(f"decision retry={attempt + 1}/{self.retries} error={event['error']['message']} "
+                      f"wait_seconds={delay:.1f}", flush=True)
+                # Keep the worker interruptible during long quota cooldowns.
+                remaining = delay
+                while remaining > 0:
+                    step = min(remaining, 60)
+                    time.sleep(step)
+                    remaining -= step
         raise AssertionError("unreachable")
 
     def close(self):
