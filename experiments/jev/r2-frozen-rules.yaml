@@ -1,0 +1,35 @@
+schema: esc-postprocessing-preregistration/v1
+registered: 2026-10-16
+selection_set: DEV-FULL
+diagnostic_set: D15
+confirmation_set: CONF-40
+symmetrization: arithmetic_mean_of_ordered_probabilities
+unordered_query_order: token_indices_then_mention_id
+event_pair_aggregation: maximum_over_cross_chain_mention_pairs
+diffusion: all_ordered_cross_chain_pairs
+within_chain: no_relation
+predicted_coreference:
+  threshold: 0.5
+  symmetrization: arithmetic_mean
+  closure: connected_components
+oracle_coreference: ECB+; report separately as '+coref oracle'
+threshold:
+  grid: [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
+  selection: document_leave_one_out_micro_binary_f1
+  ties: largest_threshold
+  final_fit: all_DEV_FULL_only_after_variant_selection
+decomposition:
+  estimator: logistic_regression
+  penalty: l2
+  C: 1.0
+  class_weight: null
+  crossfit: leave_one_document_out
+  features: [causal, same_event, before, narrative, connector]
+promotion:
+  primary: average_precision
+  secondary: binary_f1_at_0.5
+  bootstrap_unit: document
+  probability_of_AP_improvement: 0.9
+  finalists: 2
+  ties: fewer_calls
+no_selection_on: [D15, CONF-40]

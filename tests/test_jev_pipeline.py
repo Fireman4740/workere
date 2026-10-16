@@ -223,5 +223,71 @@ class NoulV1(unittest.TestCase):
         self.assertTrue(all(e["cache_hit"] for row in replay_usage for e in row["provider_usage"]))
 
 
+    def _mock_config(self, name, **params):
+        if not (self.root / "suite.json").exists():
+            write_json(self.root / "suite.json", self.suite)
+        client = {"model": "typesafe/jev-1.14", "model_version": "1.14", "mode": "mock",
+                  "cache_path": "cache.sqlite", "max_calls": 1000}
+        return {"schema": "workere-experiment/v1", "name": name, "seed": 42,
+            "dataset": {"name": "synthetic", "split": "train", "suite": "suite.json"},
+            "protocol": "relation_gold_mentions", "models": [{"id": "typesafe/jev-1.14", "version": "1.14"}],
+            "plugins": ["pipelines.jev.pipeline"], "pipeline": {"entity_extractor": component("reference"),
+                "candidate_generator": component("historical"),
+                "relation_predictor": component("jev_decision", client=client, **params)},
+            "evaluation": {"bootstrap_samples": 20, "primary_metric": "binary"},
+            "execution": {"allow_network": False, "allow_paid": False}, "output_dir": "runs"}
+
+    def _scores(self, cfg):
+        source = self.root / (cfg["name"] + ".yaml")
+        source.write_text(yaml.safe_dump(cfg))
+        directory = Path(execute(load_experiment(source))["run_dir"])
+        return [{k: s[k] for k in ("source", "target", "positive_probability", "answers")}
+                for row in read_jsonl(directory / "predictions.jsonl")
+                for s in row["metadata"]["decision_scores"]], read_json(directory / "metrics.json")
+
+    def test_parallel_workers_preserve_candidate_order_and_decisions(self):
+        serial, serial_metrics = self._scores(self._mock_config("serial", max_workers=1))
+        parallel, parallel_metrics = self._scores(self._mock_config("parallel", max_workers=8))
+        self.assertEqual(serial, parallel)
+        self.assertEqual(serial_metrics["summary"], parallel_metrics["summary"])
+
+    def test_extra_questions_are_sent_together_and_recorded_without_changing_the_decision_key(self):
+        extra = {"same_event": {"instructions": "Do both mentions refer to the same real-world event?",
+                                "criteria": {"true": "Same event.", "false": "Different events."}}}
+        scores, _ = self._scores(self._mock_config("multi", extra_questions=extra, max_workers=4))
+        self.assertTrue(scores)
+        for score in scores:
+            self.assertEqual(set(score["answers"]), {"causal", "same_event"})
+            self.assertEqual(score["answers"]["causal"], score["positive_probability"])
+
+    def test_custom_noul_criteria_reach_the_request(self):
+        from pipelines.jev.state_builder import questions_from_params
+        q = questions_from_params({"instructions": "ESC question", "criteria": {"true": "T", "false": "F"}})
+        self.assertEqual(q["causal"]["criteria"], {"true": "T", "false": "F"})
+        self.assertEqual(q["causal"]["instructions"], "ESC question")
+        with self.assertRaises(ValueError):
+            questions_from_params({"extra_questions": {"causal": {"instructions": "x", "criteria": {"true": "a", "false": "b"}}}})
+
+    def test_cli_runs_a_campaign_of_configs(self):
+        from pipelines.jev.cli import main
+        first, second = self._mock_config("camp-a"), self._mock_config("camp-b", max_workers=4)
+        for cfg in (first, second):
+            (self.root / (cfg["name"] + ".yaml")).write_text(yaml.safe_dump(cfg))
+        campaign = self.root / "campaign.yaml"
+        campaign.write_text(yaml.safe_dump({"schema": "workere-campaign/v1", "experiments": [
+            {"config": "camp-a.yaml"}, {"config": "camp-b.yaml"}]}))
+        import os
+        cwd = os.getcwd()
+        os.chdir(self.root)
+        try:
+            self.assertEqual(main(["dry-run", "--config", "campaign.yaml", "--output", "plan.json"]), 0)
+            self.assertEqual(main(["run", "--config", "campaign.yaml", "--output", "receipt.json"]), 0)
+        finally:
+            os.chdir(cwd)
+        receipt = read_json(self.root / "receipt.json")
+        self.assertEqual([r["status"] for r in receipt["runs"]], ["completed", "completed"])
+        self.assertEqual(len(read_json(self.root / "plan.json")["plans"]), 2)
+
+
 if __name__ == "__main__":
     unittest.main()

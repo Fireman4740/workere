@@ -1,0 +1,485 @@
+{
+ "selection_uses_labels": false,
+ "dataset_revision": "e6418e8747ac1c7fecf66d56ae41fbde7fd5967a",
+ "dev_full": [
+  {
+   "id": "37_10ecbplus.xml",
+   "topic": "37",
+   "mentions": 42,
+   "ordered_pairs": 1722
+  },
+  {
+   "id": "37_11ecbplus.xml",
+   "topic": "37",
+   "mentions": 28,
+   "ordered_pairs": 756
+  },
+  {
+   "id": "37_12ecbplus.xml",
+   "topic": "37",
+   "mentions": 40,
+   "ordered_pairs": 1560
+  },
+  {
+   "id": "37_13ecbplus.xml",
+   "topic": "37",
+   "mentions": 27,
+   "ordered_pairs": 702
+  },
+  {
+   "id": "37_14ecbplus.xml",
+   "topic": "37",
+   "mentions": 27,
+   "ordered_pairs": 702
+  },
+  {
+   "id": "37_1ecbplus.xml",
+   "topic": "37",
+   "mentions": 38,
+   "ordered_pairs": 1406
+  },
+  {
+   "id": "37_2ecbplus.xml",
+   "topic": "37",
+   "mentions": 42,
+   "ordered_pairs": 1722
+  },
+  {
+   "id": "37_3ecbplus.xml",
+   "topic": "37",
+   "mentions": 44,
+   "ordered_pairs": 1892
+  },
+  {
+   "id": "37_4ecbplus.xml",
+   "topic": "37",
+   "mentions": 29,
+   "ordered_pairs": 812
+  },
+  {
+   "id": "37_5ecbplus.xml",
+   "topic": "37",
+   "mentions": 22,
+   "ordered_pairs": 462
+  },
+  {
+   "id": "37_6ecbplus.xml",
+   "topic": "37",
+   "mentions": 29,
+   "ordered_pairs": 812
+  },
+  {
+   "id": "37_7ecbplus.xml",
+   "topic": "37",
+   "mentions": 28,
+   "ordered_pairs": 756
+  },
+  {
+   "id": "37_8ecbplus.xml",
+   "topic": "37",
+   "mentions": 24,
+   "ordered_pairs": 552
+  },
+  {
+   "id": "37_9ecbplus.xml",
+   "topic": "37",
+   "mentions": 20,
+   "ordered_pairs": 380
+  },
+  {
+   "id": "41_10ecbplus.xml",
+   "topic": "41",
+   "mentions": 29,
+   "ordered_pairs": 812
+  },
+  {
+   "id": "41_11ecbplus.xml",
+   "topic": "41",
+   "mentions": 14,
+   "ordered_pairs": 182
+  },
+  {
+   "id": "41_1ecbplus.xml",
+   "topic": "41",
+   "mentions": 15,
+   "ordered_pairs": 210
+  },
+  {
+   "id": "41_2ecbplus.xml",
+   "topic": "41",
+   "mentions": 19,
+   "ordered_pairs": 342
+  },
+  {
+   "id": "41_3ecbplus.xml",
+   "topic": "41",
+   "mentions": 19,
+   "ordered_pairs": 342
+  },
+  {
+   "id": "41_4ecbplus.xml",
+   "topic": "41",
+   "mentions": 18,
+   "ordered_pairs": 306
+  },
+  {
+   "id": "41_5ecbplus.xml",
+   "topic": "41",
+   "mentions": 22,
+   "ordered_pairs": 462
+  },
+  {
+   "id": "41_6ecbplus.xml",
+   "topic": "41",
+   "mentions": 22,
+   "ordered_pairs": 462
+  },
+  {
+   "id": "41_7ecbplus.xml",
+   "topic": "41",
+   "mentions": 22,
+   "ordered_pairs": 462
+  },
+  {
+   "id": "41_8ecbplus.xml",
+   "topic": "41",
+   "mentions": 33,
+   "ordered_pairs": 1056
+  },
+  {
+   "id": "41_9ecbplus.xml",
+   "topic": "41",
+   "mentions": 13,
+   "ordered_pairs": 156
+  }
+ ],
+ "dev_screen": {
+  "seed": 2026,
+  "rule": "5 docs per dev topic, sorted ids, random.Random(seed).sample",
+  "docs": [
+   {
+    "id": "37_11ecbplus.xml",
+    "topic": "37",
+    "mentions": 28,
+    "ordered_pairs": 756
+   },
+   {
+    "id": "37_1ecbplus.xml",
+    "topic": "37",
+    "mentions": 38,
+    "ordered_pairs": 1406
+   },
+   {
+    "id": "37_4ecbplus.xml",
+    "topic": "37",
+    "mentions": 29,
+    "ordered_pairs": 812
+   },
+   {
+    "id": "37_7ecbplus.xml",
+    "topic": "37",
+    "mentions": 28,
+    "ordered_pairs": 756
+   },
+   {
+    "id": "37_9ecbplus.xml",
+    "topic": "37",
+    "mentions": 20,
+    "ordered_pairs": 380
+   },
+   {
+    "id": "41_2ecbplus.xml",
+    "topic": "41",
+    "mentions": 19,
+    "ordered_pairs": 342
+   },
+   {
+    "id": "41_8ecbplus.xml",
+    "topic": "41",
+    "mentions": 33,
+    "ordered_pairs": 1056
+   },
+   {
+    "id": "41_7ecbplus.xml",
+    "topic": "41",
+    "mentions": 22,
+    "ordered_pairs": 462
+   },
+   {
+    "id": "41_5ecbplus.xml",
+    "topic": "41",
+    "mentions": 22,
+    "ordered_pairs": 462
+   },
+   {
+    "id": "41_6ecbplus.xml",
+    "topic": "41",
+    "mentions": 22,
+    "ordered_pairs": 462
+   }
+  ]
+ },
+ "confirmation": {
+  "seed": 2027,
+  "rule": "train minus esc-mercury-15-v1, 2 docs per topic",
+  "docs": [
+   {
+    "id": "1_13ecbplus.xml",
+    "topic": "1",
+    "mentions": 25,
+    "ordered_pairs": 600
+   },
+   {
+    "id": "1_4ecbplus.xml",
+    "topic": "1",
+    "mentions": 22,
+    "ordered_pairs": 462
+   },
+   {
+    "id": "12_11ecbplus.xml",
+    "topic": "12",
+    "mentions": 9,
+    "ordered_pairs": 72
+   },
+   {
+    "id": "12_10ecbplus.xml",
+    "topic": "12",
+    "mentions": 7,
+    "ordered_pairs": 42
+   },
+   {
+    "id": "13_9ecbplus.xml",
+    "topic": "13",
+    "mentions": 5,
+    "ordered_pairs": 20
+   },
+   {
+    "id": "13_4ecbplus.xml",
+    "topic": "13",
+    "mentions": 23,
+    "ordered_pairs": 506
+   },
+   {
+    "id": "14_5ecbplus.xml",
+    "topic": "14",
+    "mentions": 9,
+    "ordered_pairs": 72
+   },
+   {
+    "id": "14_1ecbplus.xml",
+    "topic": "14",
+    "mentions": 5,
+    "ordered_pairs": 20
+   },
+   {
+    "id": "16_6ecbplus.xml",
+    "topic": "16",
+    "mentions": 22,
+    "ordered_pairs": 462
+   },
+   {
+    "id": "16_1ecbplus.xml",
+    "topic": "16",
+    "mentions": 32,
+    "ordered_pairs": 992
+   },
+   {
+    "id": "18_4ecbplus.xml",
+    "topic": "18",
+    "mentions": 11,
+    "ordered_pairs": 110
+   },
+   {
+    "id": "18_8ecbplus.xml",
+    "topic": "18",
+    "mentions": 27,
+    "ordered_pairs": 702
+   },
+   {
+    "id": "19_1ecbplus.xml",
+    "topic": "19",
+    "mentions": 11,
+    "ordered_pairs": 110
+   },
+   {
+    "id": "19_3ecbplus.xml",
+    "topic": "19",
+    "mentions": 25,
+    "ordered_pairs": 600
+   },
+   {
+    "id": "20_5ecbplus.xml",
+    "topic": "20",
+    "mentions": 18,
+    "ordered_pairs": 306
+   },
+   {
+    "id": "20_1ecbplus.xml",
+    "topic": "20",
+    "mentions": 26,
+    "ordered_pairs": 650
+   },
+   {
+    "id": "22_7ecbplus.xml",
+    "topic": "22",
+    "mentions": 10,
+    "ordered_pairs": 90
+   },
+   {
+    "id": "22_9ecbplus.xml",
+    "topic": "22",
+    "mentions": 18,
+    "ordered_pairs": 306
+   },
+   {
+    "id": "23_5ecbplus.xml",
+    "topic": "23",
+    "mentions": 14,
+    "ordered_pairs": 182
+   },
+   {
+    "id": "23_4ecbplus.xml",
+    "topic": "23",
+    "mentions": 9,
+    "ordered_pairs": 72
+   },
+   {
+    "id": "24_11ecbplus.xml",
+    "topic": "24",
+    "mentions": 10,
+    "ordered_pairs": 90
+   },
+   {
+    "id": "24_3ecbplus.xml",
+    "topic": "24",
+    "mentions": 14,
+    "ordered_pairs": 182
+   },
+   {
+    "id": "3_3ecbplus.xml",
+    "topic": "3",
+    "mentions": 28,
+    "ordered_pairs": 756
+   },
+   {
+    "id": "3_5ecbplus.xml",
+    "topic": "3",
+    "mentions": 15,
+    "ordered_pairs": 210
+   },
+   {
+    "id": "30_7ecbplus.xml",
+    "topic": "30",
+    "mentions": 20,
+    "ordered_pairs": 380
+   },
+   {
+    "id": "30_13ecbplus.xml",
+    "topic": "30",
+    "mentions": 43,
+    "ordered_pairs": 1806
+   },
+   {
+    "id": "32_1ecbplus.xml",
+    "topic": "32",
+    "mentions": 19,
+    "ordered_pairs": 342
+   },
+   {
+    "id": "32_4ecbplus.xml",
+    "topic": "32",
+    "mentions": 25,
+    "ordered_pairs": 600
+   },
+   {
+    "id": "33_4ecbplus.xml",
+    "topic": "33",
+    "mentions": 25,
+    "ordered_pairs": 600
+   },
+   {
+    "id": "33_2ecbplus.xml",
+    "topic": "33",
+    "mentions": 27,
+    "ordered_pairs": 702
+   },
+   {
+    "id": "35_5ecbplus.xml",
+    "topic": "35",
+    "mentions": 22,
+    "ordered_pairs": 462
+   },
+   {
+    "id": "35_6ecbplus.xml",
+    "topic": "35",
+    "mentions": 29,
+    "ordered_pairs": 812
+   },
+   {
+    "id": "4_5ecbplus.xml",
+    "topic": "4",
+    "mentions": 11,
+    "ordered_pairs": 110
+   },
+   {
+    "id": "4_1ecbplus.xml",
+    "topic": "4",
+    "mentions": 24,
+    "ordered_pairs": 552
+   },
+   {
+    "id": "5_7ecbplus.xml",
+    "topic": "5",
+    "mentions": 3,
+    "ordered_pairs": 6
+   },
+   {
+    "id": "5_5ecbplus.xml",
+    "topic": "5",
+    "mentions": 7,
+    "ordered_pairs": 42
+   },
+   {
+    "id": "7_5ecbplus.xml",
+    "topic": "7",
+    "mentions": 34,
+    "ordered_pairs": 1122
+   },
+   {
+    "id": "7_1ecbplus.xml",
+    "topic": "7",
+    "mentions": 57,
+    "ordered_pairs": 3192
+   },
+   {
+    "id": "8_2ecbplus.xml",
+    "topic": "8",
+    "mentions": 26,
+    "ordered_pairs": 650
+   },
+   {
+    "id": "8_10ecbplus.xml",
+    "topic": "8",
+    "mentions": 14,
+    "ordered_pairs": 182
+   }
+  ]
+ },
+ "diagnostic_d15": [
+  "12_6ecbplus.xml",
+  "14_8ecbplus.xml",
+  "14_9ecbplus.xml",
+  "16_3ecbplus.xml",
+  "1_19ecbplus.xml",
+  "20_10ecbplus.xml",
+  "20_4ecbplus.xml",
+  "22_12ecbplus.xml",
+  "23_3ecbplus.xml",
+  "24_7ecbplus.xml",
+  "30_3ecbplus.xml",
+  "30_5ecbplus.xml",
+  "32_5ecbplus.xml",
+  "3_7ecbplus.xml",
+  "7_10ecbplus.xml"
+ ]
+}

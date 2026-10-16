@@ -120,7 +120,18 @@ class DecisionClient:
         path = Path(cache_path)
         path.parent.mkdir(parents=True, exist_ok=True)
         self.cache = sqlite3.connect(path, check_same_thread=False, timeout=60)
-        self.cache.execute("PRAGMA journal_mode=WAL")
+        # SQLite's WAL mode transition can fail immediately during simultaneous opens,
+        # even with busy_timeout. Only retry that startup transition, never an API call.
+        deadline = time.monotonic() + 60
+        while True:
+            try:
+                self.cache.execute("PRAGMA journal_mode=WAL")
+                break
+            except sqlite3.OperationalError as exc:
+                if "locked" not in str(exc).lower() or time.monotonic() >= deadline:
+                    self.cache.close()
+                    raise
+                time.sleep(.05)
         self.cache.execute("CREATE TABLE IF NOT EXISTS decisions_v1 (key TEXT PRIMARY KEY, request TEXT NOT NULL, response TEXT NOT NULL)")
         self.cache.execute("CREATE TABLE IF NOT EXISTS rate_slots_v1 (scope TEXT PRIMARY KEY, next_at REAL NOT NULL)")
         self.cache.commit()

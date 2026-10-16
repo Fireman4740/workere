@@ -55,8 +55,33 @@ def questions_for(variant, instructions=None):
     raise ValueError("variant must be noul or choice")
 
 
-def noul_question(instructions=NOUL_INSTRUCTIONS):
-    return {"causal": {"type": "noul", "instructions": instructions, "criteria": {
-        "true": "The document supports that one of these exact event mentions causes the other.",
-        "false": "No supported causal link between the two selected mentions; proximity, correlation "
-                 "and coreference alone are insufficient."}}}
+NOUL_CRITERIA = {
+    "true": "The document supports that one of these exact event mentions causes the other.",
+    "false": "No supported causal link between the two selected mentions; proximity, correlation "
+             "and coreference alone are insufficient."}
+
+
+def noul_question(instructions=NOUL_INSTRUCTIONS, criteria=None):
+    return {"causal": {"type": "noul", "instructions": instructions,
+                       "criteria": dict(NOUL_CRITERIA if criteria is None else criteria)}}
+
+
+def questions_from_params(params):
+    """The exact question mapping a predictor configured with `params` sends with every pair."""
+    variant = params.get("variant", "noul")
+    criteria, extra = params.get("criteria"), params.get("extra_questions") or {}
+    if criteria is not None and variant != "noul":
+        raise ValueError("custom criteria are supported for noul only")
+    if criteria is not None and (set(criteria) != {"true", "false"}
+                                 or not all(isinstance(v, str) and v.strip() for v in criteria.values())):
+        raise ValueError("noul criteria must map true and false to nonempty strings")
+    questions = questions_for(variant, params.get("instructions"))
+    if criteria is not None:
+        questions["causal"]["criteria"] = dict(criteria)
+    if not isinstance(extra, dict):
+        raise ValueError("extra_questions must be a mapping")
+    for key, spec in extra.items():
+        if key in questions:
+            raise ValueError(f"extra question id collides with the decision question: {key}")
+        questions[key] = noul_question(spec["instructions"], spec["criteria"])["causal"]
+    return questions
