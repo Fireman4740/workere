@@ -28,6 +28,13 @@ def build_state(document, event_a, event_b, style="document"):
             if sentence is not None:
                 start, end = document.sentences[sentence]
                 state += f"\nSentence containing event {tag}: " + " ".join(document.tokens[start:end])
+    elif style == "tagged":
+        marked = []
+        for i, token in enumerate(document.tokens):
+            tags = [tag for tag, e in (("A", event_a), ("B", event_b)) if i in e.token_indices]
+            marked.append("".join(f"[{tag}]" for tag in tags) + token
+                          + "".join(f"[/{tag}]" for tag in reversed(tags)))
+        state = state.replace(document.text, " ".join(marked), 1)
     elif style != "document":
         raise ValueError("unknown context style")
     return state
@@ -85,3 +92,14 @@ def questions_from_params(params):
             raise ValueError(f"extra question id collides with the decision question: {key}")
         questions[key] = noul_question(spec["instructions"], spec["criteria"])["causal"]
     return questions
+
+
+def request_pairs(document, entities, candidates, unordered=False):
+    if not unordered:
+        return list(candidates)
+    by_id = {e.id: e for e in entities}
+    out = {}
+    for a, b in candidates:
+        pair = tuple(sorted((a, b), key=lambda m: (by_id[m].token_indices, m)))
+        out.setdefault(pair, None)
+    return list(out)

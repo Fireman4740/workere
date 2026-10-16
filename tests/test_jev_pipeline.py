@@ -268,6 +268,21 @@ class NoulV1(unittest.TestCase):
         with self.assertRaises(ValueError):
             questions_from_params({"extra_questions": {"causal": {"instructions": "x", "criteria": {"true": "a", "false": "b"}}}})
 
+    def test_unordered_requests_preserve_every_ordered_candidate(self):
+        cfg = self._mock_config("unordered", unordered=True, max_workers=4)
+        source = self.root / "unordered.yaml"
+        source.write_text(yaml.safe_dump(cfg))
+        directory = Path(execute(load_experiment(source))["run_dir"])
+        for row, original in zip(read_jsonl(directory / "predictions.jsonl"), self.suite["documents"]):
+            scores = row["metadata"]["decision_scores"]
+            expected = {tuple(pair) for pair in original["pair_list"]}
+            self.assertEqual({(s["source"], s["target"]) for s in scores}, expected)
+            self.assertEqual(row["metadata"]["query_count"], len({frozenset(pair) for pair in expected}))
+            lookup = {(s["source"], s["target"]): s for s in scores}
+            for a, b in expected:
+                if (b, a) in lookup:
+                    self.assertEqual(lookup[a, b]["positive_probability"], lookup[b, a]["positive_probability"])
+
     def test_cli_runs_a_campaign_of_configs(self):
         from pipelines.jev.cli import main
         first, second = self._mock_config("camp-a"), self._mock_config("camp-b", max_workers=4)
