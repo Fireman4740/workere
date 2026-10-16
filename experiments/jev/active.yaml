@@ -43,6 +43,11 @@ pipeline:
         expected_served_version: liquid/d1-ultra-20261015
         retry_backoff_seconds: 2
         retry_max_wait_seconds: 3600
+        shared_budget:
+          path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
+          scope: esc-improvement-20261016-10usd
+          limit_usd: 10
+          initial_spend_usd: 5.224675
       instructions: Does the document support an ESC PLOT_LINK between the exact selected
         event mentions, in either direction? Include causation, enablement or facilitation,
         prevention, supported narrative consequence, and an explicitly supported subevent
