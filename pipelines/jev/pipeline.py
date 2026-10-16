@@ -20,7 +20,7 @@ class JevDecisionPredictor:
                 "mode": "mock" if mock else "inference"}
 
     def __init__(self, client, threshold=.5, instructions=None, variant="noul", context_style="document",
-                 criteria=None, extra_questions=None, max_workers=1, unordered=False, demonstrations=None):
+                 criteria=None, extra_questions=None, max_workers=1, unordered=False, demonstrations=None, preflight=None):
         # Reject incompatible question types before any model calls.
         if variant == "choice" and client["model"].startswith("respan/span-"):
             raise ValueError("Span supports noul only; choose Mercury for the Choice experiment")
@@ -38,6 +38,9 @@ class JevDecisionPredictor:
                                                "criteria": criteria, "extra_questions": extra_questions})
         noul_label(.5, threshold)  # validate before allocation or inference
         self.client, self.threshold, self.instructions = DecisionClient(**client), threshold, instructions
+        if preflight:
+            from pipelines.jev.preflight import check_multi_questions
+            check_multi_questions(self.client, self.question, preflight["path"], self.max_workers)
 
     def _decide(self, document, entities, source, target, context, lock):
         state = build_state(document, entities[source], entities[target], self.context_style)

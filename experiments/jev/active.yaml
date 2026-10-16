@@ -1,5 +1,81 @@
-schema: workere-campaign/v1
-experiments:
-- config: d1_noul_dev25.yaml
-- config: d1_noul_d15.yaml
-- config: d1_multi_smoke.yaml
+schema: workere-experiment/v1
+name: esc-d1ultra-r1d-screen
+dataset:
+  name: esc
+  split: dev
+  suite: frozen/dev-screen-suite.json
+protocol: relation_gold_mentions
+seed: 42
+plugins:
+- pipelines.jev.pipeline
+models:
+- id: liquid/d1-ultra
+  version: d1-ultra-20261015
+pipeline:
+  entity_extractor:
+    plugin: reference
+    version: '1'
+  candidate_generator:
+    plugin: historical
+    version: '1'
+  relation_predictor:
+    plugin: jev_decision
+    version: '1'
+    params:
+      threshold: 0.5
+      max_workers: 64
+      client:
+        provider: openrouter
+        endpoint: https://openrouter.ai/api/alpha/decisions
+        model: liquid/d1-ultra
+        model_version: d1-ultra-20261015
+        api_key_env: OPENROUTER_API_KEY
+        mode: live
+        timeout: 120
+        retries: 8
+        requests_per_minute: 6000
+        max_calls: 60000
+        max_context_tokens: 32768
+        budget_usd: 5
+        max_cost_per_call_usd: 0.0015
+        input_price_per_million: 0.042
+        cache_path: ~/.local/share/openresearch/workere-decisions/cache.sqlite
+        expected_served_version: liquid/d1-ultra-20261015
+        retry_backoff_seconds: 2
+        retry_max_wait_seconds: 3600
+      extra_questions:
+        same_event:
+          instructions: Do both selected mentions denote the same real-world event?
+          criteria:
+            'true': Same event instance.
+            'false': Distinct event instances.
+        before:
+          instructions: Does event A occur before event B?
+          criteria:
+            'true': A precedes B.
+            'false': A does not precede B or timing is unknown.
+        narrative:
+          instructions: Is either event an explanatory or enabling narrative link
+            to the other?
+          criteria:
+            'true': Supported explanatory or enabling link.
+            'false': No such link.
+        connector:
+          instructions: Does an explicit causal connective link the two exact mentions?
+          criteria:
+            'true': Explicit causal connective links these mentions.
+            'false': No such connective.
+      preflight:
+        path: frozen/seen-smoke-suite.json
+evaluation:
+  primary_metric: binary
+  bootstrap_samples: 1000
+  confidence_level: 0.95
+  bootstrap_seed: 42
+  require_historical_parity: false
+  historical_reports: []
+execution:
+  allow_network: true
+  allow_paid: true
+  error_policy: raise
+output_dir: ../../logs/jev-runs
