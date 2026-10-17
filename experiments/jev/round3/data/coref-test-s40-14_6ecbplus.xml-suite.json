@@ -1,0 +1,476 @@
+{
+ "schema": "workere-benchmark-suite/v1",
+ "protocol": "workere-historical-relations/v1",
+ "config": {
+  "seed": 42,
+  "active_dataset": "event_story_line",
+  "datasets": {
+   "event_story_line": {
+    "name": "EventStoryLine-0.9",
+    "repo_id": "Nofing/EventStoryLine-0.9-standard-eci-workere",
+    "split": "train",
+    "text_field": "text",
+    "ann_field": "annots",
+    "max_examples": 0,
+    "kfold": {
+     "enabled": true,
+     "n_folds": 5
+    },
+    "constrain_to_pair_list": false
+   }
+  },
+  "data": {
+   "shuffle_docs": true,
+   "shuffle_pair_list": true,
+   "reshuffle_per_resample": true,
+   "binary_undirected": false,
+   "vote_to_binary": false,
+   "binary_default": "norel",
+   "novote_norel": true,
+   "labels": [
+    "causes",
+    "causedby",
+    "norel"
+   ]
+  },
+  "experiment": {
+   "resampling": {
+    "enabled": true,
+    "n_runs": 7,
+    "tie_breaking": "norel",
+    "distinct_fewshots": true
+   }
+  }
+ },
+ "documents": [
+  {
+   "id": "14_6ecbplus.xml",
+   "idx": 103,
+   "text": "http : / / www . itv . com / news / westcountry / story / 2013 - 07 - 21 / wellington - supermarket - fire / 10 : 24 AM , MON 22 JUL 2013 <2 Fire> at Waitrose supermarket may have been <3 arson> Police are <1 continuing> to <4 investigate> a <5 fire> at a Waitrose supermarket in Wellington . Staff are today turning away customers . Shoppers have been arriving at the supermarket unaware of the fire at the weekend . Police <7 say> it may have been <6 arson> .",
+   "gold": [
+    [
+     "5",
+     "causes",
+     "3"
+    ],
+    [
+     "5",
+     "causes",
+     "4"
+    ],
+    [
+     "2",
+     "causes",
+     "3"
+    ],
+    [
+     "2",
+     "causes",
+     "4"
+    ],
+    [
+     "2",
+     "causes",
+     "6"
+    ],
+    [
+     "5",
+     "causes",
+     "6"
+    ],
+    [
+     "3",
+     "causedby",
+     "5"
+    ],
+    [
+     "4",
+     "causedby",
+     "5"
+    ],
+    [
+     "3",
+     "causedby",
+     "2"
+    ],
+    [
+     "4",
+     "causedby",
+     "2"
+    ],
+    [
+     "6",
+     "causedby",
+     "2"
+    ],
+    [
+     "6",
+     "causedby",
+     "5"
+    ]
+   ],
+   "lang": "eng",
+   "mentions": [
+    "2",
+    "3",
+    "1",
+    "4",
+    "5",
+    "7",
+    "6"
+   ],
+   "surfaces": {
+    "2": "Fire",
+    "3": "arson",
+    "1": "continuing",
+    "4": "investigate",
+    "5": "fire",
+    "7": "say",
+    "6": "arson"
+   },
+   "sentence_of": {
+    "2": 2,
+    "3": 2,
+    "1": 3,
+    "4": 3,
+    "5": 3,
+    "7": 6,
+    "6": 6
+   },
+   "first_token": {
+    "2": 37,
+    "3": 44,
+    "1": 47,
+    "4": 49,
+    "5": 51,
+    "7": 82,
+    "6": 87
+   },
+   "pair_list": [
+    [
+     "6",
+     "7"
+    ],
+    [
+     "6",
+     "5"
+    ],
+    [
+     "6",
+     "3"
+    ],
+    [
+     "2",
+     "3"
+    ],
+    [
+     "4",
+     "1"
+    ],
+    [
+     "3",
+     "7"
+    ],
+    [
+     "5",
+     "1"
+    ],
+    [
+     "6",
+     "1"
+    ],
+    [
+     "3",
+     "4"
+    ],
+    [
+     "4",
+     "2"
+    ],
+    [
+     "6",
+     "2"
+    ],
+    [
+     "2",
+     "4"
+    ],
+    [
+     "1",
+     "6"
+    ],
+    [
+     "4",
+     "7"
+    ],
+    [
+     "7",
+     "3"
+    ],
+    [
+     "5",
+     "6"
+    ],
+    [
+     "2",
+     "5"
+    ],
+    [
+     "1",
+     "4"
+    ],
+    [
+     "1",
+     "3"
+    ],
+    [
+     "6",
+     "4"
+    ],
+    [
+     "7",
+     "1"
+    ],
+    [
+     "5",
+     "4"
+    ],
+    [
+     "3",
+     "5"
+    ],
+    [
+     "3",
+     "6"
+    ],
+    [
+     "4",
+     "6"
+    ],
+    [
+     "7",
+     "6"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "7",
+     "4"
+    ],
+    [
+     "2",
+     "7"
+    ],
+    [
+     "7",
+     "5"
+    ],
+    [
+     "3",
+     "1"
+    ],
+    [
+     "2",
+     "6"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "5",
+     "2"
+    ],
+    [
+     "1",
+     "7"
+    ],
+    [
+     "4",
+     "5"
+    ],
+    [
+     "7",
+     "2"
+    ],
+    [
+     "5",
+     "7"
+    ],
+    [
+     "4",
+     "3"
+    ],
+    [
+     "5",
+     "3"
+    ],
+    [
+     "1",
+     "5"
+    ]
+   ],
+   "tokens": [
+    "http",
+    ":",
+    "/",
+    "/",
+    "www",
+    ".",
+    "itv",
+    ".",
+    "com",
+    "/",
+    "news",
+    "/",
+    "westcountry",
+    "/",
+    "story",
+    "/",
+    "2013",
+    "-",
+    "07",
+    "-",
+    "21",
+    "/",
+    "wellington",
+    "-",
+    "supermarket",
+    "-",
+    "fire",
+    "/",
+    "10",
+    ":",
+    "24",
+    "AM",
+    ",",
+    "MON",
+    "22",
+    "JUL",
+    "2013",
+    "Fire",
+    "at",
+    "Waitrose",
+    "supermarket",
+    "may",
+    "have",
+    "been",
+    "arson",
+    "Police",
+    "are",
+    "continuing",
+    "to",
+    "investigate",
+    "a",
+    "fire",
+    "at",
+    "a",
+    "Waitrose",
+    "supermarket",
+    "in",
+    "Wellington",
+    ".",
+    "Staff",
+    "are",
+    "today",
+    "turning",
+    "away",
+    "customers",
+    ".",
+    "Shoppers",
+    "have",
+    "been",
+    "arriving",
+    "at",
+    "the",
+    "supermarket",
+    "unaware",
+    "of",
+    "the",
+    "fire",
+    "at",
+    "the",
+    "weekend",
+    ".",
+    "Police",
+    "say",
+    "it",
+    "may",
+    "have",
+    "been",
+    "arson",
+    "."
+   ],
+   "spans": [
+    [
+     37
+    ],
+    [
+     44
+    ],
+    [
+     47
+    ],
+    [
+     49
+    ],
+    [
+     51
+    ],
+    [
+     82
+    ],
+    [
+     87
+    ]
+   ],
+   "sentences": [
+    [
+     0,
+     28
+    ],
+    [
+     28,
+     37
+    ],
+    [
+     37,
+     45
+    ],
+    [
+     45,
+     59
+    ],
+    [
+     59,
+     66
+    ],
+    [
+     66,
+     81
+    ],
+    [
+     81,
+     89
+    ]
+   ],
+   "syntax_block": "",
+   "coref_block": "",
+   "fold": 3
+  }
+ ],
+ "selection": {
+  "name": "R3-T2-test-s40",
+  "document_ids": [
+   "14_6ecbplus.xml"
+  ],
+  "revision": "e6418e8747ac1c7fecf66d56ae41fbde7fd5967a"
+ },
+ "fingerprint": "72039e4b851f94d0cf3995cfd6e6714987110fdc7078e7642584cc1571f4087e"
+}

@@ -1,0 +1,755 @@
+{
+ "schema": "workere-benchmark-suite/v1",
+ "protocol": "workere-historical-relations/v1",
+ "config": {
+  "seed": 42,
+  "active_dataset": "event_story_line",
+  "datasets": {
+   "event_story_line": {
+    "name": "EventStoryLine-0.9",
+    "repo_id": "Nofing/EventStoryLine-0.9-standard-eci-workere",
+    "split": "train",
+    "text_field": "text",
+    "ann_field": "annots",
+    "max_examples": 0,
+    "kfold": {
+     "enabled": true,
+     "n_folds": 5
+    },
+    "constrain_to_pair_list": false
+   }
+  },
+  "data": {
+   "shuffle_docs": true,
+   "shuffle_pair_list": true,
+   "reshuffle_per_resample": true,
+   "binary_undirected": false,
+   "vote_to_binary": false,
+   "binary_default": "norel",
+   "novote_norel": true,
+   "labels": [
+    "causes",
+    "causedby",
+    "norel"
+   ]
+  },
+  "experiment": {
+   "resampling": {
+    "enabled": true,
+    "n_runs": 7,
+    "tie_breaking": "norel",
+    "distinct_fewshots": true
+   }
+  }
+ },
+ "documents": [
+  {
+   "id": "4_5ecbplus.xml",
+   "idx": 38,
+   "text": "http : / / www . hollywoodreporter . com / news / actress - esther - williams - dies - mgm - 564112 Actress Esther Williams <1 Dies> at 91 10 : 10 AM PDT 6 / 6 / 2013 The champion swimmer <2 starred> in such films as \"Bathing Beauty , \" \"Take Me Out to the Ball Game\" and \"Million Dollar Mermaid . \" Actress and champion swimmer Esther Williams , who <3 showcased> a combination of <9 glamour> and <10 athleticism> by <4 starring> in several spectacular and splashy MGM <7 musicals> of the 1940s and '50s , has <5 died> . She was 91 . Williams <6 died> peacefully in her <11 sleep> Thursday in Beverly Hills , family spokesman Harlan Boll <8 announced> .",
+   "gold": [
+    [
+     "7",
+     "causes",
+     "3"
+    ],
+    [
+     "3",
+     "causedby",
+     "7"
+    ]
+   ],
+   "lang": "eng",
+   "mentions": [
+    "1",
+    "2",
+    "3",
+    "9",
+    "10",
+    "4",
+    "7",
+    "5",
+    "6",
+    "11",
+    "8"
+   ],
+   "surfaces": {
+    "1": "Dies",
+    "2": "starred",
+    "3": "showcased",
+    "9": "glamour",
+    "10": "athleticism",
+    "4": "starring",
+    "7": "musicals",
+    "5": "died",
+    "6": "died",
+    "11": "sleep",
+    "8": "announced"
+   },
+   "sentence_of": {
+    "1": 1,
+    "2": 3,
+    "3": 4,
+    "9": 4,
+    "10": 4,
+    "4": 4,
+    "7": 4,
+    "5": 4,
+    "6": 6,
+    "11": 6,
+    "8": 6
+   },
+   "first_token": {
+    "1": 26,
+    "2": 42,
+    "3": 72,
+    "9": 76,
+    "10": 78,
+    "4": 80,
+    "7": 87,
+    "5": 95,
+    "6": 102,
+    "11": 106,
+    "8": 116
+   },
+   "pair_list": [
+    [
+     "5",
+     "9"
+    ],
+    [
+     "3",
+     "11"
+    ],
+    [
+     "10",
+     "4"
+    ],
+    [
+     "9",
+     "7"
+    ],
+    [
+     "9",
+     "11"
+    ],
+    [
+     "10",
+     "7"
+    ],
+    [
+     "4",
+     "5"
+    ],
+    [
+     "1",
+     "5"
+    ],
+    [
+     "4",
+     "2"
+    ],
+    [
+     "10",
+     "5"
+    ],
+    [
+     "5",
+     "11"
+    ],
+    [
+     "9",
+     "1"
+    ],
+    [
+     "3",
+     "10"
+    ],
+    [
+     "7",
+     "5"
+    ],
+    [
+     "10",
+     "11"
+    ],
+    [
+     "6",
+     "1"
+    ],
+    [
+     "2",
+     "3"
+    ],
+    [
+     "1",
+     "3"
+    ],
+    [
+     "4",
+     "6"
+    ],
+    [
+     "3",
+     "1"
+    ],
+    [
+     "8",
+     "7"
+    ],
+    [
+     "11",
+     "3"
+    ],
+    [
+     "1",
+     "8"
+    ],
+    [
+     "11",
+     "4"
+    ],
+    [
+     "4",
+     "1"
+    ],
+    [
+     "11",
+     "9"
+    ],
+    [
+     "6",
+     "9"
+    ],
+    [
+     "6",
+     "7"
+    ],
+    [
+     "3",
+     "6"
+    ],
+    [
+     "6",
+     "11"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "7",
+     "2"
+    ],
+    [
+     "4",
+     "7"
+    ],
+    [
+     "6",
+     "4"
+    ],
+    [
+     "6",
+     "10"
+    ],
+    [
+     "8",
+     "9"
+    ],
+    [
+     "8",
+     "4"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "2",
+     "9"
+    ],
+    [
+     "2",
+     "7"
+    ],
+    [
+     "6",
+     "3"
+    ],
+    [
+     "9",
+     "8"
+    ],
+    [
+     "6",
+     "5"
+    ],
+    [
+     "9",
+     "6"
+    ],
+    [
+     "8",
+     "6"
+    ],
+    [
+     "3",
+     "9"
+    ],
+    [
+     "3",
+     "7"
+    ],
+    [
+     "7",
+     "10"
+    ],
+    [
+     "8",
+     "5"
+    ],
+    [
+     "9",
+     "4"
+    ],
+    [
+     "6",
+     "2"
+    ],
+    [
+     "7",
+     "3"
+    ],
+    [
+     "1",
+     "10"
+    ],
+    [
+     "10",
+     "9"
+    ],
+    [
+     "2",
+     "8"
+    ],
+    [
+     "5",
+     "1"
+    ],
+    [
+     "7",
+     "4"
+    ],
+    [
+     "7",
+     "1"
+    ],
+    [
+     "11",
+     "7"
+    ],
+    [
+     "4",
+     "9"
+    ],
+    [
+     "1",
+     "9"
+    ],
+    [
+     "8",
+     "11"
+    ],
+    [
+     "3",
+     "4"
+    ],
+    [
+     "9",
+     "2"
+    ],
+    [
+     "1",
+     "11"
+    ],
+    [
+     "5",
+     "8"
+    ],
+    [
+     "9",
+     "5"
+    ],
+    [
+     "2",
+     "5"
+    ],
+    [
+     "10",
+     "6"
+    ],
+    [
+     "2",
+     "6"
+    ],
+    [
+     "2",
+     "10"
+    ],
+    [
+     "11",
+     "2"
+    ],
+    [
+     "5",
+     "10"
+    ],
+    [
+     "1",
+     "6"
+    ],
+    [
+     "3",
+     "8"
+    ],
+    [
+     "10",
+     "2"
+    ],
+    [
+     "2",
+     "4"
+    ],
+    [
+     "11",
+     "8"
+    ],
+    [
+     "4",
+     "10"
+    ],
+    [
+     "10",
+     "8"
+    ],
+    [
+     "3",
+     "5"
+    ],
+    [
+     "4",
+     "11"
+    ],
+    [
+     "4",
+     "8"
+    ],
+    [
+     "1",
+     "7"
+    ],
+    [
+     "5",
+     "3"
+    ],
+    [
+     "1",
+     "4"
+    ],
+    [
+     "7",
+     "9"
+    ],
+    [
+     "7",
+     "8"
+    ],
+    [
+     "4",
+     "3"
+    ],
+    [
+     "8",
+     "10"
+    ],
+    [
+     "2",
+     "11"
+    ],
+    [
+     "5",
+     "2"
+    ],
+    [
+     "6",
+     "8"
+    ],
+    [
+     "11",
+     "10"
+    ],
+    [
+     "7",
+     "6"
+    ],
+    [
+     "11",
+     "1"
+    ],
+    [
+     "5",
+     "7"
+    ],
+    [
+     "11",
+     "5"
+    ],
+    [
+     "8",
+     "2"
+    ],
+    [
+     "8",
+     "1"
+    ],
+    [
+     "5",
+     "6"
+    ],
+    [
+     "9",
+     "3"
+    ],
+    [
+     "10",
+     "1"
+    ],
+    [
+     "11",
+     "6"
+    ],
+    [
+     "10",
+     "3"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "5",
+     "4"
+    ],
+    [
+     "8",
+     "3"
+    ],
+    [
+     "7",
+     "11"
+    ],
+    [
+     "9",
+     "10"
+    ]
+   ],
+   "tokens": [
+    "http",
+    ":",
+    "/",
+    "/",
+    "www",
+    ".",
+    "hollywoodreporter",
+    ".",
+    "com",
+    "/",
+    "news",
+    "/",
+    "actress",
+    "-",
+    "esther",
+    "-",
+    "williams",
+    "-",
+    "dies",
+    "-",
+    "mgm",
+    "-",
+    "564112",
+    "Actress",
+    "Esther",
+    "Williams",
+    "Dies",
+    "at",
+    "91",
+    "10",
+    ":",
+    "10",
+    "AM",
+    "PDT",
+    "6",
+    "/",
+    "6",
+    "/",
+    "2013",
+    "The",
+    "champion",
+    "swimmer",
+    "starred",
+    "in",
+    "such",
+    "films",
+    "as",
+    "\"Bathing",
+    "Beauty",
+    ",",
+    "\"",
+    "\"Take",
+    "Me",
+    "Out",
+    "to",
+    "the",
+    "Ball",
+    "Game\"",
+    "and",
+    "\"Million",
+    "Dollar",
+    "Mermaid",
+    ".",
+    "\"",
+    "Actress",
+    "and",
+    "champion",
+    "swimmer",
+    "Esther",
+    "Williams",
+    ",",
+    "who",
+    "showcased",
+    "a",
+    "combination",
+    "of",
+    "glamour",
+    "and",
+    "athleticism",
+    "by",
+    "starring",
+    "in",
+    "several",
+    "spectacular",
+    "and",
+    "splashy",
+    "MGM",
+    "musicals",
+    "of",
+    "the",
+    "1940s",
+    "and",
+    "'50s",
+    ",",
+    "has",
+    "died",
+    ".",
+    "She",
+    "was",
+    "91",
+    ".",
+    "Williams",
+    "died",
+    "peacefully",
+    "in",
+    "her",
+    "sleep",
+    "Thursday",
+    "in",
+    "Beverly",
+    "Hills",
+    ",",
+    "family",
+    "spokesman",
+    "Harlan",
+    "Boll",
+    "announced",
+    "."
+   ],
+   "spans": [
+    [
+     26
+    ],
+    [
+     42
+    ],
+    [
+     72
+    ],
+    [
+     76
+    ],
+    [
+     78
+    ],
+    [
+     80
+    ],
+    [
+     87
+    ],
+    [
+     95
+    ],
+    [
+     102
+    ],
+    [
+     106
+    ],
+    [
+     116
+    ]
+   ],
+   "sentences": [
+    [
+     0,
+     23
+    ],
+    [
+     23,
+     29
+    ],
+    [
+     29,
+     39
+    ],
+    [
+     39,
+     64
+    ],
+    [
+     64,
+     97
+    ],
+    [
+     97,
+     101
+    ],
+    [
+     101,
+     118
+    ]
+   ],
+   "syntax_block": "",
+   "coref_block": "",
+   "fold": 3
+  }
+ ],
+ "selection": {
+  "name": "R3-T2-conf40",
+  "document_ids": [
+   "4_5ecbplus.xml"
+  ],
+  "revision": "e6418e8747ac1c7fecf66d56ae41fbde7fd5967a"
+ },
+ "fingerprint": "aa68de7e9810bf7d1045eb9f6455a0e1b26f6c495b94b94bcf44cdfb3c9343e6"
+}

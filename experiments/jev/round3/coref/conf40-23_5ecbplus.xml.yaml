@@ -1,0 +1,61 @@
+schema: workere-experiment/v1
+name: esc-r3-t2-coref-conf40-23_5ecbplus
+dataset:
+  name: esc
+  split: train
+  suite: ../data/coref-conf40-23_5ecbplus.xml-suite.json
+protocol: relation_gold_mentions
+seed: 42
+plugins:
+- pipelines.jev.coref
+models:
+- id: openai/gpt-6-luna:batch
+  version: gpt-6-luna-20260922
+pipeline:
+  entity_extractor:
+    plugin: reference
+    version: '1'
+  candidate_generator:
+    plugin: historical
+    version: '1'
+  relation_predictor:
+    plugin: luna_coref
+    version: '1'
+    params:
+      client:
+        provider: openrouter
+        endpoint: https://openrouter.ai/api/v1/batches
+        model: openai/gpt-6-luna:batch
+        model_version: gpt-6-luna-20260922
+        api_key_env: OPENROUTER_API_KEY
+        mode: live
+        timeout: 600
+        retries: 4
+        requests_per_minute: 6000
+        max_calls: 8
+        max_context_tokens: 1050000
+        budget_usd: 0.1
+        max_cost_per_call_usd: 0.01
+        input_price_per_million: 0.05
+        cache_path: ~/.local/share/openresearch/workere-decisions/r3-t2-coref-23_5ecbplus.xml.sqlite
+        retry_backoff_seconds: 2
+        retry_max_wait_seconds: 3600
+        reasoning_effort: high
+        max_output_tokens: 32768
+        shared_budget:
+          path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
+          scope: esc-round3-20261017-10usd
+          limit_usd: 10
+          initial_spend_usd: 0
+evaluation:
+  primary_metric: binary
+  bootstrap_samples: 1000
+  confidence_level: 0.95
+  bootstrap_seed: 42
+  require_historical_parity: false
+  historical_reports: []
+execution:
+  allow_network: true
+  allow_paid: true
+  error_policy: raise
+output_dir: ../../../../logs/jev-runs

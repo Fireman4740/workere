@@ -1,0 +1,654 @@
+{
+ "schema": "workere-benchmark-suite/v1",
+ "protocol": "workere-historical-relations/v1",
+ "config": {
+  "seed": 42,
+  "active_dataset": "event_story_line",
+  "datasets": {
+   "event_story_line": {
+    "name": "EventStoryLine-0.9",
+    "repo_id": "Nofing/EventStoryLine-0.9-standard-eci-workere",
+    "split": "train",
+    "text_field": "text",
+    "ann_field": "annots",
+    "max_examples": 0,
+    "kfold": {
+     "enabled": true,
+     "n_folds": 5
+    },
+    "constrain_to_pair_list": false
+   }
+  },
+  "data": {
+   "shuffle_docs": true,
+   "shuffle_pair_list": true,
+   "reshuffle_per_resample": true,
+   "binary_undirected": false,
+   "vote_to_binary": false,
+   "binary_default": "norel",
+   "novote_norel": true,
+   "labels": [
+    "causes",
+    "causedby",
+    "norel"
+   ]
+  },
+  "experiment": {
+   "resampling": {
+    "enabled": true,
+    "n_runs": 7,
+    "tie_breaking": "norel",
+    "distinct_fewshots": true
+   }
+  }
+ },
+ "documents": [
+  {
+   "id": "35_8ecbplus.xml",
+   "idx": 231,
+   "text": "http : / / eatdrinkandsleepfootball . com / blog / 2009 / 02 / chargers _ jamal _ williams _ arrested _ for _ dui . html Chargers Jamal Williams <5 arrested> for <6 DUI> In the steeped NFL tradition of drinking and driving , Chargers NT Jamal Williams is doing his part to uphold the tradition . Of course , football is the ultimate team game and fellow Charger Vincent Jackson was <7 arrested> last month for <8 DUI> as well . Although results are <9 pending> for the blood - alcohol test that Williams <1 took> , he has been <2 booked> and later <3 released> <4 on bail> . While I make fun of a topic that definitely isn't funny , I still don't understand how these players with their multi - million dollar salaries don't hire drivers or car services .",
+   "gold": [
+    [
+     "7",
+     "causes",
+     "1"
+    ],
+    [
+     "7",
+     "causes",
+     "2"
+    ],
+    [
+     "8",
+     "causes",
+     "7"
+    ],
+    [
+     "5",
+     "causes",
+     "6"
+    ],
+    [
+     "2",
+     "causes",
+     "3"
+    ],
+    [
+     "4",
+     "causes",
+     "3"
+    ],
+    [
+     "1",
+     "causedby",
+     "7"
+    ],
+    [
+     "2",
+     "causedby",
+     "7"
+    ],
+    [
+     "7",
+     "causedby",
+     "8"
+    ],
+    [
+     "6",
+     "causedby",
+     "5"
+    ],
+    [
+     "3",
+     "causedby",
+     "2"
+    ],
+    [
+     "3",
+     "causedby",
+     "4"
+    ]
+   ],
+   "lang": "eng",
+   "mentions": [
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "surfaces": {
+    "5": "arrested",
+    "6": "DUI",
+    "7": "arrested",
+    "8": "DUI",
+    "9": "pending",
+    "1": "took",
+    "2": "booked",
+    "3": "released",
+    "4": "on bail"
+   },
+   "sentence_of": {
+    "5": 1,
+    "6": 1,
+    "7": 3,
+    "8": 3,
+    "9": 4,
+    "1": 4,
+    "2": 4,
+    "3": 4,
+    "4": 4
+   },
+   "first_token": {
+    "5": 30,
+    "6": 32,
+    "7": 71,
+    "8": 75,
+    "9": 82,
+    "1": 91,
+    "2": 96,
+    "3": 99,
+    "4": 100
+   },
+   "pair_list": [
+    [
+     "1",
+     "3"
+    ],
+    [
+     "8",
+     "7"
+    ],
+    [
+     "6",
+     "2"
+    ],
+    [
+     "8",
+     "9"
+    ],
+    [
+     "4",
+     "7"
+    ],
+    [
+     "3",
+     "1"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "6",
+     "4"
+    ],
+    [
+     "2",
+     "5"
+    ],
+    [
+     "3",
+     "7"
+    ],
+    [
+     "4",
+     "2"
+    ],
+    [
+     "9",
+     "8"
+    ],
+    [
+     "2",
+     "7"
+    ],
+    [
+     "6",
+     "5"
+    ],
+    [
+     "3",
+     "4"
+    ],
+    [
+     "5",
+     "8"
+    ],
+    [
+     "5",
+     "6"
+    ],
+    [
+     "5",
+     "7"
+    ],
+    [
+     "7",
+     "6"
+    ],
+    [
+     "9",
+     "4"
+    ],
+    [
+     "7",
+     "9"
+    ],
+    [
+     "9",
+     "1"
+    ],
+    [
+     "6",
+     "3"
+    ],
+    [
+     "7",
+     "8"
+    ],
+    [
+     "8",
+     "3"
+    ],
+    [
+     "4",
+     "5"
+    ],
+    [
+     "3",
+     "9"
+    ],
+    [
+     "2",
+     "6"
+    ],
+    [
+     "5",
+     "2"
+    ],
+    [
+     "1",
+     "5"
+    ],
+    [
+     "8",
+     "5"
+    ],
+    [
+     "5",
+     "9"
+    ],
+    [
+     "7",
+     "5"
+    ],
+    [
+     "1",
+     "8"
+    ],
+    [
+     "1",
+     "7"
+    ],
+    [
+     "1",
+     "9"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "6",
+     "7"
+    ],
+    [
+     "2",
+     "3"
+    ],
+    [
+     "2",
+     "8"
+    ],
+    [
+     "9",
+     "5"
+    ],
+    [
+     "7",
+     "2"
+    ],
+    [
+     "1",
+     "4"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "4",
+     "9"
+    ],
+    [
+     "9",
+     "7"
+    ],
+    [
+     "9",
+     "3"
+    ],
+    [
+     "3",
+     "5"
+    ],
+    [
+     "7",
+     "1"
+    ],
+    [
+     "9",
+     "6"
+    ],
+    [
+     "5",
+     "1"
+    ],
+    [
+     "8",
+     "2"
+    ],
+    [
+     "4",
+     "3"
+    ],
+    [
+     "2",
+     "9"
+    ],
+    [
+     "4",
+     "6"
+    ],
+    [
+     "5",
+     "4"
+    ],
+    [
+     "4",
+     "1"
+    ],
+    [
+     "6",
+     "1"
+    ],
+    [
+     "7",
+     "3"
+    ],
+    [
+     "3",
+     "6"
+    ],
+    [
+     "1",
+     "6"
+    ],
+    [
+     "6",
+     "9"
+    ],
+    [
+     "8",
+     "6"
+    ],
+    [
+     "3",
+     "8"
+    ],
+    [
+     "4",
+     "8"
+    ],
+    [
+     "7",
+     "4"
+    ],
+    [
+     "8",
+     "4"
+    ],
+    [
+     "8",
+     "1"
+    ],
+    [
+     "2",
+     "4"
+    ],
+    [
+     "9",
+     "2"
+    ],
+    [
+     "5",
+     "3"
+    ],
+    [
+     "6",
+     "8"
+    ]
+   ],
+   "tokens": [
+    "http",
+    ":",
+    "/",
+    "/",
+    "eatdrinkandsleepfootball",
+    ".",
+    "com",
+    "/",
+    "blog",
+    "/",
+    "2009",
+    "/",
+    "02",
+    "/",
+    "chargers",
+    "_",
+    "jamal",
+    "_",
+    "williams",
+    "_",
+    "arrested",
+    "_",
+    "for",
+    "_",
+    "dui",
+    ".",
+    "html",
+    "Chargers",
+    "Jamal",
+    "Williams",
+    "arrested",
+    "for",
+    "DUI",
+    "In",
+    "the",
+    "steeped",
+    "NFL",
+    "tradition",
+    "of",
+    "drinking",
+    "and",
+    "driving",
+    ",",
+    "Chargers",
+    "NT",
+    "Jamal",
+    "Williams",
+    "is",
+    "doing",
+    "his",
+    "part",
+    "to",
+    "uphold",
+    "the",
+    "tradition",
+    ".",
+    "Of",
+    "course",
+    ",",
+    "football",
+    "is",
+    "the",
+    "ultimate",
+    "team",
+    "game",
+    "and",
+    "fellow",
+    "Charger",
+    "Vincent",
+    "Jackson",
+    "was",
+    "arrested",
+    "last",
+    "month",
+    "for",
+    "DUI",
+    "as",
+    "well",
+    ".",
+    "Although",
+    "results",
+    "are",
+    "pending",
+    "for",
+    "the",
+    "blood",
+    "-",
+    "alcohol",
+    "test",
+    "that",
+    "Williams",
+    "took",
+    ",",
+    "he",
+    "has",
+    "been",
+    "booked",
+    "and",
+    "later",
+    "released",
+    "on",
+    "bail",
+    ".",
+    "While",
+    "I",
+    "make",
+    "fun",
+    "of",
+    "a",
+    "topic",
+    "that",
+    "definitely",
+    "isn't",
+    "funny",
+    ",",
+    "I",
+    "still",
+    "don't",
+    "understand",
+    "how",
+    "these",
+    "players",
+    "with",
+    "their",
+    "multi",
+    "-",
+    "million",
+    "dollar",
+    "salaries",
+    "don't",
+    "hire",
+    "drivers",
+    "or",
+    "car",
+    "services",
+    "."
+   ],
+   "spans": [
+    [
+     30
+    ],
+    [
+     32
+    ],
+    [
+     71
+    ],
+    [
+     75
+    ],
+    [
+     82
+    ],
+    [
+     91
+    ],
+    [
+     96
+    ],
+    [
+     99
+    ],
+    [
+     100,
+     101
+    ]
+   ],
+   "sentences": [
+    [
+     0,
+     27
+    ],
+    [
+     27,
+     33
+    ],
+    [
+     33,
+     56
+    ],
+    [
+     56,
+     79
+    ],
+    [
+     79,
+     103
+    ],
+    [
+     103,
+     136
+    ]
+   ],
+   "syntax_block": "",
+   "coref_block": "",
+   "fold": 1
+  }
+ ],
+ "selection": {
+  "name": "R3-T2-test-s40",
+  "document_ids": [
+   "35_8ecbplus.xml"
+  ],
+  "revision": "e6418e8747ac1c7fecf66d56ae41fbde7fd5967a"
+ },
+ "fingerprint": "099898c33a266d695d0c4f40e80c6ea7a99011de9bf37ca4b7809f273849cc6c"
+}

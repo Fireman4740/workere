@@ -1,0 +1,261 @@
+{
+ "schema": "workere-benchmark-suite/v1",
+ "protocol": "workere-historical-relations/v1",
+ "config": {
+  "seed": 42,
+  "active_dataset": "event_story_line",
+  "datasets": {
+   "event_story_line": {
+    "name": "EventStoryLine-0.9",
+    "repo_id": "Nofing/EventStoryLine-0.9-standard-eci-workere",
+    "split": "train",
+    "text_field": "text",
+    "ann_field": "annots",
+    "max_examples": 0,
+    "kfold": {
+     "enabled": true,
+     "n_folds": 5
+    },
+    "constrain_to_pair_list": false
+   }
+  },
+  "data": {
+   "shuffle_docs": true,
+   "shuffle_pair_list": true,
+   "reshuffle_per_resample": true,
+   "binary_undirected": false,
+   "vote_to_binary": false,
+   "binary_default": "norel",
+   "novote_norel": true,
+   "labels": [
+    "causes",
+    "causedby",
+    "norel"
+   ]
+  },
+  "experiment": {
+   "resampling": {
+    "enabled": true,
+    "n_runs": 7,
+    "tie_breaking": "norel",
+    "distinct_fewshots": true
+   }
+  }
+ },
+ "documents": [
+  {
+   "id": "22_4ecbplus.xml",
+   "idx": 159,
+   "text": "http : / / www . dakotavoice . com / 2010 / 09 / very - spiritual - muslim - woman - shoots - co - workers / ‘ Very Spiritual ’ Muslim Woman <2 Shoots> Co - workers on September 10th , 2010 According to reports , a Muslim woman <4 named> Yvonne Hiller <3 shot> and <1 killed> two co - workers at a Kraft plant in Philadelphia .",
+   "gold": [
+    [
+     "3",
+     "causes",
+     "1"
+    ],
+    [
+     "2",
+     "causes",
+     "1"
+    ],
+    [
+     "1",
+     "causedby",
+     "3"
+    ],
+    [
+     "1",
+     "causedby",
+     "2"
+    ]
+   ],
+   "lang": "eng",
+   "mentions": [
+    "2",
+    "4",
+    "3",
+    "1"
+   ],
+   "surfaces": {
+    "2": "Shoots",
+    "4": "named",
+    "3": "shot",
+    "1": "killed"
+   },
+   "sentence_of": {
+    "2": 1,
+    "4": 3,
+    "3": 3,
+    "1": 3
+   },
+   "first_token": {
+    "2": 34,
+    "4": 50,
+    "3": 53,
+    "1": 55
+   },
+   "pair_list": [
+    [
+     "1",
+     "3"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "2",
+     "3"
+    ],
+    [
+     "3",
+     "4"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "4",
+     "1"
+    ],
+    [
+     "2",
+     "4"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "4",
+     "3"
+    ],
+    [
+     "1",
+     "4"
+    ],
+    [
+     "3",
+     "1"
+    ],
+    [
+     "4",
+     "2"
+    ]
+   ],
+   "tokens": [
+    "http",
+    ":",
+    "/",
+    "/",
+    "www",
+    ".",
+    "dakotavoice",
+    ".",
+    "com",
+    "/",
+    "2010",
+    "/",
+    "09",
+    "/",
+    "very",
+    "-",
+    "spiritual",
+    "-",
+    "muslim",
+    "-",
+    "woman",
+    "-",
+    "shoots",
+    "-",
+    "co",
+    "-",
+    "workers",
+    "/",
+    "‘",
+    "Very",
+    "Spiritual",
+    "’",
+    "Muslim",
+    "Woman",
+    "Shoots",
+    "Co",
+    "-",
+    "workers",
+    "on",
+    "September",
+    "10th",
+    ",",
+    "2010",
+    "According",
+    "to",
+    "reports",
+    ",",
+    "a",
+    "Muslim",
+    "woman",
+    "named",
+    "Yvonne",
+    "Hiller",
+    "shot",
+    "and",
+    "killed",
+    "two",
+    "co",
+    "-",
+    "workers",
+    "at",
+    "a",
+    "Kraft",
+    "plant",
+    "in",
+    "Philadelphia",
+    "."
+   ],
+   "spans": [
+    [
+     34
+    ],
+    [
+     50
+    ],
+    [
+     53
+    ],
+    [
+     55
+    ]
+   ],
+   "sentences": [
+    [
+     0,
+     28
+    ],
+    [
+     28,
+     38
+    ],
+    [
+     38,
+     43
+    ],
+    [
+     43,
+     67
+    ]
+   ],
+   "syntax_block": "",
+   "coref_block": "",
+   "fold": 4
+  }
+ ],
+ "selection": {
+  "name": "R3-T2-test-s40",
+  "document_ids": [
+   "22_4ecbplus.xml"
+  ],
+  "revision": "e6418e8747ac1c7fecf66d56ae41fbde7fd5967a"
+ },
+ "fingerprint": "89bc8d695ea7a2ec723ba2234b599f524f7cdffe1df78d7a460a40891e2459dc"
+}
