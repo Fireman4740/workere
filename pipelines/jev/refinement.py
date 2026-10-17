@@ -70,8 +70,19 @@ def _load(path):
     cfg = read_yaml(path)
     if cfg.get('schema') != 'workere-esc-refinement/v1' or cfg.get('phase') != 'development':
         raise ValueError('this workflow only permits DEV-FULL fitting')
-    if cfg.get('api_calls') != 0:
+    mode = cfg.get('mode', 'offline')
+    if mode not in ('offline', 'predicted_coreference'):
+        raise ValueError('unsupported refinement mode')
+    if mode == 'offline' and cfg.get('api_calls') != 0:
         raise ValueError('offline refinement cannot request model calls')
+    if mode == 'predicted_coreference':
+        client = cfg['coreference_client']
+        cache = Path(client['cache_path']).expanduser()
+        client['cache_path'] = str(cache if cache.is_absolute() else (path.parent / cache).resolve())
+        if (cfg.get('api_calls') != 9514 or client['model'] != 'liquid/d1-ultra'
+                or client['expected_served_version'] != 'liquid/d1-ultra-20261015'
+                or client['shared_budget']['limit_usd'] != 10):
+            raise ValueError('coreference plan or budget identity differs')
     input_path = path.parent / cfg['inputs']
     if hashlib.sha256(input_path.read_bytes()).hexdigest() != cfg['inputs_sha256']:
         raise ValueError('source probability input hash mismatch')
@@ -124,8 +135,11 @@ def _load(path):
 
 def plan(path):
     cfg, data, rules, values, labels, pairs, oracle = _load(path)
+    calls = cfg['api_calls']
     return {'schema': 'workere-esc-refinement-plan/v1', 'name': cfg['name'], 'api_calls_made': 0,
-            'calls_without_cache_or_retries': 0, 'estimated_input_cost_usd_at_configured_rate': 0,
+            'calls_without_cache_or_retries': calls,
+            'local_budget_usd': cfg.get('coreference_client', {}).get('budget_usd', 0),
+            'global_budget_usd': 10, 'max_workers': cfg.get('max_workers', 0),
             'context_overflows': [], 'documents': len(values), 'ordered_candidates': sum(map(len, pairs.values())),
             'source_run': data['source_run'], 'source_predictions_sha256': data['source_predictions_sha256'],
             'threshold_grid': rules['threshold']['grid'], 'selection': 'document LODO; oracle excluded from mode selection'}
@@ -147,6 +161,14 @@ def run(path):
     thresholds = {'baseline_t0.5': {d: .5 for d in ids}, 'symmetric_t0.5': {d: .5 for d in ids},
                   'symmetric_LODO': lodo_thresholds(arrays['symmetric'], labels, grid),
                   'oracle_t0.5': {d: .5 for d in ids}, 'oracle_LODO': lodo_thresholds(arrays['oracle'], labels, grid)}
+    resources = {'api_calls': 0}
+    if cfg.get('mode') == 'predicted_coreference':
+        from pipelines.jev.coreference import collect
+        predicted_clusters, resources = collect(cfg, data['suite'], output)
+        predicted = {d: aggregate_chains(symmetric[d], predicted_clusters[d]) for d in ids}
+        arrays['predicted'] = {d: [predicted[d][pair] for pair in pairs[d]] for d in ids}
+        thresholds['predicted_t0.5'] = {d: .5 for d in ids}
+        thresholds['predicted_LODO'] = lodo_thresholds(arrays['predicted'], labels, grid)
     results = {}
     for name, thresholds_by_doc in thresholds.items():
         family = name.split('_')[0]
@@ -157,7 +179,7 @@ def run(path):
             relations = tuple(Relation(a, b, 'causal' if p >= threshold else 'norel', p if p >= threshold else 1-p)
                               for (a, b), p in zip(pairs[d], pp))
             metadata = {'method': name, 'threshold': threshold, 'direction_predicted': False,
-                        'oracle_coreference': family == 'oracle', 'api_calls': 0,
+                        'oracle_coreference': family == 'oracle', 'coreference_predicted': family == 'predicted',
                         'threshold_training_ids': [other for other in ids if other != d] if name.endswith('LODO') else [],
                         'decision_type': 'noul', 'decision_scores': [
                             {'source': a, 'target': b, 'positive_probability': p} for (a, b), p in zip(pairs[d], pp)]}
@@ -172,16 +194,25 @@ def run(path):
                          'oracle_coreference': family == 'oracle', 'uncertainty': metrics['uncertainty']}
         print('R2_METRIC ' + json.dumps({'variant': name, 'binary': metrics['summary']['binary']}), flush=True)
     # Fit all DEV only after selecting a deployable mode; oracle is ineligible.
-    selected = ('symmetric_LODO' if results['symmetric_LODO']['summary']['binary']['f1'] >
-                results['baseline_t0.5']['summary']['binary']['f1'] else 'baseline_t0.5')
-    final_threshold = (choose_threshold(threshold_table(arrays['symmetric'], labels, grid), ids, grid)
-                       if selected == 'symmetric_LODO' else .5)
+    eligible = ['baseline_t0.5', 'symmetric_LODO']
+    if 'predicted_LODO' in results:
+        eligible.append('predicted_LODO')
+    selected = max(eligible, key=lambda name: results[name]['summary']['binary']['f1'])
+    final_threshold = (choose_threshold(threshold_table(arrays[selected.split('_')[0]], labels, grid), ids, grid)
+                       if selected.endswith('LODO') else .5)
     frozen = {'source_run': data['source_run'], 'selected_mode': selected, 'threshold': final_threshold,
               'fit_documents': ids, 'selection_set': 'DEV-FULL', 'CONF40_used': False,
-              'oracle_eligible': False, 'api_calls': 0, 'rules': rules}
+              'oracle_eligible': False, 'api_calls': resources['api_calls'],
+              'coreference_predicted': selected.startswith('predicted_'), 'rules': rules}
+    if cfg.get('mode') == 'predicted_coreference':
+        from pipelines.jev.coreference import QUESTION
+        frozen['coreference_question'] = QUESTION
+        frozen['coreference_threshold'] = .5
+        frozen['coreference_model'] = cfg['coreference_client']['model']
     write_json(output / 'frozen-candidate.json', frozen)
     report = {'schema': 'workere-esc-refinement-result/v1', 'status': 'completed', 'run_dir': str(output),
-              'api_calls': 0, 'documents': len(ids), 'variants': results, 'frozen_candidate': frozen,
+              'api_calls': resources['api_calls'], 'resources': resources,
+              'documents': len(ids), 'variants': results, 'frozen_candidate': frozen,
               'limitations': ['Development cross-validation only; CONF40 untouched.',
                               'Bootstrap conditions on held-out predictions; no threshold refitting per resample.',
                               'Oracle chains are diagnostic bounds, excluded from deployment selection.']}

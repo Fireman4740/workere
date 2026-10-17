@@ -1,9 +1,35 @@
 schema: workere-esc-refinement/v1
-name: esc-d1-r2a-symmetry-lodo-dev25
+name: esc-d1-r2b-predicted-coreference-dev25
 phase: development
-api_calls: 0
+mode: predicted_coreference
+api_calls: 9514
+max_workers: 128
 inputs: r2-dev25-inputs.json
 inputs_sha256: c4d2ca1e3e06b2a0778ea2fa693f5fc1995c6152eccf5a98aee8576be112da5a
 rules: r2-frozen-rules.yaml
 selection: document-selection.json
 output_dir: ../../logs/jev-r2
+coreference_client:
+  provider: openrouter
+  endpoint: https://openrouter.ai/api/alpha/decisions
+  model: liquid/d1-ultra
+  model_version: d1-ultra-20261015
+  expected_served_version: liquid/d1-ultra-20261015
+  api_key_env: OPENROUTER_API_KEY
+  mode: live
+  timeout: 120
+  retries: 8
+  requests_per_minute: 6000
+  max_calls: 20000
+  max_context_tokens: 32768
+  budget_usd: 0.75
+  max_cost_per_call_usd: 0.0015
+  input_price_per_million: 0.042
+  cache_path: ~/.local/share/openresearch/workere-decisions/cache.sqlite
+  retry_backoff_seconds: 2
+  retry_max_wait_seconds: 3600
+  shared_budget:
+    path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
+    scope: esc-improvement-20261016-10usd
+    limit_usd: 10
+    initial_spend_usd: 5.224675

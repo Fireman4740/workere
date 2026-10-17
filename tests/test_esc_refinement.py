@@ -1,10 +1,40 @@
 import json
+import tempfile
 import unittest
 from pathlib import Path
 from pipelines.jev.refinement import _load, aggregate_chains, lodo_thresholds, symmetrize
+from pipelines.jev.coreference import collect, connected_components, unordered_pairs
 
 
 class EscRefinement(unittest.TestCase):
+    def test_dedicated_requests_exclude_causal_question_and_resume_from_cache(self):
+        from benchmark.protocols import public_inputs
+        from benchmark.suite import freeze
+        from tests.test_benchmark import config, rows
+        suite = freeze(config(),rows())
+        n = sum(len(unordered_pairs(i.reference_entities,i.reference_candidates))
+                for i in public_inputs(suite,'relations_gold'))
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            cfg = {'api_calls':n,'max_workers':3,'coreference_client':{
+                'model':'liquid/d1-ultra','model_version':'d1-ultra-20261015',
+                'mode':'mock','cache_path':str(root/'cache.sqlite'),'max_calls':100}}
+            first, second = root/'first',root/'second'
+            first.mkdir();second.mkdir()
+            clusters,usage = collect(cfg,suite,first)
+            replay,replay_usage = collect(cfg,suite,second)
+            self.assertEqual(clusters,replay)
+            self.assertEqual(usage['logical_queries'],n)
+            self.assertEqual(replay_usage['cache_hits'],n)
+            for line in (first/'coreference-decisions.jsonl').read_text().splitlines():
+                request = json.loads(line)['request']
+                self.assertEqual(set(request['questions']),{'same_event'})
+                self.assertNotIn('"gold"',request['state'])
+
+    def test_predicted_chains_close_transitively_with_fixed_threshold_and_singletons(self):
+        clusters = connected_components(['a','b','c','d'], [('a','b',.5),('b','c',.7),('a','c',.1),('c','d',.49)])
+        self.assertEqual(clusters['a'],clusters['c'])
+        self.assertNotEqual(clusters['a'],clusters['d'])
     def test_effective_frozen_rules_can_be_written_to_json_receipt(self):
         config = Path(__file__).resolve().parents[1] / 'experiments/jev/active.yaml'
         rules = _load(config)[2]
