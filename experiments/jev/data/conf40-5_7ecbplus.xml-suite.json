@@ -1,0 +1,216 @@
+{
+  "schema": "workere-benchmark-suite/v1",
+  "protocol": "workere-historical-relations/v1",
+  "config": {
+    "seed": 42,
+    "active_dataset": "event_story_line",
+    "datasets": {
+      "event_story_line": {
+        "name": "EventStoryLine-0.9",
+        "repo_id": "Nofing/EventStoryLine-0.9-standard-eci-workere",
+        "split": "train",
+        "text_field": "text",
+        "ann_field": "annots",
+        "max_examples": 0,
+        "kfold": {
+          "enabled": true,
+          "n_folds": 5
+        },
+        "constrain_to_pair_list": false
+      }
+    },
+    "data": {
+      "shuffle_docs": true,
+      "shuffle_pair_list": true,
+      "reshuffle_per_resample": true,
+      "binary_undirected": false,
+      "vote_to_binary": false,
+      "binary_default": "norel",
+      "novote_norel": true,
+      "labels": [
+        "causes",
+        "causedby",
+        "norel"
+      ]
+    },
+    "experiment": {
+      "resampling": {
+        "enabled": true,
+        "n_runs": 7,
+        "tie_breaking": "norel",
+        "distinct_fewshots": true
+      }
+    }
+  },
+  "documents": [
+    {
+      "id": "5_7ecbplus.xml",
+      "idx": 49,
+      "text": "http : / / nbasource . blogspot . nl / 2005 _ 05 _ 01 _ archive . html MONDAY , MAY 23 , 2005 <1 FIRED> IN PHILLY ! ! Sixers' Coach Jim O'Brien was <2 fired> today and <3 taking over> will be former Portland Trailblazers Coach . . .",
+      "gold": [
+        [
+          "1",
+          "causes",
+          "3"
+        ],
+        [
+          "2",
+          "causes",
+          "3"
+        ],
+        [
+          "3",
+          "causedby",
+          "1"
+        ],
+        [
+          "3",
+          "causedby",
+          "2"
+        ]
+      ],
+      "lang": "eng",
+      "mentions": [
+        "1",
+        "2",
+        "3"
+      ],
+      "surfaces": {
+        "1": "FIRED",
+        "2": "fired",
+        "3": "taking over"
+      },
+      "sentence_of": {
+        "1": 2,
+        "2": 3,
+        "3": 3
+      },
+      "first_token": {
+        "1": 25,
+        "2": 35,
+        "3": 38
+      },
+      "pair_list": [
+        [
+          "2",
+          "3"
+        ],
+        [
+          "1",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "2",
+          "1"
+        ],
+        [
+          "3",
+          "2"
+        ],
+        [
+          "1",
+          "2"
+        ]
+      ],
+      "tokens": [
+        "http",
+        ":",
+        "/",
+        "/",
+        "nbasource",
+        ".",
+        "blogspot",
+        ".",
+        "nl",
+        "/",
+        "2005",
+        "_",
+        "05",
+        "_",
+        "01",
+        "_",
+        "archive",
+        ".",
+        "html",
+        "MONDAY",
+        ",",
+        "MAY",
+        "23",
+        ",",
+        "2005",
+        "FIRED",
+        "IN",
+        "PHILLY",
+        "!",
+        "!",
+        "Sixers'",
+        "Coach",
+        "Jim",
+        "O'Brien",
+        "was",
+        "fired",
+        "today",
+        "and",
+        "taking",
+        "over",
+        "will",
+        "be",
+        "former",
+        "Portland",
+        "Trailblazers",
+        "Coach",
+        ".",
+        ".",
+        "."
+      ],
+      "spans": [
+        [
+          25
+        ],
+        [
+          35
+        ],
+        [
+          38,
+          39
+        ]
+      ],
+      "sentences": [
+        [
+          0,
+          19
+        ],
+        [
+          19,
+          25
+        ],
+        [
+          25,
+          30
+        ],
+        [
+          30,
+          49
+        ]
+      ],
+      "syntax_block": "",
+      "coref_block": "",
+      "fold": 4
+    }
+  ],
+  "selection": {
+    "name": "CONF-40",
+    "seed": 2027,
+    "document_ids": [
+      "5_7ecbplus.xml"
+    ],
+    "revision": "e6418e8747ac1c7fecf66d56ae41fbde7fd5967a",
+    "frozen_protocol_sha256": "19d20412bc6fd3a5177a037f1fb070c5529cdf129ffdbd3e8a6aec1c25cc7af3",
+    "parent_CONF40_fingerprint": "723c3d3faa479fd6e215969e34e86feac9ef567874690f2538dbc0eb80dc8ee4"
+  },
+  "fingerprint": "b0b1233533e18786262ab06f7bfae474a2b7b7d840d5617ed8ab4c057e63ff1a"
+}

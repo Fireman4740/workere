@@ -9,17 +9,21 @@ from benchmark.io import write_json
 def _configs(path):
     """A single experiment or a `workere-campaign/v1` list, expanded to effective configs."""
     if read_yaml(path).get("schema") == "workere-campaign/v1":
-        return list(expand_campaign(path))
+        configs = list(expand_campaign(path))
+        if read_yaml(path).get("confirmation_freeze"):
+            from pipelines.jev.confirm_luna import validate
+            validate(path, configs)
+        return configs
     return list(seed_configs(load_experiment(path)))
 
 
-def _execute_parallel(configs, *, output_root=None, output=None):
+def _execute_parallel(configs, *, output_root=None, output=None, max_parallel=None):
     """Campaign entries are independent runs; execute them concurrently, one directory each."""
     from concurrent.futures import ThreadPoolExecutor
     from benchmark.campaign import execute_many
     if len(configs) == 1:
         return execute_many(configs, output_root=output_root, output=output)
-    with ThreadPoolExecutor(max_workers=len(configs)) as pool:
+    with ThreadPoolExecutor(max_workers=min(len(configs), max_parallel or len(configs))) as pool:
         parts = list(pool.map(lambda c: execute_many([c], output_root=output_root), configs))
     runs = [run for part in parts for run in part["runs"]]
     result = {"schema": "workere-campaign-result/v1", "runs": runs,
@@ -72,7 +76,8 @@ def main(argv=None):
             config.data["pipeline"]["relation_predictor"]["params"]["client"]["mode"] = "mock"
             config.data["execution"].update(allow_network=False, allow_paid=False)
             config.data["name"] += "-MOCK"
-    result = _execute_parallel(configs, output_root=args.output_root, output=args.output)
+    result = _execute_parallel(configs, output_root=args.output_root, output=args.output,
+                               max_parallel=read_yaml(args.config).get("max_parallel"))
     for run in result["runs"]:
         if run["status"] == "failed":
             print(json.dumps(run, ensure_ascii=False), flush=True)

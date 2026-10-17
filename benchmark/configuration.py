@@ -200,9 +200,11 @@ def _merge(base, overrides):
 
 def expand_campaign(path):
     payload, path = read_yaml(path), Path(path).resolve()
-    _keys(payload, ("schema", "experiments"), ("schema", "experiments"), "campaign")
+    _keys(payload, ("schema", "experiments", "max_parallel", "confirmation_freeze"), ("schema", "experiments"), "campaign")
     if payload["schema"] != "workere-campaign/v1" or not isinstance(payload["experiments"], list) or not payload["experiments"]:
         raise ValueError("invalid campaign")
+    if "max_parallel" in payload and (type(payload["max_parallel"]) is not int or payload["max_parallel"] < 1):
+        raise ValueError("campaign max_parallel must be a positive integer")
     for entry in payload["experiments"]:
         _keys(entry, ("config", "overrides"), ("config",), "campaign entry")
         source = (path.parent / entry["config"]).resolve()

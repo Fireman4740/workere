@@ -1,0 +1,588 @@
+{
+  "schema": "workere-benchmark-suite/v1",
+  "protocol": "workere-historical-relations/v1",
+  "config": {
+    "seed": 42,
+    "active_dataset": "event_story_line",
+    "datasets": {
+      "event_story_line": {
+        "name": "EventStoryLine-0.9",
+        "repo_id": "Nofing/EventStoryLine-0.9-standard-eci-workere",
+        "split": "train",
+        "text_field": "text",
+        "ann_field": "annots",
+        "max_examples": 0,
+        "kfold": {
+          "enabled": true,
+          "n_folds": 5
+        },
+        "constrain_to_pair_list": false
+      }
+    },
+    "data": {
+      "shuffle_docs": true,
+      "shuffle_pair_list": true,
+      "reshuffle_per_resample": true,
+      "binary_undirected": false,
+      "vote_to_binary": false,
+      "binary_default": "norel",
+      "novote_norel": true,
+      "labels": [
+        "causes",
+        "causedby",
+        "norel"
+      ]
+    },
+    "experiment": {
+      "resampling": {
+        "enabled": true,
+        "n_runs": 7,
+        "tie_breaking": "norel",
+        "distinct_fewshots": true
+      }
+    }
+  },
+  "documents": [
+    {
+      "id": "14_5ecbplus.xml",
+      "idx": 102,
+      "text": "http : / / www . itv . com / news / westcountry / story / 2013 - 07 - 21 / wellington - supermarket - fire / 9 : 53 AM , MON 22 JUL 2013 <6 Latest> on Waitrose supermarket <5 fire> The site manager at the Waitrose supermarket in Wellington that has been <7 damaged> by <8 fire> , <9 says> it will take a couple of days to <1 assess> how much <2 work> <3 needs> to be <4 done> .",
+      "gold": [
+        [
+          "8",
+          "causes",
+          "2"
+        ],
+        [
+          "8",
+          "causes",
+          "4"
+        ],
+        [
+          "5",
+          "causes",
+          "4"
+        ],
+        [
+          "5",
+          "causes",
+          "2"
+        ],
+        [
+          "5",
+          "causes",
+          "7"
+        ],
+        [
+          "8",
+          "causes",
+          "7"
+        ],
+        [
+          "2",
+          "causedby",
+          "8"
+        ],
+        [
+          "4",
+          "causedby",
+          "8"
+        ],
+        [
+          "4",
+          "causedby",
+          "5"
+        ],
+        [
+          "2",
+          "causedby",
+          "5"
+        ],
+        [
+          "7",
+          "causedby",
+          "5"
+        ],
+        [
+          "7",
+          "causedby",
+          "8"
+        ]
+      ],
+      "lang": "eng",
+      "mentions": [
+        "6",
+        "5",
+        "7",
+        "8",
+        "9",
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "surfaces": {
+        "6": "Latest",
+        "5": "fire",
+        "7": "damaged",
+        "8": "fire",
+        "9": "says",
+        "1": "assess",
+        "2": "work",
+        "3": "needs",
+        "4": "done"
+      },
+      "sentence_of": {
+        "6": 2,
+        "5": 2,
+        "7": 3,
+        "8": 3,
+        "9": 3,
+        "1": 3,
+        "2": 3,
+        "3": 3,
+        "4": 3
+      },
+      "first_token": {
+        "6": 37,
+        "5": 41,
+        "7": 54,
+        "8": 56,
+        "9": 58,
+        "1": 67,
+        "2": 70,
+        "3": 71,
+        "4": 74
+      },
+      "pair_list": [
+        [
+          "4",
+          "1"
+        ],
+        [
+          "4",
+          "6"
+        ],
+        [
+          "6",
+          "5"
+        ],
+        [
+          "9",
+          "6"
+        ],
+        [
+          "3",
+          "5"
+        ],
+        [
+          "6",
+          "9"
+        ],
+        [
+          "3",
+          "8"
+        ],
+        [
+          "1",
+          "4"
+        ],
+        [
+          "4",
+          "3"
+        ],
+        [
+          "3",
+          "1"
+        ],
+        [
+          "7",
+          "6"
+        ],
+        [
+          "5",
+          "4"
+        ],
+        [
+          "8",
+          "9"
+        ],
+        [
+          "1",
+          "6"
+        ],
+        [
+          "9",
+          "5"
+        ],
+        [
+          "3",
+          "2"
+        ],
+        [
+          "5",
+          "2"
+        ],
+        [
+          "6",
+          "3"
+        ],
+        [
+          "4",
+          "5"
+        ],
+        [
+          "2",
+          "3"
+        ],
+        [
+          "6",
+          "4"
+        ],
+        [
+          "2",
+          "9"
+        ],
+        [
+          "4",
+          "8"
+        ],
+        [
+          "6",
+          "1"
+        ],
+        [
+          "6",
+          "2"
+        ],
+        [
+          "8",
+          "1"
+        ],
+        [
+          "7",
+          "8"
+        ],
+        [
+          "2",
+          "4"
+        ],
+        [
+          "5",
+          "3"
+        ],
+        [
+          "9",
+          "4"
+        ],
+        [
+          "7",
+          "1"
+        ],
+        [
+          "3",
+          "9"
+        ],
+        [
+          "5",
+          "7"
+        ],
+        [
+          "3",
+          "6"
+        ],
+        [
+          "1",
+          "7"
+        ],
+        [
+          "6",
+          "7"
+        ],
+        [
+          "7",
+          "2"
+        ],
+        [
+          "3",
+          "7"
+        ],
+        [
+          "8",
+          "3"
+        ],
+        [
+          "8",
+          "6"
+        ],
+        [
+          "7",
+          "3"
+        ],
+        [
+          "1",
+          "9"
+        ],
+        [
+          "4",
+          "9"
+        ],
+        [
+          "2",
+          "5"
+        ],
+        [
+          "7",
+          "5"
+        ],
+        [
+          "1",
+          "3"
+        ],
+        [
+          "5",
+          "9"
+        ],
+        [
+          "8",
+          "7"
+        ],
+        [
+          "1",
+          "8"
+        ],
+        [
+          "4",
+          "7"
+        ],
+        [
+          "2",
+          "7"
+        ],
+        [
+          "2",
+          "6"
+        ],
+        [
+          "1",
+          "2"
+        ],
+        [
+          "7",
+          "4"
+        ],
+        [
+          "5",
+          "1"
+        ],
+        [
+          "6",
+          "8"
+        ],
+        [
+          "9",
+          "2"
+        ],
+        [
+          "3",
+          "4"
+        ],
+        [
+          "8",
+          "5"
+        ],
+        [
+          "5",
+          "8"
+        ],
+        [
+          "8",
+          "2"
+        ],
+        [
+          "2",
+          "1"
+        ],
+        [
+          "2",
+          "8"
+        ],
+        [
+          "4",
+          "2"
+        ],
+        [
+          "9",
+          "7"
+        ],
+        [
+          "9",
+          "1"
+        ],
+        [
+          "9",
+          "3"
+        ],
+        [
+          "9",
+          "8"
+        ],
+        [
+          "5",
+          "6"
+        ],
+        [
+          "8",
+          "4"
+        ],
+        [
+          "1",
+          "5"
+        ],
+        [
+          "7",
+          "9"
+        ]
+      ],
+      "tokens": [
+        "http",
+        ":",
+        "/",
+        "/",
+        "www",
+        ".",
+        "itv",
+        ".",
+        "com",
+        "/",
+        "news",
+        "/",
+        "westcountry",
+        "/",
+        "story",
+        "/",
+        "2013",
+        "-",
+        "07",
+        "-",
+        "21",
+        "/",
+        "wellington",
+        "-",
+        "supermarket",
+        "-",
+        "fire",
+        "/",
+        "9",
+        ":",
+        "53",
+        "AM",
+        ",",
+        "MON",
+        "22",
+        "JUL",
+        "2013",
+        "Latest",
+        "on",
+        "Waitrose",
+        "supermarket",
+        "fire",
+        "The",
+        "site",
+        "manager",
+        "at",
+        "the",
+        "Waitrose",
+        "supermarket",
+        "in",
+        "Wellington",
+        "that",
+        "has",
+        "been",
+        "damaged",
+        "by",
+        "fire",
+        ",",
+        "says",
+        "it",
+        "will",
+        "take",
+        "a",
+        "couple",
+        "of",
+        "days",
+        "to",
+        "assess",
+        "how",
+        "much",
+        "work",
+        "needs",
+        "to",
+        "be",
+        "done",
+        "."
+      ],
+      "spans": [
+        [
+          37
+        ],
+        [
+          41
+        ],
+        [
+          54
+        ],
+        [
+          56
+        ],
+        [
+          58
+        ],
+        [
+          67
+        ],
+        [
+          70
+        ],
+        [
+          71
+        ],
+        [
+          74
+        ]
+      ],
+      "sentences": [
+        [
+          0,
+          28
+        ],
+        [
+          28,
+          37
+        ],
+        [
+          37,
+          42
+        ],
+        [
+          42,
+          76
+        ]
+      ],
+      "syntax_block": "",
+      "coref_block": "",
+      "fold": 2
+    }
+  ],
+  "selection": {
+    "name": "CONF-40",
+    "seed": 2027,
+    "document_ids": [
+      "14_5ecbplus.xml"
+    ],
+    "revision": "e6418e8747ac1c7fecf66d56ae41fbde7fd5967a",
+    "frozen_protocol_sha256": "19d20412bc6fd3a5177a037f1fb070c5529cdf129ffdbd3e8a6aec1c25cc7af3",
+    "parent_CONF40_fingerprint": "723c3d3faa479fd6e215969e34e86feac9ef567874690f2538dbc0eb80dc8ee4"
+  },
+  "fingerprint": "af07f1ff0db8c057ca2eda1ab02ebe6368fe98893119e6950f0bb45170f91630"
+}
