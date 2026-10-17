@@ -1,9 +1,34 @@
-schema: workere-esc-refinement/v1
-name: esc-d1-r2a-symmetry-lodo-dev25
-phase: development
-api_calls: 0
-inputs: r2-dev25-inputs.json
-inputs_sha256: c4d2ca1e3e06b2a0778ea2fa693f5fc1995c6152eccf5a98aee8576be112da5a
-rules: r2-frozen-rules.yaml
+schema: workere-esc-confirmation/v1
+name: esc-d1-final-conf40
+max_workers: 256
+output_dir: ../../logs/jev-final
+client:
+  provider: openrouter
+  endpoint: https://openrouter.ai/api/alpha/decisions
+  model: liquid/d1-ultra
+  model_version: d1-ultra-20261015
+  expected_served_version: liquid/d1-ultra-20261015
+  api_key_env: OPENROUTER_API_KEY
+  mode: live
+  timeout: 120
+  retries: 8
+  requests_per_minute: 6000
+  max_calls: 40000
+  max_context_tokens: 32768
+  budget_usd: 1.25
+  max_cost_per_call_usd: 0.0015
+  input_price_per_million: 0.042
+  cache_path: ~/.local/share/openresearch/workere-decisions/cache.sqlite
+  retry_backoff_seconds: 2
+  retry_max_wait_seconds: 3600
+  shared_budget:
+    path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
+    scope: esc-improvement-20261016-10usd
+    limit_usd: 10
+    initial_spend_usd: 5.224675
+freeze: final-freeze.json
+freeze_sha256: 19d20412bc6fd3a5177a037f1fb070c5529cdf129ffdbd3e8a6aec1c25cc7af3
+suite: final-conf40-suite.json
+suite_sha256: 48bd0249e08c5e51b4a9bbddfcea967c39a25b8ccec6f163e3f61cbad6e19da3
 selection: document-selection.json
-output_dir: ../../logs/jev-r2
+selection_sha256: be930b6649f967f844a06dcf8ff0bcc990748a7e39f12d331c61f5bd9273e132
