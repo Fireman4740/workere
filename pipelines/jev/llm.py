@@ -107,25 +107,31 @@ class LunaDocumentPredictor:
         mock = params.get("client", {}).get("mode") == "mock"
         return {"requires_network": not mock, "may_charge": not mock, "mode": "mock" if mock else "inference"}
 
-    def __init__(self, client, path, selection_path, repo_id, revision, passes=7, demo_bank_path=None):
+    def __init__(self, client, path, selection_path, repo_id, revision, passes=7, demo_bank_path=None, demo_selection="random"):
         import yaml
         from pipelines.jev.batch import BatchChatClient
         self.client = BatchChatClient(**client)
         self.prompt = yaml.safe_load(Path(path).read_text())
-        self.passes, self.bank = passes, []
+        if demo_selection not in {"random", "contrastive_structural"}:
+            raise ValueError("unknown demonstration selection")
+        self.passes, self.bank, self.demo_selection = passes, [], demo_selection
         if self.client.mode != "mock":
             self.bank = (frozen_demonstration_bank(demo_bank_path, repo_id, revision) if demo_bank_path
                          else demonstration_bank(repo_id, revision, selection_path))
         print("LUNA_GUIDANCE_CONFIG " + json.dumps({"passes": passes, "prompt_sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest(),
             "demo_bank_sha256": hashlib.sha256(Path(demo_bank_path).read_bytes()).hexdigest() if demo_bank_path else None,
-            "demonstration_selection": "random_outside_topic", "demonstration_count": len(self.bank)}), flush=True)
+            "demonstration_selection": demo_selection + "_outside_topic", "demonstration_count": len(self.bank)}), flush=True)
 
     def predict(self, document, entities, candidates, context):
         user = self.prompt["user_template"].format(doc_text=marked_text(document, entities), pair_lines="", doc_id=document.id)
         eligible = [d for d in self.bank if d["id"].split("_")[0] != document.id.split("_")[0]]
         if self.client.mode != "mock" and len(eligible) < self.passes:
             raise ValueError("insufficient demonstrations outside evaluation topic")
-        selected = random.Random(f"{context.seed}::{document.id}").sample(eligible, self.passes) if eligible else [None] * self.passes
+        if eligible and self.demo_selection == "contrastive_structural":
+            from pipelines.jev.contrastive import select_demonstrations
+            selected = select_demonstrations(document, entities, self.bank, self.passes)
+        else:
+            selected = random.Random(f"{context.seed}::{document.id}").sample(eligible, self.passes) if eligible else [None] * self.passes
         lock = threading.Lock()
 
         def prepare(item):
@@ -133,6 +139,9 @@ class LunaDocumentPredictor:
             messages = [{"role": "system", "content": self.prompt["system"]}]
             if demo:
                 answer = [{"pair": f"{a},{b}", "label": lab} for a, lab, b in parse_annotations(demo["annots"]) if not is_norel(lab)]
+                if self.demo_selection == "contrastive_structural":
+                    from pipelines.jev.contrastive import negative_pairs
+                    answer += [{"pair": f"{x},{y}", "label": "norel"} for a, b in negative_pairs(demo) for x, y in [(a, b), (b, a)]]
                 messages += [{"role": "user", "content": self.prompt["user_template"].format(doc_text=demo["text"], pair_lines="", doc_id=demo["id"])},
                              {"role": "assistant", "content": json.dumps(answer)}]
             messages.append({"role": "user", "content": user})
@@ -164,8 +173,10 @@ class LunaDocumentPredictor:
         context.prediction_metadata.update(decision_scores=scores, direction_predicted=True,
             pass_triples=passes,
             demonstration_ids=[d["id"] for d in selected if d], passes=self.passes,
+            demonstration_selection=self.demo_selection,
             model=self.client.identity["model"], reasoning_effort="high",
-            demonstration_style="gold_answer_only_no_synthesized_rationale", historical_parity="not_claimed")
+            demonstration_style=("gold_positive_and_explicit_negative_answers" if self.demo_selection == "contrastive_structural"
+                                 else "gold_answer_only_no_synthesized_rationale"), historical_parity="not_claimed")
         return tuple(Relation(a, b, labels.get((a, b), NOREL)) for a, b in candidates)
 
     def close(self):
