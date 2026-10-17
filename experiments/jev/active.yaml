@@ -1,5 +1,9 @@
-schema: workere-campaign/v1
-experiments:
-- config: d1_noul_dev25.yaml
-- config: d1_noul_d15.yaml
-- config: d1_multi_smoke.yaml
+schema: workere-esc-refinement/v1
+name: esc-d1-r2a-symmetry-lodo-dev25
+phase: development
+api_calls: 0
+inputs: r2-dev25-inputs.json
+inputs_sha256: c4d2ca1e3e06b2a0778ea2fa693f5fc1995c6152eccf5a98aee8576be112da5a
+rules: r2-frozen-rules.yaml
+selection: document-selection.json
+output_dir: ../../logs/jev-r2

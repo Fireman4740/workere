@@ -54,6 +54,12 @@ def main(argv=None):
                   rethreshold(args.run_dir, args.threshold, args.output_dir))
         print(json.dumps(result, ensure_ascii=False), flush=True)
         return 0
+    if read_yaml(args.config).get('schema') == 'workere-esc-refinement/v1':
+        from pipelines.jev.refinement import plan, run
+        result = plan(args.config) if args.command == 'dry-run' else run(args.config)
+        write_json(args.output, result)
+        print(json.dumps(result, ensure_ascii=False), flush=True)
+        return 0
     configs = _configs(args.config)
     if args.command == "dry-run":
         from pipelines.jev.planning import plan
