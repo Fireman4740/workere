@@ -200,11 +200,16 @@ def _merge(base, overrides):
 
 def expand_campaign(path):
     payload, path = read_yaml(path), Path(path).resolve()
-    _keys(payload, ("schema", "experiments", "max_parallel", "confirmation_freeze"), ("schema", "experiments"), "campaign")
+    _keys(payload, ("schema", "experiments", "max_parallel", "confirmation_freeze", "round4_evaluation"), ("schema", "experiments"), "campaign")
     if payload["schema"] != "workere-campaign/v1" or not isinstance(payload["experiments"], list) or not payload["experiments"]:
         raise ValueError("invalid campaign")
     if "max_parallel" in payload and (type(payload["max_parallel"]) is not int or payload["max_parallel"] < 1):
         raise ValueError("campaign max_parallel must be a positive integer")
+    if "round4_evaluation" in payload:
+        post = payload["round4_evaluation"]
+        _keys(post, ("control_path", "variant", "threshold"), ("control_path", "variant", "threshold"), "round4_evaluation")
+        if post["threshold"] != .39 or not all(isinstance(post[k], str) and post[k] for k in ("control_path", "variant")):
+            raise ValueError("round4 evaluation needs frozen threshold .39 and named controls/variant")
     for entry in payload["experiments"]:
         _keys(entry, ("config", "overrides"), ("config",), "campaign entry")
         source = (path.parent / entry["config"]).resolve()

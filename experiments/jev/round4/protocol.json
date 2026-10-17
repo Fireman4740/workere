@@ -1,0 +1,14 @@
+{
+  "sample": "DEV44, 44 documents / 22 topics; already consumed",
+  "primary": "F1 of mean_sym >=0.39 vs cached original fusion",
+  "secondary": "Luna binary majority >=4/7 vs cached original Luna; 1/3-pass ablations exploratory",
+  "tuning": "none on DEV44; fixed threshold; no reserve inference",
+  "two_guidance_options": "A semantic prompt; B contrastive demonstrations alone, on the common R3-T0 parent",
+  "future_combination": "only after a winner is established; not launched in this screen",
+  "bootstrap": "2000 paired document and topic resamples, seed42; 95% pointwise and 97.5% per-primary-contrast Bonferroni for two variants",
+  "promotion": "development candidate only if delta F1 >=1 point and document-bootstrap 97.5% lower bound >0; confirmation remains on reserve",
+  "budget": "3 USD shared scope across A and B, same host; no new d1 calls",
+  "passes": 7,
+  "seed": 42,
+  "confirmation_docs_excluded": 118
+}

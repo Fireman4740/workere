@@ -89,6 +89,13 @@ def main(argv=None):
             print(json.dumps({"run_dir": run["run_dir"], "summary": metrics["summary"],
                               "uncertainty": metrics["uncertainty"],
                               "metadata": read_json(directory / "metadata.json")}, ensure_ascii=False), flush=True)
+    post = read_yaml(args.config).get("round4_evaluation")
+    if post and result["status"] != "errors":
+        from pathlib import Path
+        from pipelines.jev.round4_eval import evaluate
+        report = evaluate(result, Path(args.config).parent / post["control_path"], post["variant"], post["threshold"])
+        write_json(Path(args.output).with_name("round4-screen-result.json"), report)
+        print("ROUND4_RESULT " + json.dumps(report, ensure_ascii=False), flush=True)
     return 1 if result["status"] == "errors" else 0
 
 

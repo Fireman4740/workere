@@ -4,6 +4,7 @@ One gold-answer demonstration per pass; no synthetic CoT demonstration or histor
 DeepSeek parity claim. Evaluation annotations never enter the model-facing interface.
 """
 import json
+import hashlib
 import random
 import threading
 from concurrent.futures import ThreadPoolExecutor
@@ -20,6 +21,16 @@ from pipelines.jev.client import DecisionClient, DecisionError, BudgetExceeded
 _IN_FLIGHT = threading.BoundedSemaphore(128)
 _BANK_LOCK = threading.Lock()
 _BANKS = {}
+
+
+def frozen_demonstration_bank(path, repo_id, revision):
+    data = json.loads(Path(path).read_text())
+    if data.get("schema") != "workere-frozen-demo-bank/v1" or data.get("repo_id") != repo_id or data.get("revision") != revision:
+        raise ValueError("frozen demonstration bank identity mismatch")
+    rows = data["documents"]
+    if len(rows) != 20 or len({d["id"] for d in rows}) != 20:
+        raise ValueError("frozen demonstration bank must contain 20 distinct documents")
+    return rows
 
 
 def marked_text(document, entities):
@@ -96,14 +107,18 @@ class LunaDocumentPredictor:
         mock = params.get("client", {}).get("mode") == "mock"
         return {"requires_network": not mock, "may_charge": not mock, "mode": "mock" if mock else "inference"}
 
-    def __init__(self, client, path, selection_path, repo_id, revision, passes=7):
+    def __init__(self, client, path, selection_path, repo_id, revision, passes=7, demo_bank_path=None):
         import yaml
         from pipelines.jev.batch import BatchChatClient
         self.client = BatchChatClient(**client)
         self.prompt = yaml.safe_load(Path(path).read_text())
         self.passes, self.bank = passes, []
         if self.client.mode != "mock":
-            self.bank = demonstration_bank(repo_id, revision, selection_path)
+            self.bank = (frozen_demonstration_bank(demo_bank_path, repo_id, revision) if demo_bank_path
+                         else demonstration_bank(repo_id, revision, selection_path))
+        print("LUNA_GUIDANCE_CONFIG " + json.dumps({"passes": passes, "prompt_sha256": hashlib.sha256(Path(path).read_bytes()).hexdigest(),
+            "demo_bank_sha256": hashlib.sha256(Path(demo_bank_path).read_bytes()).hexdigest() if demo_bank_path else None,
+            "demonstration_selection": "random_outside_topic", "demonstration_count": len(self.bank)}), flush=True)
 
     def predict(self, document, entities, candidates, context):
         user = self.prompt["user_template"].format(doc_text=marked_text(document, entities), pair_lines="", doc_id=document.id)
@@ -147,6 +162,7 @@ class LunaDocumentPredictor:
             p = sum(v for lab, v in counts.items() if not is_norel(lab)) / self.passes
             scores.append({"source": a, "target": b, "positive_probability": p})
         context.prediction_metadata.update(decision_scores=scores, direction_predicted=True,
+            pass_triples=passes,
             demonstration_ids=[d["id"] for d in selected if d], passes=self.passes,
             model=self.client.identity["model"], reasoning_effort="high",
             demonstration_style="gold_answer_only_no_synthesized_rationale", historical_parity="not_claimed")
