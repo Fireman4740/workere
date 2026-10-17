@@ -45,5 +45,28 @@ class LunaReference(unittest.TestCase):
                     client._validate_response({}, {"model": "other/model", "choices": []})
 
 
+    def test_rationale_demonstration_keeps_gold_answer_and_strips_model_json(self):
+        from pipelines.jev.llm import rationale_from, demonstration_turn
+        content = 'Step 1: group events.\nStep 2: fire damaged the house.\n[{"pair": "1,2", "label": "causes"}]'
+        self.assertEqual(rationale_from(content), "Step 1: group events.\nStep 2: fire damaged the house.")
+        gold = [{"pair": "1,2", "label": "causes"}]
+        turn = demonstration_turn(gold, "Because fire damaged it.")
+        self.assertTrue(turn.startswith("Because fire damaged it."))
+        self.assertTrue(turn.endswith(json.dumps(gold)))
+        self.assertEqual(demonstration_turn(gold, None), json.dumps(gold))
+        with self.assertRaises(ValueError):
+            rationale_from("no reasoning, no array")
+
+    def test_rationale_style_is_validated(self):
+        with tempfile.TemporaryDirectory() as temp:
+            client = {"model": "openai/gpt-6-luna:batch", "model_version": "gpt-6-luna-20260922",
+                      "endpoint": "https://openrouter.ai/api/v1/chat/completions", "mode": "mock",
+                      "cache_path": str(Path(temp) / "cache.sqlite"), "max_calls": 10,
+                      "reasoning_effort": "high", "max_context_tokens": 1050000}
+            with self.assertRaises(ValueError):
+                LunaDocumentPredictor(client, "prompts/esl_standard_eci_lean_coref.yaml",
+                    "experiments/jev/document-selection.json", "unused", "pinned", demonstration_style="bogus")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -20,6 +20,36 @@ from pipelines.jev.client import DecisionClient, DecisionError, BudgetExceeded
 _IN_FLIGHT = threading.BoundedSemaphore(128)
 _BANK_LOCK = threading.Lock()
 _BANKS = {}
+_RATIONALE_LOCK = threading.Lock()
+_RATIONALES = {}
+DEMONSTRATION_STYLES = {"gold_answer", "rationale"}
+RATIONALE_REQUEST = (
+    "\n\nThe correct causal pairs for this document are listed below. Write the reasoning (Steps 1 to 3 "
+    "of the instructions) that leads to exactly this answer, as if you were solving the document yourself: "
+    "group the mentions into events, justify each causal event link from the text, and say briefly why "
+    "tempting pairs are norel. Never mention that the answer was given. Finish with the final JSON array, "
+    "identical to the given answer.\nGiven answer:\n{answer}")
+
+
+def rationale_from(content):
+    """The reasoning before the final JSON array; the model's own array is always discarded."""
+    end = content.rfind("[")
+    while end > 0 and not content[end:].lstrip("[ \n").startswith(("{", "]")):
+        end = content.rfind("[", 0, end)
+    text = content[:end].strip() if end > 0 else ""
+    if not text:
+        raise ValueError("synthesized demonstration lacks a rationale before its JSON answer")
+    return text
+
+
+def demonstration_turn(answer, rationale):
+    """Assistant turn of a demonstration: optional rationale, then the gold answer verbatim."""
+    gold = json.dumps(answer)
+    return gold if rationale is None else rationale.strip() + "\n\n" + gold
+
+
+def gold_answer(demo):
+    return [{"pair": f"{a},{b}", "label": lab} for a, lab, b in parse_annotations(demo["annots"]) if not is_norel(lab)]
 
 
 def marked_text(document, entities):
@@ -96,14 +126,47 @@ class LunaDocumentPredictor:
         mock = params.get("client", {}).get("mode") == "mock"
         return {"requires_network": not mock, "may_charge": not mock, "mode": "mock" if mock else "inference"}
 
-    def __init__(self, client, path, selection_path, repo_id, revision, passes=7):
+    def __init__(self, client, path, selection_path, repo_id, revision, passes=7, demonstration_style="gold_answer",
+                 rationale_cache_path=None):
         import yaml
         from pipelines.jev.batch import BatchChatClient
+        if demonstration_style not in DEMONSTRATION_STYLES:
+            raise ValueError(f"demonstration_style must be one of {sorted(DEMONSTRATION_STYLES)}")
+        if demonstration_style == "rationale" and not rationale_cache_path:
+            raise ValueError("rationale demonstrations need a shared rationale_cache_path")
+        self.client_config = dict(client)
         self.client = BatchChatClient(**client)
         self.prompt = yaml.safe_load(Path(path).read_text())
-        self.passes, self.bank = passes, []
+        self.passes, self.bank, self.style = passes, [], demonstration_style
+        self.rationale_cache_path, self.rationales = rationale_cache_path, {}
         if self.client.mode != "mock":
             self.bank = demonstration_bank(repo_id, revision, selection_path)
+            if self.style == "rationale":
+                self.rationales = self._synthesize_rationales()
+
+    def _synthesize_rationales(self):
+        """One gold-guided rationale per bank document, shared by every evaluated document.
+
+        All bank documents are synthesized in one batch under a process-wide lock and a shared cache,
+        so concurrent document runs never pay twice. Only train-bank gold enters these prompts.
+        """
+        from pipelines.jev.batch import BatchChatClient
+        key = (self.rationale_cache_path, tuple(d["id"] for d in self.bank))
+        with _RATIONALE_LOCK:
+            if key not in _RATIONALES:
+                config = {**self.client_config, "cache_path": str(Path(self.rationale_cache_path).expanduser())}
+                with BatchChatClient(**config) as synth:
+                    messages = [[{"role": "system", "content": self.prompt["system"]},
+                                 {"role": "user", "content": self.prompt["user_template"].format(
+                                     doc_text=demo["text"], pair_lines="", doc_id=demo["id"])
+                                     + RATIONALE_REQUEST.format(answer=json.dumps(gold_answer(demo)))}]
+                                for demo in self.bank]
+                    packets = synth.decide_many(messages, [lambda event: None] * len(messages))
+                    _RATIONALES[key] = {demo["id"]: rationale_from(packet["response"]["choices"][0]["message"]["content"])
+                                        for demo, packet in zip(self.bank, packets)}
+                    print(f"llm rationales synthesized={len(packets)} cached="
+                          f"{sum(p['cache_hit'] for p in packets)}", flush=True)
+            return _RATIONALES[key]
 
     def predict(self, document, entities, candidates, context):
         user = self.prompt["user_template"].format(doc_text=marked_text(document, entities), pair_lines="", doc_id=document.id)
@@ -117,9 +180,11 @@ class LunaDocumentPredictor:
             index, demo = item
             messages = [{"role": "system", "content": self.prompt["system"]}]
             if demo:
-                answer = [{"pair": f"{a},{b}", "label": lab} for a, lab, b in parse_annotations(demo["annots"]) if not is_norel(lab)]
+                rationale = self.rationales.get(demo["id"]) if self.style == "rationale" else None
+                if self.style == "rationale" and rationale is None:
+                    raise ValueError(f"missing synthesized rationale for demonstration {demo['id']}")
                 messages += [{"role": "user", "content": self.prompt["user_template"].format(doc_text=demo["text"], pair_lines="", doc_id=demo["id"])},
-                             {"role": "assistant", "content": json.dumps(answer)}]
+                             {"role": "assistant", "content": demonstration_turn(gold_answer(demo), rationale)}]
             messages.append({"role": "user", "content": user})
 
             def record(event):
@@ -149,7 +214,8 @@ class LunaDocumentPredictor:
         context.prediction_metadata.update(decision_scores=scores, direction_predicted=True,
             demonstration_ids=[d["id"] for d in selected if d], passes=self.passes,
             model=self.client.identity["model"], reasoning_effort="high",
-            demonstration_style="gold_answer_only_no_synthesized_rationale", historical_parity="not_claimed")
+            demonstration_style=("gold_answer_only_no_synthesized_rationale" if self.style == "gold_answer"
+                                 else "luna_synthesized_rationale_then_gold_answer"), historical_parity="not_claimed")
         return tuple(Relation(a, b, labels.get((a, b), NOREL)) for a, b in candidates)
 
     def close(self):
