@@ -79,6 +79,8 @@ def _load(path):
     if data.get('schema') != 'workere-esc-refinement-inputs/v1':
         raise ValueError('invalid refinement inputs')
     rules = read_yaml(path.parent / cfg['rules'])
+    # YAML dates become datetime.date; retain their ISO representation in receipts.
+    rules['registered'] = str(rules['registered'])
     if (rules['symmetrization'] != 'arithmetic_mean_of_ordered_probabilities'
             or rules['event_pair_aggregation'] != 'maximum_over_cross_chain_mention_pairs'
             or rules['within_chain'] != 'no_relation'

@@ -1,8 +1,17 @@
+import json
 import unittest
-from pipelines.jev.refinement import aggregate_chains, lodo_thresholds, symmetrize
+from pathlib import Path
+from pipelines.jev.refinement import _load, aggregate_chains, lodo_thresholds, symmetrize
 
 
 class EscRefinement(unittest.TestCase):
+    def test_effective_frozen_rules_can_be_written_to_json_receipt(self):
+        config = Path(__file__).resolve().parents[1] / 'experiments/jev/active.yaml'
+        rules = _load(config)[2]
+        restored = json.loads(json.dumps(rules, allow_nan=False))
+        self.assertEqual(restored['registered'], '2026-10-16')
+        self.assertEqual(restored['threshold']['grid'], [i / 20 for i in range(1,20)])
+
     def test_held_out_labels_never_change_its_fitted_threshold(self):
         values = {'a': [.2,.8], 'b': [.3,.7], 'held': [.1,.9]}
         labels = {'a': [False,True], 'b': [False,True], 'held': [False,True]}
