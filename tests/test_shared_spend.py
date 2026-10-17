@@ -107,5 +107,34 @@ class SharedSpend(unittest.TestCase):
             resumed.close()
 
 
+    def test_transient_disk_io_error_is_retried_without_double_charging(self):
+        with tempfile.TemporaryDirectory() as temp:
+            budget = SharedBudget(str(Path(temp) / "budget.sqlite"), "plan", 1, 0)
+            self.assertEqual(budget.db.execute("PRAGMA journal_mode").fetchone()[0].lower(), "wal")
+            real, calls = budget.db, {"n": 0}
+
+            class Flaky:
+                """Fails the first commit after the data is durable, like an fsync error reported late."""
+                def __getattr__(self, name):
+                    return getattr(real, name)
+
+                def commit(self):
+                    calls["n"] += 1
+                    real.commit()
+                    if calls["n"] == 1:
+                        err = sqlite3.OperationalError("disk I/O error")
+                        err.sqlite_errorcode = sqlite3.SQLITE_IOERR
+                        raise err
+
+            budget.db = Flaky()
+            ticket = budget.reserve(.1)
+            budget.db = real
+            self.assertAlmostEqual(budget.status()["accounted_or_reserved_usd"], .1)
+            self.assertEqual(real.execute("SELECT COUNT(*) FROM reservations").fetchone()[0], 1)
+            budget.settle(ticket, .02)
+            self.assertAlmostEqual(budget.status()["accounted_or_reserved_usd"], .02)
+            budget.close()
+
+
 if __name__ == "__main__":
     unittest.main()

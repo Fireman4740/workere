@@ -18,6 +18,9 @@ class SharedBudget:
         path.parent.mkdir(parents=True, exist_ok=True)
         self.scope, self.lock = scope, threading.RLock()
         self.db = sqlite3.connect(path, timeout=.25, check_same_thread=False, isolation_level=None)
+        # WAL tolerates many concurrent writer processes far better than a rollback journal.
+        self._transaction(lambda: None, pragma="PRAGMA journal_mode=WAL")
+        self.db.execute("PRAGMA synchronous=NORMAL")
         def initialize():
             self.db.execute("CREATE TABLE IF NOT EXISTS accounts(scope TEXT PRIMARY KEY, cap REAL, used REAL, initial REAL)")
             self.db.execute("CREATE TABLE IF NOT EXISTS reservations(id TEXT PRIMARY KEY, scope TEXT, amount REAL, settled INTEGER)")
@@ -31,7 +34,7 @@ class SharedBudget:
             self.db.close()
             raise
 
-    def _transaction(self, operation):
+    def _transaction(self, operation, pragma=None):
         """Retry only the local transaction; no model call occurs inside this loop.
 
         A failed BEGIN used to escape after SQLite's busy timeout. Multiple
@@ -44,16 +47,25 @@ class SharedBudget:
         with self.lock:
             while True:
                 try:
+                    if pragma:  # journal-mode changes must run outside any transaction
+                        self.db.execute(pragma)
+                        return None
                     self.db.execute("BEGIN IMMEDIATE")
                     result = operation()
                     self.db.commit()
                     return result
                 except BaseException as exc:
-                    self.db.rollback()
+                    try:
+                        self.db.rollback()
+                    except sqlite3.Error:
+                        pass  # the failed commit may already have ended the transaction
                     code = getattr(exc, "sqlite_errorcode", None)
+                    text = str(exc).lower()
+                    # Transient disk I/O errors are retried too: every operation is idempotent
+                    # (reservation tickets and settlement flags), so a retry never charges twice.
                     busy = isinstance(exc, sqlite3.OperationalError) and (
-                        code is not None and code & 255 in (sqlite3.SQLITE_BUSY, sqlite3.SQLITE_LOCKED)
-                        or code is None and ("locked" in str(exc).lower() or "busy" in str(exc).lower()))
+                        code is not None and code & 255 in (sqlite3.SQLITE_BUSY, sqlite3.SQLITE_LOCKED, sqlite3.SQLITE_IOERR)
+                        or code is None and ("locked" in text or "busy" in text or "disk i/o" in text))
                     if not busy or time.monotonic() >= deadline:
                         raise
                     retries += 1
@@ -66,6 +78,8 @@ class SharedBudget:
     def reserve(self, amount):
         ticket = uuid.uuid4().hex
         def operation():
+            if self.db.execute("SELECT 1 FROM reservations WHERE id=?", (ticket,)).fetchone():
+                return ticket  # an earlier attempt committed before reporting an error
             cap, used = self.db.execute("SELECT cap,used FROM accounts WHERE scope=?", (self.scope,)).fetchone()
             if used + amount > cap + 1e-12:
                 raise BudgetExceeded(f"global plan budget exhausted: accounted/reserved {used:.6f} + {amount:.6f} > {cap:.2f} USD")
