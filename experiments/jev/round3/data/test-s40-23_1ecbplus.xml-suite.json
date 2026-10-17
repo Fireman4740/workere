@@ -1,0 +1,556 @@
+{
+ "schema": "workere-benchmark-suite/v1",
+ "protocol": "workere-historical-relations/v1",
+ "config": {
+  "seed": 42,
+  "active_dataset": "event_story_line",
+  "datasets": {
+   "event_story_line": {
+    "name": "EventStoryLine-0.9",
+    "repo_id": "Nofing/EventStoryLine-0.9-standard-eci-workere",
+    "split": "train",
+    "text_field": "text",
+    "ann_field": "annots",
+    "max_examples": 0,
+    "kfold": {
+     "enabled": true,
+     "n_folds": 5
+    },
+    "constrain_to_pair_list": false
+   }
+  },
+  "data": {
+   "shuffle_docs": true,
+   "shuffle_pair_list": true,
+   "reshuffle_per_resample": true,
+   "binary_undirected": false,
+   "vote_to_binary": false,
+   "binary_default": "norel",
+   "novote_norel": true,
+   "labels": [
+    "causes",
+    "causedby",
+    "norel"
+   ]
+  },
+  "experiment": {
+   "resampling": {
+    "enabled": true,
+    "n_runs": 7,
+    "tie_breaking": "norel",
+    "distinct_fewshots": true
+   }
+  }
+ },
+ "documents": [
+  {
+   "id": "23_1ecbplus.xml",
+   "idx": 167,
+   "text": "http : / / www . stuff . co . nz / national / 9166103 / Climber - dead - after - Aoraki - Mount - Cook - fall Climber <16 dead> after Aoraki Mount Cook <3 fall> Last updated 13 : 26 14 / 09 / 2013 A 36 - year - old Australian climber is <15 dead> after <4 falling> about 150 metres at Aoraki Mount Cook . The man , from Hampton East , <5 fell> in the Tasman Glacier area . A Westpac Rescue Helicopter from Christchurch was called about 3pm to assist with search and rescue co - ordination at the Mt Cook base . When it got there , the man had been transported to Mt Cook Village by a local helicopter service and pronounced dead by paramedics . The man is <1 thought> to have <2 fallen> much earlier in the day .",
+   "gold": [
+    [
+     "4",
+     "causes",
+     "16"
+    ],
+    [
+     "3",
+     "causes",
+     "16"
+    ],
+    [
+     "2",
+     "causes",
+     "16"
+    ],
+    [
+     "2",
+     "causes",
+     "15"
+    ],
+    [
+     "4",
+     "causes",
+     "15"
+    ],
+    [
+     "5",
+     "causes",
+     "15"
+    ],
+    [
+     "3",
+     "causes",
+     "15"
+    ],
+    [
+     "5",
+     "causes",
+     "16"
+    ],
+    [
+     "16",
+     "causedby",
+     "4"
+    ],
+    [
+     "16",
+     "causedby",
+     "3"
+    ],
+    [
+     "16",
+     "causedby",
+     "2"
+    ],
+    [
+     "15",
+     "causedby",
+     "2"
+    ],
+    [
+     "15",
+     "causedby",
+     "4"
+    ],
+    [
+     "15",
+     "causedby",
+     "5"
+    ],
+    [
+     "15",
+     "causedby",
+     "3"
+    ],
+    [
+     "16",
+     "causedby",
+     "5"
+    ]
+   ],
+   "lang": "eng",
+   "mentions": [
+    "16",
+    "3",
+    "15",
+    "4",
+    "5",
+    "1",
+    "2"
+   ],
+   "surfaces": {
+    "16": "dead",
+    "3": "fall",
+    "15": "dead",
+    "4": "falling",
+    "5": "fell",
+    "1": "thought",
+    "2": "fallen"
+   },
+   "sentence_of": {
+    "16": 1,
+    "3": 1,
+    "15": 3,
+    "4": 3,
+    "5": 4,
+    "1": 7,
+    "2": 7
+   },
+   "first_token": {
+    "16": 30,
+    "3": 35,
+    "15": 55,
+    "4": 57,
+    "5": 73,
+    "1": 133,
+    "2": 136
+   },
+   "pair_list": [
+    [
+     "15",
+     "2"
+    ],
+    [
+     "5",
+     "4"
+    ],
+    [
+     "16",
+     "15"
+    ],
+    [
+     "1",
+     "16"
+    ],
+    [
+     "15",
+     "5"
+    ],
+    [
+     "4",
+     "5"
+    ],
+    [
+     "16",
+     "4"
+    ],
+    [
+     "5",
+     "3"
+    ],
+    [
+     "15",
+     "1"
+    ],
+    [
+     "5",
+     "16"
+    ],
+    [
+     "4",
+     "3"
+    ],
+    [
+     "15",
+     "3"
+    ],
+    [
+     "2",
+     "15"
+    ],
+    [
+     "2",
+     "3"
+    ],
+    [
+     "16",
+     "5"
+    ],
+    [
+     "3",
+     "1"
+    ],
+    [
+     "4",
+     "2"
+    ],
+    [
+     "3",
+     "15"
+    ],
+    [
+     "1",
+     "5"
+    ],
+    [
+     "16",
+     "3"
+    ],
+    [
+     "1",
+     "4"
+    ],
+    [
+     "15",
+     "16"
+    ],
+    [
+     "2",
+     "4"
+    ],
+    [
+     "4",
+     "1"
+    ],
+    [
+     "16",
+     "1"
+    ],
+    [
+     "2",
+     "16"
+    ],
+    [
+     "5",
+     "15"
+    ],
+    [
+     "5",
+     "2"
+    ],
+    [
+     "4",
+     "15"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "3",
+     "5"
+    ],
+    [
+     "5",
+     "1"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "4",
+     "16"
+    ],
+    [
+     "2",
+     "5"
+    ],
+    [
+     "3",
+     "16"
+    ],
+    [
+     "16",
+     "2"
+    ],
+    [
+     "1",
+     "3"
+    ],
+    [
+     "15",
+     "4"
+    ],
+    [
+     "3",
+     "4"
+    ],
+    [
+     "1",
+     "15"
+    ]
+   ],
+   "tokens": [
+    "http",
+    ":",
+    "/",
+    "/",
+    "www",
+    ".",
+    "stuff",
+    ".",
+    "co",
+    ".",
+    "nz",
+    "/",
+    "national",
+    "/",
+    "9166103",
+    "/",
+    "Climber",
+    "-",
+    "dead",
+    "-",
+    "after",
+    "-",
+    "Aoraki",
+    "-",
+    "Mount",
+    "-",
+    "Cook",
+    "-",
+    "fall",
+    "Climber",
+    "dead",
+    "after",
+    "Aoraki",
+    "Mount",
+    "Cook",
+    "fall",
+    "Last",
+    "updated",
+    "13",
+    ":",
+    "26",
+    "14",
+    "/",
+    "09",
+    "/",
+    "2013",
+    "A",
+    "36",
+    "-",
+    "year",
+    "-",
+    "old",
+    "Australian",
+    "climber",
+    "is",
+    "dead",
+    "after",
+    "falling",
+    "about",
+    "150",
+    "metres",
+    "at",
+    "Aoraki",
+    "Mount",
+    "Cook",
+    ".",
+    "The",
+    "man",
+    ",",
+    "from",
+    "Hampton",
+    "East",
+    ",",
+    "fell",
+    "in",
+    "the",
+    "Tasman",
+    "Glacier",
+    "area",
+    ".",
+    "A",
+    "Westpac",
+    "Rescue",
+    "Helicopter",
+    "from",
+    "Christchurch",
+    "was",
+    "called",
+    "about",
+    "3pm",
+    "to",
+    "assist",
+    "with",
+    "search",
+    "and",
+    "rescue",
+    "co",
+    "-",
+    "ordination",
+    "at",
+    "the",
+    "Mt",
+    "Cook",
+    "base",
+    ".",
+    "When",
+    "it",
+    "got",
+    "there",
+    ",",
+    "the",
+    "man",
+    "had",
+    "been",
+    "transported",
+    "to",
+    "Mt",
+    "Cook",
+    "Village",
+    "by",
+    "a",
+    "local",
+    "helicopter",
+    "service",
+    "and",
+    "pronounced",
+    "dead",
+    "by",
+    "paramedics",
+    ".",
+    "The",
+    "man",
+    "is",
+    "thought",
+    "to",
+    "have",
+    "fallen",
+    "much",
+    "earlier",
+    "in",
+    "the",
+    "day",
+    "."
+   ],
+   "spans": [
+    [
+     30
+    ],
+    [
+     35
+    ],
+    [
+     55
+    ],
+    [
+     57
+    ],
+    [
+     73
+    ],
+    [
+     133
+    ],
+    [
+     136
+    ]
+   ],
+   "sentences": [
+    [
+     0,
+     29
+    ],
+    [
+     29,
+     36
+    ],
+    [
+     36,
+     46
+    ],
+    [
+     46,
+     66
+    ],
+    [
+     66,
+     80
+    ],
+    [
+     80,
+     105
+    ],
+    [
+     105,
+     130
+    ],
+    [
+     130,
+     143
+    ]
+   ],
+   "syntax_block": "",
+   "coref_block": "",
+   "fold": 2
+  }
+ ],
+ "selection": {
+  "name": "TEST-S40",
+  "seed": 2028,
+  "document_ids": [
+   "23_1ecbplus.xml"
+  ],
+  "revision": "e6418e8747ac1c7fecf66d56ae41fbde7fd5967a",
+  "parent_TEST_S40_fingerprint": "e815d4284f5832a8aba4fb976021e756845b38d14f11846a6b78b87b58d9c7b7"
+ },
+ "fingerprint": "f1dee91bfcbb7f0725d40fc586a94c7454f45d07bfb3ff5d7bb314a3f6bfb487"
+}

@@ -1,0 +1,720 @@
+{
+ "schema": "workere-benchmark-suite/v1",
+ "protocol": "workere-historical-relations/v1",
+ "config": {
+  "seed": 42,
+  "active_dataset": "event_story_line",
+  "datasets": {
+   "event_story_line": {
+    "name": "EventStoryLine-0.9",
+    "repo_id": "Nofing/EventStoryLine-0.9-standard-eci-workere",
+    "split": "train",
+    "text_field": "text",
+    "ann_field": "annots",
+    "max_examples": 0,
+    "kfold": {
+     "enabled": true,
+     "n_folds": 5
+    },
+    "constrain_to_pair_list": false
+   }
+  },
+  "data": {
+   "shuffle_docs": true,
+   "shuffle_pair_list": true,
+   "reshuffle_per_resample": true,
+   "binary_undirected": false,
+   "vote_to_binary": false,
+   "binary_default": "norel",
+   "novote_norel": true,
+   "labels": [
+    "causes",
+    "causedby",
+    "norel"
+   ]
+  },
+  "experiment": {
+   "resampling": {
+    "enabled": true,
+    "n_runs": 7,
+    "tie_breaking": "norel",
+    "distinct_fewshots": true
+   }
+  }
+ },
+ "documents": [
+  {
+   "id": "12_7ecbplus.xml",
+   "idx": 82,
+   "text": "http : / / articles . timesofindia . indiatimes . com / 2011 - 11 - 12 / india / 30391127 _ 1 _ somali - pirate - attack - indian - warship - merchant - vessels Somali pirate <2 attack> <3 foiled> in Gulf of Aden TNN Nov 12 , 2011 , 05 . 51AM IST MUMBAI : An Indian warship on Thursday <7 intercepted> three boats with 26 Somali pirates in the Gulf of Aden and <8 foiled> an <1 attack> on merchant vessels . INS Sukanya <4 detected> five suspicious boats , speedily <5 approaching> the merchant vessels that the warship was <6 escorting> through the Internationally Recognized Transit Corridor . \"The warship immediately altered towards the suspicious vessels and challenged them . While two of them managed to escape , INS Sukanya successfully intercepted the remaining three and carried out boarding - and - search action , \" said Captain Manohar Nambiar , chief PRO ( Defence ) . The Navy confiscated 14 AK - 47 rifles , 31 magazines and 923 rounds from the boat along with grapnels , ladders and rope - handling gloves , Nambiar said . This is the fifth successful anti - piracy operation conducted by INS Sukanya , during its patrol mission in the Gulf of Aden .",
+   "gold": [
+    [
+     "5",
+     "causes",
+     "3"
+    ],
+    [
+     "4",
+     "causes",
+     "3"
+    ],
+    [
+     "5",
+     "causes",
+     "1"
+    ],
+    [
+     "4",
+     "causes",
+     "8"
+    ],
+    [
+     "6",
+     "causes",
+     "8"
+    ],
+    [
+     "7",
+     "causes",
+     "8"
+    ],
+    [
+     "5",
+     "causes",
+     "8"
+    ],
+    [
+     "3",
+     "causes",
+     "7"
+    ],
+    [
+     "6",
+     "causes",
+     "4"
+    ],
+    [
+     "6",
+     "causes",
+     "3"
+    ],
+    [
+     "5",
+     "causes",
+     "2"
+    ],
+    [
+     "3",
+     "causedby",
+     "5"
+    ],
+    [
+     "3",
+     "causedby",
+     "4"
+    ],
+    [
+     "1",
+     "causedby",
+     "5"
+    ],
+    [
+     "8",
+     "causedby",
+     "4"
+    ],
+    [
+     "8",
+     "causedby",
+     "6"
+    ],
+    [
+     "8",
+     "causedby",
+     "7"
+    ],
+    [
+     "8",
+     "causedby",
+     "5"
+    ],
+    [
+     "7",
+     "causedby",
+     "3"
+    ],
+    [
+     "4",
+     "causedby",
+     "6"
+    ],
+    [
+     "3",
+     "causedby",
+     "6"
+    ],
+    [
+     "2",
+     "causedby",
+     "5"
+    ]
+   ],
+   "lang": "eng",
+   "mentions": [
+    "2",
+    "3",
+    "7",
+    "8",
+    "1",
+    "4",
+    "5",
+    "6"
+   ],
+   "surfaces": {
+    "2": "attack",
+    "3": "foiled",
+    "7": "intercepted",
+    "8": "foiled",
+    "1": "attack",
+    "4": "detected",
+    "5": "approaching",
+    "6": "escorting"
+   },
+   "sentence_of": {
+    "2": 1,
+    "3": 1,
+    "7": 3,
+    "8": 3,
+    "1": 3,
+    "4": 4,
+    "5": 4,
+    "6": 4
+   },
+   "first_token": {
+    "2": 39,
+    "3": 40,
+    "7": 62,
+    "8": 75,
+    "1": 77,
+    "4": 84,
+    "5": 90,
+    "6": 98
+   },
+   "pair_list": [
+    [
+     "8",
+     "2"
+    ],
+    [
+     "4",
+     "5"
+    ],
+    [
+     "2",
+     "6"
+    ],
+    [
+     "6",
+     "2"
+    ],
+    [
+     "5",
+     "8"
+    ],
+    [
+     "3",
+     "1"
+    ],
+    [
+     "2",
+     "5"
+    ],
+    [
+     "3",
+     "7"
+    ],
+    [
+     "5",
+     "4"
+    ],
+    [
+     "4",
+     "8"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "7",
+     "2"
+    ],
+    [
+     "3",
+     "8"
+    ],
+    [
+     "5",
+     "2"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "7",
+     "5"
+    ],
+    [
+     "7",
+     "6"
+    ],
+    [
+     "8",
+     "6"
+    ],
+    [
+     "8",
+     "4"
+    ],
+    [
+     "3",
+     "5"
+    ],
+    [
+     "8",
+     "5"
+    ],
+    [
+     "6",
+     "5"
+    ],
+    [
+     "1",
+     "6"
+    ],
+    [
+     "1",
+     "4"
+    ],
+    [
+     "5",
+     "6"
+    ],
+    [
+     "6",
+     "7"
+    ],
+    [
+     "8",
+     "1"
+    ],
+    [
+     "4",
+     "1"
+    ],
+    [
+     "1",
+     "3"
+    ],
+    [
+     "6",
+     "1"
+    ],
+    [
+     "2",
+     "4"
+    ],
+    [
+     "7",
+     "3"
+    ],
+    [
+     "2",
+     "3"
+    ],
+    [
+     "4",
+     "3"
+    ],
+    [
+     "5",
+     "1"
+    ],
+    [
+     "6",
+     "3"
+    ],
+    [
+     "7",
+     "1"
+    ],
+    [
+     "3",
+     "6"
+    ],
+    [
+     "5",
+     "7"
+    ],
+    [
+     "3",
+     "4"
+    ],
+    [
+     "1",
+     "7"
+    ],
+    [
+     "2",
+     "7"
+    ],
+    [
+     "4",
+     "2"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "4",
+     "7"
+    ],
+    [
+     "1",
+     "5"
+    ],
+    [
+     "7",
+     "4"
+    ],
+    [
+     "8",
+     "3"
+    ],
+    [
+     "6",
+     "8"
+    ],
+    [
+     "6",
+     "4"
+    ],
+    [
+     "8",
+     "7"
+    ],
+    [
+     "7",
+     "8"
+    ],
+    [
+     "5",
+     "3"
+    ],
+    [
+     "1",
+     "8"
+    ],
+    [
+     "4",
+     "6"
+    ],
+    [
+     "2",
+     "8"
+    ]
+   ],
+   "tokens": [
+    "http",
+    ":",
+    "/",
+    "/",
+    "articles",
+    ".",
+    "timesofindia",
+    ".",
+    "indiatimes",
+    ".",
+    "com",
+    "/",
+    "2011",
+    "-",
+    "11",
+    "-",
+    "12",
+    "/",
+    "india",
+    "/",
+    "30391127",
+    "_",
+    "1",
+    "_",
+    "somali",
+    "-",
+    "pirate",
+    "-",
+    "attack",
+    "-",
+    "indian",
+    "-",
+    "warship",
+    "-",
+    "merchant",
+    "-",
+    "vessels",
+    "Somali",
+    "pirate",
+    "attack",
+    "foiled",
+    "in",
+    "Gulf",
+    "of",
+    "Aden",
+    "TNN",
+    "Nov",
+    "12",
+    ",",
+    "2011",
+    ",",
+    "05",
+    ".",
+    "51AM",
+    "IST",
+    "MUMBAI",
+    ":",
+    "An",
+    "Indian",
+    "warship",
+    "on",
+    "Thursday",
+    "intercepted",
+    "three",
+    "boats",
+    "with",
+    "26",
+    "Somali",
+    "pirates",
+    "in",
+    "the",
+    "Gulf",
+    "of",
+    "Aden",
+    "and",
+    "foiled",
+    "an",
+    "attack",
+    "on",
+    "merchant",
+    "vessels",
+    ".",
+    "INS",
+    "Sukanya",
+    "detected",
+    "five",
+    "suspicious",
+    "boats",
+    ",",
+    "speedily",
+    "approaching",
+    "the",
+    "merchant",
+    "vessels",
+    "that",
+    "the",
+    "warship",
+    "was",
+    "escorting",
+    "through",
+    "the",
+    "Internationally",
+    "Recognized",
+    "Transit",
+    "Corridor",
+    ".",
+    "\"The",
+    "warship",
+    "immediately",
+    "altered",
+    "towards",
+    "the",
+    "suspicious",
+    "vessels",
+    "and",
+    "challenged",
+    "them",
+    ".",
+    "While",
+    "two",
+    "of",
+    "them",
+    "managed",
+    "to",
+    "escape",
+    ",",
+    "INS",
+    "Sukanya",
+    "successfully",
+    "intercepted",
+    "the",
+    "remaining",
+    "three",
+    "and",
+    "carried",
+    "out",
+    "boarding",
+    "-",
+    "and",
+    "-",
+    "search",
+    "action",
+    ",",
+    "\"",
+    "said",
+    "Captain",
+    "Manohar",
+    "Nambiar",
+    ",",
+    "chief",
+    "PRO",
+    "(",
+    "Defence",
+    ")",
+    ".",
+    "The",
+    "Navy",
+    "confiscated",
+    "14",
+    "AK",
+    "-",
+    "47",
+    "rifles",
+    ",",
+    "31",
+    "magazines",
+    "and",
+    "923",
+    "rounds",
+    "from",
+    "the",
+    "boat",
+    "along",
+    "with",
+    "grapnels",
+    ",",
+    "ladders",
+    "and",
+    "rope",
+    "-",
+    "handling",
+    "gloves",
+    ",",
+    "Nambiar",
+    "said",
+    ".",
+    "This",
+    "is",
+    "the",
+    "fifth",
+    "successful",
+    "anti",
+    "-",
+    "piracy",
+    "operation",
+    "conducted",
+    "by",
+    "INS",
+    "Sukanya",
+    ",",
+    "during",
+    "its",
+    "patrol",
+    "mission",
+    "in",
+    "the",
+    "Gulf",
+    "of",
+    "Aden",
+    "."
+   ],
+   "spans": [
+    [
+     39
+    ],
+    [
+     40
+    ],
+    [
+     62
+    ],
+    [
+     75
+    ],
+    [
+     77
+    ],
+    [
+     84
+    ],
+    [
+     90
+    ],
+    [
+     98
+    ]
+   ],
+   "sentences": [
+    [
+     0,
+     37
+    ],
+    [
+     37,
+     45
+    ],
+    [
+     45,
+     57
+    ],
+    [
+     57,
+     82
+    ],
+    [
+     82,
+     106
+    ],
+    [
+     106,
+     118
+    ],
+    [
+     118,
+     155
+    ],
+    [
+     155,
+     186
+    ],
+    [
+     186,
+     210
+    ]
+   ],
+   "syntax_block": "",
+   "coref_block": "",
+   "fold": 2
+  }
+ ],
+ "selection": {
+  "name": "TEST-S40",
+  "seed": 2028,
+  "document_ids": [
+   "12_7ecbplus.xml"
+  ],
+  "revision": "e6418e8747ac1c7fecf66d56ae41fbde7fd5967a",
+  "parent_TEST_S40_fingerprint": "e815d4284f5832a8aba4fb976021e756845b38d14f11846a6b78b87b58d9c7b7"
+ },
+ "fingerprint": "f95d4726227c7ec50fb247f02afd1b38cd8d41da69fd5183af11fd7baa05e8a9"
+}
