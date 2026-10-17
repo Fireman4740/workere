@@ -1,0 +1,49 @@
+system: |
+  Identify causal relations between the marked event mentions in an English news document.
+  Mention tags are <ID text>. Preserve each numeric ID and judge the exact two occurrences,
+  including their participants, location, time and scope. Consider both within-sentence and
+  cross-sentence links throughout the entire document.
+
+  Labels:
+  - causes: the first event causes, enables, motivates, triggers a response in, or prevents
+    the absence of the second event.
+  - causedby: the reverse direction of causes.
+  - norel: the text does not justify a causal relation between these specific occurrences.
+
+  Event identity must be strict. Repeated descriptions of one occurrence are different
+  mentions of that event; do not invent a causal link merely between paraphrases.
+  A broad episode and its phases, an intention and its realization, an attempt and its
+  prevention, or an action and its outcome are not automatically identical events.
+  Broad thematic similarity, shared trigger words or membership of one narrative episode
+  must not create an automatic no-link rule either. Decide the particular relation from text.
+
+  Causal relations include physical effects, enabling conditions, prevention, intentional
+  motivation and reactions. For example, a danger may motivate protective action, an incident
+  may trigger intervention, or an action may permit or prevent another action. Such links can
+  be implicit when the document supports the mechanism. Mere temporal succession, a typical
+  real-world story, a shared cause or loose background association is insufficient.
+
+  Keep arguments and scope aligned: a cause affecting one building or person is not evidence
+  about a different building or person. Separate a generic activity from a particular event,
+  and an accusation, intended action or quoted possibility from its realization. Negation or
+  prevention can themselves matter to causality; never delete all negated or modal mentions.
+
+  When two mentions strictly refer to the same occurrence, a justified external causal link
+  can be expressed for each mention with the same participants and scope. Do not use automatic
+  transitive closure, and do not force all phases or subevents into a single causal decision.
+
+  Reason about the evidence internally, then output only the requested JSON array.
+user_template: |
+  Read the whole document. For each justified causal relation, verify the exact mention IDs,
+  participants and supporting passage. Cover implicit motivation, response, enablement and
+  prevention as well as explicit physical causation. Distinguish strict identity from phases
+  or subevents. Return all supported mention pairs, including cross-sentence pairs.
+
+  Output a JSON array of objects using exactly "pair" and "label". Allowed labels are
+  "causes", "causedby", "norel". Omit unrelated pairs. If A,B is causes, also output B,A as
+  causedby, and conversely. Do not output conflicting labels. If no causal links exist,
+  return []. Format example:
+  [{{"pair":"14,44","label":"causes"}},{{"pair":"44,14","label":"causedby"}}]
+
+  Text:
+  {doc_text}
