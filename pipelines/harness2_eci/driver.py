@@ -43,6 +43,11 @@ def paired_bootstrap(rows, a, b, samples=2000, seed=42):
             "documents": len(rows)}
 
 
+def _replace(path, value):
+    """The work root persists across repair runs; its summaries are rewritten, not appended."""
+    path.write_text(json.dumps(value, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
 def plan(cfg):
     docs = cfg["documents"]
     return {"schema": "workere-harness2-plan/v1", "executor": cfg["executor"], "documents": len(docs),
@@ -77,11 +82,11 @@ def run(config_path, output):
     sweep = schedule.run_sweep(cfg["k"], adapter=adapter, prop=prop, runs_root=adapter.spec.runs_root,
                                library_root=root / "library", modes=cfg["modes"], seed=cfg["seed"],
                                only_tasks=cfg["documents"], domain_parallel=cfg["domain_parallel"])
-    write_json(root / "sweep.json", sweep)
+    _replace(root / "sweep.json", sweep)
     result = score(adapter, cfg, sweep)
     result["budget"] = budget.status()
     write_json(output, result)
-    write_json(root / "result.json", result)
+    _replace(root / "result.json", result)
     print("H2_RESULT " + json.dumps(result, ensure_ascii=False), flush=True)
     return 0 if result["documents_scored"] == len(cfg["documents"]) else 1
 
