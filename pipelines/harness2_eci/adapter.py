@@ -56,10 +56,11 @@ PROMPTS = {
                    "right direction for every mention of both events, and nothing merely sequential or "
                    "correlated is listed.")),
     "decision": BenchPrompts(
-        work=("Read one news article and decide, separately for every ordered pair of tagged event "
-              "mentions, whether one event causes the other. Each pair is one independent request to "
-              "a decision model that returns only the probability that the answer is true; a pair is "
-              "kept when that probability reaches 0.5."),
+        work=("Read one news article and decide, for every pair of tagged event mentions, whether the "
+              "two events are causally linked in either direction (one causes, enables or prevents the "
+              "other). Direction is not part of the answer: a linked pair is wanted in both orders, A,B "
+              "and B,A. Each order is one independent request to a decision model that returns only the "
+              "probability that the answer is true; an order is kept when that probability reaches 0.5."),
         domain_word="news topic", deliverable_word="list of causal pairs",
         inv_levers=(
             "- the decision request has exactly three editable parts: systemprompt.md is the question's "
@@ -81,8 +82,8 @@ PROMPTS = {
                          "earthquake, a shooting, a merger). The articles of one topic report the same "
                          "kind of incident."),
         yardstick=("The kept pairs are exactly those the article supports as a direct causal or "
-                   "preventive link, for every mention of both events, and none that are merely "
-                   "sequential or correlated.")),
+                   "preventive link, in both orders and for every mention of both events, and none that "
+                   "are merely sequential or correlated.")),
 }
 
 
@@ -146,9 +147,15 @@ class EciAdapter:
 
     def task_prompt(self, task_id):
         n = len(self._inputs[task_id].reference_candidates)
+        if self.executor == "decision":
+            return (f"Article {task_id} (source/article.md) has its event mentions tagged <ID text>. For "
+                    f"each of the {n} ordered mention pairs, decide whether the two events are causally "
+                    f"linked in either direction (one causes, enables or prevents the other); a linked "
+                    f"pair belongs in the list of causal pairs in both orders.")
         return (f"Article {task_id} (source/article.md) has its event mentions tagged <ID text>. "
                 f"Identify which of the {n} ordered mention pairs are causal (one event causes, enables "
-                f"or prevents the other) and deliver them as a list of causal pairs.")
+                f"or prevents the other), with the direction (causes / causedby, both orders listed), "
+                f"and deliver them as a list of causal pairs.")
 
     def task_files(self, task_id):
         return self.root / "sources" / task_id
