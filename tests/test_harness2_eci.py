@@ -106,5 +106,24 @@ class OfflineSweep(unittest.TestCase):
         self.assertNotEqual((a["tp"], a["fp"]), (b["tp"], b["fp"]))
 
 
+class ProposerAccounting(unittest.TestCase):
+    def test_cost_from_step_tokens_and_refusals(self):
+        from pipelines.harness2_eci.proposer import session_cost
+        step = {"type": "step_finish", "part": {"type": "step-finish", "cost": 0,
+                "tokens": {"input": 1_000_000, "output": 100_000, "reasoning": 100_000, "cache": {"read": 0, "write": 0}}}}
+        self.assertAlmostEqual(session_cost(json.dumps(step) + "\n" + json.dumps(step), (.1, .5)), .4)
+        refused = {"type": "error", "error": {"name": "APIError", "data": {"statusCode": 401}}}
+        self.assertEqual(session_cost(json.dumps(refused), (.1, .5)), 0.0)
+        self.assertIsNone(session_cost("not json\n", (.1, .5)))
+
+    def test_key_falls_back_to_openrouter_variable(self):
+        from unittest import mock
+        from pipelines.harness2_eci.proposer import openrouter_key
+        with mock.patch.dict(os.environ, {"OPENROUTER": "k"}, clear=True):
+            self.assertEqual(openrouter_key(), "k")
+        with mock.patch.dict(os.environ, {}, clear=True), self.assertRaises(RuntimeError):
+            openrouter_key()
+
+
 if __name__ == "__main__":
     unittest.main()
