@@ -1,7 +1,7 @@
 # H2-D: Harness² pilot, d1-ultra decision executor (see harness2/pilot-decision.yaml).
 schema: workere-harness2/v1
 name: esc-h2-pilot-decision
-code_version: 1
+code_version: 2
 executor: decision
 executor_template: harness2/decision-executor.yaml
 suites_dir: round4/suites
