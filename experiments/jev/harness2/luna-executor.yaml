@@ -45,8 +45,8 @@ pipeline:
         max_output_tokens: 32768
         shared_budget:
           path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
-          scope: esc-h2-pilot-20261019-6usd
-          limit_usd: 6
+          scope: esc-h2-pilot-20261019b-5p8usd
+          limit_usd: 5.8
           initial_spend_usd: 0
       path: ../../../prompts/esl_standard_eci_lean_coref.yaml
       selection_path: experiments/jev/document-selection.json
