@@ -1,0 +1,579 @@
+{
+ "schema": "workere-benchmark-suite/v1",
+ "protocol": "workere-historical-relations/v1",
+ "config": {
+  "seed": 42,
+  "active_dataset": "event_story_line",
+  "datasets": {
+   "event_story_line": {
+    "name": "EventStoryLine-0.9",
+    "repo_id": "Nofing/EventStoryLine-0.9-standard-eci-workere",
+    "split": "train",
+    "text_field": "text",
+    "ann_field": "annots",
+    "max_examples": 0,
+    "kfold": {
+     "enabled": true,
+     "n_folds": 5
+    },
+    "constrain_to_pair_list": false
+   }
+  },
+  "data": {
+   "shuffle_docs": true,
+   "shuffle_pair_list": true,
+   "reshuffle_per_resample": true,
+   "binary_undirected": false,
+   "vote_to_binary": false,
+   "binary_default": "norel",
+   "novote_norel": true,
+   "labels": [
+    "causes",
+    "causedby",
+    "norel"
+   ]
+  },
+  "experiment": {
+   "resampling": {
+    "enabled": true,
+    "n_runs": 7,
+    "tie_breaking": "norel",
+    "distinct_fewshots": true
+   }
+  }
+ },
+ "documents": [
+  {
+   "id": "20_10ecbplus.xml",
+   "idx": 140,
+   "text": "http : / / secretdubai . blogspot . nl / 2005 / 11 / did - earth - move - for - you . html 27 NOVEMBER , 2005 Did the earth <6 move> for you ? Because <13 it> didn't down here at Cell Block G . Dubai <1 experienced> a slight <2 \"tremor\"> today , after a more serious <3 earthquake> in Southern Iran , <4 resulting> in the <5 evacuation> of Emirates Towers and a few other scrapers : \"Witnesses in high - rise buildings said they felt the ground shaking beneath them for about a minute . Many residents evacuated their buildings and waited on the streets . \" Expect endless earthquake experts in the papers tomorrow , such as the prophetic Dr Azm Al Homoud : \"We should stop saying the UAE is not in an earthquake prone area . I must say we are near major epicentres across the Arabian Gulf and fall within the collision area . \" Inmates in the far southern gulags miss out on everything . Cut off by distance , traffic and general lethargy : the forgotten folk in the shadow of the Jebel .",
+   "gold": [
+    [
+     "6",
+     "causes",
+     "5"
+    ],
+    [
+     "2",
+     "causes",
+     "5"
+    ],
+    [
+     "3",
+     "causes",
+     "6"
+    ],
+    [
+     "6",
+     "causes",
+     "2"
+    ],
+    [
+     "3",
+     "causes",
+     "2"
+    ],
+    [
+     "5",
+     "causedby",
+     "6"
+    ],
+    [
+     "5",
+     "causedby",
+     "2"
+    ],
+    [
+     "6",
+     "causedby",
+     "3"
+    ],
+    [
+     "2",
+     "causedby",
+     "6"
+    ],
+    [
+     "2",
+     "causedby",
+     "3"
+    ]
+   ],
+   "lang": "eng",
+   "mentions": [
+    "6",
+    "13",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "surfaces": {
+    "6": "move",
+    "13": "it",
+    "1": "experienced",
+    "2": "\"tremor\"",
+    "3": "earthquake",
+    "4": "resulting",
+    "5": "evacuation"
+   },
+   "sentence_of": {
+    "6": 2,
+    "13": 3,
+    "1": 3,
+    "2": 3,
+    "3": 3,
+    "4": 3,
+    "5": 3
+   },
+   "first_token": {
+    "6": 32,
+    "13": 37,
+    "1": 47,
+    "2": 50,
+    "3": 57,
+    "4": 62,
+    "5": 65
+   },
+   "pair_list": [
+    [
+     "5",
+     "3"
+    ],
+    [
+     "4",
+     "3"
+    ],
+    [
+     "1",
+     "4"
+    ],
+    [
+     "2",
+     "5"
+    ],
+    [
+     "4",
+     "6"
+    ],
+    [
+     "3",
+     "5"
+    ],
+    [
+     "5",
+     "13"
+    ],
+    [
+     "3",
+     "6"
+    ],
+    [
+     "13",
+     "3"
+    ],
+    [
+     "3",
+     "13"
+    ],
+    [
+     "2",
+     "3"
+    ],
+    [
+     "1",
+     "3"
+    ],
+    [
+     "4",
+     "2"
+    ],
+    [
+     "4",
+     "1"
+    ],
+    [
+     "13",
+     "6"
+    ],
+    [
+     "6",
+     "1"
+    ],
+    [
+     "3",
+     "4"
+    ],
+    [
+     "5",
+     "2"
+    ],
+    [
+     "6",
+     "3"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "5",
+     "6"
+    ],
+    [
+     "3",
+     "1"
+    ],
+    [
+     "4",
+     "5"
+    ],
+    [
+     "13",
+     "2"
+    ],
+    [
+     "2",
+     "13"
+    ],
+    [
+     "6",
+     "2"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "1",
+     "13"
+    ],
+    [
+     "6",
+     "13"
+    ],
+    [
+     "13",
+     "5"
+    ],
+    [
+     "5",
+     "1"
+    ],
+    [
+     "5",
+     "4"
+    ],
+    [
+     "2",
+     "6"
+    ],
+    [
+     "4",
+     "13"
+    ],
+    [
+     "1",
+     "6"
+    ],
+    [
+     "2",
+     "4"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "13",
+     "1"
+    ],
+    [
+     "13",
+     "4"
+    ],
+    [
+     "1",
+     "5"
+    ],
+    [
+     "6",
+     "4"
+    ],
+    [
+     "6",
+     "5"
+    ]
+   ],
+   "tokens": [
+    "http",
+    ":",
+    "/",
+    "/",
+    "secretdubai",
+    ".",
+    "blogspot",
+    ".",
+    "nl",
+    "/",
+    "2005",
+    "/",
+    "11",
+    "/",
+    "did",
+    "-",
+    "earth",
+    "-",
+    "move",
+    "-",
+    "for",
+    "-",
+    "you",
+    ".",
+    "html",
+    "27",
+    "NOVEMBER",
+    ",",
+    "2005",
+    "Did",
+    "the",
+    "earth",
+    "move",
+    "for",
+    "you",
+    "?",
+    "Because",
+    "it",
+    "didn't",
+    "down",
+    "here",
+    "at",
+    "Cell",
+    "Block",
+    "G",
+    ".",
+    "Dubai",
+    "experienced",
+    "a",
+    "slight",
+    "\"tremor\"",
+    "today",
+    ",",
+    "after",
+    "a",
+    "more",
+    "serious",
+    "earthquake",
+    "in",
+    "Southern",
+    "Iran",
+    ",",
+    "resulting",
+    "in",
+    "the",
+    "evacuation",
+    "of",
+    "Emirates",
+    "Towers",
+    "and",
+    "a",
+    "few",
+    "other",
+    "scrapers",
+    ":",
+    "\"Witnesses",
+    "in",
+    "high",
+    "-",
+    "rise",
+    "buildings",
+    "said",
+    "they",
+    "felt",
+    "the",
+    "ground",
+    "shaking",
+    "beneath",
+    "them",
+    "for",
+    "about",
+    "a",
+    "minute",
+    ".",
+    "Many",
+    "residents",
+    "evacuated",
+    "their",
+    "buildings",
+    "and",
+    "waited",
+    "on",
+    "the",
+    "streets",
+    ".",
+    "\"",
+    "Expect",
+    "endless",
+    "earthquake",
+    "experts",
+    "in",
+    "the",
+    "papers",
+    "tomorrow",
+    ",",
+    "such",
+    "as",
+    "the",
+    "prophetic",
+    "Dr",
+    "Azm",
+    "Al",
+    "Homoud",
+    ":",
+    "\"We",
+    "should",
+    "stop",
+    "saying",
+    "the",
+    "UAE",
+    "is",
+    "not",
+    "in",
+    "an",
+    "earthquake",
+    "prone",
+    "area",
+    ".",
+    "I",
+    "must",
+    "say",
+    "we",
+    "are",
+    "near",
+    "major",
+    "epicentres",
+    "across",
+    "the",
+    "Arabian",
+    "Gulf",
+    "and",
+    "fall",
+    "within",
+    "the",
+    "collision",
+    "area",
+    ".",
+    "\"",
+    "Inmates",
+    "in",
+    "the",
+    "far",
+    "southern",
+    "gulags",
+    "miss",
+    "out",
+    "on",
+    "everything",
+    ".",
+    "Cut",
+    "off",
+    "by",
+    "distance",
+    ",",
+    "traffic",
+    "and",
+    "general",
+    "lethargy",
+    ":",
+    "the",
+    "forgotten",
+    "folk",
+    "in",
+    "the",
+    "shadow",
+    "of",
+    "the",
+    "Jebel",
+    "."
+   ],
+   "spans": [
+    [
+     32
+    ],
+    [
+     37
+    ],
+    [
+     47
+    ],
+    [
+     50
+    ],
+    [
+     57
+    ],
+    [
+     62
+    ],
+    [
+     65
+    ]
+   ],
+   "sentences": [
+    [
+     0,
+     25
+    ],
+    [
+     25,
+     29
+    ],
+    [
+     29,
+     36
+    ],
+    [
+     36,
+     75
+    ],
+    [
+     75,
+     94
+    ],
+    [
+     94,
+     106
+    ],
+    [
+     106,
+     124
+    ],
+    [
+     124,
+     138
+    ],
+    [
+     138,
+     158
+    ],
+    [
+     158,
+     169
+    ],
+    [
+     169,
+     189
+    ]
+   ],
+   "syntax_block": "",
+   "coref_block": "",
+   "fold": 0
+  }
+ ],
+ "selection": {
+  "id": "20_10ecbplus.xml",
+  "role": "DEV44 development"
+ },
+ "fingerprint": "01b2e2eed1cfebe506d9d5c6634fa1b5ee0286d3ae99a1cd7011793110efc39d"
+}

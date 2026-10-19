@@ -58,6 +58,14 @@ def main(argv=None):
                   rethreshold(args.run_dir, args.threshold, args.output_dir))
         print(json.dumps(result, ensure_ascii=False), flush=True)
         return 0
+    if read_yaml(args.config).get("schema") == "workere-harness2/v1":
+        from pipelines.harness2_eci import driver
+        if args.command == "dry-run":
+            result = driver.plan(read_yaml(args.config))
+            write_json(args.output, result)
+            print(json.dumps(result, ensure_ascii=False), flush=True)
+            return 0
+        return driver.run(args.config, args.output)
     configs = _configs(args.config)
     if args.command == "dry-run":
         from pipelines.jev.planning import plan

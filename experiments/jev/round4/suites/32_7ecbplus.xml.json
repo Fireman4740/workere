@@ -1,0 +1,408 @@
+{
+ "schema": "workere-benchmark-suite/v1",
+ "protocol": "workere-historical-relations/v1",
+ "config": {
+  "seed": 42,
+  "active_dataset": "event_story_line",
+  "datasets": {
+   "event_story_line": {
+    "name": "EventStoryLine-0.9",
+    "repo_id": "Nofing/EventStoryLine-0.9-standard-eci-workere",
+    "split": "train",
+    "text_field": "text",
+    "ann_field": "annots",
+    "max_examples": 0,
+    "kfold": {
+     "enabled": true,
+     "n_folds": 5
+    },
+    "constrain_to_pair_list": false
+   }
+  },
+  "data": {
+   "shuffle_docs": true,
+   "shuffle_pair_list": true,
+   "reshuffle_per_resample": true,
+   "binary_undirected": false,
+   "vote_to_binary": false,
+   "binary_default": "norel",
+   "novote_norel": true,
+   "labels": [
+    "causes",
+    "causedby",
+    "norel"
+   ]
+  },
+  "experiment": {
+   "resampling": {
+    "enabled": true,
+    "n_runs": 7,
+    "tie_breaking": "norel",
+    "distinct_fewshots": true
+   }
+  }
+ },
+ "documents": [
+  {
+   "id": "32_7ecbplus.xml",
+   "idx": 208,
+   "text": "http : / / www . thesun . co . uk / sol / homepage / news / 4961313 / Man - held - after - sister - and - mum - are - both - murdered - in - Cumbria . html Man <1 held> after sis and mum <2 murdered> Published : 09th June 2013 A MAN was last night being <3 quizzed> by cops over the double <4 murders> of his mum and sister . Unemployed John Jenkin , 23 , was <5 arrested> yesterday moments after <7 armed> cops <6 arrived> following a 999 call .",
+   "gold": [],
+   "lang": "eng",
+   "mentions": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "7",
+    "6"
+   ],
+   "surfaces": {
+    "1": "held",
+    "2": "murdered",
+    "3": "quizzed",
+    "4": "murders",
+    "5": "arrested",
+    "7": "armed",
+    "6": "arrived"
+   },
+   "sentence_of": {
+    "1": 1,
+    "2": 1,
+    "3": 3,
+    "4": 3,
+    "5": 4,
+    "7": 4,
+    "6": 4
+   },
+   "first_token": {
+    "1": 44,
+    "2": 49,
+    "3": 61,
+    "4": 67,
+    "5": 81,
+    "7": 85,
+    "6": 87
+   },
+   "pair_list": [
+    [
+     "5",
+     "4"
+    ],
+    [
+     "3",
+     "5"
+    ],
+    [
+     "4",
+     "5"
+    ],
+    [
+     "5",
+     "2"
+    ],
+    [
+     "7",
+     "2"
+    ],
+    [
+     "6",
+     "7"
+    ],
+    [
+     "5",
+     "3"
+    ],
+    [
+     "3",
+     "4"
+    ],
+    [
+     "1",
+     "3"
+    ],
+    [
+     "6",
+     "4"
+    ],
+    [
+     "3",
+     "1"
+    ],
+    [
+     "7",
+     "1"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "2",
+     "4"
+    ],
+    [
+     "1",
+     "7"
+    ],
+    [
+     "7",
+     "6"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "5",
+     "7"
+    ],
+    [
+     "4",
+     "3"
+    ],
+    [
+     "6",
+     "3"
+    ],
+    [
+     "6",
+     "2"
+    ],
+    [
+     "4",
+     "1"
+    ],
+    [
+     "1",
+     "2"
+    ],
+    [
+     "3",
+     "6"
+    ],
+    [
+     "4",
+     "6"
+    ],
+    [
+     "7",
+     "4"
+    ],
+    [
+     "1",
+     "6"
+    ],
+    [
+     "6",
+     "1"
+    ],
+    [
+     "2",
+     "6"
+    ],
+    [
+     "5",
+     "6"
+    ],
+    [
+     "2",
+     "3"
+    ],
+    [
+     "3",
+     "7"
+    ],
+    [
+     "2",
+     "7"
+    ],
+    [
+     "7",
+     "3"
+    ],
+    [
+     "7",
+     "5"
+    ],
+    [
+     "5",
+     "1"
+    ],
+    [
+     "4",
+     "2"
+    ],
+    [
+     "1",
+     "4"
+    ],
+    [
+     "2",
+     "5"
+    ],
+    [
+     "4",
+     "7"
+    ],
+    [
+     "6",
+     "5"
+    ],
+    [
+     "1",
+     "5"
+    ]
+   ],
+   "tokens": [
+    "http",
+    ":",
+    "/",
+    "/",
+    "www",
+    ".",
+    "thesun",
+    ".",
+    "co",
+    ".",
+    "uk",
+    "/",
+    "sol",
+    "/",
+    "homepage",
+    "/",
+    "news",
+    "/",
+    "4961313",
+    "/",
+    "Man",
+    "-",
+    "held",
+    "-",
+    "after",
+    "-",
+    "sister",
+    "-",
+    "and",
+    "-",
+    "mum",
+    "-",
+    "are",
+    "-",
+    "both",
+    "-",
+    "murdered",
+    "-",
+    "in",
+    "-",
+    "Cumbria",
+    ".",
+    "html",
+    "Man",
+    "held",
+    "after",
+    "sis",
+    "and",
+    "mum",
+    "murdered",
+    "Published",
+    ":",
+    "09th",
+    "June",
+    "2013",
+    "A",
+    "MAN",
+    "was",
+    "last",
+    "night",
+    "being",
+    "quizzed",
+    "by",
+    "cops",
+    "over",
+    "the",
+    "double",
+    "murders",
+    "of",
+    "his",
+    "mum",
+    "and",
+    "sister",
+    ".",
+    "Unemployed",
+    "John",
+    "Jenkin",
+    ",",
+    "23",
+    ",",
+    "was",
+    "arrested",
+    "yesterday",
+    "moments",
+    "after",
+    "armed",
+    "cops",
+    "arrived",
+    "following",
+    "a",
+    "999",
+    "call",
+    "."
+   ],
+   "spans": [
+    [
+     44
+    ],
+    [
+     49
+    ],
+    [
+     61
+    ],
+    [
+     67
+    ],
+    [
+     81
+    ],
+    [
+     85
+    ],
+    [
+     87
+    ]
+   ],
+   "sentences": [
+    [
+     0,
+     43
+    ],
+    [
+     43,
+     50
+    ],
+    [
+     50,
+     55
+    ],
+    [
+     55,
+     74
+    ],
+    [
+     74,
+     93
+    ]
+   ],
+   "syntax_block": "",
+   "coref_block": "",
+   "fold": 3
+  }
+ ],
+ "selection": {
+  "id": "32_7ecbplus.xml",
+  "role": "DEV44 development"
+ },
+ "fingerprint": "de3f0d37b010e0506903b5d60cb68977cf824b1928ee3147a01abc47d98ba7ae"
+}
