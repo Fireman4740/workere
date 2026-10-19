@@ -1,7 +1,7 @@
 # H2-L: Harness² pilot, Luna LLM executor (7 passes, plurality vote); same docs as H2-D.
 schema: workere-harness2/v1
 name: esc-h2-pilot-luna
-code_version: 1
+code_version: 2
 executor: luna
 executor_template: harness2/luna-executor.yaml
 suites_dir: round4/suites

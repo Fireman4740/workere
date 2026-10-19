@@ -104,6 +104,12 @@ class SharedBudget:
         if not settled and cost > amount + 1e-12:
             raise BudgetExceeded("provider charge exceeded the configured conservative reservation")
 
+    def owns(self, ticket):
+        """Whether a reservation ticket was issued under this scope (resumed receipts may predate it)."""
+        with self.lock:
+            return self.db.execute("SELECT 1 FROM reservations WHERE id=? AND scope=?",
+                                   (ticket, self.scope)).fetchone() is not None
+
     def status(self):
         with self.lock:
             cap, used, initial = self.db.execute("SELECT cap,used,initial FROM accounts WHERE scope=?", (self.scope,)).fetchone()
