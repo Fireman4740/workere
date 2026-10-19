@@ -32,6 +32,46 @@ def opencode_binary(version=OPENCODE_VERSION):
     return binary
 
 
+def openrouter_key():
+    """The launcher may forward the key as OPENROUTER (the decision client accepts both)."""
+    key = os.environ.get("OPENROUTER_API_KEY") or os.environ.get("OPENROUTER")
+    if not key:
+        raise RuntimeError("missing credential: set OPENROUTER_API_KEY (or OPENROUTER)")
+    return key
+
+
+def session_cost(stdout, price_per_million):
+    """Cost from the tokens of every completed step; 0 for a session refused before any step.
+
+    None (retain the reservation) when no step completed for any reason other than an
+    authentication refusal, since a partially streamed request may still have been charged.
+    """
+    total, steps, refused = 0.0, 0, False
+    for line in (stdout or "").splitlines():
+        try:
+            event = json.loads(line)
+        except ValueError:
+            continue
+        if not isinstance(event, dict):
+            continue
+        part = event.get("part") if isinstance(event.get("part"), dict) else {}
+        if (part.get("type") or event.get("type")) in ("step-finish", "step_finish"):
+            tokens = part.get("tokens") or {}
+            cache = tokens.get("cache") or {}
+            prompt = sum(int(v or 0) for v in (tokens.get("input"), cache.get("read"), cache.get("write")))
+            completion = sum(int(v or 0) for v in (tokens.get("output"), tokens.get("reasoning")))
+            priced = (prompt * price_per_million[0] + completion * price_per_million[1]) / 1e6
+            reported = part.get("cost") if isinstance(part.get("cost"), (int, float)) else 0.0
+            total += max(priced, reported)
+            steps += 1
+        error = event.get("error") if isinstance(event.get("error"), dict) else {}
+        if (error.get("data") or {}).get("statusCode") == 401:
+            refused = True
+    if steps:
+        return round(total, 8)
+    return 0.0 if refused else None
+
+
 @dataclass
 class OpenRouterProposer(upstream.Proposer):
     budget: object = None
@@ -40,7 +80,9 @@ class OpenRouterProposer(upstream.Proposer):
     binary: Path = field(default_factory=opencode_binary)
 
     def env(self):
-        return {k: v for k, v in os.environ.items() if k not in upstream._DROP_ENV}
+        env = {k: v for k, v in os.environ.items() if k not in upstream._DROP_ENV}
+        env["OPENROUTER_API_KEY"] = openrouter_key()
+        return env
 
     def _config(self):
         provider, model = self.spec.model.split("/", 1)
@@ -76,7 +118,7 @@ class OpenRouterProposer(upstream.Proposer):
         try:
             done = subprocess.run(cmd, cwd=cwd, env=env, text=True, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE, timeout=wall)
-            cost = upstream._opencode_cost(done.stdout) or None  # zero means unpriced: keep the hold
+            cost = session_cost(done.stdout, self.price_per_million)
         finally:
             if ticket:
                 try:

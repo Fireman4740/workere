@@ -71,6 +71,8 @@ def run(config_path, output):
     from pipelines.harness2_eci.proposer import OpenRouterProposer
     from pipelines.jev.spend import SharedBudget
 
+    from pipelines.harness2_eci.proposer import openrouter_key
+    openrouter_key()  # fail before any work when the credential is absent
     budget = SharedBudget(**cfg["budget"])
     print("H2_PLAN " + json.dumps(plan(cfg)), flush=True)
     print("PLAN_BUDGET " + json.dumps(budget.status()), flush=True)
