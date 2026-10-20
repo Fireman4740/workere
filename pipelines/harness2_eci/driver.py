@@ -13,7 +13,6 @@ from benchmark.configuration import read_yaml
 from benchmark.io import write_json
 
 SCHEMA = "workere-harness2/v1"
-LABELS = ("base1", "inv1", "dom1", "agg1")
 
 
 def _prf(c):
@@ -52,7 +51,7 @@ def plan(cfg):
     docs = cfg["documents"]
     return {"schema": "workere-harness2-plan/v1", "executor": cfg["executor"], "documents": len(docs),
             "topics": sorted({d.split("_")[0] for d in docs}, key=int), "k": cfg["k"], "modes": cfg["modes"],
-            "proposer_model": cfg["proposer"]["model"], "budget": cfg["budget"],
+            "proposer": cfg["proposer"].get("routes") or cfg["proposer"]["model"], "budget": cfg["budget"],
             "proposer_sessions_upper_bound": len(docs) * len(cfg["modes"]) * (2 * cfg["k"] + cfg["k"] + 2),
             "executor_rollouts_upper_bound": len(docs) * (cfg["k"] + len(cfg["modes"]) * 3 * cfg["k"])}
 
@@ -61,14 +60,15 @@ def run(config_path, output):
     cfg = read_yaml(config_path)
     if cfg.get("schema") != SCHEMA:
         raise ValueError(f"expected schema {SCHEMA}")
-    model = cfg["proposer"]["model"]
+    routes = cfg["proposer"].get("routes")
+    model = routes["compose"][0] if routes else cfg["proposer"]["model"]
     # harness2.config reads these once at import; they name the improver, never a credential.
     os.environ["HARNESS2_IMPROVER_MODEL"] = os.environ["HARNESS2_SOLVER_MODEL"] = model
     root = Path(cfg["work_root"]).expanduser() / f"{cfg['name']}-v{cfg['code_version']}"
     os.environ["HARNESS2_RUNS_DIR"] = str(root / "runs")
     from harness2.core import schedule
     from pipelines.harness2_eci.adapter import EciAdapter
-    from pipelines.harness2_eci.proposer import OpenRouterProposer
+    from pipelines.harness2_eci.proposer import OpenRouterProposer, RoutedProposer
     from pipelines.jev.spend import SharedBudget
 
     from pipelines.harness2_eci.proposer import openrouter_key
@@ -79,8 +79,12 @@ def run(config_path, output):
     base = Path(config_path).resolve().parent
     adapter = EciAdapter(executor=cfg["executor"], template_path=base / cfg["executor_template"],
                          suites_dir=base / cfg["suites_dir"], documents=cfg["documents"], root=root, model=model)
-    prop = OpenRouterProposer(adapter.spec.channels["proposer"], audit_dir=root / "audit", budget=budget,
-                              session_reserve_usd=cfg["proposer"]["session_reserve_usd"])
+    if routes:
+        prop = RoutedProposer(adapter.spec.channels["proposer"], audit_dir=root / "audit", budget=budget,
+                              routes=routes, models=cfg["proposer"]["models"])
+    else:
+        prop = OpenRouterProposer(adapter.spec.channels["proposer"], audit_dir=root / "audit", budget=budget,
+                                  session_reserve_usd=cfg["proposer"]["session_reserve_usd"])
     sweep = schedule.run_sweep(cfg["k"], adapter=adapter, prop=prop, runs_root=adapter.spec.runs_root,
                                library_root=root / "library", modes=cfg["modes"], seed=cfg["seed"],
                                only_tasks=cfg["documents"], domain_parallel=cfg["domain_parallel"])
@@ -105,7 +109,8 @@ def score(adapter, cfg, sweep):
             sel = summary.get("selections", {}).get(mode, {})
             row["selected"][mode] = {"label": sel.get("chosen_label"), "is_base": sel.get("chosen_tree_is_base"),
                                      "stages": summary.get("modes", {}).get(mode, {}).get("stages", [])}
-            for label in LABELS:
+            k = cfg["k"]
+            for label in [f"{p}{i}" for p in ("base", "inv", "dom", "agg") for i in range(1, k + 1)]:
                 run_ns = Namespace(adapter.spec.name, adapter.substrate.name, "agg", cfg["k"], cfg["seed"], "") \
                     if label.startswith("base") else n
                 run_dir = adapter.root / "runs" / "rollouts" / run_ns.run_id(task, label)

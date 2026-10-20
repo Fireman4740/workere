@@ -125,5 +125,98 @@ class ProposerAccounting(unittest.TestCase):
             openrouter_key()
 
 
+class FusionExecutor(unittest.TestCase):
+    def test_base_fusion_script_reproduces_frozen_rule_and_question(self):
+        import random
+        from pipelines.harness2_eci import postprocess
+        from pipelines.harness2_eci.surface import fusion_base_tree, fusion_decision_question
+        from pipelines.jev.state_builder import questions_from_params
+        prompt = yaml.safe_load((ROOT / "prompts/esl_standard_eci_lean_coref.yaml").read_text())
+        tree = fusion_base_tree(prompt)
+        self.assertEqual(fusion_decision_question(tree), questions_from_params({}))
+        rng, ids, pairs = random.Random(7), [str(i) for i in range(6)], []
+        signal = {(a, b): (rng.choice([0, 1, 2, 3, 4, 5, 6, 7]) / 7, rng.random()) for a in ids for b in ids if a != b}
+        for (a, b), (luna, d1) in signal.items():
+            fused = ((luna + signal[(b, a)][0]) / 2 + (d1 + signal[(b, a)][1]) / 2) / 2
+            pairs.append({"source": a, "target": b, "luna_fraction": luna, "luna_votes": [], "d1_probability": d1,
+                          "probability": fused, "default_label": "causal" if fused >= .39 else "norel"})
+        labels, log = postprocess.apply(tree, "fusion", {"document_id": "d", "executor": "fusion",
+                                                         "mentions": [], "pairs": pairs})
+        self.assertIn("changed 0 of", log)
+        self.assertTrue(any(v == "causal" for v in labels.values()) and any(v == "norel" for v in labels.values()))
+
+    def test_routed_proposer_walks_each_role_chain(self):
+        from harness2.core.spec import ChannelSpec
+        from pipelines.harness2_eci.proposer import RoutedProposer, role_of
+        self.assertEqual([role_of(x) for x in ("inv2.a1", "dom1.a2", "agg2.a1", "select.agg2", "experience.agg2")],
+                         ["propose", "propose", "compose", "select", "reflect"])
+        cfg = read_active()
+        prop = RoutedProposer(ChannelSpec("opencode", cfg["routes"]["compose"][0]), binary=Path("/bin/true"),
+                              routes=cfg["routes"], models=cfg["models"])
+        prop._route.label, prop._route.attempt = "inv1.a1", 0
+        first, second = prop._session_model()[0], prop._session_model()[0]
+        self.assertEqual([first, second], cfg["routes"]["propose"])
+        prop._route.label, prop._route.attempt = "select.agg2", 0
+        model, price, reserve = prop._session_model()
+        self.assertEqual(model, "openrouter/deepseek/deepseek-v4.1-flash-1017")
+        self.assertEqual(price, (0.15, 0.6))
+
+
+class OfflineFusionSweep(unittest.TestCase):
+    def test_k2_fusion_sweep_with_label_free_selection(self):
+        from benchmark.configuration import read_yaml
+        tmp = Path(tempfile.mkdtemp(prefix="h2-fusion-test-"))
+        template = read_yaml(H2 / "fusion-executor.yaml")
+        params = template["pipeline"]["relation_predictor"]["params"]
+        for part in ("luna", "decision"):
+            params[part]["client"].update(mode="mock", cache_path=str(tmp / f"{part}.sqlite"))
+            params[part]["client"]["shared_budget"]["path"] = str(tmp / "budget.sqlite")
+        params["luna"]["path"] = str(ROOT / "prompts/esl_standard_eci_lean_coref.yaml")
+        (H2 / "test-tmp-fusion.yaml").write_text(yaml.safe_dump(template))
+        self.addCleanup((H2 / "test-tmp-fusion.yaml").unlink)
+        os.environ["HARNESS2_IMPROVER_MODEL"] = os.environ["HARNESS2_SOLVER_MODEL"] = "openrouter/openai/gpt-6-luna"
+        from harness2.core import schedule
+        from harness2.core.proposer import Proposer, Reply
+        from pipelines.harness2_eci.adapter import EciAdapter
+        from pipelines.harness2_eci.driver import score
+
+        class Scripted(Proposer):
+            def call(self, mission, context_dir, label, **kwargs):
+                context, workspace = Path(context_dir), None
+                if label.startswith("select."):
+                    chosen = sorted((context / "candidates").glob("*.md"))[-1].stem
+                    text = f"<why>scripted</why>\n```choice\n{chosen}\n```"
+                elif label.startswith("experience."):
+                    text = "NO_ENTRY"
+                else:
+                    workspace = context / "harness"
+                    script = workspace / "scripts/postprocess.py"
+                    cut = {"inv": "0.2", "dom": "0.6", "agg": "0.3"}[label[:3]]
+                    script.write_text(script.read_text().replace("THRESHOLD = 0.39", f"THRESHOLD = {cut}"))
+                    text = "<notes>scripted threshold</notes>"
+                reply = Reply(label=label, text=text, ok=True, attempts=1, workspace=workspace)
+                self._calls.append(reply)
+                return reply
+
+        adapter = EciAdapter(executor="fusion", template_path=H2 / "test-tmp-fusion.yaml",
+                             suites_dir=ROOT / "experiments/jev/round4/suites", documents=DOCS, root=tmp / "work",
+                             model="openrouter/openai/gpt-6-luna")
+        prop = Scripted(adapter.spec.channels["proposer"])
+        sweep = schedule.run_sweep(2, adapter=adapter, prop=prop, runs_root=adapter.spec.runs_root,
+                                   library_root=tmp / "work/library", modes=["agg"], seed=42, only_tasks=DOCS)
+        self.assertEqual(sum(d["done"] for d in sweep["domains"]), 2, json.dumps(sweep)[:3000])
+        result = score(adapter, {"documents": DOCS, "modes": ["agg"], "k": 2, "seed": 42, "executor": "fusion"}, sweep)
+        self.assertEqual(result["documents_scored"], 2, json.dumps(result)[:3000])
+        self.assertTrue({"base1", "base2", "agg:inv2", "agg:dom2", "agg:agg2", "agg:selected"} <= set(result["micro"]))
+        self.assertEqual(result["micro"]["base1"], result["micro"]["base2"])
+        self.assertTrue(any(c.label.startswith("select.") for c in prop._calls))
+        lo, hi = result["micro"]["agg:inv1"]["binary"], result["micro"]["agg:dom1"]["binary"]
+        self.assertGreaterEqual(lo["tp"] + lo["fp"], hi["tp"] + hi["fp"])
+
+
+def read_active():
+    return yaml.safe_load((ROOT / "experiments/jev/active.yaml").read_text())["proposer"]
+
+
 if __name__ == "__main__":
     unittest.main()

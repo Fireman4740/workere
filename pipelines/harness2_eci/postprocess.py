@@ -17,7 +17,8 @@ from pathlib import Path
 from pipelines.harness2_eci.surface import POSTPROCESS
 
 TIMEOUT_SECONDS = 60
-LABELS = {"luna": {"causes", "causedby", "norel"}, "decision": {"causal", "norel"}}
+LABELS = {"luna": {"causes", "causedby", "norel"}, "decision": {"causal", "norel"},
+          "fusion": {"causal", "norel"}}
 
 
 def apply(tree, executor, payload):

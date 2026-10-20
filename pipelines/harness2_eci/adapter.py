@@ -87,6 +87,43 @@ PROMPTS = {
 }
 
 
+PROMPTS["fusion"] = BenchPrompts(
+    work=("Read one news article in which every event mention is tagged <ID text>, and list every pair "
+          "of mentions whose events are causally linked in either direction (one causes, enables or "
+          "prevents the other); a linked pair is listed in both orders. Two models read the article: a "
+          "language model answers seven times with the full list of causal pairs (each time with a "
+          "worked example from another news story), and a decision model returns, for every ordered "
+          "pair separately, the probability that the two events are causally linked. A fusion script "
+          "combines both signals into the final list."),
+    domain_word="news topic", deliverable_word="list of causal pairs",
+    inv_levers=(
+        "- scripts/postprocess.py IS the fusion rule. stdin JSON: `mentions` (id, surface, sentence) and "
+        "`pairs` (source, target, `luna_fraction` = share of the seven language-model answers listing "
+        "the pair, `luna_votes`, `d1_probability` = decision-model probability for that order, "
+        "`probability` = current fused value, `default_label`); stdout {\"labels\": {\"a,b\": "
+        "\"causal\"|\"norel\"}}. The base rule averages each signal over the two orders, averages the "
+        "two signals and keeps the pair when the result reaches 0.39. Cut-offs, weights, agreement "
+        "rules or mention-group propagation belong here; both orders of a pair should agree\n"
+        "- systemprompt.md is the language model's system message and "
+        "tool_descriptions/tool_guidance.md its rules and output format, placed before the article\n"
+        "- guardrails.md, LongTermMEMORY.md and skill bodies are appended to BOTH the language model's "
+        "system message and the decision model's question (6000 characters at most for the latter); "
+        "the decision model sees only the article and the two mentions, so text for it must be "
+        "decidable pair by pair\n"
+        "- no tools, subagents or plugins run; the language model must keep its JSON array output"),
+    dom_levers=(
+        "- what counts as cause, enablement or prevention versus temporal sequence, correlation, "
+        "or the same event restated\n"
+        "- grouping mentions of one event and linking every mention of both events\n"
+        "- cross-sentence links, reported speech, plans and hypotheticals, negated events"),
+    domain_guidance=("Events in one article cluster around a real-world incident (an arrest, an "
+                     "earthquake, a shooting, a merger). The articles of one topic report the same "
+                     "kind of incident."),
+    yardstick=("The final list holds exactly the pairs the article supports as a direct causal or "
+               "preventive link, in both orders and for every mention of both events, and none that "
+               "are merely sequential or correlated."))
+
+
 class EciAdapter:
     def __init__(self, *, executor, template_path, suites_dir, documents, root, model):
         if executor not in PROMPTS:
@@ -118,13 +155,17 @@ class EciAdapter:
             raise ValueError(f"suite for {doc} must hold exactly that one document")
         return items[0]
 
+    def _luna_params(self, cfg):
+        params = cfg["pipeline"]["relation_predictor"]["params"]
+        return params["luna"] if self.executor == "fusion" else params
+
     def _write_base(self):
-        if self.executor == "luna":
-            params = self._template()["pipeline"]["relation_predictor"]["params"]
-            prompt_path = (self.template_path.parent / params["path"]).resolve()
-            base = surface.luna_base_tree(yaml.safe_load(prompt_path.read_text()))
-        else:
+        if self.executor == "decision":
             base = surface.decision_base_tree()
+        else:
+            params = self._luna_params(self._template())
+            prompt = yaml.safe_load((self.template_path.parent / params["path"]).resolve().read_text())
+            base = (surface.fusion_base_tree if self.executor == "fusion" else surface.luna_base_tree)(prompt)
         surface.validate(base, self.executor)
         harness_tree.write_tree(self.substrate.surface(), base, self.base_harness())
 
@@ -147,7 +188,7 @@ class EciAdapter:
 
     def task_prompt(self, task_id):
         n = len(self._inputs[task_id].reference_candidates)
-        if self.executor == "decision":
+        if self.executor in ("decision", "fusion"):
             return (f"Article {task_id} (source/article.md) has its event mentions tagged <ID text>. For "
                     f"each of the {n} ordered mention pairs, decide whether the two events are causally "
                     f"linked in either direction (one causes, enables or prevents the other); a linked "
@@ -171,10 +212,11 @@ class EciAdapter:
         cfg["name"] = "h2-" + run_id.replace("/", "__")
         cfg["dataset"]["suite"] = str(self._suite(task_id))
         params = cfg["pipeline"]["relation_predictor"]["params"]
-        if "path" in params:
-            params["path"] = str((self.template_path.parent / params["path"]).resolve())
-        if "selection_path" in params:
-            params["selection_path"] = str(Path(params["selection_path"]).resolve())
+        luna = self._luna_params(cfg)
+        if "path" in luna:
+            luna["path"] = str((self.template_path.parent / luna["path"]).resolve())
+        if "selection_path" in luna:
+            luna["selection_path"] = str(Path(luna["selection_path"]).resolve())
         params["harness_dir"] = str(harness_dir)
         cfg["output_dir"] = str(self.hidden / run_id / "engine")
         return cfg

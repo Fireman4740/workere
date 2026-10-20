@@ -8,6 +8,7 @@ reservation is settled with OpenCode's reported cost, or retained when no cost i
 import json
 import os
 import subprocess
+import threading
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -78,29 +79,35 @@ class OpenRouterProposer(upstream.Proposer):
     session_reserve_usd: float = .3
     price_per_million: tuple = (.1, .5)
     binary: Path = field(default_factory=opencode_binary)
+    _route: threading.local = field(default_factory=threading.local, repr=False)
 
     def env(self):
         env = {k: v for k, v in os.environ.items() if k not in upstream._DROP_ENV}
         env["OPENROUTER_API_KEY"] = openrouter_key()
         return env
 
-    def _config(self):
-        provider, model = self.spec.model.split("/", 1)
+    def _session_model(self):
+        """(provider-prefixed model, (input, output) USD per million tokens, reservation USD)."""
+        return self.spec.model, self.price_per_million, self.session_reserve_usd
+
+    def _config(self, full_model, prices):
+        provider, model = full_model.split("/", 1)
         if provider != "openrouter":
-            raise ValueError(f"expected an openrouter/<model> id, got {self.spec.model!r}")
+            raise ValueError(f"expected an openrouter/<model> id, got {full_model!r}")
         # small_model pins title/summary calls to the same model: no other model is ever called.
-        return {"$schema": "https://opencode.ai/config.json", "small_model": self.spec.model,
+        return {"$schema": "https://opencode.ai/config.json", "small_model": full_model,
                 "agent": {"build": {"steps": self.spec.steps}},
                 "permission": {"edit": "allow", "bash": "allow", "webfetch": "deny"},
                 "provider": {"openrouter": {"options": {"apiKey": "{env:OPENROUTER_API_KEY}"}, "models": {model: {
                     "name": model, "tool_call": True, "reasoning": True,
-                    "cost": {"input": self.price_per_million[0], "output": self.price_per_million[1]},
+                    "cost": {"input": prices[0], "output": prices[1]},
                     "limit": {"context": 1_050_000, "output": 65_536}}}}}}
 
     def _opencode(self, cwd, mission, system, wall):
         (cwd / "MISSION.md").write_text((f"{system}\n\n---\n\n" if system else "") + mission, encoding="utf-8")
         (cwd / "output").mkdir(exist_ok=True)
-        (cwd / "opencode.json").write_text(json.dumps(self._config()), encoding="utf-8")
+        model, prices, reserve = self._session_model()
+        (cwd / "opencode.json").write_text(json.dumps(self._config(model, prices)), encoding="utf-8")
         env = self.env()
         env["OPENCODE_PERMISSION"] = json.dumps(
             {"external_directory": {"*": "deny", str(cwd): "allow", f"{cwd}/**": "allow"}})
@@ -109,23 +116,24 @@ class OpenRouterProposer(upstream.Proposer):
         env["OPENCODE_DISABLE_CLAUDE_CODE"] = env["OPENCODE_DISABLE_AUTOUPDATE"] = "1"  # no host skills
         prompt = ("Read MISSION.md first. Do what it asks. Reply with the requested output as "
                   "your final message AND save it verbatim to output/answer.md.")
-        cmd = [str(self.binary), "run", prompt, "--dir", str(cwd), "--model", self.spec.model,
+        cmd = [str(self.binary), "run", prompt, "--dir", str(cwd), "--model", model,
                "--format", "json"]
         if self.spec.effort:
             cmd += ["--variant", self.spec.effort]
-        ticket = self.budget.reserve(self.session_reserve_usd) if self.budget else None
+        ticket = self.budget.reserve(reserve) if self.budget and reserve else None
         cost = None
         try:
             done = subprocess.run(cmd, cwd=cwd, env=env, text=True, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE, timeout=wall)
-            cost = session_cost(done.stdout, self.price_per_million)
+            cost = session_cost(done.stdout, prices)
         finally:
             if ticket:
                 try:
                     self.budget.settle(ticket, cost)
                 except BudgetExceeded as exc:
                     print(f"H2_BUDGET_WARNING session cost {cost} above reservation: {exc}", flush=True)
-        print("H2_PROPOSER_SESSION " + json.dumps({"rc": done.returncode, "cost_usd": cost,
+        print("H2_PROPOSER_SESSION " + json.dumps({"label": getattr(self._route, "label", None), "model": model,
+              "rc": done.returncode, "cost_usd": cost,
               **(self.budget.status() if self.budget else {})}), flush=True)
         answer = cwd / "output" / "answer.md"
         if answer.is_file() and answer.read_text(errors="replace").strip():
@@ -135,3 +143,43 @@ class OpenRouterProposer(upstream.Proposer):
             return text, cost or 0.0, ""
         tail = upstream._strip_oc_banner(done.stderr or "").strip()[-600:]
         return "", cost or 0.0, f"rc={done.returncode}: {err or tail or 'empty reply'}"
+
+
+ROLES = (("select.", "select"), ("experience.", "reflect"), ("agg", "compose"), ("inv", "propose"),
+         ("dom", "propose"), ("c", "compose"))
+
+
+def role_of(label):
+    for prefix, role in ROLES:
+        if label.startswith(prefix):
+            return role
+    raise ValueError(f"no proposer role for session label {label!r}")
+
+
+@dataclass
+class RoutedProposer(OpenRouterProposer):
+    """One model chain per Harness² role; each transport attempt moves one step down the chain.
+
+    `routes` maps propose / compose / select / reflect to provider-prefixed model ids;
+    `models` maps each id to {"price": [input, output] USD per million, "reserve": USD}.
+    """
+    routes: dict = field(default_factory=dict)
+    models: dict = field(default_factory=dict)
+
+    def __post_init__(self):
+        super().__post_init__()
+        missing = {r for _, r in ROLES} - set(self.routes)
+        unpriced = {m for chain in self.routes.values() for m in chain} - set(self.models)
+        if missing or unpriced or not all(self.routes.values()):
+            raise ValueError(f"routes need every role {sorted(missing)} and prices for {sorted(unpriced)}")
+
+    def call(self, mission, context_dir, label, **kwargs):
+        self._route.label, self._route.attempt = label, 0
+        return super().call(mission, context_dir, label, **kwargs)
+
+    def _session_model(self):
+        chain = self.routes[role_of(self._route.label)]
+        model = chain[min(self._route.attempt, len(chain) - 1)]
+        self._route.attempt += 1
+        info = self.models[model]
+        return model, tuple(info["price"]), info["reserve"]

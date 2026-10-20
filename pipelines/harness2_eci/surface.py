@@ -66,6 +66,56 @@ def luna_request_parts(tree, prompt):
     return system, tree.get(GUIDANCE, ""), suffix
 
 
+FUSION_SCRIPT = '''"""Fuse the two models' signals into the final causal pairs.
+
+stdin: {"mentions": [{"id", "surface", "sentence"}], "pairs": [{"source", "target",
+"luna_fraction" (share of 7 Luna answers listing the pair), "luna_votes",
+"d1_probability" (decision model probability for this order), "probability",
+"default_label"}]}
+stdout: {"labels": {"source,target": "causal" | "norel"}} for every pair to label.
+Rule: average each signal over the two orders of the pair, average the two signals,
+keep the pair (both orders) when the result reaches THRESHOLD.
+"""
+import json
+import sys
+
+THRESHOLD = 0.39
+
+
+def main():
+    data = json.load(sys.stdin)
+    by_pair = {(p["source"], p["target"]): p for p in data["pairs"]}
+    labels = {}
+    for (a, b), p in by_pair.items():
+        q = by_pair.get((b, a), p)
+        luna = (p["luna_fraction"] + q["luna_fraction"]) / 2
+        d1 = (p["d1_probability"] + q["d1_probability"]) / 2
+        labels[f"{a},{b}"] = "causal" if (luna + d1) / 2 >= THRESHOLD else "norel"
+    json.dump({"labels": labels}, sys.stdout)
+
+
+if __name__ == "__main__":
+    main()
+'''
+
+
+def fusion_base_tree(prompt):
+    return {**luna_base_tree(prompt), POSTPROCESS: FUSION_SCRIPT}
+
+
+def fusion_decision_question(tree):
+    """The frozen R3 noul question; guardrails, memory and skills are appended to its instruction."""
+    instructions = NOUL_INSTRUCTIONS
+    extra = _sections(tree)
+    if extra:
+        instructions = instructions + "\n\n" + "\n\n".join(extra)
+    if len(instructions) > DECISION_TEXT_MAX:
+        raise ValueError(
+            f"the decision model instruction (fixed question + guardrails + memory + skills) is "
+            f"{len(instructions)} characters; it accepts at most {DECISION_TEXT_MAX}. Shorten the shared text.")
+    return {"causal": {"type": "noul", "instructions": instructions, "criteria": dict(NOUL_CRITERIA)}}
+
+
 def decision_base_tree():
     criteria = "".join(f"{key}: {NOUL_CRITERIA[key]}\n" for key in ("true", "false"))
     return {SYSTEM: NOUL_INSTRUCTIONS, GUARDRAILS: "", MEMORY: "", GUIDANCE: criteria}
@@ -119,12 +169,12 @@ def validate(tree, executor):
     if POSTPROCESS in tree and "def main" not in tree[POSTPROCESS] and "__main__" not in tree[POSTPROCESS]:
         problems.append(f"{POSTPROCESS} must be a runnable script reading JSON on stdin and writing JSON "
                         "on stdout (see the contract in its docstring requirements).")
-    if executor == "decision":
+    if executor in ("decision", "fusion"):
         try:
-            decision_question(tree)
+            (decision_question if executor == "decision" else fusion_decision_question)(tree)
         except ValueError as exc:
             problems.append(str(exc))
-    elif DOC_MARK in tree.get(GUIDANCE, "") or "{doc_text}" in tree.get(GUIDANCE, ""):
+    if executor != "decision" and "{doc_text}" in tree.get(GUIDANCE, ""):
         problems.append(f"{GUIDANCE} must not contain the document slot; the document is appended "
                         "after it automatically.")
     if problems:
