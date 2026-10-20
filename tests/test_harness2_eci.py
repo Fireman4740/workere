@@ -161,6 +161,22 @@ class FusionExecutor(unittest.TestCase):
         self.assertEqual(model, "openrouter/deepseek/deepseek-v4.1-flash-1017")
         self.assertEqual(price, (0.15, 0.6))
 
+    def test_unfinished_reply_is_a_failed_attempt(self):
+        from unittest import mock
+        from harness2.core.spec import ChannelSpec
+        from pipelines.harness2_eci.proposer import OpenRouterProposer, RoutedProposer
+        cfg = read_active()
+        prop = RoutedProposer(ChannelSpec("opencode", cfg["routes"]["compose"][0]), binary=Path("/bin/true"),
+                              routes=cfg["routes"], models=cfg["models"])
+        prop._route.label = "inv1.a1"
+        with mock.patch.object(OpenRouterProposer, "_opencode", return_value=("I'll start by reading MISSION.md.", 0.0, "")):
+            self.assertEqual(prop._opencode(None, "", "", 1)[0], "")
+        with mock.patch.object(OpenRouterProposer, "_opencode", return_value=("<notes>KEEP_BASE: no defect</notes>", 0.0, "")):
+            self.assertTrue(prop._opencode(None, "", "", 1)[0])
+        prop._route.label = "select.agg2"
+        with mock.patch.object(OpenRouterProposer, "_opencode", return_value=("<why>x</why>\n```choice\nB\n```", 0.0, "")):
+            self.assertTrue(prop._opencode(None, "", "", 1)[0])
+
 
 class OfflineFusionSweep(unittest.TestCase):
     def test_k2_fusion_sweep_with_label_free_selection(self):

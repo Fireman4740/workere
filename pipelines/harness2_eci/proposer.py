@@ -7,6 +7,7 @@ reservation is settled with OpenCode's reported cost, or retained when no cost i
 """
 import json
 import os
+import re
 import subprocess
 import threading
 from dataclasses import dataclass, field
@@ -149,6 +150,13 @@ ROLES = (("select.", "select"), ("experience.", "reflect"), ("agg", "compose"), 
          ("dom", "propose"), ("c", "compose"))
 
 
+# A session that stops early (e.g. after announcing its first step) still returns text; these are
+# the blocks each role's mission requires, so anything else is treated as a failed attempt.
+REQUIRED = {"propose": re.compile(r"<notes>.*?</notes>", re.S), "compose": re.compile(r"<notes>.*?</notes>", re.S),
+            "select": re.compile(r"```choice\s*\n?\s*[A-Za-z0-9_-]+\s*\n?\s*```", re.S),
+            "reflect": re.compile(r"<experience>.*?</experience>|NO_ENTRY", re.S)}
+
+
 def role_of(label):
     for prefix, role in ROLES:
         if label.startswith(prefix):
@@ -176,6 +184,15 @@ class RoutedProposer(OpenRouterProposer):
     def call(self, mission, context_dir, label, **kwargs):
         self._route.label, self._route.attempt = label, 0
         return super().call(mission, context_dir, label, **kwargs)
+
+    def _opencode(self, cwd, mission, system, wall):
+        text, cost, err = super()._opencode(cwd, mission, system, wall)
+        role = role_of(self._route.label)
+        if text.strip() and not REQUIRED[role].search(text):
+            print("H2_PROPOSER_REJECTED " + json.dumps({"label": self._route.label, "role": role,
+                  "reply_head": text.strip()[:160]}), flush=True)
+            return "", cost, f"reply lacks the block the {role} mission requires: {text.strip()[:200]!r}"
+        return text, cost, err
 
     def _session_model(self):
         chain = self.routes[role_of(self._route.label)]

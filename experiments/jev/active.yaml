@@ -2,7 +2,7 @@
 # Same 8 DEV44 docs as H2-D/H2-L (topics 5, 12, 18, 33). Base harness = frozen fusion mean_sym >= 0.39.
 schema: workere-harness2/v1
 name: esc-h2-fusion
-code_version: 1
+code_version: 2
 executor: fusion
 executor_template: harness2/fusion-executor.yaml
 suites_dir: round4/suites
@@ -24,7 +24,8 @@ work_root: ~/.local/share/openresearch/workere-harness2
 proposer:
   # Each session tries its role's first model, then the next one on the second transport attempt.
   routes:
-    propose: [openrouter/minimax/minimax-m3.1-flash:free, openrouter/inclusionai/ling-3.0-flash]
+    # minimax-m3.1-flash:free stopped after its first sentence in all 7 run-30ddb304 sessions; it is the fallback.
+    propose: [openrouter/inclusionai/ling-3.0-flash, openrouter/minimax/minimax-m3.1-flash:free]
     compose: [openrouter/deepseek/deepseek-v4.1-flash-1017, openrouter/deepseek/deepseek-v4-flash-0731]
     select: [openrouter/deepseek/deepseek-v4.1-flash-1017, openrouter/deepseek/deepseek-v4-flash-0731]
     reflect: [openrouter/deepseek/deepseek-v4-flash-0731, openrouter/inclusionai/ling-3.0-flash]
