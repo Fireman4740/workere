@@ -231,7 +231,7 @@ class OfflineFusionSweep(unittest.TestCase):
 
 
 def read_active():
-    return yaml.safe_load((ROOT / "experiments/jev/active.yaml").read_text())["proposer"]
+    return yaml.safe_load((ROOT / "experiments/jev/harness2/fusion-pilot.yaml").read_text())["proposer"]
 
 
 if __name__ == "__main__":
