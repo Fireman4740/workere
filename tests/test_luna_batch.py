@@ -46,6 +46,15 @@ class BatchTransport(unittest.TestCase):
                 self.assertAlmostEqual(client.shared_budget.status()["accounted_or_reserved_usd"], .002)
             self.assertEqual(calls.count("POST"), 1)
             self.assertEqual(calls.count("GET"), 1)
+            # A later plan with its own scope resumes the same receipt without charging it again.
+            other = {**budget, "scope": "later-plan"}
+            with self.client(path, shared_budget=other) as client, patch.object(client, "_http", side_effect=AssertionError("must recover receipt")):
+                client.cache.execute("DELETE FROM decisions_v1"); client.cache.commit()
+                resumed = []
+                packets = client.decide_many(messages, [resumed.append] * 2)
+                self.assertEqual(len(packets), 2)
+                self.assertEqual(sum(e["cost_usd"] for e in resumed), 0)
+                self.assertEqual(client.shared_budget.status()["accounted_or_reserved_usd"], 0)
 
     def test_uncertain_submission_cannot_be_submitted_twice(self):
         with tempfile.TemporaryDirectory() as temp:

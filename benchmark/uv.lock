@@ -510,6 +510,11 @@ wheels = [
 ]
 
 [[package]]
+name = "harness2"
+version = "0.1.0"
+source = { git = "https://github.com/google-research/harness2?rev=1cfe254e8d25b15f37048c3730134686abe60335#1cfe254e8d25b15f37048c3730134686abe60335" }
+
+[[package]]
 name = "hf-xet"
 version = "1.7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1176,17 +1181,21 @@ name = "workere-benchmark"
 version = "0.2.0"
 source = { editable = "." }
 dependencies = [
+    { name = "harness2" },
     { name = "pyyaml" },
 ]
 
 [package.optional-dependencies]
 hub = [
     { name = "datasets" },
+    { name = "numpy" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "datasets", marker = "extra == 'hub'", specifier = "==5.0.1" },
+    { name = "harness2", git = "https://github.com/google-research/harness2?rev=1cfe254e8d25b15f37048c3730134686abe60335" },
+    { name = "numpy", marker = "extra == 'hub'", specifier = "==2.5.4" },
     { name = "pyyaml", specifier = "==6.0.3" },
 ]
 provides-extras = ["hub"]

@@ -142,8 +142,12 @@ class BatchChatClient(ChatClient):
         total_cost = (batch.get("usage") or {}).get("cost")
         if total_cost is not None and (type(total_cost) not in (int, float) or not math.isfinite(total_cost) or total_cost < 0):
             raise DecisionError("invalid batch-reported cost")
-        if self.shared_budget and batch.get("budget_ticket"):
-            self.shared_budget.settle(batch["budget_ticket"], total_cost)
+        ticket = batch.get("budget_ticket")
+        if self.shared_budget and ticket and self.shared_budget.owns(ticket):
+            self.shared_budget.settle(ticket, total_cost)
+        elif not submitted:
+            # A receipt resumed from another scope was reserved and settled there; nothing is charged again.
+            total_cost = 0.0
         allocated = total_cost / len(pending) if total_cost is not None else None
         errors = []
         for key, body, callback in zip(keys, bodies, callbacks):

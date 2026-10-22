@@ -24,7 +24,7 @@ class LunaConfirmation(unittest.TestCase):
         self.assertGreater(peak,1)
 
     def test_frozen_reference_rejects_scientific_setting_change(self):
-        path=Path('experiments/jev/active.yaml')
+        path=Path('experiments/jev/luna-confirmation.yaml')
         configs=_configs(path)
         self.assertEqual(len(configs),40)
         tampered=copy.deepcopy(configs)
