@@ -1,44 +1,41 @@
-schema: workere-campaign/v1
-max_parallel: 9
-experiments:
-- config: round3/d1-test-s40.yaml
-- config: round3/luna-t0/test-s40-1_17ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-1_8ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-3_11ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-3_10ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-4_2ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-4_9ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-5_2ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-5_1ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-7_7ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-7_11ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-8_4ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-8_5ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-12_7ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-12_9ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-13_12ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-13_14ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-14_10ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-14_6ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-16_7ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-16_9ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-18_10ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-18_7ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-19_5ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-19_10ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-20_11ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-20_3ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-22_4ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-22_6ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-23_1ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-23_9ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-24_4ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-24_8ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-30_4ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-30_6ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-32_8ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-32_7ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-33_8ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-33_11ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-35_9ecbplus.xml.yaml
-- config: round3/luna-t0/test-s40-35_8ecbplus.xml.yaml
+# H2-F: Harness² on the frozen R3 Luna x d1 fusion (k=2, parallel recursion), role-routed proposers.
+# Same 8 DEV44 docs as H2-D/H2-L (topics 5, 12, 18, 33). Base harness = frozen fusion mean_sym >= 0.39.
+schema: workere-harness2/v1
+name: esc-h2-fusion
+code_version: 2
+executor: fusion
+executor_template: harness2/fusion-executor.yaml
+suites_dir: round4/suites
+documents:
+- 5_5ecbplus.xml
+- 5_7ecbplus.xml
+- 12_10ecbplus.xml
+- 12_9ecbplus.xml
+- 18_7ecbplus.xml
+- 18_8ecbplus.xml
+- 33_11ecbplus.xml
+- 33_8ecbplus.xml
+k: 2
+modes:
+- agg
+seed: 42
+domain_parallel: 2
+work_root: ~/.local/share/openresearch/workere-harness2
+proposer:
+  # Each session tries its role's first model, then the next one on the second transport attempt.
+  routes:
+    # minimax-m3.1-flash:free stopped after its first sentence in all 7 run-30ddb304 sessions; it is the fallback.
+    propose: [openrouter/inclusionai/ling-3.0-flash, openrouter/minimax/minimax-m3.1-flash:free]
+    compose: [openrouter/deepseek/deepseek-v4.1-flash-1017, openrouter/deepseek/deepseek-v4-flash-0731]
+    select: [openrouter/deepseek/deepseek-v4.1-flash-1017, openrouter/deepseek/deepseek-v4-flash-0731]
+    reflect: [openrouter/deepseek/deepseek-v4-flash-0731, openrouter/inclusionai/ling-3.0-flash]
+  models:  # OpenRouter list prices 2026-10-20, USD per million tokens [input, output]
+    openrouter/minimax/minimax-m3.1-flash:free: {price: [0, 0], reserve: 0}
+    openrouter/inclusionai/ling-3.0-flash: {price: [0.021, 0.063], reserve: 0.05}
+    openrouter/deepseek/deepseek-v4-flash-0731: {price: [0.1298, 0.3894], reserve: 0.3}
+    openrouter/deepseek/deepseek-v4.1-flash-1017: {price: [0.15, 0.6], reserve: 0.4}
+budget:
+  path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
+  scope: esc-h2-fusion-20261020-4p8usd
+  limit_usd: 4.8
+  initial_spend_usd: 0
