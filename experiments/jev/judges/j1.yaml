@@ -1,0 +1,52 @@
+schema: workere-judge/v1
+experiment: coref_agreement
+controls: ../round4/controls.json
+suites_dir: ../round4/suites
+samples: 1
+workers: 3
+pairs_per_call: 64
+gate_precision: 0.85
+luna_cache_dir: ~/.local/share/openresearch/workere-decisions
+dataset:
+  repo_id: Nofing/EventStoryLine-0.9-standard-eci-workere
+  revision: e6418e8747ac1c7fecf66d56ae41fbde7fd5967a
+budget:
+  path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
+  scope: esc-j1-j2-20261022-3usd
+  limit_usd: 3.0
+  initial_spend_usd: 0
+client:
+  model: deepseek/deepseek-v4.1-flash-1017
+  model_version: deepseek-v4.1-flash-1017
+  mode: live
+  cache_path: ~/.local/share/openresearch/workere-decisions/j1-luna-agreement-max-v2.sqlite
+  reasoning_effort: max
+  max_output_tokens: 65536
+  max_context_tokens: 1048576
+  input_price_per_million: 0.3
+  output_price_per_million: 1.2
+  max_cost_per_call_usd: 0.10
+  budget_usd: 3.0
+  max_calls: 180
+  timeout: 600
+  retries: 1
+  requests_per_minute: 30
+  retry_backoff_seconds: 3
+  retry_max_wait_seconds: 120
+luna_client:
+  # Only complete missing cached R3-T2 replies. No causal Luna reruns.
+  provider: openrouter
+  endpoint: https://openrouter.ai/api/v1/batches
+  model: openai/gpt-6-luna:batch
+  model_version: gpt-6-luna-20260922
+  mode: live
+  timeout: 600
+  retries: 1
+  requests_per_minute: 6000
+  max_calls: 2
+  max_context_tokens: 1050000
+  budget_usd: 0.04
+  max_cost_per_call_usd: 0.02
+  input_price_per_million: 0.05
+  reasoning_effort: high
+  max_output_tokens: 32768

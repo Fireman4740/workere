@@ -6,7 +6,7 @@ requires-python = ">=3.12"
 dependencies = ["pyyaml==6.0.3", "harness2 @ git+https://github.com/google-research/harness2@1cfe254e8d25b15f37048c3730134686abe60335"]
 
 [project.optional-dependencies]
-hub = ["datasets==5.0.1"]
+hub = ["datasets==5.0.1", "numpy==2.5.4"]
 
 [project.scripts]
 workere-benchmark = "benchmark.__main__:main"

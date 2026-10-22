@@ -58,6 +58,14 @@ def main(argv=None):
                   rethreshold(args.run_dir, args.threshold, args.output_dir))
         print(json.dumps(result, ensure_ascii=False), flush=True)
         return 0
+    if read_yaml(args.config).get("schema") == "workere-judge/v1":
+        from pipelines.judges import driver as judges
+        if args.command == "dry-run":
+            result = judges.plan(judges.load(args.config))
+            write_json(args.output, result)
+            print(json.dumps(result, ensure_ascii=False), flush=True)
+            return 0
+        return judges.run(args.config, args.output)
     if read_yaml(args.config).get("schema") == "workere-harness2/v1":
         from pipelines.harness2_eci import driver
         if args.command == "dry-run":

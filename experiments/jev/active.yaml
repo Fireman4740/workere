@@ -1,41 +1,33 @@
-# H2-F: Harness² on the frozen R3 Luna x d1 fusion (k=2, parallel recursion), role-routed proposers.
-# Same 8 DEV44 docs as H2-D/H2-L (topics 5, 12, 18, 33). Base harness = frozen fusion mean_sym >= 0.39.
-schema: workere-harness2/v1
-name: esc-h2-fusion
-code_version: 2
-executor: fusion
-executor_template: harness2/fusion-executor.yaml
+# Fixed launch entry: J2, new judge only on the frozen fusion uncertainty band.
+schema: workere-judge/v1
+experiment: band_verifier
+controls: round4/controls.json
 suites_dir: round4/suites
-documents:
-- 5_5ecbplus.xml
-- 5_7ecbplus.xml
-- 12_10ecbplus.xml
-- 12_9ecbplus.xml
-- 18_7ecbplus.xml
-- 18_8ecbplus.xml
-- 33_11ecbplus.xml
-- 33_8ecbplus.xml
-k: 2
-modes:
-- agg
-seed: 42
-domain_parallel: 2
-work_root: ~/.local/share/openresearch/workere-harness2
-proposer:
-  # Each session tries its role's first model, then the next one on the second transport attempt.
-  routes:
-    # minimax-m3.1-flash:free stopped after its first sentence in all 7 run-30ddb304 sessions; it is the fallback.
-    propose: [openrouter/inclusionai/ling-3.0-flash, openrouter/minimax/minimax-m3.1-flash:free]
-    compose: [openrouter/deepseek/deepseek-v4.1-flash-1017, openrouter/deepseek/deepseek-v4-flash-0731]
-    select: [openrouter/deepseek/deepseek-v4.1-flash-1017, openrouter/deepseek/deepseek-v4-flash-0731]
-    reflect: [openrouter/deepseek/deepseek-v4-flash-0731, openrouter/inclusionai/ling-3.0-flash]
-  models:  # OpenRouter list prices 2026-10-20, USD per million tokens [input, output]
-    openrouter/minimax/minimax-m3.1-flash:free: {price: [0, 0], reserve: 0}
-    openrouter/inclusionai/ling-3.0-flash: {price: [0.021, 0.063], reserve: 0.05}
-    openrouter/deepseek/deepseek-v4-flash-0731: {price: [0.1298, 0.3894], reserve: 0.3}
-    openrouter/deepseek/deepseek-v4.1-flash-1017: {price: [0.15, 0.6], reserve: 0.4}
+samples: 2
+workers: 3
+pairs_per_call: 64
+band: [0.25, 0.55]
+weights: [0, 0.25, 0.5, 0.75, 1]
 budget:
   path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
-  scope: esc-h2-fusion-20261020-4p8usd
-  limit_usd: 4.8
+  scope: esc-j1-j2-20261022-3usd
+  limit_usd: 3.0
   initial_spend_usd: 0
+client:
+  model: deepseek/deepseek-v4.1-flash-1017
+  model_version: deepseek-v4.1-flash-1017
+  mode: live
+  cache_path: ~/.local/share/openresearch/workere-decisions/j2-band-max-v2.sqlite
+  reasoning_effort: max
+  max_output_tokens: 65536
+  max_context_tokens: 1048576
+  input_price_per_million: 0.3
+  output_price_per_million: 1.2
+  max_cost_per_call_usd: 0.10
+  budget_usd: 3.0
+  max_calls: 240
+  timeout: 600
+  retries: 1
+  requests_per_minute: 30
+  retry_backoff_seconds: 3
+  retry_max_wait_seconds: 120
