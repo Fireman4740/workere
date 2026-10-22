@@ -37,7 +37,7 @@ def _requested(body):
             if line.startswith("- ")}
 
 
-def parse_probabilities(content, body):
+def parse_probabilities(content, body, *, allow_missing=False):
     wanted, out = _requested(body), {}
     for row in last_json(content, list):
         if not isinstance(row, dict) or not isinstance(row.get("pair"), str) or not finite(row.get("p")):
@@ -50,9 +50,44 @@ def parse_probabilities(content, body):
         if key in out:
             raise ValueError(f"duplicate answer for {key}")
         out[key] = float(row["p"])
-    if set(out) != wanted:
+    if set(out) != wanted and (not allow_missing or not out):
         raise ValueError(f"missing answers: {sorted(wanted - set(out))[:10]}")
     return out
+
+
+def parse_available(content, body):
+    """Retain valid partial replies for targeted completion, never for scoring."""
+    return parse_probabilities(content, body, allow_missing=True)
+
+
+def ask_complete(client, data, doc, pairs, sample, spend):
+    """Preserve the initial request/cache; recover only omissions in separate calls.
+
+    Completeness repair sees text + missing ids only, without scores or labels.
+    Initial complete replies remain bit-for-bit cache-compatible with run one.
+    """
+    surface = data.suite[doc]["surfaces"]
+    answers, pending = {}, list(pairs)
+    usage, repairs = [], 0
+    for attempt in range(4):
+        lines = "\n".join(f"- {a},{b} ({surface.get(a, '')!r} / {surface.get(b, '')!r})" for a, b in pending)
+        user = USER.format(doc_id=doc, doc_text=data.marked_text(doc), pair_lines=lines)
+        system = SYSTEM
+        if attempt:
+            system += ("\nThis is a completeness repair. Return one probability for EVERY listed pair, "
+                       "including pairs you judge non-causal or coreferent. Do not omit any pair.")
+        reply = client.ask(system, user, sample)
+        spend.add(reply)
+        usage.append(reply["usage"])
+        partial = parse_available(reply["content"], {"messages": [{"content": user}]})
+        answers.update(partial)
+        pending = [p for p in pending if ",".join(sorted(p)) not in answers]
+        if not pending:
+            return answers, usage, repairs
+        repairs += 1
+        print("J2_COMPLETENESS_REPAIR " + json.dumps({"doc": doc, "sample": sample,
+              "missing_pairs": [list(p) for p in pending], "repair": repairs}), flush=True)
+    raise ValueError(f"incomplete J2 judgement after targeted repairs for {doc}: {pending}")
 
 
 def band_pairs(data, doc, low, high):
@@ -62,7 +97,7 @@ def band_pairs(data, doc, low, high):
 def run(cfg):
     data = Dev44(cfg["controls"], cfg["suites_dir"])
     low, high = cfg["band"]
-    client = client_from(cfg, parse_probabilities)
+    client = client_from(cfg, parse_available)
     band = {d: band_pairs(data, d, low, high) for d in data.docs}
     print("J2_BAND " + json.dumps({"unordered_pairs": sum(map(len, band.values())),
                                    "documents_with_band": sum(bool(v) for v in band.values())}), flush=True)
@@ -72,14 +107,9 @@ def run(cfg):
         def call():
             pairs = list(pairs_arg)
             random.Random(f"{doc}::{sample}").shuffle(pairs)
-            surface = data.suite[doc]["surfaces"]
-            lines = "\n".join(f"- {a},{b} ({surface.get(a, '')!r} / {surface.get(b, '')!r})" for a, b in pairs)
-            reply = client.ask(SYSTEM, USER.format(doc_id=doc, doc_text=data.marked_text(doc), pair_lines=lines), sample)
-            spend.add(reply)
-            probs = parse_probabilities(reply["content"], {"messages": [{"content": USER.format(
-                doc_id=doc, doc_text="", pair_lines=lines)}]})
+            probs, usage, repairs = ask_complete(client, data, doc, pairs, sample, spend)
             print("J2_JUDGE " + json.dumps({"doc": doc, "sample": sample, "chunk": index, "pairs": len(pairs),
-                                            "cost_usd": reply["cost_usd"], "usage": reply["usage"]}), flush=True)
+                                            "completeness_repairs": repairs, "usage": usage}), flush=True)
             return doc, sample, probs
         pairs_arg = pairs
         return call

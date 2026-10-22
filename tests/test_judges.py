@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 from pipelines.judges import band_verifier as band, coref_agreement as coref
 from pipelines.judges.common import (
-    MODEL, DeepSeekClient, Dev44, Scorer, components, last_json, link_quality,
+    MODEL, DeepSeekClient, Dev44, Scorer, Spend, components, last_json, link_quality,
 )
 from pipelines.judges.driver import load, plan
 
@@ -112,6 +112,47 @@ class Validation(unittest.TestCase):
 
 
 class Protocol(unittest.TestCase):
+    def test_targeted_completion_preserves_valid_values_and_reuses_both_caches(self):
+        data = tiny_data()
+        seen = []
+        def transport(body):
+            seen.append(copy.deepcopy(body))
+            wanted = band._requested(body)
+            # Simulate the provider omitting one entry in an otherwise valid full reply.
+            answer = ([{"pair": "1,2", "p": .41}] if len(wanted) == 2
+                      else [{"pair": next(iter(wanted)), "p": .12}])
+            return {"model": MODEL, "choices": [{"finish_reason": "stop", "message": {
+                    "content": json.dumps(answer)}}], "usage": {"cost": .001}}
+        with tempfile.TemporaryDirectory() as tmp:
+            params = dict(parse=band.parse_available, model=MODEL, model_version="v1", mode="live",
+                          cache_path=str(Path(tmp) / "cache.sqlite"), budget_usd=1, max_calls=5,
+                          max_output_tokens=65536, max_context_tokens=1048576, reasoning_effort="max",
+                          input_price_per_million=.3, output_price_per_million=1.2,
+                          max_cost_per_call_usd=.1, transport=transport, requests_per_minute=1000000)
+            with DeepSeekClient(**params) as client:
+                probs, _, repairs = band.ask_complete(client, data, "1_x", [("1", "2"), ("1", "3")], 1, Spend())
+            self.assertEqual(probs, {"1,2": .41, "1,3": .12})
+            self.assertEqual(repairs, 1)
+            self.assertEqual(band._requested(seen[1]), {"1,3"})
+            self.assertEqual(seen[0]["messages"][0]["content"], band.SYSTEM)
+            self.assertNotIn(".41", seen[1]["messages"][-1]["content"])
+            cost = Spend()
+            with DeepSeekClient(**params) as client:
+                again, _, _ = band.ask_complete(client, data, "1_x", [("1", "2"), ("1", "3")], 1, cost)
+            self.assertEqual(again, probs)
+            self.assertEqual(len(seen), 2)
+            self.assertEqual(cost.value["usd"], 0)
+
+    def test_partial_mode_does_not_accept_empty_or_invent_missing_answers(self):
+        body = {"messages": [{"content": "Pairs to judge:\n- 1,2 (a / b)\n- 1,3 (a / c)\n"}]}
+        partial = '[{"pair":"1,2","p":0.4}]'
+        self.assertEqual(band.parse_available(partial, body), {"1,2": .4})
+        with self.assertRaises(ValueError):
+            band.parse_probabilities(partial, body)
+        for invalid in ('[]', '[{"pair":"2,3","p":0.2}]'):
+            with self.subTest(answer=invalid), self.assertRaises(ValueError):
+                band.parse_available(invalid, body)
+
     def test_lto_never_selects_on_held_out_topic_labels(self):
         data = tiny_data()
         variants = {"base": lambda d: data.fused[d],
