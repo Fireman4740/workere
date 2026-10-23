@@ -58,6 +58,14 @@ def main(argv=None):
                   rethreshold(args.run_dir, args.threshold, args.output_dir))
         print(json.dumps(result, ensure_ascii=False), flush=True)
         return 0
+    if read_yaml(args.config).get("schema") == "workere-confirmation/v1":
+        from pipelines.judges import confirmation
+        if args.command == "dry-run":
+            result = confirmation.plan(confirmation.load(args.config))
+            write_json(args.output, result)
+            print(json.dumps(result, ensure_ascii=False), flush=True)
+            return 0
+        return confirmation.run(args.config, args.output)
     if read_yaml(args.config).get("schema") == "workere-judge/v1":
         from pipelines.judges import driver as judges
         if args.command == "dry-run":
