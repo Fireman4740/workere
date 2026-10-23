@@ -12,7 +12,8 @@ band:
 - 0.55
 samples: 2
 pairs_per_call: 64
-document_workers: 2
+document_workers: 30
+decision_document_workers: 2
 decision_workers: 32
 judge_workers: 2
 budget:

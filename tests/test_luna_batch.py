@@ -67,6 +67,35 @@ class BatchTransport(unittest.TestCase):
                 with self.assertRaisesRegex(BudgetExceeded, "uncertain"):
                     client.decide_many(messages, [lambda e: None])
 
+    def test_interrupted_pending_batch_resumes_without_a_second_post_or_reservation(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "cache.sqlite"
+            messages = [[{"role": "user", "content": "pending"}]]
+            budget = {"path": str(Path(temp) / "global.sqlite"), "scope": "same-plan", "limit_usd": 1}
+            submitted = []
+            def post(method, url, payload=None):
+                self.assertEqual(method, "POST")
+                submitted.extend(payload["requests"])
+                return {"id": "batch_pending", "status": "in_progress"}
+            with self.client(path, shared_budget=budget) as client, patch.object(client, "_http", post), \
+                    patch.object(client, "_poll", side_effect=RuntimeError("controller stopped")):
+                with self.assertRaisesRegex(RuntimeError, "controller stopped"):
+                    client.decide_many(messages, [lambda e: None])
+                self.assertAlmostEqual(client.shared_budget.status()["accounted_or_reserved_usd"], .015)
+            def get(method, url, payload=None):
+                self.assertEqual(method, "GET")
+                self.assertTrue(url.endswith("batch_pending"))
+                return {"id": "batch_pending", "status": "completed", "usage": {"cost": .002},
+                    "results": [{"custom_id": r["custom_id"], "response": {"status_code": 200,
+                        "body": {"model": "openai/gpt-6-luna-20260922", "choices": [{"finish_reason": "stop",
+                                  "message": {"content": "[]"}}]}}} for r in submitted]}
+            with self.client(path, shared_budget=budget) as client, patch.object(client, "_http", get), \
+                    patch("pipelines.jev.batch.time.sleep"):
+                events = []
+                self.assertEqual(len(client.decide_many(messages, [events.append])), 1)
+                self.assertFalse(events[0]["api_call"])
+                self.assertAlmostEqual(client.shared_budget.status()["accounted_or_reserved_usd"], .002)
+
 
 if __name__ == "__main__":
     unittest.main()
