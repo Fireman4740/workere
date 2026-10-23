@@ -1,0 +1,75 @@
+schema: workere-confirmation/v1
+variant: mean
+public_inputs: public-inputs.json
+evaluation_only: evaluation-only.json
+selection: selection.json
+frozen_rules: frozen-rules.json
+demo_bank: demo-bank.json
+luna_prompt: ../../../prompts/esl_standard_eci_lean_coref.yaml
+work_root: ~/.local/share/openresearch/workere-confirmation-res30
+band: [0.25, 0.55]
+samples: 2
+pairs_per_call: 64
+document_workers: 2
+decision_workers: 32
+judge_workers: 2
+budget:
+  path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
+  scope: esc-j1-j2-20261022-3usd
+  limit_usd: 3.0
+  initial_spend_usd: 0
+client:
+  model: deepseek/deepseek-v4.1-flash-1017
+  model_version: deepseek-v4.1-flash-1017
+  mode: live
+  cache_path: ~/.local/share/openresearch/workere-decisions/j2-band-max-v2.sqlite
+  reasoning_effort: max
+  max_output_tokens: 65536
+  max_context_tokens: 1048576
+  input_price_per_million: 0.3
+  output_price_per_million: 1.2
+  max_cost_per_call_usd: 0.10
+  budget_usd: 3.0
+  max_calls: 240
+  timeout: 600
+  retries: 1
+  requests_per_minute: 30
+  retry_backoff_seconds: 3
+  retry_max_wait_seconds: 120
+luna_client:
+  provider: openrouter
+  endpoint: https://openrouter.ai/api/v1/batches
+  model: openai/gpt-6-luna:batch
+  model_version: gpt-6-luna-20260922
+  api_key_env: OPENROUTER_API_KEY
+  mode: live
+  cache_path: ~/.local/share/openresearch/workere-decisions/h2-luna.sqlite
+  reasoning_effort: high
+  max_output_tokens: 32768
+  max_context_tokens: 1050000
+  input_price_per_million: 0.05
+  max_cost_per_call_usd: 0.01
+  budget_usd: 0.10
+  max_calls: 7
+  timeout: 600
+  retries: 1
+  requests_per_minute: 6000
+decision_client:
+  provider: openrouter
+  endpoint: https://openrouter.ai/api/alpha/decisions
+  model: liquid/d1-ultra
+  model_version: d1-ultra-20261015
+  expected_served_version: liquid/d1-ultra-20261015
+  api_key_env: OPENROUTER_API_KEY
+  mode: live
+  cache_path: ~/.local/share/openresearch/workere-decisions/cache.sqlite
+  max_context_tokens: 32768
+  input_price_per_million: 0.084
+  max_cost_per_call_usd: 0.0015
+  budget_usd: 3.0
+  max_calls: 10000
+  timeout: 120
+  retries: 2
+  requests_per_minute: 3000
+  retry_backoff_seconds: 2
+  retry_max_wait_seconds: 120
