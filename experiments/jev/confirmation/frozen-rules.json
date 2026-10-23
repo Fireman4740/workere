@@ -1,0 +1,82 @@
+{
+  "schema": "workere-calibration-freeze/v1",
+  "training_documents": [
+    "12_10ecbplus.xml",
+    "12_9ecbplus.xml",
+    "13_14ecbplus.xml",
+    "13_4ecbplus.xml",
+    "14_1ecbplus.xml",
+    "14_9ecbplus.xml",
+    "16_6ecbplus.xml",
+    "16_9ecbplus.xml",
+    "18_7ecbplus.xml",
+    "18_8ecbplus.xml",
+    "19_1ecbplus.xml",
+    "19_3ecbplus.xml",
+    "1_13ecbplus.xml",
+    "1_19ecbplus.xml",
+    "20_10ecbplus.xml",
+    "20_1ecbplus.xml",
+    "22_12ecbplus.xml",
+    "22_4ecbplus.xml",
+    "23_1ecbplus.xml",
+    "23_9ecbplus.xml",
+    "24_4ecbplus.xml",
+    "24_8ecbplus.xml",
+    "30_5ecbplus.xml",
+    "30_6ecbplus.xml",
+    "32_5ecbplus.xml",
+    "32_7ecbplus.xml",
+    "33_11ecbplus.xml",
+    "33_8ecbplus.xml",
+    "35_6ecbplus.xml",
+    "35_9ecbplus.xml",
+    "37_1ecbplus.xml",
+    "37_9ecbplus.xml",
+    "3_11ecbplus.xml",
+    "3_5ecbplus.xml",
+    "41_4ecbplus.xml",
+    "41_5ecbplus.xml",
+    "4_1ecbplus.xml",
+    "4_2ecbplus.xml",
+    "5_5ecbplus.xml",
+    "5_7ecbplus.xml",
+    "7_11ecbplus.xml",
+    "7_5ecbplus.xml",
+    "8_4ecbplus.xml",
+    "8_5ecbplus.xml"
+  ],
+  "training_controls_hash": "6a708fafe91c938376254ce0570319331c805a2062c17883f63762cfc994d1cd",
+  "training_judge_hash": "bd0a98581977e7094aa67c07b90b66fff1ddd1a0f4c09ca8aff575f28ffc5eb2",
+  "rules": {
+    "mean": {
+      "kind": "mean",
+      "weight": 0.5,
+      "threshold": 0.56,
+      "training_f1": 0.4951590594744122
+    },
+    "logistic": {
+      "kind": "logistic",
+      "mean": [
+        -0.6013825480557273,
+        0.7640403158321298
+      ],
+      "scale": [
+        0.3509813838495164,
+        1.3168194203064443
+      ],
+      "coefficients": [
+        -1.4054985145913468,
+        0.10236780333648667,
+        0.6835200953083153
+      ],
+      "l2_penalty": 1.0,
+      "threshold": 0.24,
+      "training_f1": 0.49861239592969475
+    }
+  },
+  "fit_labels": "DEV44 only; target reserve labels never passed to fitter",
+  "selection": "maximum training micro F1; no performance claim from training values",
+  "source_j2_run": "582ddbdd-9f2b-4878-bd7d-650e2874869b",
+  "fingerprint": "76dd538bf645f5086aa633f4e2d65c11b7bf44c42a3193ceb4eb0b6cd6e04e41"
+}
