@@ -1,5 +1,5 @@
 schema: workere-confirmation/v1
-variant: mean
+variant: logistic
 public_inputs: confirmation/public-inputs.json
 evaluation_only: confirmation/evaluation-only.json
 selection: confirmation/selection.json

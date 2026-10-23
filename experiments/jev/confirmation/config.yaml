@@ -1,5 +1,5 @@
 schema: workere-confirmation/v1
-variant: mean
+variant: logistic
 public_inputs: public-inputs.json
 evaluation_only: evaluation-only.json
 selection: selection.json
@@ -7,7 +7,9 @@ frozen_rules: frozen-rules.json
 demo_bank: demo-bank.json
 luna_prompt: ../../../prompts/esl_standard_eci_lean_coref.yaml
 work_root: ~/.local/share/openresearch/workere-confirmation-res30
-band: [0.25, 0.55]
+band:
+- 0.25
+- 0.55
 samples: 2
 pairs_per_call: 64
 document_workers: 2
@@ -28,7 +30,7 @@ client:
   max_context_tokens: 1048576
   input_price_per_million: 0.3
   output_price_per_million: 1.2
-  max_cost_per_call_usd: 0.10
+  max_cost_per_call_usd: 0.1
   budget_usd: 3.0
   max_calls: 240
   timeout: 600
@@ -49,7 +51,7 @@ luna_client:
   max_context_tokens: 1050000
   input_price_per_million: 0.05
   max_cost_per_call_usd: 0.01
-  budget_usd: 0.10
+  budget_usd: 0.1
   max_calls: 7
   timeout: 600
   retries: 1
