@@ -1,5 +1,6 @@
 """Frozen-rule confirmation: separation, request parity and one shared inference producer."""
 import copy
+import io
 from concurrent.futures import ThreadPoolExecutor
 import json
 from pathlib import Path
@@ -10,6 +11,7 @@ import unittest
 from unittest.mock import patch
 
 import numpy as np
+import yaml
 
 from benchmark.io import fingerprint
 from benchmark.schema import Document, Entity
@@ -39,7 +41,7 @@ def fixture(tmp):
     (tmp / "gold.json").write_text(json.dumps({"public_fingerprint": data["fingerprint"],
         "positive_pairs": {"101_doc": [["1", "2"], ["2", "1"]], "102_doc": []}}))
     cfg = conf.load(ROOT / "experiments/jev/confirmation/config.yaml")
-    cfg.update(public_inputs=str(tmp / "public.json"), evaluation_only=str(tmp / "gold.json"),
+    cfg.update(variant="mean", public_inputs=str(tmp / "public.json"), evaluation_only=str(tmp / "gold.json"),
                frozen_rules=str(tmp / "rules.json"), selection=str(tmp / "selection.json"),
                demo_bank=str(tmp / "bank.json"), work_root=str(tmp / "shared"))
     cfg["budget"] = {"path": str(tmp / "budget.sqlite"), "scope": "shared", "limit_usd": 3, "initial_spend_usd": 0}
@@ -47,6 +49,27 @@ def fixture(tmp):
 
 
 class Confirmation(unittest.TestCase):
+    def test_full_entrypoint_checks_credit_with_judge_workers_and_writes_result(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            cfg = fixture(tmp)
+            config_path = Path(tmp) / "config.yaml"
+            config_path.write_text(yaml.safe_dump(cfg))
+            data, _, _ = conf.checked_inputs(cfg)
+            inference = {"signature": "test", "producer_additional_accounted_usd": 0,
+                         "baseline": {d: [{"a": a, "b": b, "luna": .5, "d1": .3}
+                                          for a, b in data.keys[d]] for d in data.docs},
+                         "judge": {d: {"1,2": .8} for d in data.docs}}
+            responses = [io.StringIO(json.dumps({"data": {"limit_remaining": 10}})),
+                         io.StringIO(json.dumps({"data": [{"id": cfg["client"]["model"],
+                             "reasoning": {"supported_efforts": ["max"]}}]}))]
+            with patch("pipelines.judges.driver.urllib.request.urlopen", side_effect=responses), \
+                    patch.object(conf, "shared_inference", return_value=(inference, True)):
+                status = conf.run(config_path, Path(tmp) / "result.json")
+            self.assertEqual(status, 0)
+            result = json.loads((Path(tmp) / "result.json").read_text())
+            self.assertEqual(result["documents"], 2)
+            self.assertTrue(result["shared_inference_reused"])
+
     def test_population_is_reserved_and_plan_does_not_read_target_labels(self):
         cfg = conf.load(ROOT / "experiments/jev/confirmation/config.yaml")
         reserve = {d["id"] for d in json.loads((ROOT / "experiments/jev/round3/round3-selection.json").read_text())["holdout_rest"]}

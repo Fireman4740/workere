@@ -341,7 +341,7 @@ def score(cfg, data, freeze, inference):
 def run(config_path, output):
     cfg = load(config_path)
     data, freeze, bank = checked_inputs(cfg)
-    preflight(cfg)
+    preflight({**cfg, "workers": cfg["judge_workers"]})
     emit("CONFIRM_PLAN", plan(cfg))
     inference, reused = shared_inference(cfg, data, bank)
     result = score(cfg, data, freeze, inference)
