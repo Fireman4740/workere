@@ -151,6 +151,9 @@ def plan(cfg):
             "ordered_pairs": sum(map(len, data.keys.values())), "public_fingerprint": data.public_fingerprint,
             "frozen_rule": freeze["rules"][cfg["variant"]], "rules_fingerprint": freeze["fingerprint"],
             "budget": cfg["budget"], "shared_inference": True, "reasoning_effort": "max",
+            "scheduling": {"document_workers": cfg["document_workers"],
+                           "decision_document_workers": cfg.get("decision_document_workers", cfg["document_workers"]),
+                           "decision_workers_per_document": cfg["decision_workers"]},
             "annotations_read": False}
 
 
@@ -172,7 +175,7 @@ def budget_status(cfg):
         budget.close()
 
 
-def baseline_one(cfg, data, bank, root, signature, doc):
+def baseline_one(cfg, data, bank, root, signature, doc, decision_slots):
     path = root / "baseline" / (doc + ".json")
     if path.exists():
         result = json.loads(path.read_text())
@@ -197,11 +200,14 @@ def baseline_one(cfg, data, bank, root, signature, doc):
     luna_scores = {(s["source"], s["target"]): s["positive_probability"]
                    for s in luna_context.prediction_metadata["decision_scores"]}
     decision_context = Journal(root / "receipts" / (doc + "-d1.jsonl"), doc, "d1")
-    decision = JevDecisionPredictor(dc, max_workers=cfg["decision_workers"])
-    try:
-        decision.predict(document, entities, candidates, decision_context)
-    finally:
-        decision.close()
+    # Luna batch submission/polling must not be held behind a slow document.
+    # Keep a separate bound on paid d1 requests while all Luna batches can run.
+    with decision_slots:
+        decision = JevDecisionPredictor(dc, max_workers=cfg["decision_workers"])
+        try:
+            decision.predict(document, entities, candidates, decision_context)
+        finally:
+            decision.close()
     d1_scores = {(s["source"], s["target"]): s["positive_probability"]
                  for s in decision_context.prediction_metadata["decision_scores"]}
     scores = [{"a": a, "b": b, "luna": luna_scores[(a, b)], "d1": d1_scores[(a, b)]} for a, b in candidates]
@@ -214,7 +220,8 @@ def baseline_one(cfg, data, bank, root, signature, doc):
 
 def produce(cfg, data, bank, root, signature):
     started = budget_status(cfg)["accounted_or_reserved_usd"]
-    rows = run_parallel([lambda d=d: baseline_one(cfg, data, bank, root, signature, d) for d in data.docs],
+    decision_slots = threading.BoundedSemaphore(cfg.get("decision_document_workers", cfg["document_workers"]))
+    rows = run_parallel([lambda d=d: baseline_one(cfg, data, bank, root, signature, d, decision_slots) for d in data.docs],
                         cfg["document_workers"])
     for doc, scores in rows:
         data.set_baseline(doc, scores)

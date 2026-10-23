@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import random
 import tempfile
+import threading
 import time
 import unittest
 from unittest.mock import patch
@@ -151,16 +152,22 @@ class Confirmation(unittest.TestCase):
 
     def test_two_nodes_share_one_producer_and_target_gold_is_read_only_for_scoring(self):
         with tempfile.TemporaryDirectory() as tmp:
-            cfg = fixture(tmp);cfg2 = copy.deepcopy(cfg);cfg2["variant"] = "logistic"
+            cfg = fixture(tmp)
+            cfg.update(document_workers=30, decision_document_workers=1)
+            cfg2 = copy.deepcopy(cfg);cfg2["variant"] = "logistic"
             data, frozen, bank = conf.checked_inputs(cfg)
             data2, frozen2, bank2 = conf.checked_inputs(cfg2)
             self.assertEqual(conf.shared_signature(cfg, data), conf.shared_signature(cfg2, data2))
+            serial = {**cfg, "document_workers": 2, "decision_document_workers": 2}
+            self.assertEqual(conf.shared_signature(cfg, data), conf.shared_signature(serial, data))
             calls = []
+            luna_barrier = threading.Barrier(2, timeout=5)
+            decision_lock, active, peak = threading.Lock(), [0], [0]
             class FakeLuna:
                 def __init__(self, *args): pass
                 def predict(self, document, entities, candidates, context):
                     calls.append(("luna", document.id))
-                    time.sleep(.02)
+                    luna_barrier.wait()  # both batches must start before either finishes
                     context.prediction_metadata["decision_scores"] = [
                         {"source": a, "target": b, "positive_probability": .5} for a, b in candidates]
                 def close(self): pass
@@ -168,8 +175,16 @@ class Confirmation(unittest.TestCase):
                 def __init__(self, *args, **kwargs): pass
                 def predict(self, document, entities, candidates, context):
                     calls.append(("d1", document.id))
-                    context.prediction_metadata["decision_scores"] = [
-                        {"source": a, "target": b, "positive_probability": .3} for a, b in candidates]
+                    with decision_lock:
+                        active[0] += 1
+                        peak[0] = max(peak[0], active[0])
+                    try:
+                        time.sleep(.03)
+                        context.prediction_metadata["decision_scores"] = [
+                            {"source": a, "target": b, "positive_probability": .3} for a, b in candidates]
+                    finally:
+                        with decision_lock:
+                            active[0] -= 1
                 def close(self): pass
             class FakeJudge:
                 def ask(self, system, user, sample):
@@ -189,6 +204,7 @@ class Confirmation(unittest.TestCase):
             self.assertEqual(sorted([first[1], second[1]]), [False, True])
             self.assertEqual(sum(k == "luna" for k, _ in calls), 2)
             self.assertEqual(sum(k == "d1" for k, _ in calls), 2)
+            self.assertEqual(peak[0], 1)
             self.assertEqual(sum(k == "judge" for k, _ in calls), 4)
             self.assertTrue(all("gold" not in row for values in data.by_doc.values() for row in values.values()))
             out = conf.score(cfg, data, frozen, first[0])
