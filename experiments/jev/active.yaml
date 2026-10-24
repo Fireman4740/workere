@@ -1,5 +1,5 @@
 schema: workere-offline-fusion/v1
-feature_set: scores
+feature_set: structure
 controls: round4/controls.json
 suites_dir: round4/suites
 l2_penalty: 1
