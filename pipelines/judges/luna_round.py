@@ -461,16 +461,23 @@ def coref_quality(docs, results, cfg):
 
 # ---------------------------------------------------------------- driver entry
 
-def collect(cfg, client, prompts, docs, experiment):
+def collect(cfg, make_client, prompts, docs, experiment, receipt):
+    """One client per document thread: each owns its SQLite connections (not shareable across threads)."""
     results, lock = {}, threading.Lock()
     sub = {**cfg, "experiment": experiment}
 
     def one(doc):
-        r = RUNNERS[experiment](client, prompts, docs, doc, sub)
+        client = make_client()
+        try:
+            r = RUNNERS[experiment](client, prompts, docs, doc, sub)
+        finally:
+            with lock:
+                receipt.update(client.receipt)
+            client.close()
         with lock:
             results[doc] = r
-        print("ROUNDK_DOC " + json.dumps({"experiment": experiment, "doc": doc, "receipt": dict(client.receipt)}),
-              flush=True)
+            print("ROUNDK_DOC " + json.dumps({"experiment": experiment, "doc": doc, "receipt": dict(receipt)}),
+                  flush=True)
 
     with ThreadPoolExecutor(max_workers=cfg["doc_workers"]) as pool:
         for future in [pool.submit(one, d) for d in docs.data.docs]:
@@ -486,26 +493,24 @@ def serializable(results):
 def run(cfg):
     docs, prompts = Docs(cfg), Prompts(cfg["prompts"])
     cfg = {**cfg, "_types": prompts.types}
-    client = LunaClient(shared_budget=cfg["budget"], cache_only=cfg["experiment"] == "luna_ensemble",
-                        workers=cfg["workers"], **cfg["client"])
-    try:
-        if cfg["experiment"] == "luna_ensemble":
-            proposer = collect(cfg, client, prompts, docs, "luna_proposer")
-            event = collect(cfg, client, prompts, docs, "luna_event")
-            named = ensemble_systems(docs, proposer, event, cfg["min_votes"])
-        else:
-            results = collect(cfg, client, prompts, docs, cfg["experiment"])
-            named = systems(cfg, docs, results)
-        out = {"schema": "workere-round-k-result/v1", "experiment": cfg["experiment"],
-               "documents": docs.data.docs, "role": "development comparison on already-scored DEV44 documents",
-               "metrics": evaluate(docs, named), "receipt": dict(client.receipt)}
-        if cfg["experiment"] == "luna_event":
-            out["coref_link_quality_vs_ecb"] = coref_quality(docs, results, cfg)
-        if cfg["experiment"] == "luna_cascade":
-            finals = Counter(r["final_type"] for res in results.values() for r in res["pairs"].values() if r)
-            out["cascade_final_types"] = dict(finals)
-            out["band_pairs"] = sum(r["band_pairs"] for r in results.values())
-        out["predictions"] = serializable(results) if cfg["experiment"] != "luna_ensemble" else None
-        return out
-    finally:
-        client.close()
+    make = lambda: LunaClient(shared_budget=cfg["budget"], cache_only=cfg["experiment"] == "luna_ensemble",
+                              workers=cfg["workers"], **cfg["client"])
+    receipt = Counter()
+    if cfg["experiment"] == "luna_ensemble":
+        proposer = collect(cfg, make, prompts, docs, "luna_proposer", receipt)
+        event = collect(cfg, make, prompts, docs, "luna_event", receipt)
+        named = ensemble_systems(docs, proposer, event, cfg["min_votes"])
+    else:
+        results = collect(cfg, make, prompts, docs, cfg["experiment"], receipt)
+        named = systems(cfg, docs, results)
+    out = {"schema": "workere-round-k-result/v1", "experiment": cfg["experiment"],
+           "documents": docs.data.docs, "role": "development comparison on already-scored DEV44 documents",
+           "metrics": evaluate(docs, named), "receipt": dict(receipt)}
+    if cfg["experiment"] == "luna_event":
+        out["coref_link_quality_vs_ecb"] = coref_quality(docs, results, cfg)
+    if cfg["experiment"] == "luna_cascade":
+        finals = Counter(r["final_type"] for res in results.values() for r in res["pairs"].values() if r)
+        out["cascade_final_types"] = dict(finals)
+        out["band_pairs"] = sum(r["band_pairs"] for r in results.values())
+    out["predictions"] = serializable(results) if cfg["experiment"] != "luna_ensemble" else None
+    return out
