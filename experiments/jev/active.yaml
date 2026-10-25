@@ -1,38 +1,52 @@
-# Fixed launch entry. K0: one Luna call per unordered pair, one already-scored document.
+# Fixed launch entry. KA: fusion band [0.2, 0.7) only; one yes/no call per relation type, then one
+# elimination call at a time until two types remain, then a contrastive final call. Outside the band
+# the frozen fusion decision is kept. Chat route (multi-stage, short calls), 24 parallel calls.
 schema: workere-judge/v1
+experiment: luna_cascade
 controls: round4/controls.json
 suites_dir: round4/suites
 prompts: ../../prompts/esl_luna_round_k.yaml
 repo_id: Nofing/EventStoryLine-0.9-standard-eci-workere
 revision: e6418e8747ac1c7fecf66d56ae41fbde7fd5967a
+documents:
+- 4_1ecbplus.xml
+- 8_4ecbplus.xml
+- 12_9ecbplus.xml
+- 13_4ecbplus.xml
+- 20_1ecbplus.xml
+- 22_12ecbplus.xml
+- 23_9ecbplus.xml
+- 30_5ecbplus.xml
+- 37_9ecbplus.xml
+- 41_4ecbplus.xml
 budget:
   path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
   scope: esc-round-k-20261025-10usd
   limit_usd: 10.0
   initial_spend_usd: 0
-experiment: luna_pair
-documents:
-- 23_9ecbplus.xml
-doc_workers: 1
-workers: 1
+doc_workers: 10
+workers: 24
 client:
-  model: openai/gpt-6-luna:batch
+  model: openai/gpt-6-luna
   model_version: gpt-6-luna-20260922
   provider: openrouter
-  endpoint: https://openrouter.ai/api/v1/batches
+  endpoint: https://openrouter.ai/api/v1/chat/completions
   api_key_env: OPENROUTER_API_KEY
   mode: live
   timeout: 600
   retries: 2
-  requests_per_minute: 600
+  requests_per_minute: 300
   max_calls: 6000
   max_context_tokens: 1050000
   budget_usd: 4.0
-  max_cost_per_call_usd: 0.004
-  input_price_per_million: 0.05
-  output_price_per_million: 0.25
-  cache_path: ~/.local/share/openresearch/workere-decisions/round-k-luna-batch.sqlite
+  max_cost_per_call_usd: 0.006
+  input_price_per_million: 0.1
+  output_price_per_million: 0.5
+  cache_path: ~/.local/share/openresearch/workere-decisions/round-k-luna-chat.sqlite
   retry_backoff_seconds: 2
   retry_max_wait_seconds: 3600
   reasoning_effort: high
-  max_output_tokens: 12000
+  max_output_tokens: 8192
+band:
+- 0.2
+- 0.7
