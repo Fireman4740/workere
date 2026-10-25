@@ -1,7 +1,7 @@
-# Fixed launch entry. KC: Luna groups mentions into events (3 samples, keep links in >= 2), one
-# pair_decision call per event pair, copied to all mention pairs; same-event pairs are not causal.
+# Fixed launch entry. KD: cache-only replay of KB and KC (no new call), frozen no-training rules:
+# mean(Luna document vote, d1, KC probability) >= 0.39 OR proposed by KB in >= 2/3 samples.
 schema: workere-judge/v1
-experiment: luna_event
+experiment: luna_ensemble
 controls: round4/controls.json
 suites_dir: round4/suites
 prompts: ../../prompts/esl_luna_round_k.yaml
@@ -23,7 +23,7 @@ budget:
   scope: esc-round-k-20261025-10usd
   limit_usd: 10.0
   initial_spend_usd: 0
-doc_workers: 2
+doc_workers: 10
 workers: 1
 client:
   model: openai/gpt-6-luna:batch
@@ -48,3 +48,5 @@ client:
   max_output_tokens: 12000
 grouping_samples: 3
 grouping_min_votes: 2
+samples: 3
+min_votes: 2

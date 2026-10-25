@@ -11,7 +11,7 @@ experiment:
                  at a time until two remain, then a contrastive final choice
   luna_proposer  one call per mention: "which events caused this one?"; proposals are added
   luna_event     Luna groups mentions into events, one call per event pair, copied to mentions
-  luna_ensemble  cache-only replay of luna_pair + luna_event, frozen mean with Luna and d1
+  luna_ensemble  cache-only replay of luna_proposer + luna_event, frozen rules with Luna and d1
 """
 import hashlib
 import json
@@ -424,17 +424,19 @@ def systems(cfg, docs, results):
     raise ValueError(exp)
 
 
-def ensemble_systems(docs, pair_results, event_results):
+def ensemble_systems(docs, proposer_results, event_results, min_votes):
+    """KD: frozen rules over the fusion signals, KC event-level decisions and KB proposals."""
     data = docs.data
     _, luna_sym, d1_sym = baselines(docs)
-    pp = {d: ordered(pair_results[d]["pairs"], lambda r: r["probability"]) for d in data.docs}
     ep = {d: ordered(event_results[d]["pairs"], lambda r: r["probability"]) for d in data.docs}
-    py = {d: ordered(pair_results[d]["pairs"], lambda r: float(r["causal"])) for d in data.docs}
     ey = {d: ordered(event_results[d]["pairs"], lambda r: float(r["causal"])) for d in data.docs}
-    mean4 = {d: {k: (luna_sym[d][k] + d1_sym[d][k] + pp[d][k] + ep[d][k]) / 4 for k in data.keys[d]} for d in data.docs}
-    votes = {d: {k: (luna_sym[d][k] >= 4 / 7 - 1e-9) + (d1_sym[d][k] >= .5) + py[d][k] + ey[d][k] for k in data.keys[d]}
+    kb = {d: ordered(proposer_results[d]["pairs"], lambda r: float(r["votes"] >= min_votes)) for d in data.docs}
+    mean3 = {d: {k: (luna_sym[d][k] + d1_sym[d][k] + ep[d][k]) / 3 for k in data.keys[d]} for d in data.docs}
+    primary = {d: {k: float(mean3[d][k] >= FROZEN_THRESHOLD or kb[d][k]) for k in data.keys[d]} for d in data.docs}
+    votes = {d: {k: (luna_sym[d][k] >= 4 / 7 - 1e-9) + (d1_sym[d][k] >= .5) + ey[d][k] + kb[d][k] for k in data.keys[d]}
              for d in data.docs}
-    return {"primary:mean(luna,d1,luna_pair,event_level)>=0.39": (lambda d: mean4[d], FROZEN_THRESHOLD),
+    return {"primary:mean(luna,d1,event_level)>=0.39_or_proposed": (lambda d: primary[d], .5),
+            "mean(luna,d1,event_level)>=0.39": (lambda d: mean3[d], FROZEN_THRESHOLD),
             "majority>=3/4": (lambda d: votes[d], 3),
             "majority>=2/4": (lambda d: votes[d], 2)}
 
@@ -488,9 +490,9 @@ def run(cfg):
                         workers=cfg["workers"], **cfg["client"])
     try:
         if cfg["experiment"] == "luna_ensemble":
-            pair = collect(cfg, client, prompts, docs, "luna_pair")
+            proposer = collect(cfg, client, prompts, docs, "luna_proposer")
             event = collect(cfg, client, prompts, docs, "luna_event")
-            named, results = ensemble_systems(docs, pair, event), {"luna_pair": pair, "luna_event": event}
+            named = ensemble_systems(docs, proposer, event, cfg["min_votes"])
         else:
             results = collect(cfg, client, prompts, docs, cfg["experiment"])
             named = systems(cfg, docs, results)
