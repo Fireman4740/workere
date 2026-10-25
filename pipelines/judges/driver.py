@@ -8,6 +8,7 @@ from benchmark.configuration import read_yaml
 from benchmark.io import write_json
 
 SCHEMA = "workere-judge/v1"
+LUNA_EXPERIMENTS = {"luna_pair", "luna_cascade", "luna_proposer", "luna_event", "luna_ensemble"}
 
 
 def _module(cfg):
@@ -15,6 +16,8 @@ def _module(cfg):
         from pipelines.judges import coref_agreement as module
     elif cfg["experiment"] == "band_verifier":
         from pipelines.judges import band_verifier as module
+    elif cfg["experiment"] in LUNA_EXPERIMENTS:
+        from pipelines.judges import luna_round as module
     else:
         raise ValueError(f"unknown judge experiment {cfg['experiment']!r}")
     return module
@@ -26,6 +29,8 @@ def load(config_path):
         raise ValueError(f"expected schema {SCHEMA}")
     base = Path(config_path).resolve().parent
     cfg["controls"], cfg["suites_dir"] = str(base / cfg["controls"]), str(base / cfg["suites_dir"])
+    if cfg["experiment"] in LUNA_EXPERIMENTS:
+        return load_luna(cfg, base)
     if cfg["client"]["reasoning_effort"] != "max":
         raise ValueError("both judge experiments require explicit reasoning effort max")
     if cfg["client"]["model"] != "deepseek/deepseek-v4.1-flash-1017":
@@ -36,7 +41,28 @@ def load(config_path):
     return cfg
 
 
+def load_luna(cfg, base):
+    """Round K: Luna only, explicit documents, no fitted parameter."""
+    cfg["prompts"] = str(base / cfg["prompts"])
+    if cfg["client"]["model"] not in {"openai/gpt-6-luna:batch", "openai/gpt-6-luna"}:
+        raise ValueError("round K uses the user-selected Luna model")
+    if cfg["client"]["reasoning_effort"] != "high":
+        raise ValueError("round K keeps Luna's reference reasoning effort high")
+    if not cfg["documents"] or cfg["doc_workers"] < 1:
+        raise ValueError("documents and doc_workers are required")
+    _module(cfg)
+    return cfg
+
+
 def plan(cfg):
+    if cfg["experiment"] in LUNA_EXPERIMENTS:
+        from pipelines.judges.luna_round import Docs
+        docs = Docs(cfg)
+        pairs = sum(len(docs.unordered(d)) for d in docs.data.docs)
+        mentions = sum(len(docs.data.mention_ids(d)) for d in docs.data.docs)
+        return {"schema": "workere-judge-plan/v1", "experiment": cfg["experiment"], "model": cfg["client"]["model"],
+                "reasoning_effort": cfg["client"]["reasoning_effort"], "documents": docs.data.docs,
+                "unordered_pairs": pairs, "mentions": mentions, "budget": cfg["budget"]}
     from pipelines.judges.common import Dev44
     data = Dev44(cfg["controls"], cfg["suites_dir"])
     out = {"schema": "workere-judge-plan/v1", "experiment": cfg["experiment"], "model": cfg["client"]["model"],
@@ -62,12 +88,13 @@ def preflight(cfg):
     with urllib.request.urlopen("https://openrouter.ai/api/v1/models", timeout=30) as response:
         models = json.load(response)["data"]
     model = next(m for m in models if m["id"] == cfg["client"]["model"])
-    if "max" not in (model.get("reasoning") or {}).get("supported_efforts", []):
-        raise RuntimeError("the selected model no longer advertises effort max")
+    effort = cfg["client"]["reasoning_effort"]
+    if effort not in (model.get("reasoning") or {}).get("supported_efforts", []):
+        raise RuntimeError(f"the selected model no longer advertises effort {effort}")
     remaining = auth.get("limit_remaining")
     if remaining is not None and remaining < cfg["client"]["max_cost_per_call_usd"] * cfg["workers"]:
         raise RuntimeError(f"OpenRouter key limit too low: {remaining:.6f} USD available")
-    out = {"key_limit_remaining_usd": remaining, "model": model["id"], "requested_effort": "max",
+    out = {"key_limit_remaining_usd": remaining, "model": model["id"], "requested_effort": effort,
            "supported_efforts": model["reasoning"]["supported_efforts"]}
     print("JUDGE_PREFLIGHT " + json.dumps(out), flush=True)
     return out

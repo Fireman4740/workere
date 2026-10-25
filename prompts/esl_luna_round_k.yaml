@@ -1,0 +1,154 @@
+# Round K: Luna asked about one relation at a time (no training, no gold in any prompt).
+# Every system prompt starts with a [task=...] tag; the parser and the mock answer key on it.
+context: |
+  EventStoryLine (ESL) v0.9 is an English news corpus annotated for event causality.
+  Event mentions are marked inline as <ID text> (e.g. <14 checks into>, <5 conviction>).
+  An article usually refers to the same event several times ("the cyclone" ... "Hellen" ...
+  "the storm"); those mentions are one event. Causality holds between EVENTS: when the article
+  supports a link between two events anywhere, every mention of the first is linked to every
+  mention of the second, even if the link is stated near other mentions of the same events.
+  Causal means: one event causes, triggers, produces, enables or leads to the other, or prevents
+  it, including implicit links such as motivation, reaction or response.
+  Not causal: two mentions of the same event; events only ordered in time; events only in the
+  same story or topic; correlation or vague plausibility.
+
+pair_decision:
+  system: |
+    [task=pair_decision]
+    {context}
+    You judge ONE pair of events. Reason briefly, then end your answer with exactly one JSON
+    object on the last line:
+    {{"causal": true or false, "direction": "A->B" or "B->A" or "none", "probability": integer 0-100}}
+    "probability" is your probability that an ESL annotator links these two events causally.
+  user: |
+    Text:
+    {doc_text}
+
+    Event A: {event_a}
+    Event B: {event_b}
+
+    Question: Are event A and event B causally related, in either direction?
+
+type_check:
+  system: |
+    [task=type_check]
+    {context}
+    You answer ONE yes/no question about how two events of the article are related.
+    Reason briefly, then end your answer with exactly one JSON object on the last line:
+    {{"answer": "yes" or "no"}}
+  user: |
+    Text:
+    {doc_text}
+
+    Event A: {event_a}
+    Event B: {event_b}
+
+    Question: {question}
+
+type_eliminate:
+  system: |
+    [task=type_eliminate]
+    {context}
+    Several descriptions of the relation between two events were each judged possible.
+    Keep the descriptions the text supports best and eliminate the ONE that is least supported.
+    Reason briefly, then end your answer with exactly one JSON object on the last line:
+    {{"eliminate": "<TYPE NAME>"}}
+  user: |
+    Text:
+    {doc_text}
+
+    Event A: {event_a}
+    Event B: {event_b}
+
+    Remaining candidate descriptions:
+    {candidates}
+
+    Which ONE description is least supported by the text?
+
+type_final:
+  system: |
+    [task=type_final]
+    {context}
+    Two descriptions of the relation between two events remain. Choose the one that fits the
+    text better. Reason briefly, then end your answer with exactly one JSON object on the last line:
+    {{"choice": "<TYPE NAME>"}}
+  user: |
+    Text:
+    {doc_text}
+
+    Event A: {event_a}
+    Event B: {event_b}
+
+    Candidate descriptions:
+    {candidates}
+
+    Which description fits better?
+
+cause_proposer:
+  system: |
+    [task=cause_proposer]
+    {context}
+    You are given one target event. List every event of the article that caused it, triggered it,
+    made it possible, motivated it, prevented it, or that it is a reaction or response to.
+    List mention IDs. When such an event is mentioned several times, list all its mention IDs.
+    Never list a mention of the target event itself. Reason briefly, then end your answer with
+    exactly one JSON object on the last line:
+    {{"causes": ["<ID>", ...]}}
+  user: |
+    Text:
+    {doc_text}
+
+    Target event: {event_a}
+
+    Which events of the text are causes of the target event (as defined above)?
+
+event_grouping:
+  system: |
+    [task=event_grouping]
+    {context}
+    Group the mentions that refer to exactly the same real-world event: same participants, same
+    time, same place. A sub-event, a stage, a consequence or a similar event is NOT the same event.
+    Group mentions only when you are certain. Reason briefly, then end your answer with exactly
+    one JSON object on the last line, listing only groups of two or more mention IDs:
+    {{"groups": [["<ID>", "<ID>"], ...]}}
+  user: |
+    Text:
+    {doc_text}
+
+    Mention IDs: {mention_ids}
+
+    Group the mentions that refer to the same event.
+
+types:
+  IDENTITY:
+    causal: false
+    definition: A and B are the same real-world event; one restates the other.
+    question: Do A and B refer to exactly the same real-world event, one restating the other?
+  PART_OF:
+    causal: false
+    definition: One of A and B is a part, stage or sub-event of the other.
+    question: Is one of A and B a part, stage or sub-event of the other (contained in it, not the same event)?
+  TEMPORAL_ONLY:
+    causal: false
+    definition: A and B are in the same story but related only by time order or topic.
+    question: Are A and B related only by time order or by being in the same story, with neither bringing about, enabling, preventing or prompting the other?
+  DIFFERENT_INCIDENT:
+    causal: false
+    definition: A and B concern different incidents (participants, place or occasion) with no link stated.
+    question: Do A and B concern different incidents (different participants, place or occasion), with no link between them in the article?
+  DIRECT_CAUSE:
+    causal: true
+    definition: One of A and B directly causes or produces the other.
+    question: Does one of A and B directly cause or produce the other?
+  ENABLEMENT:
+    causal: true
+    definition: One of A and B makes the other possible, is a precondition of it, or leads to it indirectly.
+    question: Does one of A and B make the other possible, act as a precondition for it, or lead to it indirectly?
+  REACTION:
+    causal: true
+    definition: One of A and B is a reaction, response, motive, retaliation or decision taken because of the other.
+    question: Is one of A and B a reaction, response, retaliation or decision taken because of the other, or its motive?
+  PREVENTION:
+    causal: true
+    definition: One of A and B prevents, stops or blocks the other.
+    question: Does one of A and B prevent, stop or block the other?
