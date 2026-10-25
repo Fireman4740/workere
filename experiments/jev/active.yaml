@@ -1,19 +1,29 @@
-# Fixed launch entry. K0: one Luna call per unordered pair, one already-scored document.
+# Fixed launch entry. K1: one Luna call per unordered pair, DEV10 (10 already-scored DEV44 documents,
+# one per topic, random.Random(20261025) over topics then documents; no labels used).
 schema: workere-judge/v1
+experiment: luna_pair
 controls: round4/controls.json
 suites_dir: round4/suites
 prompts: ../../prompts/esl_luna_round_k.yaml
 repo_id: Nofing/EventStoryLine-0.9-standard-eci-workere
 revision: e6418e8747ac1c7fecf66d56ae41fbde7fd5967a
+documents:
+- 4_1ecbplus.xml
+- 8_4ecbplus.xml
+- 12_9ecbplus.xml
+- 13_4ecbplus.xml
+- 20_1ecbplus.xml
+- 22_12ecbplus.xml
+- 23_9ecbplus.xml
+- 30_5ecbplus.xml
+- 37_9ecbplus.xml
+- 41_4ecbplus.xml
 budget:
   path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
   scope: esc-round-k-20261025-10usd
   limit_usd: 10.0
   initial_spend_usd: 0
-experiment: luna_pair
-documents:
-- 23_9ecbplus.xml
-doc_workers: 1
+doc_workers: 2
 workers: 1
 client:
   model: openai/gpt-6-luna:batch

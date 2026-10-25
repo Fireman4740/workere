@@ -362,6 +362,17 @@ RUNNERS = {"luna_pair": exp_pair, "luna_cascade": exp_cascade, "luna_proposer": 
 
 # ---------------------------------------------------------------- scoring
 
+def p_causal(r):
+    """Probability of a causal link, consistent with the boolean answer.
+
+    K0 showed Luna often reports "probability" as confidence in its own answer
+    ({"causal": false, "probability": 99}). Read it as confidence: a "no" maps below 0.5,
+    a "yes" at or above 0.5. Label-free and fixed before any 10-document result.
+    """
+    p = r["probability"]
+    return max(p, 1 - p) if r["causal"] else min(p, 1 - p)
+
+
 def ordered(doc_pairs, value):
     """Symmetric per-ordered-pair scores from unordered results."""
     out = {}
@@ -387,7 +398,7 @@ def systems(cfg, docs, results):
     fused = data.fused
     fixed = lambda d, dec: {k: float(dec(d, k)) for k in data.keys[d]}
     if exp == "luna_pair":
-        prob = {d: ordered(results[d]["pairs"], lambda r: r["probability"]) for d in data.docs}
+        prob = {d: ordered(results[d]["pairs"], p_causal) for d in data.docs}
         yes = {d: ordered(results[d]["pairs"], lambda r: float(r["causal"])) for d in data.docs}
         mean = {d: {k: (fused[d][k] + prob[d][k]) / 2 for k in data.keys[d]} for d in data.docs}
         return {"primary:luna_pair_yes": (lambda d: yes[d], .5),
@@ -415,7 +426,7 @@ def systems(cfg, docs, results):
             out[f"proposer_alone>={v}/{n}"] = (lambda vv: (lambda d: fixed(d, lambda dd, k: votes[dd][k] >= vv), .5))(v)
         return out
     if exp == "luna_event":
-        prob = {d: ordered(results[d]["pairs"], lambda r: r["probability"]) for d in data.docs}
+        prob = {d: ordered(results[d]["pairs"], p_causal) for d in data.docs}
         yes = {d: ordered(results[d]["pairs"], lambda r: float(r["causal"])) for d in data.docs}
         mean = {d: {k: (fused[d][k] + prob[d][k]) / 2 for k in data.keys[d]} for d in data.docs}
         return {"primary:event_level_yes": (lambda d: yes[d], .5),
@@ -427,8 +438,8 @@ def systems(cfg, docs, results):
 def ensemble_systems(docs, pair_results, event_results):
     data = docs.data
     _, luna_sym, d1_sym = baselines(docs)
-    pp = {d: ordered(pair_results[d]["pairs"], lambda r: r["probability"]) for d in data.docs}
-    ep = {d: ordered(event_results[d]["pairs"], lambda r: r["probability"]) for d in data.docs}
+    pp = {d: ordered(pair_results[d]["pairs"], p_causal) for d in data.docs}
+    ep = {d: ordered(event_results[d]["pairs"], p_causal) for d in data.docs}
     py = {d: ordered(pair_results[d]["pairs"], lambda r: float(r["causal"])) for d in data.docs}
     ey = {d: ordered(event_results[d]["pairs"], lambda r: float(r["causal"])) for d in data.docs}
     mean4 = {d: {k: (luna_sym[d][k] + d1_sym[d][k] + pp[d][k] + ep[d][k]) / 4 for k in data.keys[d]} for d in data.docs}
