@@ -1,0 +1,69 @@
+schema: workere-experiment/v1
+name: esc-h1-haiku-12_10ecbplus
+dataset:
+  name: esc
+  split: train
+  suite: ../data/esc-12_10ecbplus.xml-suite.json
+protocol: relation_gold_mentions
+seed: 42
+plugins:
+- pipelines.jev.llm
+models:
+- id: anthropic/claude-haiku-5.5:batch
+  version: claude-haiku-5.5
+pipeline:
+  entity_extractor:
+    plugin: reference
+    version: '1'
+  candidate_generator:
+    plugin: historical
+    version: '1'
+  relation_predictor:
+    plugin: luna_document
+    version: '1'
+    params:
+      client:
+        provider: openrouter
+        endpoint: https://openrouter.ai/api/v1/batches
+        model: anthropic/claude-haiku-5.5:batch
+        model_version: claude-haiku-5.5
+        api_key_env: OPENROUTER_API_KEY
+        mode: live
+        timeout: 600
+        retries: 4
+        requests_per_minute: 6000
+        max_calls: 64
+        max_context_tokens: 1050000
+        budget_usd: 0.15
+        max_cost_per_call_usd: 0.0175
+        input_price_per_million: 0.05
+        cache_path: ~/.local/share/openresearch/workere-decisions/h1-haiku-esc-12_10ecbplus.xml.sqlite
+        retry_backoff_seconds: 2
+        retry_max_wait_seconds: 3600
+        reasoning_effort: xhigh
+        max_output_tokens: 64000
+        shared_budget:
+          path: ~/.local/share/openresearch/workere-decisions/plan-budget.sqlite
+          scope: haiku-fusion-esc-ctb-20261026
+          limit_usd: 12
+          initial_spend_usd: 0
+        served_model_prefixes:
+        - anthropic/claude-haiku-5.5
+      path: ../../../../prompts/esl_standard_eci_lean_coref.yaml
+      selection_path: experiments/jev/document-selection.json
+      repo_id: Nofing/EventStoryLine-0.9-standard-eci-workere
+      revision: e6418e8747ac1c7fecf66d56ae41fbde7fd5967a
+      passes: 7
+      demo_exclusion: topic
+evaluation:
+  primary_metric: binary
+  bootstrap_samples: 1000
+  confidence_level: 0.95
+  bootstrap_seed: 42
+  require_historical_parity: false
+  historical_reports: []
+execution:
+  allow_network: true
+  allow_paid: true
+  error_policy: raise
+output_dir: ../../../../logs/jev-runs

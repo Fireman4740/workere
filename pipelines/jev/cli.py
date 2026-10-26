@@ -89,6 +89,17 @@ def main(argv=None):
             print(json.dumps({"run_dir": run["run_dir"], "summary": metrics["summary"],
                               "uncertainty": metrics["uncertainty"],
                               "metadata": read_json(directory / "metadata.json")}, ensure_ascii=False), flush=True)
+    post = read_yaml(args.config).get("fusion_evaluation")
+    if post:
+        from pathlib import Path
+        from pipelines.jev.fusion_eval import evaluate
+        try:
+            report = evaluate(result, post["corpora"])
+        except ValueError as exc:  # incomplete coverage: no partial metric is reported
+            print("FUSION_INCOMPLETE " + json.dumps({"reason": str(exc)}), flush=True)
+            return 1
+        write_json(Path(args.output).with_name("fusion-result.json"), report)
+        print("FUSION_RESULT " + json.dumps(report, ensure_ascii=False), flush=True)
     return 1 if result["status"] == "errors" else 0
 
 

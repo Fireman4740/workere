@@ -50,10 +50,20 @@ def demonstration_bank(repo_id, revision, selection_path):
         return _BANKS[key]
 
 
+LUNA_SERVED = ("openai/gpt-6-luna", "openai/gpt-6-luna:batch", "openai/gpt-6-luna-20260922")
+
+
 class ChatClient(DecisionClient):
-    def __init__(self, *, reasoning_effort="high", max_output_tokens=16384, **kwargs):
+    def __init__(self, *, reasoning_effort="high", max_output_tokens=16384, served_model_prefixes=None, **kwargs):
         self.reasoning_effort, self.max_output = reasoning_effort, max_output_tokens
+        # Default keeps the exact Luna allow-list; another model must name its served-id prefixes.
+        self.served_prefixes = tuple(served_model_prefixes) if served_model_prefixes else None
         super().__init__(**kwargs)
+
+    def _served_ok(self, model):
+        if self.served_prefixes is None:
+            return model in LUNA_SERVED
+        return any(model == p or model.startswith(p + "-") or model.startswith(p + ":") for p in self.served_prefixes)
 
     def validate_request(self, messages, questions):
         body = {"model": self.identity["model"], "messages": messages,
@@ -77,8 +87,7 @@ class ChatClient(DecisionClient):
     def _validate_response(self, body, response):
         if not isinstance(response, dict) or not isinstance(response.get("model"), str):
             raise DecisionError("chat response lacks served model")
-        if self.mode != "mock" and response["model"] not in {
-                "openai/gpt-6-luna", "openai/gpt-6-luna:batch", "openai/gpt-6-luna-20260922"}:
+        if self.mode != "mock" and not self._served_ok(response["model"]):
             raise DecisionError("unexpected chat model: " + response["model"])
         choice = response.get("choices", [{}])[0]
         if choice.get("finish_reason") != "stop":
@@ -96,18 +105,23 @@ class LunaDocumentPredictor:
         mock = params.get("client", {}).get("mode") == "mock"
         return {"requires_network": not mock, "may_charge": not mock, "mode": "mock" if mock else "inference"}
 
-    def __init__(self, client, path, selection_path, repo_id, revision, passes=7):
+    def __init__(self, client, path, selection_path, repo_id, revision, passes=7, demo_exclusion="topic"):
         import yaml
         from pipelines.jev.batch import BatchChatClient
         self.client = BatchChatClient(**client)
         self.prompt = yaml.safe_load(Path(path).read_text())
-        self.passes, self.bank = passes, []
+        if demo_exclusion not in {"topic", "document"}:
+            raise ValueError("demo_exclusion must be topic or document")
+        self.passes, self.bank, self.demo_exclusion = passes, [], demo_exclusion
         if self.client.mode != "mock":
             self.bank = demonstration_bank(repo_id, revision, selection_path)
 
     def predict(self, document, entities, candidates, context):
         user = self.prompt["user_template"].format(doc_text=marked_text(document, entities), pair_lines="", doc_id=document.id)
-        eligible = [d for d in self.bank if d["id"].split("_")[0] != document.id.split("_")[0]]
+        if self.demo_exclusion == "topic":  # ESC: ECB+ topic prefix
+            eligible = [d for d in self.bank if d["id"].split("_")[0] != document.id.split("_")[0]]
+        else:  # corpora without topics (Causal-TimeBank): only the evaluated document is excluded
+            eligible = [d for d in self.bank if d["id"] != document.id]
         if self.client.mode != "mock" and len(eligible) < self.passes:
             raise ValueError("insufficient demonstrations outside evaluation topic")
         selected = random.Random(f"{context.seed}::{document.id}").sample(eligible, self.passes) if eligible else [None] * self.passes
@@ -148,7 +162,7 @@ class LunaDocumentPredictor:
             scores.append({"source": a, "target": b, "positive_probability": p})
         context.prediction_metadata.update(decision_scores=scores, direction_predicted=True,
             demonstration_ids=[d["id"] for d in selected if d], passes=self.passes,
-            model=self.client.identity["model"], reasoning_effort="high",
+            model=self.client.identity["model"], reasoning_effort=self.client.reasoning_effort,
             demonstration_style="gold_answer_only_no_synthesized_rationale", historical_parity="not_claimed")
         return tuple(Relation(a, b, labels.get((a, b), NOREL)) for a, b in candidates)
 
