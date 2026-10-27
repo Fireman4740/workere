@@ -3,8 +3,10 @@ import asyncio
 import importlib.util
 import json
 from pathlib import Path
+import sqlite3
+import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import AsyncMock, patch
 
 import httpx
 import yaml
@@ -19,6 +21,50 @@ loader.loader.exec_module(qwen)
 
 
 class QwenBaseline(unittest.TestCase):
+    def test_waits_for_model_service_before_inference(self):
+        spec = yaml.safe_load(qwen.SPEC.read_text())
+        calls = []
+
+        def respond(request):
+            calls.append(request)
+            self.assertEqual(request.method, "GET")
+            self.assertTrue(request.url.path.endswith("/models"))
+            self.assertEqual(request.headers["authorization"], "Bearer test-key")
+            if len(calls) == 1:
+                return httpx.Response(503)
+            return httpx.Response(200, json={"data": [{"id": spec["model"]}]})
+
+        async def run():
+            async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as http:
+                with patch.object(qwen.asyncio, "sleep", new_callable=AsyncMock) as sleep:
+                    await qwen.wait_for_api(spec, "test-key", http)
+                    sleep.assert_awaited_once()
+
+        asyncio.run(run())
+        self.assertEqual(len(calls), 2)
+
+    def test_demo_cache_reuse_requires_identical_sampling(self):
+        spec = yaml.safe_load(qwen.SPEC.read_text())
+        with tempfile.TemporaryDirectory() as tmp:
+            spec["state_root"] = tmp
+            source = Path(tmp) / spec["resume_cache_from_run"]
+            source.mkdir()
+            (source / "transport.yaml").write_text(yaml.safe_dump(spec))
+            corpus = source / "r7_ctb"
+            corpus.mkdir()
+            with sqlite3.connect(corpus / "llm-cache.sqlite") as db:
+                db.execute("CREATE TABLE llm_cache (key TEXT PRIMARY KEY, generations TEXT)")
+                db.execute("INSERT INTO llm_cache VALUES ('same-prompt', 'saved-result')")
+            destination = Path(tmp) / "new-run"
+            qwen.restore_demo_caches(spec, destination)
+            with sqlite3.connect(destination / "r7_ctb/llm-cache.sqlite") as db:
+                self.assertEqual(db.execute("SELECT generations FROM llm_cache").fetchone(), ("saved-result",))
+            receipt = json.loads((destination / "resume-caches.json").read_text())
+            self.assertEqual(receipt["corpora"][0]["cached_calls_restored"], 1)
+            self.assertFalse(receipt["evaluation_predictions_reused"])
+            with self.assertRaisesRegex(ValueError, "sampling"):
+                qwen.restore_demo_caches({**spec, "temperature": 0.5}, Path(tmp) / "different-run")
+
     def test_transport_uses_official_thinking_sampling_and_keeps_reasoning(self):
         spec = yaml.safe_load(qwen.SPEC.read_text())
         captured = []

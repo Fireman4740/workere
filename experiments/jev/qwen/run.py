@@ -10,7 +10,10 @@ import json
 import os
 from pathlib import Path
 import shlex
+import shutil
+import sqlite3
 import sys
+import time
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
@@ -26,6 +29,59 @@ from eci.runner import Runner
 from eci.tracking import RunDir
 
 SPEC = ROOT / "experiments/jev/qwen/active.yaml"
+
+
+def restore_demo_caches(spec, state):
+    """Reuse successful demo calls from the failed run, with identical transport."""
+    previous = spec.get("resume_cache_from_run")
+    if not previous or state.name == "preflight" or (state / "resume-caches.json").exists():
+        return
+    source = Path(spec["state_root"]).expanduser() / previous
+    old = yaml.safe_load((source / "transport.yaml").read_text())
+    identity = ("model", "base_url", "temperature", "reasoning_effort", "top_p", "top_k", "min_p",
+                "presence_penalty", "repetition_penalty", "max_tokens", "chat_template_kwargs",
+                "cache_namespace", "protocol_queue", "only", "corpora")
+    if any(old.get(k) != spec.get(k) for k in identity):
+        raise ValueError("Refusing cache reuse after a model, sampling or corpus change")
+    receipts = []
+    for name in spec["only"]:
+        destination = state / name
+        destination.mkdir(parents=True, exist_ok=True)
+        db, output = source / name / "llm-cache.sqlite", destination / "llm-cache.sqlite"
+        rows = 0
+        if db.exists() and not output.exists():
+            with sqlite3.connect(db.as_uri() + "?mode=ro", uri=True) as src, sqlite3.connect(output) as dst:
+                src.backup(dst)
+                rows = dst.execute("SELECT COUNT(*) FROM llm_cache").fetchone()[0]
+        cot, cot_output = source / name / "cot-cache.json", destination / "cot-cache.json"
+        if cot.exists() and not cot_output.exists():
+            shutil.copy2(cot, cot_output)
+        receipts.append({"corpus": name, "cached_calls_restored": rows})
+    receipt = {"source_run": previous, "corpora": receipts, "evaluation_predictions_reused": False}
+    (state / "resume-caches.json").write_text(json.dumps(receipt, indent=2))
+    print("QWEN_CACHE_REUSE " + json.dumps(receipt), flush=True)
+
+
+async def wait_for_api(spec, key, http):
+    """Wait for the existing model service to finish loading before any inference."""
+    deadline = time.monotonic() + spec["api_ready_timeout_seconds"]
+    while True:
+        try:
+            response = await http.get(spec["base_url"].rstrip("/") + "/models",
+                                      headers={"Authorization": "Bearer " + key}, timeout=10)
+            response.raise_for_status()
+            models = response.json().get("data", [])
+            if any(model.get("id") == spec["model"] for model in models):
+                print("QWEN_API_READY " + json.dumps({"model": spec["model"]}), flush=True)
+                return
+            reason = "requested model not listed"
+        except (httpx.HTTPError, ValueError) as error:
+            reason = type(error).__name__
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise RuntimeError("Model API did not become ready: " + reason)
+        print("QWEN_API_WAIT " + json.dumps({"reason": reason, "remaining_seconds": round(remaining)}), flush=True)
+        await asyncio.sleep(min(15, remaining))
 
 
 def credential(spec):
@@ -130,7 +186,7 @@ async def execute(spec, configs, state, plans):
 
     async def observe(response):
         nonlocal count
-        if response.status_code != 200:
+        if response.status_code != 200 or not response.request.url.path.endswith("/chat/completions"):
             return
         await response.aread()
         payload = response.json()
@@ -149,6 +205,7 @@ async def execute(spec, configs, state, plans):
     async with httpx.AsyncClient(
         limits=httpx.Limits(max_connections=spec["concurrency"], max_keepalive_connections=spec["concurrency"]),
         timeout=spec["timeout_seconds"], event_hooks={"response": [observe]}) as http:
+        await wait_for_api(spec, key, http)
         factory = model_factory(spec, key, http)
 
         async def one(name, cfg):
@@ -189,6 +246,7 @@ def main():
     spec = yaml.safe_load(SPEC.read_text())
     run_id = os.environ.get("ORX_RUN_ID", "preflight")
     state = Path(spec["state_root"]).expanduser() / run_id
+    restore_demo_caches(spec, state)
     configs = effective_configs(spec, state)
     print("QWEN_EFFECTIVE_CONFIG " + json.dumps({**spec, "run_id": run_id, "state": str(state),
           "decision_model": False, "few_shot": "1 gold-guided CoT demo/pass; rewrite; same-fold exclusion",
