@@ -1,0 +1,5 @@
+{"doc_id": "SYNTHETIC-01", "pair": ["e1", "e2"], "variant": "target", "review_status": "approved", "reviewed_blind_to_gold": true, "edits": [{"start": 7, "end": 14, "before": "a causé", "after": "a précédé"}]}
+{"doc_id": "SYNTHETIC-01", "pair": ["e1", "e2"], "variant": "placebo_1", "review_status": "approved", "reviewed_blind_to_gold": true, "edits": [{"start": 35, "end": 44, "before": "a retardé", "after": "a précédé"}]}
+{"doc_id": "SYNTHETIC-01", "pair": ["e1", "e2"], "variant": "placebo_2", "review_status": "approved", "reviewed_blind_to_gold": true, "edits": [{"start": 63, "end": 74, "before": "a endommagé", "after": "a précédé"}]}
+{"doc_id": "SYNTHETIC-01", "pair": ["e1", "e2"], "variant": "placebo_3", "review_status": "approved", "reviewed_blind_to_gold": true, "edits": [{"start": 92, "end": 102, "before": "a provoqué", "after": "a précédé"}]}
+{"doc_id": "SYNTHETIC-01", "pair": ["e1", "e2"], "variant": "rename_ids", "review_status": "approved", "reviewed_blind_to_gold": true, "id_map": {"e1": "v1", "e2": "v2", "e3": "v3", "e4": "v4", "e5": "v5", "e6": "v6", "e7": "v7", "e8": "v8"}}
