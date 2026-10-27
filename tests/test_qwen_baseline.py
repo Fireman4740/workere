@@ -45,6 +45,7 @@ class QwenBaseline(unittest.TestCase):
 
     def test_demo_cache_reuse_requires_identical_sampling(self):
         spec = yaml.safe_load(qwen.SPEC.read_text())
+        spec["resume_cache_from_run"] = "previous-run"
         with tempfile.TemporaryDirectory() as tmp:
             spec["state_root"] = tmp
             source = Path(tmp) / spec["resume_cache_from_run"]
@@ -65,7 +66,7 @@ class QwenBaseline(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "sampling"):
                 qwen.restore_demo_caches({**spec, "temperature": 0.5}, Path(tmp) / "different-run")
 
-    def test_transport_uses_official_thinking_sampling_and_keeps_reasoning(self):
+    def test_transport_uses_requested_temperature_zero_and_keeps_reasoning(self):
         spec = yaml.safe_load(qwen.SPEC.read_text())
         captured = []
 
@@ -82,7 +83,7 @@ class QwenBaseline(unittest.TestCase):
 
         async def run():
             async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as client:
-                model = qwen.model_factory(spec, "test-key", client)(spec["model"], 1.0, "xhigh", False)
+                model = qwen.model_factory(spec, "test-key", client)(spec["model"], 0.0, "xhigh", False)
                 answer = await model.ainvoke([HumanMessage(content="test")])
                 self.assertEqual(answer.content, "[]")
                 self.assertEqual(answer.additional_kwargs["reasoning_content"], "Reasoning retained for audit.")
@@ -91,7 +92,7 @@ class QwenBaseline(unittest.TestCase):
         self.assertEqual(len(captured), 1)
         body = captured[0]
         self.assertEqual(body["model"], "qwen3.8-27b")
-        self.assertEqual(body["temperature"], 1.0)
+        self.assertEqual(body["temperature"], 0.0)
         self.assertEqual(body["reasoning_effort"], "xhigh")
         self.assertEqual(body["top_p"], .95)
         self.assertEqual(body["top_k"], 20)
@@ -116,7 +117,7 @@ class QwenBaseline(unittest.TestCase):
         self.assertEqual(set(configs), {"r7_ctb", "r7_esc"})
         for cfg in configs.values():
             self.assertEqual(cfg["model"]["reasoning_effort"], "xhigh")
-            self.assertEqual(cfg["model"]["temperature"], 1.0)
+            self.assertEqual(cfg["model"]["temperature"], 0.0)
             self.assertTrue(cfg["few_shot"]["cot_generation"]["enabled"])
             self.assertTrue(cfg["few_shot"]["cot_generation"]["rewrite"])
             self.assertEqual(cfg["few_shot"]["n_examples"], 1)

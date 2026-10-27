@@ -3,7 +3,7 @@ protocol_queue: queues/baseline_coref.yaml
 only: [r7_ctb, r7_esc]
 model: qwen3.8-27b
 base_url: http://192.168.1.166:18020/v1
-temperature: 1.0
+temperature: 0.0
 top_p: 0.95
 top_k: 20
 min_p: 0.0
@@ -11,13 +11,16 @@ presence_penalty: 0.0
 repetition_penalty: 1.0
 reasoning_effort: xhigh
 max_tokens: 32768
+max_input_tokens: 16384
+max_context_tokens: 49152
 chat_template_kwargs: {enable_thinking: true, preserve_thinking: true}
 sampling_source: https://huggingface.co/Qwen/Qwen3.8-27B#best-practices
-cache_namespace: qwen38-thinking-xhigh-t1-p095-k20-32k
-concurrency: 8
+sampling_note: Temperature 0 explicitly requested by the user; other thinking sampling settings retained.
+cache_namespace: qwen38-thinking-xhigh-t0-p095-k20-32k
+concurrency: 64
 timeout_seconds: 86400
 api_ready_timeout_seconds: 1800
-resume_cache_from_run: cf753794-588e-41d9-8129-1b6d0c22978f
+resume_cache_from_run: null
 credential_file: ~/qwen38-27b-rtx3090/.env
 credential_name: VLLM_API_KEY
 state_root: ~/.local/share/openresearch/workere-qwen38
