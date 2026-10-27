@@ -1,0 +1,141 @@
+{
+  "baseline_sha256": "05bd71e0318c5b686cbab69ac2030b6f7ed4a49aa67fc82ccb4d9b74d29b5865",
+  "constraints": {
+    "allowed_splits": [
+      "dev"
+    ],
+    "max_per_doc": 2,
+    "negative_band": [
+      0.25,
+      0.39
+    ],
+    "positive_min": 0.7
+  },
+  "docs_n": 10,
+  "kind": "blind_selection",
+  "protocol": "agent4-feasibility-v0",
+  "seed": "agent4-v0-20261027",
+  "selected": [
+    {
+      "baseline_score": 0.899614479550757,
+      "cohort": "positive",
+      "doc_id": "37_1ecbplus.xml",
+      "pair": [
+        "30",
+        "31"
+      ],
+      "topic_id": "37"
+    },
+    {
+      "baseline_score": 0.9509049112784608,
+      "cohort": "positive",
+      "doc_id": "22_12ecbplus.xml",
+      "pair": [
+        "1",
+        "3"
+      ],
+      "topic_id": "22"
+    },
+    {
+      "baseline_score": 0.7186250531609533,
+      "cohort": "positive",
+      "doc_id": "41_5ecbplus.xml",
+      "pair": [
+        "38",
+        "6"
+      ],
+      "topic_id": "41"
+    },
+    {
+      "baseline_score": 0.7091951115598927,
+      "cohort": "positive",
+      "doc_id": "30_5ecbplus.xml",
+      "pair": [
+        "11",
+        "15"
+      ],
+      "topic_id": "30"
+    },
+    {
+      "baseline_score": 0.8586667595049858,
+      "cohort": "positive",
+      "doc_id": "1_19ecbplus.xml",
+      "pair": [
+        "10",
+        "9"
+      ],
+      "topic_id": "1"
+    },
+    {
+      "baseline_score": 0.725930770077456,
+      "cohort": "positive",
+      "doc_id": "14_9ecbplus.xml",
+      "pair": [
+        "13",
+        "17"
+      ],
+      "topic_id": "14"
+    },
+    {
+      "baseline_score": 0.9156221875052668,
+      "cohort": "positive",
+      "doc_id": "32_5ecbplus.xml",
+      "pair": [
+        "22",
+        "28"
+      ],
+      "topic_id": "32"
+    },
+    {
+      "baseline_score": 0.7233202253781832,
+      "cohort": "positive",
+      "doc_id": "20_10ecbplus.xml",
+      "pair": [
+        "3",
+        "5"
+      ],
+      "topic_id": "20"
+    },
+    {
+      "baseline_score": 0.9138473959943243,
+      "cohort": "positive",
+      "doc_id": "37_1ecbplus.xml",
+      "pair": [
+        "10",
+        "12"
+      ],
+      "topic_id": "37"
+    },
+    {
+      "baseline_score": 0.8655835750703902,
+      "cohort": "positive",
+      "doc_id": "37_9ecbplus.xml",
+      "pair": [
+        "13",
+        "3"
+      ],
+      "topic_id": "37"
+    },
+    {
+      "baseline_score": 0.9287367573344911,
+      "cohort": "positive",
+      "doc_id": "37_9ecbplus.xml",
+      "pair": [
+        "4",
+        "7"
+      ],
+      "topic_id": "37"
+    },
+    {
+      "baseline_score": 0.708446787701697,
+      "cohort": "positive",
+      "doc_id": "41_4ecbplus.xml",
+      "pair": [
+        "3",
+        "4"
+      ],
+      "topic_id": "41"
+    }
+  ],
+  "topics_n": 8
+}

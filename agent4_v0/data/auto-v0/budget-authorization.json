@@ -1,0 +1,49 @@
+{
+  "approved": true,
+  "authorized_by": "user_explicit_2_USD_pilot_message",
+  "authorization_text": "Lance la suite je te donne un buget pilote de 2$ pour le moment",
+  "authorized_at_recorded_utc": "2026-10-27T14:46:24.765548+00:00",
+  "scope": "agent4-v0-user-2usd-20261027",
+  "limit_usd": 2.0,
+  "ledger_path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/empreinte-placebo-2026-10-27/pilot-2usd/pilot-budget.sqlite",
+  "input_price_per_million_upper": 0.22499999999999998,
+  "output_price_per_million_upper": 0.375,
+  "fee_multiplier_upper": 1.25,
+  "max_context_tokens": 1050000,
+  "pricing_source_and_date": {
+    "url": "https://openrouter.ai/api/v1/models",
+    "checked_at_utc": "2026-10-27T14:45:08.977049+00:00",
+    "public_catalogue_sha256": "037987c7890bae208942b52b15a6a5d15fb64ea766e5a916adc8421180d4acec",
+    "model_id": "openai/gpt-6-luna:batch",
+    "canonical_slug": "openai/gpt-6-luna-20260922",
+    "pricing": {
+      "prompt": "0.00000005",
+      "completion": "0.00000025",
+      "web_search": "0.01",
+      "input_cache_read": "0.000000005",
+      "input_cache_write": "0.0000000625",
+      "overrides": [
+        {
+          "min_prompt_tokens": 272000,
+          "prompt": "0.0000001",
+          "completion": "0.000000375",
+          "input_cache_read": "0.00000001",
+          "input_cache_write": "0.000000125"
+        }
+      ]
+    },
+    "note": "25% additional reservation margin is a conservative planning cushion, not a quoted fee. No batch discount beyond the explicit :batch catalogue pricing is assumed."
+  },
+  "reference_source_sha256": {
+    "pipelines/jev/client.py": "ec26dc30bdc07091ac8bfa5b31b4f424738b40252ec7d9290be363404867d588",
+    "pipelines/jev/llm.py": "427c4e1d11d6b93fcec699b54a2ec9bf8f76d8b97f3ee16392e669e9c79006c1",
+    "pipelines/jev/batch.py": "3a82033bb7e79c846f49a160e2c9a31482b1a6806d4cbc48da0a940711ec9f45",
+    "pipelines/jev/spend.py": "95e449574b7e0a68ec52db5b819b5c79df5636149713377862ade1cca999bd82",
+    "eci/parse.py": "94e902e8c06da729830e73dc8d2ad711619019a4a2138f8ecb038c475715afee",
+    "eci/labels.py": "93002111c3f92c5fc43d3e5dfebd396589d01269805dbf040b815dae8f6c1280"
+  },
+  "max_generation_attempts": 84,
+  "paid_retries": 0,
+  "semantic_review_authorized_by_this_message": false,
+  "activation_note": "Financial authorization only. No scientific precondition is waived."
+}

@@ -1,0 +1,22 @@
+{
+  "complete_seven_pass_documents": [
+    "37_1ecbplus.xml",
+    "37_9ecbplus.xml",
+    "41_4ecbplus.xml",
+    "41_5ecbplus.xml"
+  ],
+  "missing_documents": [
+    "14_9ecbplus.xml",
+    "1_19ecbplus.xml",
+    "20_10ecbplus.xml",
+    "22_12ecbplus.xml",
+    "30_5ecbplus.xml",
+    "32_5ecbplus.xml"
+  ],
+  "snapshots_sha256": "d0ebf281067cd59b5368bb6648bf486f1464a0c85826e47e2a0cf01e4dfda383",
+  "archives_sha256": {
+    "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/esc-improvement-plan/luna-dev25/source-evaluations.tar.gz": "4aafdd46ec833215508f827546b9f7667b7323f44a4ac504ab5e1f4ac503ca0b"
+  },
+  "prompt_sha256": "88a87ca71ac011935ca572af05ed6531545460ebae398ee87c06cd31e32a827b",
+  "note": "Demonstration answers may contain labels for other documents, never the pilot gold. V0 reuses pass 0 in all conditions and both originals."
+}
