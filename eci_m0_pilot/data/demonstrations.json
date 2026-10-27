@@ -1,0 +1,3757 @@
+[
+  {
+    "doc_id": "4_4ecbplus.xml",
+    "topic": "4",
+    "text": "http : / / www . contactmusic . com / news / esther - williams - dies _ 3708023 Esther Williams - Esther Williams : \"Million Dollar Mermaid\" Swimmer And Actress <29 Dies> Aged 91 . 07 June 2013 Golden girl of screen and pool , Esther Williams , has <31 died> peacefully in her <9 sleep> aged 91 . <2 It> has been <7 confirmed> by publicist Harlan Boll that the 1940s Hollywood actress and <3 record - setting> swimmer , Esther Williams , <30 died> on 6th June in her <8 sleep> . Stunning Williams quickly <4 achieved> movie <5 success> and pin - up status , <1 due to> her swimmer's physique being regularly <6 snapped> in bathing suits .",
+    "mentions": [
+      {
+        "id": "29"
+      },
+      {
+        "id": "31"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "30"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "6"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "6,5",
+        "label": "causes"
+      },
+      {
+        "pair": "5,6",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "18_3ecbplus.xml",
+    "topic": "18",
+    "text": "http : / / voices . yahoo . com / troy - michigan - office - shooting - follow - 1 - dead - 2 - injured - 294072 . html ? cat=8 Troy , Michigan Office <3 Shooting> <2 Follow - Up> - 1 <21 Dead> , 2 <22 Injured> , and Suspect <4 Caught> Apr 12 , 2007 \"A man <5 suspected> of <6 shooting> three people , <7 killing> one , at an accounting firm where was <8 fired> last week was <9 arrested> after a high - speed <10 chase> a few hours after the Monday morning <1 attack> , authorities <11 said> . Police said they had located Anthony LaCalamita , 38 , on Interstate 75 , north of the suburban Detroit office building where the shootings took place . Sheriff's deputies and state police chased him for 30 miles , including through a construction zone , at speeds up to 120 mph before he finally pulled over after about 15 minutes , Genesee County Sheriff Robert J . Pickell said . 'He probably realized if he didn't , he was going to be shot , ' Undersheriff James Gage said . LaCalamita said nothing after officers surrounded him , Pickell said , describing the suspect as 'subdued . Very , very , very subdued . ' Officers found a 12 - gauge pump - action shotgun and three live shells in the vehicle , Pickell said . Witnesses said the shooter used a shotgun or a rifle , Troy police Lt . Gerry Scherlinck said . \" ( Fox News article ) The suspect was finally apprehended after a high - speed chase on Interstate 75 . He was finally stopped near the Saginaw County and Bay County border . Evidence found in the vehicle points to having apprehended the correct suspect . \"Officers found a gun in the vehicle matching the description of the one used in the shootings , Troy police Lt . Gerry Scherlinck said . Some witnesses told police that when the shooter walked into the office on the building's second floor around 10 a . m . Monday , he looked as if he was trying to hide something , Troy Police Chief Charles Craft said . Police couldn't say how many shots were fired . 'I'm not positive all three of the people were targeted , but there appeared to be some purpose , ' Craft said . The families of the two wounded men requested 'total privacy , ' and the hospital would not release any details about their conditions , Beaumont Hospital spokeswoman Ilene Wolfe said . She said the third victim died on the way to the hospital . LaCalamita was listed among the professional staff on the website of Gordon Advisors , a public accounting and business consulting firm in the building . Calls to Gordon Advisors were not answered Monday afternoon , and a recording said the offices were closed . \" ( USA Today article ) Local evening news in Michigan originally reported that two of the three victims died . The subsequent car chase tied up traffic on the I - 75 corridor in Flint , Saginaw , and Bay City , Michigan for quite some time .",
+    "mentions": [
+      {
+        "id": "3"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "21"
+      },
+      {
+        "id": "22"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "11"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "7,4",
+        "label": "causes"
+      },
+      {
+        "pair": "21,9",
+        "label": "causes"
+      },
+      {
+        "pair": "3,9",
+        "label": "causes"
+      },
+      {
+        "pair": "6,22",
+        "label": "causes"
+      },
+      {
+        "pair": "6,4",
+        "label": "causes"
+      },
+      {
+        "pair": "3,7",
+        "label": "causes"
+      },
+      {
+        "pair": "3,22",
+        "label": "causes"
+      },
+      {
+        "pair": "21,4",
+        "label": "causes"
+      },
+      {
+        "pair": "5,9",
+        "label": "causes"
+      },
+      {
+        "pair": "10,4",
+        "label": "causes"
+      },
+      {
+        "pair": "3,4",
+        "label": "causes"
+      },
+      {
+        "pair": "6,7",
+        "label": "causes"
+      },
+      {
+        "pair": "3,21",
+        "label": "causes"
+      },
+      {
+        "pair": "7,9",
+        "label": "causes"
+      },
+      {
+        "pair": "6,9",
+        "label": "causes"
+      },
+      {
+        "pair": "5,4",
+        "label": "causes"
+      },
+      {
+        "pair": "6,21",
+        "label": "causes"
+      },
+      {
+        "pair": "10,9",
+        "label": "causes"
+      },
+      {
+        "pair": "4,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,21",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "22,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "22,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,21",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "21,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "21,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,10",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "13_7ecbplus.xml",
+    "topic": "13",
+    "text": "http : / / www . ktva . com / home / outbound - xml - feeds / Overnight - Fire - Destroys - Historic - Mat - Maid - Building - 165301256 . html Overnight <13 Fire> <14 Destroys> Historic Matanuska Maid Building No injuries reported Story Created : Aug 7 , 2012 at 9 : 56 AM AKDT ALASKA - Shortly after 3 : 30 Tuesday morning someone <15 called> 911 to and <16 reported> a <1 fire> at the Matanuska Maid building in downtown Palmer . Palmer Fire & Rescue , along with the Mat - Su Central Fire Department , responded . Palmer Fire & Rescue Chief John McNutt saw flames emerging from under the building's eaves when he arrived , and soon the entire roof was engulfed in flames . A total of 31 fire apparatus <2 arrived> to <3 fight> the <4 fire> , and it was <5 extinguished> by 6 : 40 a . m . The building is a <17 total loss> according to the City of Palmer . The state's Fire Marshal's office is <6 assisting> in the <7 investigation> of the <12 cause> of the <8 fire> , and anyone with knowledge of the <9 fire> is <10 asked> to <11 call> Palmer Police Sergeant Shayne La Croix at 907 - 745 - 4811 .",
+    "mentions": [
+      {
+        "id": "13"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "15"
+      },
+      {
+        "id": "16"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "17"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "11"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "1,15",
+        "label": "causes"
+      },
+      {
+        "pair": "8,7",
+        "label": "causes"
+      },
+      {
+        "pair": "13,17",
+        "label": "causes"
+      },
+      {
+        "pair": "3,13",
+        "label": "causes"
+      },
+      {
+        "pair": "1,14",
+        "label": "causes"
+      },
+      {
+        "pair": "8,17",
+        "label": "causes"
+      },
+      {
+        "pair": "8,15",
+        "label": "causes"
+      },
+      {
+        "pair": "13,15",
+        "label": "causes"
+      },
+      {
+        "pair": "13,7",
+        "label": "causes"
+      },
+      {
+        "pair": "4,17",
+        "label": "causes"
+      },
+      {
+        "pair": "3,9",
+        "label": "causes"
+      },
+      {
+        "pair": "3,8",
+        "label": "causes"
+      },
+      {
+        "pair": "9,17",
+        "label": "causes"
+      },
+      {
+        "pair": "12,7",
+        "label": "causes"
+      },
+      {
+        "pair": "1,17",
+        "label": "causes"
+      },
+      {
+        "pair": "3,1",
+        "label": "causes"
+      },
+      {
+        "pair": "9,5",
+        "label": "causes"
+      },
+      {
+        "pair": "8,5",
+        "label": "causes"
+      },
+      {
+        "pair": "13,14",
+        "label": "causes"
+      },
+      {
+        "pair": "5,3",
+        "label": "causes"
+      },
+      {
+        "pair": "9,7",
+        "label": "causes"
+      },
+      {
+        "pair": "4,5",
+        "label": "causes"
+      },
+      {
+        "pair": "13,5",
+        "label": "causes"
+      },
+      {
+        "pair": "4,14",
+        "label": "causes"
+      },
+      {
+        "pair": "9,15",
+        "label": "causes"
+      },
+      {
+        "pair": "7,11",
+        "label": "causes"
+      },
+      {
+        "pair": "8,14",
+        "label": "causes"
+      },
+      {
+        "pair": "1,5",
+        "label": "causes"
+      },
+      {
+        "pair": "4,15",
+        "label": "causes"
+      },
+      {
+        "pair": "1,7",
+        "label": "causes"
+      },
+      {
+        "pair": "9,14",
+        "label": "causes"
+      },
+      {
+        "pair": "3,4",
+        "label": "causes"
+      },
+      {
+        "pair": "4,7",
+        "label": "causes"
+      },
+      {
+        "pair": "15,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,13",
+        "label": "causedby"
+      },
+      {
+        "pair": "13,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,13",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,13",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,12",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "1,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,13",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,13",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "11,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,4",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "1_21ecbplus.xml",
+    "topic": "1",
+    "text": "http : / / music . yahoo . com / news / lawyer - lindsay - lohan - checks - rehab - facility - 162019483 . html Lawyer : Lindsay Lohan <5 checks into> rehab facility May 2 , 2013 12 : 50 PM Lindsay Lohan has <6 checked into> a rehab facility to <7 comply> with her <18 sentence> in a misdemeanor <1 driving> <2 case> , but her <8 arrival> there was not without <3 drama> . \"My client is <16 ensconced> in the bosom of that facility right now , \" Heller <9 argued> after a prosecutor <10 objected> to Lohan's <11 choice> of rehab facilities . \" She's in <46 rehab> right now . Nothing bad is <17 going> to <42 happen> . \" White <45 said> he was \"completely <12 blindsided\"> by Lohan's <4 placement> at Morningside because Heller had previously <13 agreed> to <14 send> the actress to a different facility that had been <15 vetted> .",
+    "mentions": [
+      {
+        "id": "5"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "18"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "16"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "11"
+      },
+      {
+        "id": "46"
+      },
+      {
+        "id": "17"
+      },
+      {
+        "id": "42"
+      },
+      {
+        "id": "45"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "13"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "15"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "8,3",
+        "label": "causes"
+      },
+      {
+        "pair": "6,12",
+        "label": "causes"
+      },
+      {
+        "pair": "2,18",
+        "label": "causes"
+      },
+      {
+        "pair": "4,7",
+        "label": "causes"
+      },
+      {
+        "pair": "7,5",
+        "label": "causes"
+      },
+      {
+        "pair": "18,7",
+        "label": "causes"
+      },
+      {
+        "pair": "4,12",
+        "label": "causes"
+      },
+      {
+        "pair": "6,7",
+        "label": "causes"
+      },
+      {
+        "pair": "5,12",
+        "label": "causes"
+      },
+      {
+        "pair": "14,12",
+        "label": "causes"
+      },
+      {
+        "pair": "11,10",
+        "label": "causes"
+      },
+      {
+        "pair": "3,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "18,2",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,14",
+        "label": "causedby"
+      },
+      {
+        "pair": "10,11",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "13_5ecbplus.xml",
+    "topic": "13",
+    "text": "http : / / www . alaskadispatch . com / article / arson - suspected - fire - destroyed - alaskas - mat - maid - dairy <4 Arson> <12 suspected> in <5 fire> that <6 destroyed> Alaska's Mat - Maid dairy August 7 , 2012 Only about a week after Alaska officials formally <1 moved to> <7 dissolve> the last entity to <9 run> the historic Matanuska Maid Creamery , the historic structure which once <10 housed> part of that historic business <2 burned> to the ground in Palmer . Arson is suspected . \"You can't call it arson yet , \" Palmer public safety director Jon Owen said , but the fact that the 86 - year - old structure was without electrical or gas connections makes the 3 : 30 a . m . fire highly suspicious . \"There was no lightning strike , \" Owen said . It was a pretty morning in Palmer when a visitor to the Valley Hotel <3 walked out> at 3 : 33 a . m . and <8 spied> the deserted building nearby <11 in flames> . By the time local police arrived to investigate , Owen said , there was no hope of saving the structure , and the firemen who arrived soon thereafter focused their efforts on keeping flames from spreading to a nearby fuel storage facility . A good portion of the fire - fighting equipment in the Matanuska Valley was called to help , more than two dozen units . At one time , Owen said , firefighters were pouring 5 , 000 gallons of water per minute onto the blaze as history burned . Designated as national historic landmarks , the Mat Maid buildings dated back to the mid 1930's during President Franklin D . Roosevelt's \"New Deal\" efforts to wrench the country out of The Great Depression . They were built shortly after the Matanuska Colony was established by the Roosevelt administration to relocate struggling Americans and give them a new start in the Last Frontier . A farmer's cooperative at first , Mat Maid became a state - run business that eventually died despite the best efforts of former Gov . Sarah Palin to keep it alive . Now a conservative icon , Palin was anything but in 2007 when \"The Creamery Corporation , \" an arm of the Alaska Board of Agriculture and Conservation , voted to close down a financially struggling Mat Maid . Palin responded by firing the board . She then replaced board members with her cronies . They pumped another $600 , 000 in state money into Mat Maid , but it didn't help . \"In July alone , they lost $300 , 000 , \" said Anchorage businessman and blogger Andrew Halcro , a sometimes critic of Palin . By the end of 2007 , it was obvious even to the Palin administration that Mat Maid couldn't survive , and the state was forced to shut it down although \"The Creamery Corporation\" survived . It is only now going out of business . \"Dissolution of the corporation has taken four years , \" Robert McFarlane , an assistant state attorney general said Tuesday . In the interim , a new creamery grew up in the Matanuska - Susitna Valley to take the place of Mat Maid . However , Valley Dairy Inc . , seems to have many of the same problems that beset its predecessor . Creamery lacks the cheddar At the start of the month , Valley Dairy Inc . , which does business as the Matanuska Creamery , told the Agriculture Board it was going to stop making payments on its hundreds of thousands of dollars in debt to the state's Agriculture Revolving Loan Fund ( ARLF ) . \"We will be making no further payment on our ARLF notes until we have been able to move to a suitable location and secure a minimum raw milk supply , \" Karen Olson , president and CEO of Valley Dairy , notified the panel on Aug . 1 . \"All our attempts to deal with our ARLF loans have only resulted in a moment's reprieve following by further threats . \" A copy of the letter has been obtained by Dispatch . In it , Olson blames the state for Alaska's dairy problems . \"There are some who would say that Matanuska Creamery has been a victim of its own idealism and commitment to keeping the dairy industry alive , \" she wrote , \"and they would be correct . But had we ignored our commitment back in 2007 and since , there would be no dairy industry . \" The problems specific to the Matanuska Creamery date to the two - year reign of Sarah Palin , but the problems for the dairy industry in Alaska go back way before her administration . They are rooted in state - sponsored efforts to create an industry instead of letting markets work . Going heavy on milk futures Mat Maid did fine \"for 23 years without one single dime from the state , \" Halcro said . That changed at the start of the 1980s when the state tried to supercharge farming across Cook Inlet from Anchorage by creating the Point MacKenzie dairy project . Mat Maid , a farmer's cooperative begun in 1936 , tried to help . It borrowed $2 million dollars from the Agriculture Fund to expand its facilities to handle all the milk that was supposed to come from the farms . When the farmers faltered , Mat Maid was left short of milk . Without enough milk to sell - - either as milk or cream or yogurt or cheese - - Mat Maid couldn't generate enough profit to service its debt . In 1983 , it was forced to file for bankruptcy . The state stepped in to run the company to protect its debt . Two years later , the cooperative signed over to the Loan Fund its property and assets to settle a $5 . 3 million debt . Three years after that , the state established The Creamery Corporation as an arm of the Loan Fund to run Mat Maid . It struggled along for almost a decade . \"The Creamery Corporation has operated without financial assistance from the ARLF since 1988 and continue to provide a return on investment thorough increased equity value , \" argued a \"White Paper\" produced for the Alaska Department of Natural Resources in 2006 . Mat Maid was then valued at $5 million , down from a peak value of $5 . 3 million but above the 2002 value of $4 . 9 million . The white paper noted efforts to privatize the operation in 1986 and again in 1990 had failed . There were no bids . The state was more successful in getting rid of the historic creamery buildings in Palmer although that , too , was a struggle . They were leased with an option to buy in 1996 , but that deal fell through . A restoration company called Heritage Properties picked the buildings up in 1997 , and in 2001 announced plans to convert them into offices and stores , or apartments , while maintaining their historic façades . That idea , too , fell through , and the property was finally sold at bid . It was purchased by Anchorage attorney Bill Ingaldson . He was not returning calls on Tuesday . Ingaldson , as well as the state Division of Agriculture and other property owners , have been in negotiations with the city of Palmer on the sale of what is called the old \"Matanuska Maid block . \" It is an area of about 8 . 7 acres near downtown Palmer that included , until Tuesday , the old creamery , an historic hatchery , a cinderblock power house , a residency , a building housing the offices of the Palmer Arts Council , and Crowley Petroleum Distributors , which maintains the fuel storage facility . Palmer voters in 2010 approved a $3 million bond to pay for purchase of the property . There were hopes of restoring the buildings as a tourist attraction . It could have detailed the successes and failures of those sorts of collective efforts sometimes attacked by Palin . Mat Maid the co - op was a profitable business that once produced and sold about half the milk in Alaska . Mat Maid the state - owned corporation was a company that struggled from the start and sold a lot of milk produced in the Lower 48 . \"In 2004 , 39 percent of the milk produced at Mat Maid was from Alaska producers , \" the white paper said . The other 61 percent was shipped in from Outside to be packaged and sold as Alaska milk in an effort by Mat Maid to maintain market share in hopes the cows on the state - sponsored farms at Point MacKenzie would one day start producing . They never really did . Over time the MacKenzie properties began to shift into the hands of land speculators anticipating some far - future wealth if a bridge were ever built across Knik Arm to allow for creation of a new Anchorage bedroom community . 'Kind of a good question' \"It's all kind of a long and complicated story going way back , \" said Ed Fogels , the deputy commissioner of Natural Resources in charge of the Agriculture Division . He couldn't hazard a guess on how much money the state has lost on Mat Maid and associated agriculture projects over the years . \"That's kind of a good question , \" he said . Darcy Davies , an agriculture student at the University of Alaska Fairbanks , in 2007 authored a senior thesis calculating money spent on agriculture projects in the state . Davies wrote that \"over $76 million ( in 2006 dollars ) was spent on the projects . Even more millions of dollars were spent on the ARLF loans to farmers . \" \"It is debatable , \" she wrote , \"whether those funds expended were worth the benefits created . \" Davies examined not only Point MacKenzie and Mat Maid , but the Delta barley project and an effort to produce red meat in the Nenana area of the Interior . Her report notes that the Point Mac agriculture project got almost $10 million in direct appropriations . It is unclear how many millions more exactly were spent propping up Mat Maid . After the fire , and the pending dissolution of The Creamery Corporation , about all that will remain is the Mat Maid trademark , an ice - skating princess in a fur hat . \"The state owns that , \" said Fogels . As the most durable legacy of Mat Maid , the trademark could prove valuable , though Fogels wasn't sure how the state could use it . Maybe it could festoon the 100 , 000 pounds of Matanuska Creamery cheese the Valley Dairy put up to back one of its state loans .",
+    "mentions": [
+      {
+        "id": "4"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "11"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "4,5",
+        "label": "causes"
+      },
+      {
+        "pair": "5,2",
+        "label": "causes"
+      },
+      {
+        "pair": "5,11",
+        "label": "causes"
+      },
+      {
+        "pair": "5,6",
+        "label": "causes"
+      },
+      {
+        "pair": "5,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "11,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,5",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "3_9ecbplus.xml",
+    "topic": "3",
+    "text": "http : / / news . heralddemocrat . com / hd / News / Police - - - - Texas - on - U - S - - Marshal - Most - Wanted - list - _ - MUG Updated Saturday , December 05 , 2009 8 : 28 PM Texas escapee now on U . S . Marshal's most <2 wanted> list Last week's escapee from the Texas prison system is still <17 at large> and is now on the U . S . Marshal Service's \"Most <3 Wanted\"> list of fugitives . Arcade Joseph Comeaux Jr . is <4 serving> three life <5 sentences> . He <6 escaped> last week while being <7 transported> from a prison in Huntsville to one in Beaumont , Texas . Comeaux is <8 accused> of using a gun which was <9 smuggled> in to him for the <10 escape> . He was in prison after being <11 convicted> of aggravated sexual <12 assault> of a child and aggravated <13 assault> with a deadly weapon . According to Texas authorities , the weapons <14 conviction> stemmed from a 1999 <1 incident> where he <15 stabbed> his wife 17 times while she was <16 visiting> him in prison .",
+    "mentions": [
+      {
+        "id": "2"
+      },
+      {
+        "id": "17"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "11"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "13"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "15"
+      },
+      {
+        "id": "16"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "11,10",
+        "label": "causes"
+      },
+      {
+        "pair": "5,6",
+        "label": "causes"
+      },
+      {
+        "pair": "5,10",
+        "label": "causes"
+      },
+      {
+        "pair": "5,3",
+        "label": "causes"
+      },
+      {
+        "pair": "9,6",
+        "label": "causes"
+      },
+      {
+        "pair": "7,6",
+        "label": "causes"
+      },
+      {
+        "pair": "9,10",
+        "label": "causes"
+      },
+      {
+        "pair": "6,17",
+        "label": "causes"
+      },
+      {
+        "pair": "17,2",
+        "label": "causes"
+      },
+      {
+        "pair": "5,2",
+        "label": "causes"
+      },
+      {
+        "pair": "10,2",
+        "label": "causes"
+      },
+      {
+        "pair": "5,17",
+        "label": "causes"
+      },
+      {
+        "pair": "10,3",
+        "label": "causes"
+      },
+      {
+        "pair": "17,3",
+        "label": "causes"
+      },
+      {
+        "pair": "6,2",
+        "label": "causes"
+      },
+      {
+        "pair": "11,6",
+        "label": "causes"
+      },
+      {
+        "pair": "10,17",
+        "label": "causes"
+      },
+      {
+        "pair": "7,10",
+        "label": "causes"
+      },
+      {
+        "pair": "6,3",
+        "label": "causes"
+      },
+      {
+        "pair": "1,14",
+        "label": "causes"
+      },
+      {
+        "pair": "15,14",
+        "label": "causes"
+      },
+      {
+        "pair": "10,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "10,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "10,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "10,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,15",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "1_6ecbplus.xml",
+    "topic": "1",
+    "text": "http : / / uk . eonline . com / news / 414523 / lindsay - lohan - checks - into - rehab - at - betty - ford - center - see - the - first - pictures Lindsay Lohan <1 Checks Into> <8 Rehab> at Betty Ford Center Fri . , May . 3 , 2013 11 : 45 AM PDT Early Friday morning , around 1 : 30 a . m . , the 26 - year - old actress <2 checked into> Betty Ford Center in Rancho Mirage , Calif ,",
+    "mentions": [
+      {
+        "id": "1"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "2"
+      }
+    ],
+    "answer": []
+  },
+  {
+    "doc_id": "30_12ecbplus.xml",
+    "topic": "30",
+    "text": "http : / / broabandtrafficmanagement . blogspot . nl / 2011 / 10 / south - africa - p2p - control - helps - overcome . html TUESDAY , OCTOBER 11 , 2011 South Africa : <4 P2P Control> Helps <5 Overcome> Undersea Cable <10 Outage> \"The SEACOM undersea cable , which <7 provides> a <49 data link> between South Africa , Europe and India , <8 experienced> <9 downtime> <2 beginning> on Saturday 8 October 2011 , <3 caused> by a <11 problem> on a cable between Abu Talat ( Egypt ) and Marseilles ( France ) . . Meanwhile , local Internet Service Providers ( ISPs ) who <12 use> bandwidth on the SEACOM cable have been <13 scrambling> to <15 implement> <14 contingency plans> to <1 keep> their customers <16 connected\"> . According to an MWEB <17 update> - \"Some more bandwidth was <18 brought> online last night [ 10 October 2011 ] <19 bringing> us <26 up to 83%> of our required <6 capacity> . We allowed P2P traffic to run from midnight to 7am , after which it had to give way for critical traffic again . \" As MWEB also <20 uses> PeerApp's <21 caching solution> , it may <25 help> <22 serve> some <23 P2P traffic> <37 without> <24 accessing> the undersea cable .",
+    "mentions": [
+      {
+        "id": "4"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "49"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "11"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "13"
+      },
+      {
+        "id": "15"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "16"
+      },
+      {
+        "id": "17"
+      },
+      {
+        "id": "18"
+      },
+      {
+        "id": "19"
+      },
+      {
+        "id": "26"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "20"
+      },
+      {
+        "id": "21"
+      },
+      {
+        "id": "25"
+      },
+      {
+        "id": "22"
+      },
+      {
+        "id": "23"
+      },
+      {
+        "id": "37"
+      },
+      {
+        "id": "24"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "10,11",
+        "label": "causes"
+      },
+      {
+        "pair": "14,16",
+        "label": "causes"
+      },
+      {
+        "pair": "21,22",
+        "label": "causes"
+      },
+      {
+        "pair": "9,13",
+        "label": "causes"
+      },
+      {
+        "pair": "21,24",
+        "label": "causes"
+      },
+      {
+        "pair": "11,9",
+        "label": "causes"
+      },
+      {
+        "pair": "4,10",
+        "label": "causes"
+      },
+      {
+        "pair": "49,9",
+        "label": "causes"
+      },
+      {
+        "pair": "11,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "16,14",
+        "label": "causedby"
+      },
+      {
+        "pair": "22,21",
+        "label": "causedby"
+      },
+      {
+        "pair": "13,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "24,21",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "10,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,49",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "30_1ecbplus.xml",
+    "topic": "30",
+    "text": "http : / / mybroadband . co . za / news / telecoms / 37617 - seacom - back - online - 4 - november - 2011 . html Seacom <13 operations> fully <14 restored> : 4 November 2011 The <15 break> in an undersea cable on that <42 affected> <41 Seacom> has been <17 repaired> November 4 , 2011 Undersea cable operator Seacom <18 announced> today ( 4 November 2011 ) that <3 repairs> have been <1 completed> on a broken cable off the coast of Egypt that <2 caused> an <4 outage> on its network . Seacom <19 said> that its cable network was successfully <5 repaired> on 29 October 2011 and all circuits were <6 restored> to the core network as of 4 November 02 : 00 GMT . All Seacom <16 traffic> to Europe was <7 affected> by the <8 break> which happened on 8 October 2011 on one of their Mediterranean backhaul service providers' cables between Abu Talat and Marseilles . Initial <9 indications> were that the <10 break> would <11 take> 12 days to <12 fix> . The cable operator announced that it had restored services to its business customers via alternate routes on 14 October 2011 . This was followed by similar restoration to the rest of its clients on 20 October 2011 . \"Our partner network has informed us that the assigned cable ship worked in optimal weather conditions for the duration of their repairs . The cable was quickly lifted , the new cable spliced in , tested and re - laid thanks to close coordination between the ship crew and on - shore support , \" Seacom said in an announcement on their website .",
+    "mentions": [
+      {
+        "id": "13"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "15"
+      },
+      {
+        "id": "42"
+      },
+      {
+        "id": "41"
+      },
+      {
+        "id": "17"
+      },
+      {
+        "id": "18"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "19"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "16"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "11"
+      },
+      {
+        "id": "12"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "6,3",
+        "label": "causes"
+      },
+      {
+        "pair": "15,14",
+        "label": "causes"
+      },
+      {
+        "pair": "6,17",
+        "label": "causes"
+      },
+      {
+        "pair": "10,6",
+        "label": "causes"
+      },
+      {
+        "pair": "10,5",
+        "label": "causes"
+      },
+      {
+        "pair": "3,5",
+        "label": "causes"
+      },
+      {
+        "pair": "6,14",
+        "label": "causes"
+      },
+      {
+        "pair": "8,3",
+        "label": "causes"
+      },
+      {
+        "pair": "10,17",
+        "label": "causes"
+      },
+      {
+        "pair": "15,6",
+        "label": "causes"
+      },
+      {
+        "pair": "4,17",
+        "label": "causes"
+      },
+      {
+        "pair": "4,14",
+        "label": "causes"
+      },
+      {
+        "pair": "6,5",
+        "label": "causes"
+      },
+      {
+        "pair": "15,3",
+        "label": "causes"
+      },
+      {
+        "pair": "10,14",
+        "label": "causes"
+      },
+      {
+        "pair": "4,5",
+        "label": "causes"
+      },
+      {
+        "pair": "3,14",
+        "label": "causes"
+      },
+      {
+        "pair": "15,5",
+        "label": "causes"
+      },
+      {
+        "pair": "4,6",
+        "label": "causes"
+      },
+      {
+        "pair": "5,14",
+        "label": "causes"
+      },
+      {
+        "pair": "3,17",
+        "label": "causes"
+      },
+      {
+        "pair": "8,17",
+        "label": "causes"
+      },
+      {
+        "pair": "15,7",
+        "label": "causes"
+      },
+      {
+        "pair": "15,17",
+        "label": "causes"
+      },
+      {
+        "pair": "4,3",
+        "label": "causes"
+      },
+      {
+        "pair": "17,5",
+        "label": "causes"
+      },
+      {
+        "pair": "14,17",
+        "label": "causes"
+      },
+      {
+        "pair": "10,3",
+        "label": "causes"
+      },
+      {
+        "pair": "8,14",
+        "label": "causes"
+      },
+      {
+        "pair": "10,7",
+        "label": "causes"
+      },
+      {
+        "pair": "8,5",
+        "label": "causes"
+      },
+      {
+        "pair": "8,7",
+        "label": "causes"
+      },
+      {
+        "pair": "8,6",
+        "label": "causes"
+      },
+      {
+        "pair": "3,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,14",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,8",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "14_2ecbplus.xml",
+    "topic": "14",
+    "text": "http : / / www . bbc . co . uk / news / uk - england - somerset - 23419896 23 July 2013 Last updated at 13 : 42 GMT Waitrose Wellington <3 fire> : Man <5 denies> <4 arson> A man has <6 denied> <7 arson> <1 following> a <2 fire> at a Somerset supermarket early on Sunday . Robert Pitman , 24 , is accused of setting fire to the Waitrose store in Wellington shortly after 06 : 00 BST . Half of the entrance roof at the shop collapsed during the blaze . Mr Pitman , of High Street , Wellington , entered a not guilty plea at Taunton Deane Magistrates and was remanded in custody to appear before Taunton Crown Court on 19 August .",
+    "mentions": [
+      {
+        "id": "3"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "2"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "2,7",
+        "label": "causes"
+      },
+      {
+        "pair": "3,7",
+        "label": "causes"
+      },
+      {
+        "pair": "3,4",
+        "label": "causes"
+      },
+      {
+        "pair": "2,4",
+        "label": "causes"
+      },
+      {
+        "pair": "7,2",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,2",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "3_6ecbplus.xml",
+    "topic": "3",
+    "text": "http : / / www . foxnews . com / story / 2009 / 11 / 30 / armed - and - dangerous - texas - inmate - on - loose / 'Armed and Dangerous' Texas Inmate <2 on The Loose> Published November 30 , 2009 The Texas Department of Criminal Justice is <3 searching> for an <4 escaped> inmate who is <6 considered> <24 armed> and <25 dangerous> , MyFoxHouston . com <22 reports> . Officials <23 said> Arcade Joseph Comeaux Jr . , 49 , <1 took> two transport officers <1 hostage> on Monday morning and then <7 escaped> from the vehicle and <8 took off> <5 on foot> , MyFoxHouston . com <21 reports> . Comeaux , a 6 - foot , 200 - pound black male , was <9 serving> a life <10 sentence> for <12 crimes> he <11 committed> in three Texas counties . He was <14 sentenced> to life in prison for <13 indecency> with a child , aggravated sexual <15 assault> and two counts of aggravated <16 assault> with a deadly weapon , MyFoxHouston . com <20 reports> . Comeaux allegedly <17 handcuffed> the officers together in the vehicle and then <18 took off> with their weapons , MyFoxHouston . com <19 reported> .",
+    "mentions": [
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "24"
+      },
+      {
+        "id": "25"
+      },
+      {
+        "id": "22"
+      },
+      {
+        "id": "23"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "21"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "11"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "13"
+      },
+      {
+        "id": "15"
+      },
+      {
+        "id": "16"
+      },
+      {
+        "id": "20"
+      },
+      {
+        "id": "17"
+      },
+      {
+        "id": "18"
+      },
+      {
+        "id": "19"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "11,9",
+        "label": "causes"
+      },
+      {
+        "pair": "15,14",
+        "label": "causes"
+      },
+      {
+        "pair": "25,3",
+        "label": "causes"
+      },
+      {
+        "pair": "17,2",
+        "label": "causes"
+      },
+      {
+        "pair": "1,18",
+        "label": "causes"
+      },
+      {
+        "pair": "8,7",
+        "label": "causes"
+      },
+      {
+        "pair": "17,4",
+        "label": "causes"
+      },
+      {
+        "pair": "17,18",
+        "label": "causes"
+      },
+      {
+        "pair": "1,4",
+        "label": "causes"
+      },
+      {
+        "pair": "17,8",
+        "label": "causes"
+      },
+      {
+        "pair": "8,3",
+        "label": "causes"
+      },
+      {
+        "pair": "24,3",
+        "label": "causes"
+      },
+      {
+        "pair": "12,10",
+        "label": "causes"
+      },
+      {
+        "pair": "2,18",
+        "label": "causes"
+      },
+      {
+        "pair": "4,3",
+        "label": "causes"
+      },
+      {
+        "pair": "18,3",
+        "label": "causes"
+      },
+      {
+        "pair": "1,7",
+        "label": "causes"
+      },
+      {
+        "pair": "2,8",
+        "label": "causes"
+      },
+      {
+        "pair": "7,3",
+        "label": "causes"
+      },
+      {
+        "pair": "1,2",
+        "label": "causes"
+      },
+      {
+        "pair": "8,4",
+        "label": "causes"
+      },
+      {
+        "pair": "4,2",
+        "label": "causes"
+      },
+      {
+        "pair": "4,18",
+        "label": "causes"
+      },
+      {
+        "pair": "8,18",
+        "label": "causes"
+      },
+      {
+        "pair": "17,7",
+        "label": "causes"
+      },
+      {
+        "pair": "16,14",
+        "label": "causes"
+      },
+      {
+        "pair": "13,14",
+        "label": "causes"
+      },
+      {
+        "pair": "2,3",
+        "label": "causes"
+      },
+      {
+        "pair": "1,8",
+        "label": "causes"
+      },
+      {
+        "pair": "9,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,25",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "18,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "18,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,24",
+        "label": "causedby"
+      },
+      {
+        "pair": "10,12",
+        "label": "causedby"
+      },
+      {
+        "pair": "18,2",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,2",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "18,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "18,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,16",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,13",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,2",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,1",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "19_11ecbplus.xml",
+    "topic": "19",
+    "text": "http : / / beforeitsnews . com / blogging - citizen - journalism / 2013 / 03 / riot - breaks - out - in - brooklyn - over - teen - shootilng - 2446148 . html Large <5 Riot> <13 Breaks Out> In Brooklyn During <15 Vigil> For Teen <17 Shot> 11 Times By Police Monday , March 11 , 2013 23 : 51 Police <2 intervened> when more than a hundred people <3 joined in> a candlelit <4 vigil> in the East Flatbush neighborhood in Brooklyn , New York , where 16 - year - old Kimani Gray was <6 shot> 11 times by police on Saturday , according to RussiaToday Brooklynites on Twitter <19 reported> that police <8 followed> the <1 march> and <7 searched> apartment buildings in the neighborhood without warrants , <9 looking> for children who had been <18 seen> <11 throwing> bottles at police from neighborhood rooftops . March participants chanted “ NYPD KKK how many kids will you kill today , ” people report from the scene . “ I ’ m in the middle of the riot action at Church and Snyder in my district . Right now , things are tense , ” New York City Councilman Jumaane D . Williams , who represents the area , said on Twitter . Sixteen - year - old Kimani Gray was shot and killed on Saturday night after , police say , pointing a gun at approaching cops . According to the officers involved in the shooting , the teenager adjusted his belt “ suspiciously , ” and after they exited their vehicle to investigate , he pointed a . 357 caliber revolver at them . Both officers fired at the suspect , hitting Gray eleven times in his torso and legs . Witnesses say Gray , who was running for his life when he was shot , did not have a gun . “ Stay down , or we ’ ll shoot you again , ” police said once Gray had been hit , according to The New York Times . After the <10 shooting> Gray was <12 rushed> to a hospital but was <14 declared> <20 dead> on <16 arrival> .",
+    "mentions": [
+      {
+        "id": "5"
+      },
+      {
+        "id": "13"
+      },
+      {
+        "id": "15"
+      },
+      {
+        "id": "17"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "19"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "18"
+      },
+      {
+        "id": "11"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "20"
+      },
+      {
+        "id": "16"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "10,4",
+        "label": "causes"
+      },
+      {
+        "pair": "6,5",
+        "label": "causes"
+      },
+      {
+        "pair": "17,5",
+        "label": "causes"
+      },
+      {
+        "pair": "17,4",
+        "label": "causes"
+      },
+      {
+        "pair": "6,4",
+        "label": "causes"
+      },
+      {
+        "pair": "4,2",
+        "label": "causes"
+      },
+      {
+        "pair": "17,15",
+        "label": "causes"
+      },
+      {
+        "pair": "6,15",
+        "label": "causes"
+      },
+      {
+        "pair": "17,20",
+        "label": "causes"
+      },
+      {
+        "pair": "15,5",
+        "label": "causes"
+      },
+      {
+        "pair": "10,12",
+        "label": "causes"
+      },
+      {
+        "pair": "11,7",
+        "label": "causes"
+      },
+      {
+        "pair": "10,20",
+        "label": "causes"
+      },
+      {
+        "pair": "6,20",
+        "label": "causes"
+      },
+      {
+        "pair": "4,5",
+        "label": "causes"
+      },
+      {
+        "pair": "17,12",
+        "label": "causes"
+      },
+      {
+        "pair": "10,5",
+        "label": "causes"
+      },
+      {
+        "pair": "6,12",
+        "label": "causes"
+      },
+      {
+        "pair": "6,1",
+        "label": "causes"
+      },
+      {
+        "pair": "17,1",
+        "label": "causes"
+      },
+      {
+        "pair": "10,15",
+        "label": "causes"
+      },
+      {
+        "pair": "15,2",
+        "label": "causes"
+      },
+      {
+        "pair": "3,2",
+        "label": "causes"
+      },
+      {
+        "pair": "1,8",
+        "label": "causes"
+      },
+      {
+        "pair": "10,1",
+        "label": "causes"
+      },
+      {
+        "pair": "11,9",
+        "label": "causes"
+      },
+      {
+        "pair": "4,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "20,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "20,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "20,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "1,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "1,17",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "1,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,11",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "16_11ecbplus.xml",
+    "topic": "16",
+    "text": "http : / / powderbluereport . blogspot . nl / 2005 / 06 / rip - la - county - sheriff - deputy - jerry . html THURSDAY , JUNE 30 , 2005 <1 RIP> LA County Sheriff Deputy Jerry Ortiz Another peace officer has been <2 gunned down> in <6 cold blood> . His name is Los Angeles county Sheriff deputy Jerry Ortiz . Officer Ortiz was <3 knocking> on doors down in the city of Hawaiian Gardens <4 looking> for gang members and he was <5 shot> point blank range in the head by gang member Jose Luis Orozco . They caught him a few doors down from where the shooting took place . At least he didn't get a chance to flee to Mexico . I guess we can be thankful for that . This is just another example of how hard the job that police officers have . They truely love what they're doing because they certainly aren't in it for the money . These guys are constantly getting shot at . My hat is off to all the police officers around the country .",
+    "mentions": [
+      {
+        "id": "1"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "5"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "5,1",
+        "label": "causes"
+      },
+      {
+        "pair": "2,1",
+        "label": "causes"
+      },
+      {
+        "pair": "4,3",
+        "label": "causes"
+      },
+      {
+        "pair": "4,5",
+        "label": "causes"
+      },
+      {
+        "pair": "4,2",
+        "label": "causes"
+      },
+      {
+        "pair": "1,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "1,2",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,4",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "12_3ecbplus.xml",
+    "topic": "12",
+    "text": "http : / / www . defence . pk / forums / indian - defence / 140085 - indian - navy - foils - attack - gulf - aden - nabs - 26 - pirates . html Indian Navy <8 foils> <9 attack> in Gulf of Aden , <10 nabs> 26 pirates Mumbai , Nov 11 - Indian Navy <11 patrolling> the Gulf of Aden yesterday <12 thwarted> a multi - boat <13 attack> by sea brigands on merchant vessels , <1 apprehending> 26 Somali pirates and <2 confiscating> arms and ammunition , in the fifth successful anti - piracy <3 operation> since September . At about 9 : 25 Thursday morning , navy personnel aboard warship INS Sukanya spotted a group of five suspicious boats speedily approaching the merchant vessels of her group . \"The warship immediately altered ( its direction ) towards the suspicious vessels and challenged them . On seeing the resolve evident in the warship's action and probably mindful of the reputation for resolute action that the Indian Navy justly enjoys in such deployments , the pirate skiffs reversed course and tried to flee the area , \" Captain Manohar Nambiar , Chief Public Relations Officer , Defence , said . While two of them managed to escape , INS Sukanya successfully intercepted the remaining three boats and , in a well - practiced and professionally executed boarding - and - search action , nabbed 26 Somali pirates with six AK 47 rifles , 12 magazines and about 300 rounds of ammunition . This is the fifth successful anti - piracy <4 operation> <5 conducted> by INS Sukanya in the course of her ongoing <6 patrol> <7 mission> in the Gulf of Aden that <33 commenced> in September , the navy <14 said> . Warship Sukanya , currently deployed on anti - piracy patrols in the Gulf of Aden under the operational control of the Western Naval Command , was escorting a group of five merchant vessels through the Internationally Recognised Transit Corridor when the incident happened . The timely operation by INS Sukanya resulted , once again , in foiling the pirates' attempt to attack merchant vessels transiting the busy sea lane through which over nearly 100 billion USD worth India's external trade passes each year , Nambiar said . In their five operations so far , the personnel on board the warship have confiscated 14 AK - 47 Rifles , 31 magazines and 923 rounds of ammunition , he said . Indian Navy is part of the international effort to ensure the safety and freedom of seaborne trade in this high - risk stronghold of modern - day piracy .",
+    "mentions": [
+      {
+        "id": "8"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "11"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "13"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "33"
+      },
+      {
+        "id": "14"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "4,10",
+        "label": "causes"
+      },
+      {
+        "pair": "12,10",
+        "label": "causes"
+      },
+      {
+        "pair": "3,2",
+        "label": "causes"
+      },
+      {
+        "pair": "4,8",
+        "label": "causes"
+      },
+      {
+        "pair": "12,1",
+        "label": "causes"
+      },
+      {
+        "pair": "4,1",
+        "label": "causes"
+      },
+      {
+        "pair": "7,3",
+        "label": "causes"
+      },
+      {
+        "pair": "11,12",
+        "label": "causes"
+      },
+      {
+        "pair": "4,12",
+        "label": "causes"
+      },
+      {
+        "pair": "11,8",
+        "label": "causes"
+      },
+      {
+        "pair": "3,12",
+        "label": "causes"
+      },
+      {
+        "pair": "7,4",
+        "label": "causes"
+      },
+      {
+        "pair": "3,6",
+        "label": "causes"
+      },
+      {
+        "pair": "4,6",
+        "label": "causes"
+      },
+      {
+        "pair": "6,12",
+        "label": "causes"
+      },
+      {
+        "pair": "3,1",
+        "label": "causes"
+      },
+      {
+        "pair": "2,12",
+        "label": "causes"
+      },
+      {
+        "pair": "6,8",
+        "label": "causes"
+      },
+      {
+        "pair": "10,8",
+        "label": "causes"
+      },
+      {
+        "pair": "2,8",
+        "label": "causes"
+      },
+      {
+        "pair": "8,1",
+        "label": "causes"
+      },
+      {
+        "pair": "4,2",
+        "label": "causes"
+      },
+      {
+        "pair": "3,10",
+        "label": "causes"
+      },
+      {
+        "pair": "3,8",
+        "label": "causes"
+      },
+      {
+        "pair": "4,11",
+        "label": "causes"
+      },
+      {
+        "pair": "3,11",
+        "label": "causes"
+      },
+      {
+        "pair": "10,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "10,12",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "1,12",
+        "label": "causedby"
+      },
+      {
+        "pair": "1,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "1,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,2",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,2",
+        "label": "causedby"
+      },
+      {
+        "pair": "1,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "10,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "11,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "11,3",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "32_6ecbplus.xml",
+    "topic": "32",
+    "text": "http : / / metro . co . uk / 2013 / 06 / 10 / man - charged - with - murdering - mother - and - sister - in - cumbria - 3834866 / Man <2 charged> with <3 murdering> mother and sister in Cumbria Monday 10 Jun 2013 10 : 45 am A 23 - year - old man has been <4 charged> with the <5 murders> of his mother and sister . John Jenkin is <18 due> in court over the <6 murders> of Alice McMeekin , 58 , and Kathryn Jenkin , 20 . Both women were <7 found> <15 dead> at their home in Newton Street , Millom , Cumbria , on Saturday morning , with Mr Jenkin <8 arrested> shortly afterwards . Detectives said Ms McMeekin and her daughter were <9 found> with head <1 injuries> . Although formal <10 identification> has not yet <42 taken place> , Cumbria police <11 announced> the identities of the victims and Mr Jenkin , who has also been <12 charged> with <14 animal cruelty> after the family dog was <13 found> <16 dead> at the house . He is <17 due before> Furness district magistrates' court today .",
+    "mentions": [
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "18"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "15"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "42"
+      },
+      {
+        "id": "11"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "13"
+      },
+      {
+        "id": "16"
+      },
+      {
+        "id": "17"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "6,18",
+        "label": "causes"
+      },
+      {
+        "pair": "1,15",
+        "label": "causes"
+      },
+      {
+        "pair": "5,18",
+        "label": "causes"
+      },
+      {
+        "pair": "6,4",
+        "label": "causes"
+      },
+      {
+        "pair": "3,4",
+        "label": "causes"
+      },
+      {
+        "pair": "16,14",
+        "label": "causes"
+      },
+      {
+        "pair": "5,17",
+        "label": "causes"
+      },
+      {
+        "pair": "15,8",
+        "label": "causes"
+      },
+      {
+        "pair": "6,17",
+        "label": "causes"
+      },
+      {
+        "pair": "6,2",
+        "label": "causes"
+      },
+      {
+        "pair": "14,12",
+        "label": "causes"
+      },
+      {
+        "pair": "3,17",
+        "label": "causes"
+      },
+      {
+        "pair": "5,2",
+        "label": "causes"
+      },
+      {
+        "pair": "3,18",
+        "label": "causes"
+      },
+      {
+        "pair": "1,3",
+        "label": "causes"
+      },
+      {
+        "pair": "1,6",
+        "label": "causes"
+      },
+      {
+        "pair": "1,5",
+        "label": "causes"
+      },
+      {
+        "pair": "3,2",
+        "label": "causes"
+      },
+      {
+        "pair": "5,4",
+        "label": "causes"
+      },
+      {
+        "pair": "18,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "18,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,16",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,14",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,5",
+        "label": "causedby"
+      },
+      {
+        "pair": "18,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,1",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,5",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "35_7ecbplus.xml",
+    "topic": "35",
+    "text": "http : / / www . tsn . ca / mma / story / ? id=265672 CHARGERS' WILLIAMS <1 ARRESTED> <21 ON SUSPICION> OF <2 DUI> 2 / 3 / 2009 5 : 59 : 13 PM San Diego Chargers defensive tackle Jamal Williams was <3 arrested> <22 on suspicion> of <4 drunk driving> , the team's second such <65 arrest> in less than a month . Williams was <5 pulled over> for <6 speeding> early Sunday on a freeway outside the city's downtown area , the California Highway Patrol <20 said> . Williams <7 gave> a blood sample for a blood - alcohol test , but the results were not yet <46 known> . Williams was <8 booked into> county jail and later <10 released> <15 on bail> . The City Attorney's office <19 said> the case hadn't been <47 submitted> as of Tuesday . Chargers general manager A . J . Smith did not <48 return> a <9 call> . Chargers receiver Vincent Jackson was <11 arrested> for <14 investigation> of <12 DUI> on Jan . 6 , five days before San Diego's playoff <13 loss> at Pittsburgh . Jackson is <23 due> in court Feb . 17 . He was <24 on probation> for a <16 previous DUI arrest> , the California Highway Patrol <18 said> . Williams , an 11 - year veteran , <17 shared> the team's most valuable player award with quarterback Philip Rivers this season . The Chargers reached the playoffs with an 8 - 8 record .",
+    "mentions": [
+      {
+        "id": "1"
+      },
+      {
+        "id": "21"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "22"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "65"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "20"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "46"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "15"
+      },
+      {
+        "id": "19"
+      },
+      {
+        "id": "47"
+      },
+      {
+        "id": "48"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "11"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "13"
+      },
+      {
+        "id": "23"
+      },
+      {
+        "id": "24"
+      },
+      {
+        "id": "16"
+      },
+      {
+        "id": "18"
+      },
+      {
+        "id": "17"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "2,1",
+        "label": "causes"
+      },
+      {
+        "pair": "4,65",
+        "label": "causes"
+      },
+      {
+        "pair": "11,23",
+        "label": "causes"
+      },
+      {
+        "pair": "3,8",
+        "label": "causes"
+      },
+      {
+        "pair": "3,7",
+        "label": "causes"
+      },
+      {
+        "pair": "4,3",
+        "label": "causes"
+      },
+      {
+        "pair": "11,12",
+        "label": "causes"
+      },
+      {
+        "pair": "8,10",
+        "label": "causes"
+      },
+      {
+        "pair": "6,5",
+        "label": "causes"
+      },
+      {
+        "pair": "16,24",
+        "label": "causes"
+      },
+      {
+        "pair": "15,10",
+        "label": "causes"
+      },
+      {
+        "pair": "1,2",
+        "label": "causedby"
+      },
+      {
+        "pair": "65,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "23,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "8,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,4",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "10,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "24,16",
+        "label": "causedby"
+      },
+      {
+        "pair": "10,15",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "20_8ecbplus.xml",
+    "topic": "20",
+    "text": "http : / / query . nytimes . com / gst / fullpage . html ? res=9A0DE2DE1431F93BA15752C1A9639C8B63 Powerful <11 Quake> in Iran <12 Kills> 10 ; 80 <14 Hurt> and 7 Villages <16 Damaged> Published : November 28 , 2005 A powerful <18 earthquake> <19 hit> southern Iran on Sunday , <2 causing> major <20 destruction> in seven villages and <3 killing> 10 people and <4 injuring> 80 . The tremor shook Oman and the United Arab Emirates as well , forcing many office workers to evacuate their buildings . The official IRNA news agency and the United States Geological Survey said it had a magnitude of 5 . 9 . Iran's seismologic center said the epicenter of the earthquake was in the waters of the Persian Gulf , 35 miles southwest of the port of Bandar Abbas . Iran is on seismic fault lines . A major earthquake killed more than 31 , 000 in city of Bam in central Iran in 2003 , and 600 were killed in the city of Zarand in February in an earthquake with a magnitude of 6 . 4 . The tourist Island of Qeshm on the Persian Gulf and seven of its villages were most strongly <6 affected> by the <7 quake> . <9 It> <8 hit> at 1 : 53 p . m . local time and was <1 followed> by at least four strong <10 aftershocks> , IRNA <23 reported> . The news agency also <24 reported> that one of the major hospitals on the island , in the village of Jeyhian , was <13 destroyed> and the village's power lines were <17 cut> . The island's airport was also <15 damaged> . Abdolreza Sheikholeslami , the governor of Hormozgan Province , the center of the damaged area , <21 said> 40 percent to 70 percent of the buildings in seven villages were <5 destroyed> , IRNA <22 reported> . Two helicopters began moving the injured to the hospital in Bandar Abbas , and aid workers began distributing food , blankets and tents in the region , the governor said . Qeshm is Iran's largest island in the Persian Gulf , with a population of 120 , 000 . The quake jolted several cities in the United Arab Emirates , across the Persian Gulf from Iran . Office workers in Dubai , United Arab Emirates , evacuated several buildings in the city , pouring onto the streets and snarling traffic . There were no reported injuries in Dubai . Mehdi Zareh , director of the seismological center in Tehran , dismissed concerns that the earthquake would cause tsunamis , IRNA reported . ''The Persian Gulf is not deep enough so that we can expect tsunamis , '' he was quoted as saying . Map of Iran highlighting epicenter of earthquake : A tremor shook southern Iran yesterday , causing major damage .",
+    "mentions": [
+      {
+        "id": "11"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "16"
+      },
+      {
+        "id": "18"
+      },
+      {
+        "id": "19"
+      },
+      {
+        "id": "2"
+      },
+      {
+        "id": "20"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "23"
+      },
+      {
+        "id": "24"
+      },
+      {
+        "id": "13"
+      },
+      {
+        "id": "17"
+      },
+      {
+        "id": "15"
+      },
+      {
+        "id": "21"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "22"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "11,6",
+        "label": "causes"
+      },
+      {
+        "pair": "7,6",
+        "label": "causes"
+      },
+      {
+        "pair": "11,3",
+        "label": "causes"
+      },
+      {
+        "pair": "11,12",
+        "label": "causes"
+      },
+      {
+        "pair": "7,13",
+        "label": "causes"
+      },
+      {
+        "pair": "9,3",
+        "label": "causes"
+      },
+      {
+        "pair": "7,4",
+        "label": "causes"
+      },
+      {
+        "pair": "18,14",
+        "label": "causes"
+      },
+      {
+        "pair": "9,14",
+        "label": "causes"
+      },
+      {
+        "pair": "9,13",
+        "label": "causes"
+      },
+      {
+        "pair": "18,17",
+        "label": "causes"
+      },
+      {
+        "pair": "11,17",
+        "label": "causes"
+      },
+      {
+        "pair": "7,14",
+        "label": "causes"
+      },
+      {
+        "pair": "18,15",
+        "label": "causes"
+      },
+      {
+        "pair": "9,16",
+        "label": "causes"
+      },
+      {
+        "pair": "11,5",
+        "label": "causes"
+      },
+      {
+        "pair": "9,4",
+        "label": "causes"
+      },
+      {
+        "pair": "18,20",
+        "label": "causes"
+      },
+      {
+        "pair": "7,12",
+        "label": "causes"
+      },
+      {
+        "pair": "11,16",
+        "label": "causes"
+      },
+      {
+        "pair": "11,13",
+        "label": "causes"
+      },
+      {
+        "pair": "9,17",
+        "label": "causes"
+      },
+      {
+        "pair": "9,20",
+        "label": "causes"
+      },
+      {
+        "pair": "7,20",
+        "label": "causes"
+      },
+      {
+        "pair": "9,15",
+        "label": "causes"
+      },
+      {
+        "pair": "11,20",
+        "label": "causes"
+      },
+      {
+        "pair": "11,14",
+        "label": "causes"
+      },
+      {
+        "pair": "7,5",
+        "label": "causes"
+      },
+      {
+        "pair": "9,12",
+        "label": "causes"
+      },
+      {
+        "pair": "18,12",
+        "label": "causes"
+      },
+      {
+        "pair": "18,16",
+        "label": "causes"
+      },
+      {
+        "pair": "7,16",
+        "label": "causes"
+      },
+      {
+        "pair": "7,17",
+        "label": "causes"
+      },
+      {
+        "pair": "18,13",
+        "label": "causes"
+      },
+      {
+        "pair": "7,15",
+        "label": "causes"
+      },
+      {
+        "pair": "18,3",
+        "label": "causes"
+      },
+      {
+        "pair": "7,3",
+        "label": "causes"
+      },
+      {
+        "pair": "11,15",
+        "label": "causes"
+      },
+      {
+        "pair": "11,4",
+        "label": "causes"
+      },
+      {
+        "pair": "9,5",
+        "label": "causes"
+      },
+      {
+        "pair": "9,6",
+        "label": "causes"
+      },
+      {
+        "pair": "18,4",
+        "label": "causes"
+      },
+      {
+        "pair": "18,6",
+        "label": "causes"
+      },
+      {
+        "pair": "18,5",
+        "label": "causes"
+      },
+      {
+        "pair": "6,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "13,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "13,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "16,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "20,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "16,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "13,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "20,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "20,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "20,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "14,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "16,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "16,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "17,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "13,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "6,18",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,18",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "5_6ecbplus.xml",
+    "topic": "5",
+    "text": "http : / / sports . espn . go . com / ncaa / news / story ? id=2061565 NCAA : Improper gifts , assistance given to athletes Updated : May 16 , 2005 , 6 : 03 PM ET The NCAA notified Ohio State on Monday of nine alleged rules violations , including cash gifts , improper academic assistance and failure of the school and coaches to monitor the men's basketball program . Seven of the violations involved men's basketball , including a school booster allegedly giving cash and academic help to a former player . The others involved a booster allegedly giving $500 to a football player , and an orthodontist providing free and discounted services to five women's basketball players . Ohio State previously said it was looking into many of the alleged violations , including a cash gift to a recruit from former basketball coach Jim O'Brien , who was fired after acknowledging the payment . \"The allegations set forth in this report are consistent with what we expected , \" Ohio State president Karen Holbrook said at a news conference . The school must respond to the allegations by July 26 , and an infractions committee will hold a hearing before determining whether sanctions are warranted , NCAA spokesman Erik Christianson said . Ohio State's athletic department has faced a series of NCAA investigations of its high - profile sports since the football team won the national championship in 2002 . In December , the school imposed a one - year postseason tournament ban on its men's basketball team after O'Brien acknowledged he gave about $6 , 000 to recruit Alex Radojevic in 1999 . O'Brien , <1 fired> on June 8 , is <3 seeking> up to $6 million in a breach - of - contract <2 suit> against Ohio State . The NCAA report says O'Brien allegedly gave Radojevic the money through then - assistant coach Paul Biancardi . O'Brien and Biancardi are accused of acting \"contrary to principles of ethical conduct\" by failing to report their involvement in NCAA rules violations , the report said . \"We deny that we engaged in any improper conduct under NCAA bylaws and legislation , \" said Biancardi's attorney , James Zeszutek . Biancardi has cooperated fully with NCAA investigators and is barred by the NCAA from publicly discussing the allegations , Zeszutek said . A message seeking comment was left with O'Brien's attorney . Former star running back Maurice Clarett and other former football players have alleged that athletes received money from boosters , got academic credit for work they didn't do and received no - show jobs at high salaries . The only mention of the football program in the NCAA report is an allegation that $500 was given to a football player , whose name was withheld . Last season , quarterback Troy Smith was suspended from the Alamo Bowl for accepting money from a booster . Athletic director Gene Smith , who replaced Andy Geiger a month ago , said the allegations in the NCAA report were less serious than speculation indicated . \"What you see before you is what they found in football , \" he said , adding he would be surprised if sanctions are imposed against the football team . Clarett was suspended for the 2003 season for lying to investigators during an NCAA probe of allegations that he received improper benefits from a family friend .",
+    "mentions": [
+      {
+        "id": "1"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "2"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "1,2",
+        "label": "causes"
+      },
+      {
+        "pair": "2,1",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "7_9ecbplus.xml",
+    "topic": "7",
+    "text": "http : / / bigstory . ap . org / article / wladimir - klitschko - retains - world - heavyweight - belts WLADIMIR KLITSCHKO <2 RETAINS> WORLD HEAVYWEIGHT BELTS Jul . 7 5 : 59 PM EDT Wladimir Klitschko <3 stopped> Tony Thompson in the sixth <4 round> to <5 retain> his WBA , IBF and WBO heavyweight title belts Saturday night . The 36 - year - old champion Klitschko , 58 - 3 with 51 <6 knockouts> , <7 floored> Thompson with a big right <8 hand> near the <1 end> of the fifth <9 round> at Stade de Suisse , and the 40 - year - old American never <30 recovered> . The Ukrainian champion <10 dropped> Thompson again in the <11 sixth> , and referee Sam Williams gave the challenger a standing <12 count> before <13 stopping> the <14 fight> . In 2008 , Klitschko <15 stopped> Thompson in the 11th <16 round> . Thompson , who was the mandatory challenger nominated by the IBF , dropped to 36 - 3 .",
+    "mentions": [
+      {
+        "id": "2"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "30"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "11"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "13"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "15"
+      },
+      {
+        "id": "16"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "14,3",
+        "label": "causes"
+      },
+      {
+        "pair": "14,10",
+        "label": "causes"
+      },
+      {
+        "pair": "15,5",
+        "label": "causes"
+      },
+      {
+        "pair": "14,15",
+        "label": "causes"
+      },
+      {
+        "pair": "3,5",
+        "label": "causes"
+      },
+      {
+        "pair": "12,13",
+        "label": "causes"
+      },
+      {
+        "pair": "10,12",
+        "label": "causes"
+      },
+      {
+        "pair": "15,2",
+        "label": "causes"
+      },
+      {
+        "pair": "3,2",
+        "label": "causes"
+      },
+      {
+        "pair": "8,7",
+        "label": "causes"
+      },
+      {
+        "pair": "7,30",
+        "label": "causes"
+      },
+      {
+        "pair": "14,7",
+        "label": "causes"
+      },
+      {
+        "pair": "3,14",
+        "label": "causedby"
+      },
+      {
+        "pair": "10,14",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "15,14",
+        "label": "causedby"
+      },
+      {
+        "pair": "5,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "13,12",
+        "label": "causedby"
+      },
+      {
+        "pair": "12,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,15",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,8",
+        "label": "causedby"
+      },
+      {
+        "pair": "30,7",
+        "label": "causedby"
+      },
+      {
+        "pair": "7,14",
+        "label": "causedby"
+      }
+    ]
+  },
+  {
+    "doc_id": "1_14ecbplus.xml",
+    "topic": "1",
+    "text": "http : / / www . people . com / people / article / 0 , , 20697025 , 00 . html Lindsay Lohan <2 Checks Into> Betty Ford Rehab – Where She <53 'Knows> Everyone' UPDATED 05 / 03 / 2013 at 11 : 00 AM EDT Originally published 05 / 03 / 2013 at 10 : 20 AM EDT Lindsay Lohan <3 checked into> the Betty Ford Clinic in Rancho Mirage , Calif . , on Thursday night , for what is to be a three - month <4 stay> , her rep <14 confirms> to PEOPLE . \"And she <5 showed up> [ at Morningside Recovery ] in the morning and <7 hated> it . She is <8 interested> in <9 going back> to Betty Ford because she <10 knows> everyone there . \" Lohan , who has been <54 in rehab> a total of five times before this , was previously in Betty Ford in 2010 . Prior to this <11 check - in> to Betty Ford , which was first <15 reported> by TMZ . com , California prosecutors had <16 said> late Thursday that the troubled actress , 26 , would be <56 arrested> if she <1 continued> to <12 flout> a court <6 order> to <13 enter> <55 a rehab facility> .",
+    "mentions": [
+      {
+        "id": "2"
+      },
+      {
+        "id": "53"
+      },
+      {
+        "id": "3"
+      },
+      {
+        "id": "4"
+      },
+      {
+        "id": "14"
+      },
+      {
+        "id": "5"
+      },
+      {
+        "id": "7"
+      },
+      {
+        "id": "8"
+      },
+      {
+        "id": "9"
+      },
+      {
+        "id": "10"
+      },
+      {
+        "id": "54"
+      },
+      {
+        "id": "11"
+      },
+      {
+        "id": "15"
+      },
+      {
+        "id": "16"
+      },
+      {
+        "id": "56"
+      },
+      {
+        "id": "1"
+      },
+      {
+        "id": "12"
+      },
+      {
+        "id": "6"
+      },
+      {
+        "id": "13"
+      },
+      {
+        "id": "55"
+      }
+    ],
+    "answer": [
+      {
+        "pair": "6,2",
+        "label": "causes"
+      },
+      {
+        "pair": "9,4",
+        "label": "causes"
+      },
+      {
+        "pair": "53,3",
+        "label": "causes"
+      },
+      {
+        "pair": "12,56",
+        "label": "causes"
+      },
+      {
+        "pair": "53,2",
+        "label": "causes"
+      },
+      {
+        "pair": "10,2",
+        "label": "causes"
+      },
+      {
+        "pair": "6,3",
+        "label": "causes"
+      },
+      {
+        "pair": "6,9",
+        "label": "causes"
+      },
+      {
+        "pair": "2,4",
+        "label": "causes"
+      },
+      {
+        "pair": "10,3",
+        "label": "causes"
+      },
+      {
+        "pair": "6,13",
+        "label": "causes"
+      },
+      {
+        "pair": "11,4",
+        "label": "causes"
+      },
+      {
+        "pair": "3,4",
+        "label": "causes"
+      },
+      {
+        "pair": "10,11",
+        "label": "causes"
+      },
+      {
+        "pair": "53,9",
+        "label": "causes"
+      },
+      {
+        "pair": "10,9",
+        "label": "causes"
+      },
+      {
+        "pair": "53,11",
+        "label": "causes"
+      },
+      {
+        "pair": "6,11",
+        "label": "causes"
+      },
+      {
+        "pair": "2,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,9",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,53",
+        "label": "causedby"
+      },
+      {
+        "pair": "56,12",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,53",
+        "label": "causedby"
+      },
+      {
+        "pair": "2,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,2",
+        "label": "causedby"
+      },
+      {
+        "pair": "3,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "13,6",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,11",
+        "label": "causedby"
+      },
+      {
+        "pair": "4,3",
+        "label": "causedby"
+      },
+      {
+        "pair": "11,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,53",
+        "label": "causedby"
+      },
+      {
+        "pair": "9,10",
+        "label": "causedby"
+      },
+      {
+        "pair": "11,53",
+        "label": "causedby"
+      },
+      {
+        "pair": "11,6",
+        "label": "causedby"
+      }
+    ]
+  }
+]

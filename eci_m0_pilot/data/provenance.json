@@ -1,0 +1,14 @@
+{
+  "dataset_revision": "e6418e8747ac1c7fecf66d56ae41fbde7fd5967a",
+  "arrow_sha256": "5e625deadad5e0ea8940460d584e3062f38ce768b815970cd3b29b4f68730850",
+  "control_source_commit": "9b341c4f84f04e906fb1b4cca37bed895f5e9cec",
+  "prompt_sha256": "88a87ca71ac011935ca572af05ed6531545460ebae398ee87c06cd31e32a827b",
+  "gold_access": "evaluation_only.json; demonstration answers only for frozen outside-topic examples",
+  "files_sha256": {
+    "demonstrations.json": "27055348dfd08bcecb956793fedb9620173b7865946c16439558e8dda0f53e98",
+    "evaluation_only.json": "bdb834834a35187c434f3b6f97300fe4972c6c307b50fbbc5b5239f196abf954",
+    "prompt.json": "0e05ff38b795e4244a4bae902de05b438e0e6dd7892181a4a9a5bd14a9f2cad8",
+    "public_train233.jsonl": "26c08fc355951ea00aaf322046cf9391e914f2c624107ce80332d7a0eb943ab9",
+    "selection.json": "65d0669f0e7ae92e7ad0147af8754d78c244b91ccd9005e283b51cd84d4e8302"
+  }
+}

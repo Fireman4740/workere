@@ -1,0 +1,116 @@
+{
+  "selection_uses_labels": false,
+  "seed": 42,
+  "status": "consumed DEV44, exploratory, not a fresh confirmation",
+  "rule": "four candidate-count strata; two documents per stratum; distinct topics; deterministic seed 42",
+  "document_ids": [
+    "23_1ecbplus.xml",
+    "14_9ecbplus.xml",
+    "13_4ecbplus.xml",
+    "32_5ecbplus.xml",
+    "5_5ecbplus.xml",
+    "33_11ecbplus.xml",
+    "19_3ecbplus.xml",
+    "7_5ecbplus.xml"
+  ],
+  "smoke_document_ids": [
+    "23_1ecbplus.xml",
+    "32_5ecbplus.xml"
+  ],
+  "demonstration_schedule": {
+    "23_1ecbplus.xml": [
+      "18_3ecbplus.xml",
+      "3_9ecbplus.xml",
+      "7_9ecbplus.xml",
+      "3_6ecbplus.xml",
+      "20_8ecbplus.xml",
+      "4_4ecbplus.xml",
+      "12_3ecbplus.xml"
+    ],
+    "14_9ecbplus.xml": [
+      "35_7ecbplus.xml",
+      "18_3ecbplus.xml",
+      "1_14ecbplus.xml",
+      "7_9ecbplus.xml",
+      "5_6ecbplus.xml",
+      "30_1ecbplus.xml",
+      "3_9ecbplus.xml"
+    ],
+    "13_4ecbplus.xml": [
+      "16_11ecbplus.xml",
+      "3_9ecbplus.xml",
+      "4_4ecbplus.xml",
+      "12_3ecbplus.xml",
+      "7_9ecbplus.xml",
+      "32_6ecbplus.xml",
+      "30_12ecbplus.xml"
+    ],
+    "32_5ecbplus.xml": [
+      "13_7ecbplus.xml",
+      "20_8ecbplus.xml",
+      "4_4ecbplus.xml",
+      "1_21ecbplus.xml",
+      "13_5ecbplus.xml",
+      "1_6ecbplus.xml",
+      "35_7ecbplus.xml"
+    ],
+    "5_5ecbplus.xml": [
+      "14_2ecbplus.xml",
+      "1_14ecbplus.xml",
+      "20_8ecbplus.xml",
+      "1_6ecbplus.xml",
+      "19_11ecbplus.xml",
+      "3_9ecbplus.xml",
+      "30_1ecbplus.xml"
+    ],
+    "33_11ecbplus.xml": [
+      "1_6ecbplus.xml",
+      "14_2ecbplus.xml",
+      "18_3ecbplus.xml",
+      "19_11ecbplus.xml",
+      "7_9ecbplus.xml",
+      "1_21ecbplus.xml",
+      "20_8ecbplus.xml"
+    ],
+    "19_3ecbplus.xml": [
+      "1_6ecbplus.xml",
+      "3_6ecbplus.xml",
+      "1_14ecbplus.xml",
+      "7_9ecbplus.xml",
+      "12_3ecbplus.xml",
+      "3_9ecbplus.xml",
+      "18_3ecbplus.xml"
+    ],
+    "7_5ecbplus.xml": [
+      "20_8ecbplus.xml",
+      "3_9ecbplus.xml",
+      "3_6ecbplus.xml",
+      "14_2ecbplus.xml",
+      "30_1ecbplus.xml",
+      "13_5ecbplus.xml",
+      "18_3ecbplus.xml"
+    ]
+  },
+  "demo_bank_ids": [
+    "4_4ecbplus.xml",
+    "18_3ecbplus.xml",
+    "13_7ecbplus.xml",
+    "1_21ecbplus.xml",
+    "13_5ecbplus.xml",
+    "3_9ecbplus.xml",
+    "1_6ecbplus.xml",
+    "30_12ecbplus.xml",
+    "30_1ecbplus.xml",
+    "14_2ecbplus.xml",
+    "3_6ecbplus.xml",
+    "19_11ecbplus.xml",
+    "16_11ecbplus.xml",
+    "12_3ecbplus.xml",
+    "32_6ecbplus.xml",
+    "35_7ecbplus.xml",
+    "20_8ecbplus.xml",
+    "5_6ecbplus.xml",
+    "7_9ecbplus.xml",
+    "1_14ecbplus.xml"
+  ]
+}

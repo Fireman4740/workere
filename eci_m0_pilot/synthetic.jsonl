@@ -1,0 +1,2 @@
+{"doc_id":"toy1","topic":"synthetic","mentions":[{"id":"e1","sentence":1},{"id":"e2","sentence":1},{"id":"e3","sentence":2},{"id":"e4","sentence":2}],"pairs":[["e1","e2"],["e1","e3"],["e1","e4"],["e2","e3"],["e2","e4"],["e3","e4"]]}
+{"doc_id":"toy2","topic":"synthetic","mentions":[{"id":"x","sentence":1},{"id":"y","sentence":2}],"pairs":[["x","y"]]}

@@ -1,0 +1,36 @@
+{
+  "documents": 2,
+  "passages": 56,
+  "per_document": [
+    {
+      "doc_id": "toy1",
+      "topic": "synthetic",
+      "pairs": 6,
+      "block_sizes": [
+        1,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "max_block": 1
+    },
+    {
+      "doc_id": "toy2",
+      "topic": "synthetic",
+      "pairs": 1,
+      "block_sizes": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "max_block": 1
+    }
+  ]
+}
