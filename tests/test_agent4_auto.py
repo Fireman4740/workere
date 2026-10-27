@@ -2,7 +2,10 @@
 from copy import deepcopy
 import unittest
 from tests.test_agent4_v0 import fixture
-from agent4_v0.automated_run import structural, audit_passes, compile_tasks, helper_body
+from agent4_v0.automated_run import structural, audit_passes, compile_tasks, helper_body, native_limits, require_never_submitted
+from agent4_v0.common import save
+from pathlib import Path
+import tempfile
 from agent4_v0.adapter import payload
 
 
@@ -48,6 +51,20 @@ class AutomaticV0Tests(unittest.TestCase):
         self.assertTrue(all('reviewed_blind_to_gold' not in t for t in tasks))
         originals=[payload(t,s,d) for t in tasks if t['variant']=='original']
         self.assertEqual(originals,[s['request'],s['request']])
+
+    def test_native_uniform_slot_budget_covers_native_guard(self):
+        costs=[.008,.012,.009]
+        slot,total=native_limits(costs)
+        self.assertGreaterEqual(total,len(costs)*slot)
+        self.assertGreater(total,sum(costs))
+
+    def test_only_proven_pre_post_stages_can_reuse_reservation(self):
+        with tempfile.TemporaryDirectory() as td:
+            path=Path(td);jobs=[{'id':'synthetic','body':{}}]
+            save(path/'request-plan.json',{'jobs':jobs})
+            require_never_submitted(path,jobs)
+            (path/'luna-batch-jobs').mkdir()
+            with self.assertRaises(ValueError):require_never_submitted(path,jobs)
 
     def test_helper_has_no_demonstration_or_extractor_prompt(self):
         body=helper_body('editor',{'text':'synthetic'},16384)

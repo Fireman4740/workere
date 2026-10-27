@@ -18,7 +18,7 @@
     "budget-authorization.json": "75ac2b304b68c00f3a5e41ef2bf4f5d1c767540e934a734dae481100b652a6ed"
   },
   "source_files_sha256": {
-    "agent4_v0/automated_run.py": "08f1f87518e2e740cf9f95d41724334657a40dd32e01b74f7bcd167552816c23",
+    "agent4_v0/automated_run.py": "7d37c92862319c4b507d4d00e50e6839ad8e87a05f9633b0c6d3e7ad786e4cad",
     "agent4_v0/adapter.py": "1cd4369e89b0161200c2d3c8bf96ebeac14cbb279facb44cc23ad1e31d3034bf",
     "agent4_v0/common.py": "25b3b92b1e4acecf4662085ae26b7cbf2dce043d5933ce79c33489ccd80271b9",
     "agent4_v0/kit/pilot.py": "cc39b1be6e9d9d486e03a4719d3003321eee638e92942730b4c635a53963ef73",
@@ -40,5 +40,7 @@
   "financial_scope": "agent4-v0-user-2usd-20261027",
   "remote_registry_authoritative_for_user_2usd": true,
   "local_registry_previous_attempts": 0,
-  "no_parallel_local_execution_authorized": true
+  "no_parallel_local_execution_authorized": true,
+  "repair_of_protocol_sha256": "b523c13ac648b04c0ffa0010efd5ab2deebc0598ffc86463de7f8c08289467b2",
+  "technical_repair": "Native SDK reserves n * uniform per-call cap; give native client the uniform total. Reuse prior reservations only with durable proof no POST could have occurred. Prompts, inputs, selection and prices unchanged."
 }

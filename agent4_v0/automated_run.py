@@ -146,6 +146,21 @@ def compile_tasks(item,doc,variants):
     return result
 
 
+def native_limits(costs):
+    require(bool(costs),'empty native batch')
+    slot=max(costs)+1e-12
+    return slot, len(costs)*slot+1e-10
+
+
+def require_never_submitted(stage_path, jobs=None):
+    # The pinned SDK creates its durable receipt directory BEFORE any POST.
+    require(not (stage_path/'luna-batch-jobs').exists() and not (stage_path/'events.jsonl').exists(),
+            'stage may have been submitted; no automatic replay')
+    plan=stage_path/'request-plan.json'
+    require(plan.exists(),'no pre-POST request plan to reconcile')
+    if jobs is not None:require(digest(load(plan)['jobs'])==digest(jobs),'pre-POST stage jobs changed')
+
+
 class Calls:
     def __init__(self,out,budget):
         self.out,self.budget=out,budget
@@ -159,14 +174,24 @@ class Calls:
             cached=load(dest/'completed.json')
             require(cached['jobs_sha256']==digest(jobs),'completed stage input changed')
             return cached['responses']
-        require(not dest.exists(),'stage outcome uncertain; inspect receipts before resubmission')
-        dest.mkdir()
+        recovered=dest.exists()
+        if recovered:require_never_submitted(dest,jobs)
+        else:dest.mkdir()
         unique={digest(j['body']):j['body'] for j in jobs}
         costs={h:reservation(body,self.budget)[0] for h,body in unique.items()}
+        slot,native_total=native_limits(list(costs.values()))
+        existing={}
+        for h,cost in costs.items():
+            old=self.ledger.db.execute('select usd from attempts where scope=? and task=?',
+                                      (self.budget['scope'],stage+'::'+h)).fetchone()
+            if old:
+                require(recovered and old[0]==cost,'reservation changed or submitted stage cannot be replayed')
+                existing[h]=old[0]
         spent=self.ledger.db.execute('select coalesce(sum(usd),0) from attempts where scope=?',(self.budget['scope'],)).fetchone()[0]
-        require(spent+sum(costs.values())<=2,'2 USD cap cannot cover this whole stage')
-        for h,cost in costs.items():self.ledger.reserve(stage+'::'+h,cost)
-        save(dest/'request-plan.json',{'jobs':jobs,'unique_requests':len(unique),'reservation_usd':sum(costs.values())})
+        require(spent+native_total-sum(existing.values())<=2,'2 USD cap cannot cover this whole stage')
+        for h,cost in costs.items():
+            if h not in existing:self.ledger.reserve(stage+'::'+h,cost)
+        if not recovered:save(dest/'request-plan.json',{'jobs':jobs,'unique_requests':len(unique),'reservation_usd':sum(costs.values())})
         print('AGENT4_STAGE_SUBMIT '+json.dumps({'stage':stage,'requests':len(unique),
               'task_aliases':len(jobs),'reservation_usd':sum(costs.values())}),flush=True)
         from pipelines.jev.batch import BatchChatClient
@@ -175,7 +200,7 @@ class Calls:
         client=BatchChatClient(model='openai/gpt-6-luna:batch',model_version='gpt-6-luna-20260922',provider='openrouter',
             endpoint='https://openrouter.ai/api/v1/batches',api_key_env='OPENROUTER_API_KEY',mode='live',
             timeout=600,retries=0,requests_per_minute=60,max_calls=len(unique),max_context_tokens=1050000,
-            budget_usd=sum(costs.values())+1e-10,max_cost_per_call_usd=max(costs.values())+1e-12,
+            budget_usd=native_total,max_cost_per_call_usd=slot,
             input_price_per_million=self.budget['input_price_per_million_upper'],cache_path=str(dest/'cache.sqlite'),
             reasoning_effort='high',max_output_tokens=next(iter(unique.values()))['max_tokens'],
             shared_budget={'path':str(self.out/'native-budget.sqlite'),'scope':self.budget['scope'],
@@ -205,7 +230,16 @@ def main():
     for name,h in config['source_files_sha256'].items():require(sha(name)==h,'sealed source changed:'+name)
     out=Path.home()/'.local/share/openresearch/workere-decisions/agent4-auto-v0-2usd'
     out.mkdir(parents=True,exist_ok=True)
-    if (out/'protocol.json').exists():require(digest(load(out/'protocol.json'))==digest(config),'persistent protocol changed')
+    if (out/'protocol.json').exists():
+        old=load(out/'protocol.json')
+        if digest(old)!=digest(config):
+            require(config.get('repair_of_protocol_sha256')==digest(old),'persistent protocol changed')
+            for k in ('inputs_sha256','editor_system_sha256','auditor_system_sha256','budget_limit_usd','human_review_waived_by_user'):
+                require(config[k]==old[k],'scientific settings changed during technical repair')
+            require_never_submitted(out/'01-editor')
+            require(not (out/'02-role-blind-auditor').exists(),'later stage exists; do not upgrade protocol')
+            (out/'protocol.json').rename(out/'protocol-before-pre-post-budget-repair.json')
+            save(out/'protocol.json',config)
     else:save(out/'protocol.json',config)
     if (out/'summary.json').exists():
         print('AGENT4_ALREADY_COMPLETE '+json.dumps(load(out/'summary.json')),flush=True);return
