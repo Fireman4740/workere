@@ -14,10 +14,10 @@ max_tokens: 32768
 chat_template_kwargs: {enable_thinking: true, preserve_thinking: true}
 sampling_source: https://huggingface.co/Qwen/Qwen3.8-27B#best-practices
 cache_namespace: qwen38-thinking-xhigh-t1-p095-k20-32k
-concurrency: 128
+concurrency: 8
 timeout_seconds: 86400
 api_ready_timeout_seconds: 1800
-resume_cache_from_run: 8996f328-81a1-434c-8b72-e61fd9c86a33
+resume_cache_from_run: cf753794-588e-41d9-8129-1b6d0c22978f
 credential_file: ~/qwen38-27b-rtx3090/.env
 credential_name: VLLM_API_KEY
 state_root: ~/.local/share/openresearch/workere-qwen38
