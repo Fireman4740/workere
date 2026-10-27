@@ -19,7 +19,7 @@ loader.loader.exec_module(qwen)
 
 
 class QwenBaseline(unittest.TestCase):
-    def test_transport_matches_user_request(self):
+    def test_transport_uses_official_thinking_sampling_and_keeps_reasoning(self):
         spec = yaml.safe_load(qwen.SPEC.read_text())
         captured = []
 
@@ -30,24 +30,32 @@ class QwenBaseline(unittest.TestCase):
             return httpx.Response(200, json={
                 "id": "test", "object": "chat.completion", "created": 1,
                 "model": spec["model"], "choices": [{"index": 0, "finish_reason": "stop",
-                    "message": {"role": "assistant", "content": "[]"}}],
+                    "message": {"role": "assistant", "content": "[]",
+                                "reasoning_content": "Reasoning retained for audit."}}],
                 "usage": {"prompt_tokens": 2, "completion_tokens": 1, "total_tokens": 3}})
 
         async def run():
             async with httpx.AsyncClient(transport=httpx.MockTransport(respond)) as client:
-                model = qwen.model_factory(spec, "test-key", client)(spec["model"], .7, None, False)
+                model = qwen.model_factory(spec, "test-key", client)(spec["model"], 1.0, "xhigh", False)
                 answer = await model.ainvoke([HumanMessage(content="test")])
                 self.assertEqual(answer.content, "[]")
+                self.assertEqual(answer.additional_kwargs["reasoning_content"], "Reasoning retained for audit.")
 
         asyncio.run(run())
         self.assertEqual(len(captured), 1)
         body = captured[0]
         self.assertEqual(body["model"], "qwen3.8-27b")
-        self.assertEqual(body["temperature"], .7)
+        self.assertEqual(body["temperature"], 1.0)
+        self.assertEqual(body["reasoning_effort"], "xhigh")
+        self.assertEqual(body["top_p"], .95)
+        self.assertEqual(body["top_k"], 20)
+        self.assertEqual(body["min_p"], 0.0)
+        self.assertEqual(body["presence_penalty"], 0.0)
+        self.assertEqual(body["repetition_penalty"], 1.0)
         self.assertEqual(body["max_tokens"], 32768)
         self.assertEqual(body["stream"], False)
-        self.assertEqual(body["chat_template_kwargs"], {"enable_thinking": False})
-        for key in ("provider", "reasoning", "reasoning_effort", "max_completion_tokens", "tools"):
+        self.assertEqual(body["chat_template_kwargs"], {"enable_thinking": True, "preserve_thinking": True})
+        for key in ("provider", "reasoning", "max_completion_tokens", "tools"):
             self.assertNotIn(key, body)
 
     def test_revision_is_forwarded_to_dataset_loader(self):
@@ -61,6 +69,8 @@ class QwenBaseline(unittest.TestCase):
         configs = qwen.effective_configs(spec, Path("/tmp/qwen-test"))
         self.assertEqual(set(configs), {"r7_ctb", "r7_esc"})
         for cfg in configs.values():
+            self.assertEqual(cfg["model"]["reasoning_effort"], "xhigh")
+            self.assertEqual(cfg["model"]["temperature"], 1.0)
             self.assertTrue(cfg["few_shot"]["cot_generation"]["enabled"])
             self.assertTrue(cfg["few_shot"]["cot_generation"]["rewrite"])
             self.assertEqual(cfg["few_shot"]["n_examples"], 1)

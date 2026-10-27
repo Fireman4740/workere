@@ -52,12 +52,12 @@ def effective_configs(spec, state):
         assert cfg["active_dataset"] == corpus["key"]
         cfg["datasets"][corpus["key"]]["revision"] = corpus["revision"]
         cfg["model"].update(default_model_id=spec["model"], base_url=spec["base_url"],
-                            temperature=spec["temperature"], reasoning_effort=None, provider_order=[])
+                            temperature=spec["temperature"], reasoning_effort=spec["reasoning_effort"], provider_order=[])
         cfg["experiment"].update(concurrency=spec["concurrency"], doc_concurrency=corpus["documents"],
                                  timeout=spec["timeout_seconds"], retries=3, retry_wait=5)
         cfg["mlflow"].update(enabled=False, log_traces=False, log_causal_graphs=False)
         # Persistent, corpus-specific cache/checkpoint paths prevent cross-run SQLite contention.
-        cfg["llm_cache"].update(path=str(state / name / "llm-cache.sqlite"), namespace="qwen38-nothink-t07-32k")
+        cfg["llm_cache"].update(path=str(state / name / "llm-cache.sqlite"), namespace=spec["cache_namespace"])
         cfg["few_shot"]["cot_generation"].update(
             cache_path=str(state / name / "cot-cache.json"), dump_dir=str(state / name / "cot-dumps"))
         cfg["runtime"]["logdir"] = str(state / name / "runs")
@@ -103,9 +103,13 @@ def model_factory(spec, key, http):
             model_id = spec["model"]
         return _openrouter_chat()(
             model=model_id, temperature=spec["temperature"], api_key=key,
+            reasoning_effort=spec["reasoning_effort"], top_p=spec["top_p"],
+            presence_penalty=spec["presence_penalty"],
             base_url=spec["base_url"], cache=cache, max_retries=0,
             http_async_client=http, timeout=spec["timeout_seconds"],
             extra_body={"max_tokens": spec["max_tokens"], "stream": False,
+                        "top_k": spec["top_k"], "min_p": spec["min_p"],
+                        "repetition_penalty": spec["repetition_penalty"],
                         "chat_template_kwargs": spec["chat_template_kwargs"]})
     return make
 
@@ -133,8 +137,12 @@ async def execute(spec, configs, state, plans):
         if payload.get("model") != spec["model"]:
             raise ValueError("Unexpected served model: " + str(payload.get("model")))
         count += 1
+        message = payload.get("choices", [{}])[0].get("message", {})
+        reasoning = message.get("reasoning_content") or message.get("reasoning") or ""
         print("QWEN_RESPONSE " + json.dumps({"completed_http_calls": count,
               "model": payload["model"], "usage": payload.get("usage"),
+              "reasoning_characters": len(reasoning),
+              "thinking_tag_in_content": "<think>" in (message.get("content") or ""),
               "finish_reason": payload.get("choices", [{}])[0].get("finish_reason")}), flush=True)
 
     slots = asyncio.Semaphore(spec["concurrency"])

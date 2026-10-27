@@ -3,9 +3,17 @@ protocol_queue: queues/baseline_coref.yaml
 only: [r7_ctb, r7_esc]
 model: qwen3.8-27b
 base_url: http://192.168.1.166:18020/v1
-temperature: 0.7
+temperature: 1.0
+top_p: 0.95
+top_k: 20
+min_p: 0.0
+presence_penalty: 0.0
+repetition_penalty: 1.0
+reasoning_effort: xhigh
 max_tokens: 32768
-chat_template_kwargs: {enable_thinking: false}
+chat_template_kwargs: {enable_thinking: true, preserve_thinking: true}
+sampling_source: https://huggingface.co/Qwen/Qwen3.8-27B#best-practices
+cache_namespace: qwen38-thinking-xhigh-t1-p095-k20-32k
 concurrency: 128
 timeout_seconds: 86400
 credential_file: ~/qwen38-27b-rtx3090/.env
