@@ -1,0 +1,182 @@
+[
+  {
+    "unit_id": "wsj_0798::s10",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_0762::s3",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "NYT19980206.0460::s30",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_0928::s5",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_1035::s3",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_0585::s2",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "APW19980227.0489::s2",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "APW19980219.0476::s15",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_0176::s2",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_1014::s19",
+    "evidence": 0,
+    "F_supported": 0,
+    "A_supported": 0,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "WSJ910225-0066::s4",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_0026::s4",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_0533::s13",
+    "evidence": 0,
+    "F_supported": 0,
+    "A_supported": 0,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_0667::s1",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_0610::s24",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "VOA19980303.1600.2745::s17",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "AP900816-0139::s62",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_0344::s6",
+    "evidence": 1,
+    "F_supported": 2,
+    "A_supported": 2,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "wsj_0376::s9",
+    "evidence": 2,
+    "F_supported": 2,
+    "A_supported": 2,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  },
+  {
+    "unit_id": "APW19980227.0494::s2",
+    "evidence": 1,
+    "F_supported": 1,
+    "A_supported": 1,
+    "functional_slots": 0,
+    "F_new_pairs": 0,
+    "gold_read": false
+  }
+]
