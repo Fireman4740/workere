@@ -6,7 +6,7 @@ Sidecar indépendant : aucun import du runner de baseline, aucun entraînement, 
 uv run --locked python -m proof_transport --help
 ```
 
-**Ne pas lancer `experiments/jev/run.sh` pour ce pilote : c’est encore le lanceur hérité de la baseline.** Aucun appel fournisseur n’a lieu dans les commandes de préparation, de requêtes, de replay ou de smoke. La commande `execute` est la seule entrée réseau d’inférence ; elle exige une autorisation externe explicite. Les tests ne contactent pas de modèle.
+**Ne pas lancer `experiments/jev/run.sh` pour ce pilote : c’est encore le lanceur hérité de la baseline.** Aucun appel fournisseur n’a lieu dans les commandes de préparation, de requêtes, de replay ou de smoke. `execute` soumet uniquement de vrais jobs batch, avec autorisation externe explicite. `collect-batches` récupère seulement leurs IDs déjà acquittés, sans POST ni repli synchrone. Les tests ne contactent pas de modèle.
 
 ## Contrat et variantes
 
@@ -36,9 +36,9 @@ Depuis le clone qui contient les branches historiques :
 
 ```bash
 ART=/chemin/vers/les/artefacts/workere
-OUT="$ART/transport-preuve-locale/pilote"
+OUT="$ART/transport-preuve-locale/pilote-batch"
 
-uv run --locked python -m unittest tests.test_proof_transport -v
+uv run --locked python -m unittest tests.test_proof_transport tests.test_proof_transport_batch -v
 uv run --locked python -m proof_transport audit-test-s40 \
   --pairs "$ART/jev-v1/round3/error-analysis/pairs.csv" \
   --raw-rows "$ART/jev-v1/round3/error-analysis/test-s40-gold-rows.jsonl" \
@@ -68,7 +68,7 @@ uv run --locked python -m proof_transport pricing \
   --catalog /tmp/transport-model-catalog.json --output "$OUT/pricing.json"
 ```
 
-Le modèle proposé est **`openai/gpt-6-luna`**, révision attendue `gpt-6-luna-20260922`, raisonnement `high`, sans température imposée et sans repli vers un autre modèle. Il s’agit du transport synchrone, pas de l’ancien tarif batch. Le snapshot archive le slug canonique, les prix et les paramètres supportés. L’exécution refuse un catalogue daté de plus de 24 h ou une révision canonique différente. Les identifiants réellement servis et l’éventuelle absence de confirmation de révision dans la réponse sont archivés séparément ; le code ne les invente pas.
+Le modèle imposé est **`openai/gpt-6-luna:batch`**, révision attendue `gpt-6-luna-20260922`, raisonnement `high`, sans température imposée ni fallback. Il utilise réellement `/api/v1/batches`, fenêtre `24h`, avec paquets de huit requêtes maximum séparés par stade/variante. Le suffixe reste dans l’identité du pilote et des reçus ; seul le header de routage de l’API batch emploie le nom sans suffixe, selon le transport historique validé. Le tarif vient de l’entrée **`:batch` explicite** du catalogue, jamais d’une remise inventée : au 27-10-2026, 0,05 USD/million en entrée et 0,25 en sortie ; les overrides conservateurs sont 0,10/0,375. L’horodatage utilise la date du fichier de catalogue téléchargé, sans rajeunir une ancienne copie. Une nouvelle soumission refuse un tarif de plus de24h ou un slug canonique différent. Les modèles réellement servis restent archivés séparément.
 
 Budget global maximal : **10 USD et 1 500 000 tokens**, premiers plafond/réservation non admissible = arrêt, pas de variante partielle annoncée gagnante. Une seule base SQLite doit être partagée entre tous les stades : son chemin absolu est lié à l’autorisation. Réservations durables avant envoi ; coût fournisseur et tokens réels réglés ensuite ; tarif conservateur explicite seulement si le fournisseur ne rapporte pas de coût. Un appel de statut inconnu n’est jamais repayé automatiquement. Aucune relance cachée. Une erreur de transport conserve sa réservation ; une erreur de JSON/longueur conserve aussi son coût payé.
 
@@ -81,7 +81,7 @@ L’opérateur doit obtenir l’accord explicite de l’utilisateur **avant** de
   "plan_hash": "empreinte du plan.json",
   "config_hash": "empreinte du config.json",
   "pricing_hash": "empreinte du snapshot de prix",
-  "model": "openai/gpt-6-luna",
+  "model": "openai/gpt-6-luna:batch",
   "max_usd": 10.0,
   "max_billed_tokens": 1500000,
   "expires_utc": "date UTC explicite future",
@@ -101,11 +101,17 @@ uv run --locked python -m proof_transport execute \
   --plan "$OUT/dev44-plan" --requests "$OUT/extract.requests.jsonl" \
   --pricing "$OUT/pricing.json" --approval /chemin/prive/approval.json \
   --ledger /chemin/absolu/unique/budget.sqlite --output "$OUT/extract.receipts.jsonl"
+# execute retourne les IDs des jobs, PAS des réponses finales.
+uv run --locked python -m proof_transport collect-batches \
+  --plan "$OUT/dev44-plan" --requests "$OUT/extract.requests.jsonl" \
+  --pricing "$OUT/pricing.json" --approval /chemin/prive/approval.json \
+  --ledger /chemin/absolu/unique/budget.sqlite --output "$OUT/extract.receipts.jsonl"
+# Si PENDING, recollecter plus tard les mêmes IDs ; ne jamais recréer leurs POST.
 
 uv run --locked python -m proof_transport requests \
   --plan "$OUT/dev44-plan" --stage propose \
   --extraction-receipts "$OUT/extract.receipts.jsonl" --output "$OUT/propose.requests.jsonl"
-# execute des requêtes propose avec LE MÊME ledger et la même autorisation.
+# execute puis collect-batches pour propose, avec LE MÊME ledger/autorisation.
 
 uv run --locked python -m proof_transport freeze \
   --plan "$OUT/dev44-plan" --extraction-receipts "$OUT/extract.receipts.jsonl" \
@@ -113,7 +119,7 @@ uv run --locked python -m proof_transport freeze \
 uv run --locked python -m proof_transport requests \
   --plan "$OUT/dev44-plan" --stage judge --registry "$OUT/dev44-registry/registry.json" \
   --output "$OUT/judge.requests.jsonl"
-# execute des requêtes judge avec LE MÊME ledger et la même autorisation.
+# execute puis collect-batches pour judge, avec LE MÊME ledger/autorisation.
 
 uv run --locked python -m proof_transport replay \
   --plan "$OUT/dev44-plan" --registry-dir "$OUT/dev44-registry" \
@@ -138,7 +144,7 @@ contre-test plus sémantique reste à l’audit humain.
 uv run --locked python -m proof_transport requests \
   --plan "$OUT/dev44-plan" --stage diagnostic --registry "$OUT/dev44-registry/registry.json" \
   --output "$OUT/diagnostic.requests.jsonl"
-# execute avec LE MÊME ledger et le budget global déjà autorisé, sans recharge.
+# execute puis collect-batches avec LE MÊME ledger/budget, sans recharge.
 uv run --locked python -m proof_transport inspect-diagnostics \
   --plan "$OUT/dev44-plan" --registry "$OUT/dev44-registry/registry.json" \
   --receipts "$OUT/diagnostic.receipts.jsonl" --output "$OUT/diagnostic"
@@ -177,6 +183,8 @@ uv run --locked python -m proof_transport evaluate \
 ```
 
 Sorties : comparaison JSON/CSV, TP/FP ajoutés, F1 exact avant/après, neutralité marginale propre au jeu, U, zéro-vote récupérés et dénominateurs, erreurs de source au gold, diagnostic d’identité selon les chaînes gold, erreurs de portée et validité selon l’audit humain, raisons d’abstention, coûts, effets par topic et six comparaisons appariées avec bootstrap par topic. A3 est mesuré uniquement sur les documents réellement couverts ; les comparaisons qui l’impliquent utilisent l’intersection. Ne pas comparer son F1 de sous-ensemble à celui des 44 documents.
+
+Les jobs sont durables et réservés atomiquement en dollars ET tokens avant le POST. Une soumission ambiguë reste bloquée sans nouveau POST ; une collecte réseau interrompue reprend par GET du même ID. La collecte d’un job déjà payé est permise après expiration de l’accord, jamais une nouvelle soumission. Si seuls des usages agrégés existent, leur allocation est explicitement marquée non mesurée par requête ; un usage de tokens totalement absent conserve la réservation et bloque le scoring, sans remplissage à zéro. Un paquet ne mélange pas A0/A1/A2, afin que le total de coût par bras reste attribuable. Si le plafond empêche tous les POST, collecter d’abord les jobs connus puis reprendre les seuls IDs non assignés, sans changer C*. Les reçus finaux ne sont écrits qu’à couverture complète. Les compteurs distinguent requêtes logiques et jobs batch.
 
 Les coûts des stades communs sont attribués à chaque bras pour sa rentabilité mais ne sont pas resommés pour le total campagne. Le coût/TP vaut non disponible si aucun TP. Les sources fausses au gold et les identités selon chaînes gold sont des diagnostics de benchmark, pas une preuve d’invalidité textuelle.
 

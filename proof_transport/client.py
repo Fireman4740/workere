@@ -1,27 +1,22 @@
-"""Opt-in OpenRouter client with durable reservations and NO automatic retries.
+"""Budget and tariff guards for the opt-in batch-only ECI provider client.
 
-Importing/running offline stages cannot call this client. Live execution requires
-an external approval file bound to the frozen plan/config and the public tariff
-snapshot. API keys are read only at send time, never serialized.
+No network on import. execute submits asynchronous jobs; collect only retrieves
+acknowledged IDs. There is deliberately no synchronous execution/fallback path.
 """
 
 from __future__ import annotations
 
 import json
-import os
 import sqlite3
-import time
-import urllib.request
 from datetime import UTC, datetime
 from decimal import Decimal
 from pathlib import Path
 
-from .pipeline import write_jsonl_once, write_once
 from .schema import digest, require, text_hash
 
 
 class Budget:
-    """A failed/unknown request keeps its reservation: restarting cannot repay it."""
+    """Durable dollar AND token reservations shared by every stage of a plan."""
 
     def __init__(self, path: Path, scope: str, max_usd: float, max_tokens: int):
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -101,7 +96,6 @@ class Budget:
             require(
                 reserved is not None and reserved[2] == "RESERVED", "INVALID_SETTLEMENT"
             )
-            # Always record the real spend, even if a provider violates our upper bound.
             violation = usd > reserved[0] or tokens > reserved[1]
             self.db.execute(
                 "UPDATE request SET usd=?,tokens=?,status=?,receipt=? WHERE id=?",
@@ -129,16 +123,21 @@ def tariff_snapshot(raw_text: str, model: str, fetched_utc: str | None = None) -
     found = [m for m in payload["data"] if m["id"] == model]
     require(len(found) == 1, "MODEL_NOT_IN_TARIFF_CATALOG")
     row = found[0]
-    required_parameters = {"max_tokens", "reasoning", "response_format"}
     require(
-        required_parameters <= set(row.get("supported_parameters", [])),
+        {"max_tokens", "reasoning", "response_format"}
+        <= set(row.get("supported_parameters", [])),
         "UNSUPPORTED_MODEL_PARAMETERS",
     )
-    p = row["pricing"]
-    prices = [p] + p.get("overrides", [])
+    prices = [row["pricing"]] + row["pricing"].get("overrides", [])
     prompt = max(Decimal(x["prompt"]) for x in prices)
     completion = max(Decimal(x["completion"]) for x in prices)
-    require(prompt >= 0 and completion >= 0, "INVALID_PRICE")
+    require(
+        prompt.is_finite()
+        and completion.is_finite()
+        and prompt >= 0
+        and completion >= 0,
+        "INVALID_PRICE",
+    )
     return {
         "schema": "eci-proof-pricing/v1",
         "url": "https://openrouter.ai/api/v1/models",
@@ -146,21 +145,24 @@ def tariff_snapshot(raw_text: str, model: str, fetched_utc: str | None = None) -
         "raw_catalog_sha256_utf8": text_hash(raw_text),
         "model": model,
         "canonical_slug": row.get("canonical_slug"),
-        "listed_pricing": p,
+        "listed_pricing": row["pricing"],
         "conservative_prompt_usd_per_token": str(prompt),
         "conservative_completion_usd_per_token": str(completion),
         "context_length": row["context_length"],
         "supported_parameters": row["supported_parameters"],
-        "transport": "synchronous_no_batch_discount",
+        "transport": "batch_catalog"
+        if model.endswith(":batch")
+        else "synchronous_no_batch_discount",
         "model_invocations": 0,
     }
 
 
 def upper_bound(req: dict, pricing: dict) -> dict:
-    # UTF-8 bytes plus deliberately generous chat framing overhead. No tokenizer
-    # download or inferred cached-input discount. Actual usage is always settled.
-    raw_bytes = len(json.dumps(req["messages"], ensure_ascii=False).encode())
-    inp = raw_bytes + 512 * len(req["messages"]) + 2048
+    inp = (
+        len(json.dumps(req["messages"], ensure_ascii=False).encode())
+        + 512 * len(req["messages"])
+        + 2048
+    )
     out = req["max_output_tokens"]
     usd = Decimal(inp) * Decimal(
         pricing["conservative_prompt_usd_per_token"]
@@ -175,7 +177,12 @@ def upper_bound(req: dict, pricing: dict) -> dict:
 
 
 def validate_approval(
-    approval: dict, manifest: dict, config: dict, pricing: dict
+    approval: dict,
+    manifest: dict,
+    config: dict,
+    pricing: dict,
+    *,
+    collection_only: bool = False,
 ) -> None:
     require(
         set(approval)
@@ -195,6 +202,7 @@ def validate_approval(
     )
     require(
         approval["approval"] == "APPROVED_BY_USER"
+        and isinstance(approval["approved_by"], str)
         and bool(approval["approved_by"].strip()),
         "EXPLICIT_USER_APPROVAL_REQUIRED",
     )
@@ -206,7 +214,9 @@ def validate_approval(
         "APPROVAL_BINDING",
     )
     require(
-        0 < approval["max_usd"] <= config["max_usd"] <= 10
+        type(approval["max_usd"]) in (int, float)
+        and 0 < approval["max_usd"] <= config["max_usd"] <= 10
+        and type(approval["max_billed_tokens"]) is int
         and 0 < approval["max_billed_tokens"] <= config["max_billed_tokens"] <= 1500000,
         "APPROVAL_BUDGET",
     )
@@ -216,188 +226,34 @@ def validate_approval(
     )
     expires = datetime.fromisoformat(approval["expires_utc"])
     require(
-        expires.tzinfo is not None and expires > datetime.now(UTC),
+        expires.tzinfo is not None and (collection_only or expires > datetime.now(UTC)),
         "APPROVAL_EXPIRED",
     )
     fetched = datetime.fromisoformat(pricing["fetched_utc"])
     age = (datetime.now(UTC) - fetched).total_seconds()
-    require(0 <= age <= 86400, "STALE_PRICING_REFRESH_AND_REAPPROVE")
+    require(
+        age >= 0 and (collection_only or age <= 86400),
+        "STALE_PRICING_REFRESH_AND_REAPPROVE",
+    )
 
 
 def execute(
-    requests: list,
-    manifest: dict,
-    config: dict,
-    pricing: dict,
-    approval: dict,
-    ledger_path: Path,
-    output: Path,
-    *,
-    send=None,
-) -> list:
-    validate_approval(
-        approval, manifest, config, pricing
-    )  # before key lookup / any network
-    require(
-        Path(approval["ledger_path"]).is_absolute()
-        and ledger_path.resolve() == Path(approval["ledger_path"]).resolve(),
-        "APPROVED_LEDGER_PATH_REQUIRED",
+    requests, manifest, config, pricing, approval, ledger_path, output, *, http=None
+):
+    """Submit only; never synchronously fall back or wait for generation."""
+    from .batch import submit_batches
+
+    return submit_batches(
+        requests, manifest, config, pricing, approval, ledger_path, output, http=http
     )
-    require(
-        config["endpoint"] == "https://openrouter.ai/api/v1/chat/completions",
-        "ENDPOINT",
+
+
+def collect(
+    requests, manifest, config, pricing, approval, ledger_path, output, *, http=None
+):
+    """GET existing IDs only, including after the original approval expires."""
+    from .batch import collect_batches
+
+    return collect_batches(
+        requests, manifest, config, pricing, approval, ledger_path, output, http=http
     )
-    require(len({r["id"] for r in requests}) == len(requests), "DUPLICATE_REQUEST")
-    for r in requests:
-        require(
-            r["id"] == digest({k: v for k, v in r.items() if k != "id"})
-            and r["plan_hash"] == digest(manifest)
-            and r["model"] == config["model"]
-            and r["expected_version"] == config["expected_version"]
-            and r["reasoning_effort"] == config["reasoning_effort"]
-            and r["max_output_tokens"] == config["max_output_tokens"],
-            "REQUEST_INTEGRITY",
-        )
-    key = os.environ.get(config["api_key_env"])
-    if send is None:
-        require(bool(key), "MISSING_API_KEY")
-    receipts = []
-    ledger = Budget(
-        ledger_path,
-        digest(manifest),
-        approval["max_usd"],
-        approval["max_billed_tokens"],
-    )
-    try:
-        for r in requests:
-            bound = upper_bound(r, pricing)
-            require(
-                bound["billed_token_upper_bound"] <= pricing["context_length"],
-                "CONTEXT_LIMIT",
-            )
-            cached = ledger.reserve(
-                r["id"], bound["usd_upper_bound"], bound["billed_token_upper_bound"]
-            )
-            if cached is not None:
-                require(
-                    "execution_error" not in cached,
-                    "FAILED_RESPONSE_REQUIRES_TECHNICAL_REVIEW",
-                )
-                receipts.append(cached)
-                continue
-            payload = {
-                "model": r["model"],
-                "messages": r["messages"],
-                "max_tokens": r["max_output_tokens"],
-                "reasoning": {"effort": r["reasoning_effort"]},
-                "response_format": {"type": "json_object"},
-                "provider": {"allow_fallbacks": False, "require_parameters": True},
-            }
-            start = time.monotonic()
-            if send is not None:
-                raw = send(payload)
-            else:
-                request = urllib.request.Request(
-                    config["endpoint"],
-                    data=json.dumps(payload).encode(),
-                    headers={
-                        "Authorization": "Bearer " + key,
-                        "Content-Type": "application/json",
-                    },
-                )
-                with urllib.request.urlopen(request, timeout=600) as response:
-                    raw = json.loads(response.read())
-            # A parse/API failure retains the reservation. There are no hidden retries.
-            write_once(output.parent / "raw" / (r["id"] + ".json"), raw)
-            u = raw.get("usage", {})
-            require(
-                type(u.get("prompt_tokens")) is int
-                and type(u.get("completion_tokens")) is int,
-                "MISSING_BILLED_USAGE_STOP",
-            )
-            require(
-                u["prompt_tokens"] >= 0 and u["completion_tokens"] >= 0,
-                "INVALID_BILLED_USAGE",
-            )
-            billed_output = u["completion_tokens"]
-            if "total_tokens" in u:
-                require(
-                    type(u["total_tokens"]) is int
-                    and u["total_tokens"]
-                    >= u["prompt_tokens"] + u["completion_tokens"],
-                    "INVALID_TOTAL_BILLED_USAGE",
-                )
-                billed_output = u["total_tokens"] - u["prompt_tokens"]
-            estimated = Decimal(u["prompt_tokens"]) * Decimal(
-                pricing["conservative_prompt_usd_per_token"]
-            ) + Decimal(billed_output) * Decimal(
-                pricing["conservative_completion_usd_per_token"]
-            )
-            reported = Decimal(str(u["cost"])) if u.get("cost") is not None else None
-            require(
-                reported is None or reported.is_finite() and reported >= 0,
-                "INVALID_PROVIDER_COST",
-            )
-            cost = float(reported if reported is not None else estimated)
-            receipt = {
-                "request_id": r["id"],
-                "request_hash": digest(r),
-                "model": r["model"],
-                "mode": "live",
-                "served_model": raw.get("model"),
-                "expected_version": r["expected_version"],
-                "version_verified": r["expected_version"] in str(raw.get("model", "")),
-                "provider": raw.get("provider"),
-                "response_id": raw.get("id"),
-                "response": {},
-                "usage": {
-                    "input_tokens": u["prompt_tokens"],
-                    "output_tokens": billed_output,
-                    "cost_usd": cost,
-                },
-                "provider_reported_cost_usd": u.get("cost"),
-                "provider_completion_tokens": u["completion_tokens"],
-                "provider_total_tokens": u.get("total_tokens"),
-                "cost_kind": "provider_reported"
-                if reported is not None
-                else "conservative_tariff_missing_provider_cost",
-                "conservative_tariff_cost_usd": float(estimated),
-                "seconds": time.monotonic() - start,
-                "pricing_hash": digest(pricing),
-                "system_fingerprint": raw.get("system_fingerprint"),
-            }
-            # Settle real cost even when JSON/finish_reason/model identity is invalid.
-            try:
-                choice = raw["choices"][0]
-                require(
-                    choice["finish_reason"] == "stop", "TRUNCATED_OR_ERROR_RESPONSE"
-                )
-                require(
-                    raw.get("model")
-                    in {
-                        r["model"],
-                        r["expected_version"],
-                        "openai/" + r["expected_version"],
-                    },
-                    "UNEXPECTED_SERVED_MODEL",
-                )
-                receipt["response"] = json.loads(choice["message"]["content"])
-            except Exception as error:
-                receipt["execution_error"] = type(error).__name__ + ":" + str(error)
-                ledger.settle(r["id"], receipt)
-                write_once(output.parent / "failed" / (r["id"] + ".json"), receipt)
-                raise
-            ledger.settle(r["id"], receipt)
-            receipts.append(receipt)
-    finally:
-        ledger.close()
-        if receipts:
-            # Whole-file export is only complete if all requests returned. Individual
-            # receipts are durable in SQLite; never fabricate the missing responses.
-            write_jsonl_once(
-                output.parent
-                / (output.stem + ".partial-" + digest(receipts)[:16] + ".jsonl"),
-                receipts,
-            )
-    write_jsonl_once(output, receipts)
-    return receipts

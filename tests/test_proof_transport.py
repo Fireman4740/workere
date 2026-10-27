@@ -793,7 +793,7 @@ class BudgetSafety(Case):
                         "id": DEFAULT_CONFIG["model"],
                         "canonical_slug": "openai/"
                         + DEFAULT_CONFIG["expected_version"],
-                        "pricing": {"prompt": "0.0000001", "completion": "0.0000005"},
+                        "pricing": {"prompt": "0.00000005", "completion": "0.00000025"},
                         "context_length": 1050000,
                         "supported_parameters": [
                             "max_tokens",
@@ -809,7 +809,7 @@ class BudgetSafety(Case):
     def test_public_tariffs_and_worst_override(self):
         p = self.pricing()
         self.assertEqual(p["model_invocations"], 0)
-        self.assertEqual(p["conservative_completion_usd_per_token"], "5E-7")
+        self.assertEqual(p["conservative_completion_usd_per_token"], "2.5E-7")
 
     def test_missing_user_approval_before_send(self):
         with self.assertRaises(Invalid):
@@ -821,7 +821,7 @@ class BudgetSafety(Case):
                 {},
                 self.path / "b.sqlite",
                 self.path / "r.jsonl",
-                send=lambda _: self.fail("No approval, no network"),
+                http=lambda *args: self.fail("No approval, no network"),
             )
 
     def test_token_and_dollar_caps(self):
@@ -914,64 +914,87 @@ class BudgetSafety(Case):
                 a,
                 self.path / "other.sqlite",
                 self.path / "r.jsonl",
-                send=lambda _: self.fail("Wrong ledger must not send"),
+                http=lambda *args: self.fail("Wrong ledger must not send"),
             )
+
+    def fake_batch(self, requests, calls, *, total_tokens=None):
+        def http(method, url, payload=None):
+            calls.append(method)
+            if method == "POST":
+                return {"id": "batch_unit", "status": "validating"}
+            usage = {"prompt_tokens": 10, "completion_tokens": 10, "cost": 0.000001}
+            if total_tokens is not None:
+                usage["total_tokens"] = total_tokens
+            return {
+                "id": "batch_unit",
+                "status": "completed",
+                "usage": {"cost": 0.000001 * len(requests)},
+                "results": [
+                    {
+                        "custom_id": r["id"],
+                        "response": {
+                            "status_code": 200,
+                            "body": {
+                                "model": DEFAULT_CONFIG["model"].removesuffix(":batch"),
+                                "usage": usage,
+                                "choices": [
+                                    {
+                                        "finish_reason": "stop",
+                                        "message": {
+                                            "content": json.dumps({"items": []})
+                                        },
+                                    }
+                                ],
+                            },
+                        },
+                    }
+                    for r in reversed(requests)
+                ],
+            }
+
+        return http
 
     def test_live_fake_transport_accounts_reported_cost_and_no_second_call(self):
         m, rs, p, ledger, a = self.live_fixture()
         calls = []
-
-        def fake(payload):
-            calls.append(payload)
-            return {
-                "model": DEFAULT_CONFIG["model"],
-                "usage": {
-                    "prompt_tokens": 10,
-                    "completion_tokens": 10,
-                    "cost": 0.000001,
-                },
-                "choices": [
-                    {
-                        "finish_reason": "stop",
-                        "message": {"content": json.dumps({"items": []})},
-                    }
-                ],
-            }
-
-        one = client.execute(
-            rs, m, DEFAULT_CONFIG, p, a, ledger, self.path / "one.jsonl", send=fake
+        fake = self.fake_batch(rs, calls)
+        one_path, two_path = self.path / "one.jsonl", self.path / "two.jsonl"
+        client.execute(rs, m, DEFAULT_CONFIG, p, a, ledger, one_path, http=fake)
+        self.assertFalse(one_path.exists())  # Submission is NOT completed inference.
+        client.execute(
+            rs,
+            m,
+            DEFAULT_CONFIG,
+            p,
+            a,
+            ledger,
+            one_path,
+            http=lambda *args: self.fail("No second POST"),
         )
-        two = client.execute(
-            rs, m, DEFAULT_CONFIG, p, a, ledger, self.path / "two.jsonl", send=fake
+        client.collect(rs, m, DEFAULT_CONFIG, p, a, ledger, one_path, http=fake)
+        client.collect(
+            rs,
+            m,
+            DEFAULT_CONFIG,
+            p,
+            a,
+            ledger,
+            two_path,
+            http=lambda *args: self.fail("Cached receipt needs no GET"),
         )
-        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls, ["POST", "GET"])
+        one, two = read_jsonl(one_path), read_jsonl(two_path)
         self.assertEqual(one, two)
         self.assertEqual(one[0]["usage"]["cost_usd"], 0.000001)
         self.assertFalse(one[0]["version_verified"])
 
     def test_provider_total_includes_all_billed_reasoning_tokens(self):
         m, rs, p, ledger, a = self.live_fixture()
-
-        def fake(_):
-            return {
-                "model": DEFAULT_CONFIG["model"],
-                "usage": {
-                    "prompt_tokens": 10,
-                    "completion_tokens": 10,
-                    "total_tokens": 45,
-                    "cost": 0.00001,
-                },
-                "choices": [
-                    {
-                        "finish_reason": "stop",
-                        "message": {"content": json.dumps({"items": []})},
-                    }
-                ],
-            }
-
-        rows = client.execute(
-            rs, m, DEFAULT_CONFIG, p, a, ledger, self.path / "total.jsonl", send=fake
-        )
+        fake = self.fake_batch(rs, [], total_tokens=45)
+        output = self.path / "total.jsonl"
+        client.execute(rs, m, DEFAULT_CONFIG, p, a, ledger, output, http=fake)
+        client.collect(rs, m, DEFAULT_CONFIG, p, a, ledger, output, http=fake)
+        rows = read_jsonl(output)
         self.assertEqual(
             rows[0]["usage"]["input_tokens"] + rows[0]["usage"]["output_tokens"], 45
         )
@@ -980,12 +1003,12 @@ class BudgetSafety(Case):
     def test_failed_network_request_never_repaid(self):
         m, rs, p, ledger, a = self.live_fixture()
 
-        def fail(_):
+        def fail(*args):
             raise ConnectionError("unit-test transport failure")
 
         with self.assertRaises(ConnectionError):
             client.execute(
-                rs, m, DEFAULT_CONFIG, p, a, ledger, self.path / "r.jsonl", send=fail
+                rs, m, DEFAULT_CONFIG, p, a, ledger, self.path / "r.jsonl", http=fail
             )
         with self.assertRaises(Invalid):
             client.execute(
@@ -996,7 +1019,7 @@ class BudgetSafety(Case):
                 a,
                 ledger,
                 self.path / "r.jsonl",
-                send=lambda _: self.fail("Never resend unknown request"),
+                http=lambda *args: self.fail("Never resend unknown request"),
             )
 
     def test_stale_tariff_refuses_before_send(self):
@@ -1012,7 +1035,7 @@ class BudgetSafety(Case):
                 a,
                 ledger,
                 self.path / "r.jsonl",
-                send=lambda _: self.fail("Stale pricing must not send"),
+                http=lambda *args: self.fail("Stale pricing must not send"),
             )
 
     def test_expired_or_stale_tariffs_refuse(self):

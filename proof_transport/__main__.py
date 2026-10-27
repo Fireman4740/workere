@@ -6,6 +6,7 @@ import argparse
 import json
 import subprocess
 import sys
+from datetime import UTC, datetime
 from pathlib import Path
 
 from .pipeline import (
@@ -79,14 +80,19 @@ def main(argv=None):
     pricing.add_argument("--output", type=Path, required=True)
     live = sub.add_parser(
         "execute",
-        help="PAID; refuses without explicit external approval and fresh bound tariffs",
+        help="PAID batch submission only; refuses without explicit approval and fresh bound tariffs",
     )
-    live.add_argument("--plan", type=Path, required=True)
-    live.add_argument("--requests", type=Path, required=True)
-    live.add_argument("--pricing", type=Path, required=True)
-    live.add_argument("--approval", type=Path, required=True)
-    live.add_argument("--ledger", type=Path, required=True)
-    live.add_argument("--output", type=Path, required=True)
+    collect = sub.add_parser(
+        "collect-batches",
+        help="GET existing acknowledged batch IDs only; never submit or synchronously fall back",
+    )
+    for cmd in (live, collect):
+        cmd.add_argument("--plan", type=Path, required=True)
+        cmd.add_argument("--requests", type=Path, required=True)
+        cmd.add_argument("--pricing", type=Path, required=True)
+        cmd.add_argument("--approval", type=Path, required=True)
+        cmd.add_argument("--ledger", type=Path, required=True)
+        cmd.add_argument("--output", type=Path, required=True)
     ba = sub.add_parser(
         "blind-audit",
         help="Export all proposals without labels, scores, acceptance or arm names",
@@ -210,13 +216,20 @@ def main(argv=None):
     elif a.command == "pricing":
         from .client import tariff_snapshot
 
-        result = tariff_snapshot(a.catalog.read_text(), DEFAULT_CONFIG["model"])
+        result = tariff_snapshot(
+            a.catalog.read_text(),
+            DEFAULT_CONFIG["model"],
+            fetched_utc=datetime.fromtimestamp(
+                a.catalog.stat().st_mtime, UTC
+            ).isoformat(),
+        )
         write_once(a.output, result)
-    elif a.command == "execute":
-        from .client import execute
+    elif a.command in {"execute", "collect-batches"}:
+        from .client import collect, execute
 
         manifest, _, _, _, config = load_plan(a.plan)
-        result = execute(
+        operation = collect if a.command == "collect-batches" else execute
+        result = operation(
             read_jsonl(a.requests),
             manifest,
             config,
@@ -225,7 +238,6 @@ def main(argv=None):
             a.ledger,
             a.output,
         )
-        result = {"completed_requests": len(result), "output": str(a.output)}
     elif a.command == "blind-audit":
         from .evaluation import blind_audit
 

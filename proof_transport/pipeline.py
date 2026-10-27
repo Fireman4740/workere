@@ -37,11 +37,14 @@ DEFAULT_CONFIG = {
     "recursive": False,
     "max_usd": 10.0,
     "max_billed_tokens": 1500000,
-    "model": "openai/gpt-6-luna",
+    "model": "openai/gpt-6-luna:batch",
     "expected_version": "gpt-6-luna-20260922",
     "reasoning_effort": "high",
     "max_output_tokens": 8192,
-    "endpoint": "https://openrouter.ai/api/v1/chat/completions",
+    "endpoint": "https://openrouter.ai/api/v1/batches",
+    "transport": "batch_inline",
+    "batch_size": 8,
+    "completion_window": "24h",
     "api_key_env": "OPENROUTER_API_KEY",
     "paid_authorization_required": True,
     "temperature": None,
@@ -106,6 +109,9 @@ def validate_config(config: dict) -> None:
         "paid_authorization_required",
         "retries",
         "dataset_status",
+        "transport",
+        "batch_size",
+        "completion_window",
     ):
         require(config[key] == DEFAULT_CONFIG[key], "FROZEN_RULE_CHANGED:" + key)
     require(
@@ -379,6 +385,16 @@ def collect_items(requests: list, receipts: list, id_field: str) -> tuple[dict, 
                 "request_id": req["id"],
                 "stage": req["stage"],
                 "mode": receipt["mode"],
+                **(
+                    {
+                        "batch_id": receipt["batch_id"],
+                        "transport": receipt.get("transport"),
+                        "cost_kind": receipt.get("cost_kind"),
+                        "token_usage_kind": receipt.get("token_usage_kind"),
+                    }
+                    if "batch_id" in receipt
+                    else {}
+                ),
                 **u,
             }
         )

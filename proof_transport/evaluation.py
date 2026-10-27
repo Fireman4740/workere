@@ -364,6 +364,12 @@ def evaluate(
             "new_calls_arm": sum(u["mode"] == "live" for u in own_usage),
             "logical_receipts_common": len(common_usage),
             "logical_receipts_arm": len(own_usage),
+            "batch_jobs_common": len(
+                {u["batch_id"] for u in common_usage if "batch_id" in u}
+            ),
+            "batch_jobs_arm": len(
+                {u["batch_id"] for u in own_usage if "batch_id" in u}
+            ),
             "tokens_common": sum(
                 u["input_tokens"] + u["output_tokens"] for u in common_usage
             ),
@@ -486,6 +492,8 @@ def evaluate(
         "total_new_usage": {
             "calls": sum(u["mode"] == "live" for u in usage),
             "logical_receipts": len(usage),
+            "batch_jobs": len({u["batch_id"] for u in usage if "batch_id" in u}),
+            "call_unit": "logical model requests; batch_jobs are distinct submission jobs",
             "tokens": sum(u["input_tokens"] + u["output_tokens"] for u in usage),
             "usd": sum(u["cost_usd"] for u in usage),
         },
