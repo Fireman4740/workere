@@ -171,7 +171,8 @@ class FewShotBank:
                           text_field=self.ds["text_field"], ann_field=self.ds["ann_field"],
                           valid_labels=set(label_set(cfg)),
                           binary_undirected=cfg["data"]["binary_undirected"],
-                          shuffle_pair_list=cfg["data"]["shuffle_pair_list"])
+                          shuffle_pair_list=cfg["data"]["shuffle_pair_list"],
+                          revision=self.ds.get("revision") if not self.fs["repo_id"] else None)
         if self.fs["human_rationales"]["only"]:
             self.hand = load_rationales(self.fs["human_rationales"]["dir"])
             docs = [d for d in docs if d.id in self.hand]

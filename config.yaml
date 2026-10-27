@@ -268,6 +268,7 @@ datasets:
   causal_timebank:
     name: "CausalTimeBank-standard-eci"
     repo_id: "Nofing/CausalTimeBank-standard-eci"
+    revision: null
     split: "train"
     text_field: "text"
     ann_field: "annots"
@@ -282,6 +283,7 @@ datasets:
   event_story_line:
     name: "EventStoryLine-0.9"
     repo_id: "Nofing/EventStoryLine-0.9-standard-eci"
+    revision: null
     split: "train"
     text_field: "text"
     ann_field: "annots"

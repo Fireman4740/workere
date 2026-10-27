@@ -145,10 +145,10 @@ def doc_from_row(row: dict, i: int, *, text_field: str, ann_field: str,
 
 def load_split(repo_id: str, split: str, *, text_field: str, ann_field: str,
                valid_labels: Optional[Set[str]], binary_undirected: bool,
-               shuffle_pair_list: bool) -> List[Doc]:
+               shuffle_pair_list: bool, revision: Optional[str] = None) -> List[Doc]:
     """Every document of a split, in split order."""
     from datasets import load_dataset
-    ds = load_dataset(repo_id, split=split)
+    ds = load_dataset(repo_id, split=split, **({"revision": revision} if revision else {}))
     return [doc_from_row(ds[i], i, text_field=text_field, ann_field=ann_field,
                          valid_labels=valid_labels, binary_undirected=binary_undirected,
                          shuffle_pair_list=shuffle_pair_list)
@@ -180,5 +180,5 @@ def load_eval_docs(cfg: dict) -> List[Doc]:
     docs = load_split(ds["repo_id"], ds["split"], text_field=ds["text_field"],
                       ann_field=ds["ann_field"], valid_labels=set(label_set(cfg)),
                       binary_undirected=cfg["data"]["binary_undirected"],
-                      shuffle_pair_list=cfg["data"]["shuffle_pair_list"])
+                      shuffle_pair_list=cfg["data"]["shuffle_pair_list"], revision=ds.get("revision"))
     return sample(docs, ds["max_examples"], cfg["data"]["shuffle_docs"], cfg["seed"])
