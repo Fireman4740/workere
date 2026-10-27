@@ -1,0 +1,18 @@
+{
+  "kind": "frozen_development_public_inputs_and_separate_gold",
+  "model_calls": 0,
+  "documents": 44,
+  "unordered_candidates": 10916,
+  "selection_uses_labels": false,
+  "dataset_revision": "e6418e8747ac1c7fecf66d56ae41fbde7fd5967a",
+  "selection_source_commit": "e1c9baff072de16d8fb30ab261636070beb2f1b0",
+  "historical_prompt_sha256": "88a87ca71ac011935ca572af05ed6531545460ebae398ee87c06cd31e32a827b",
+  "frozen_demo_plan_sha256": "267ffb7c07513f03790ef4b81adb19a8002c83319cc2df02ce5dd1526a11084b",
+  "note": "Demos retain historical user+answer bytes. Gold evaluation file is never supplied to rendering.",
+  "files_sha256": {
+    "DEV44-selection.json": "f3a3e192b6ad835c0aac9430f35e25db34d2292442be7bd60ce9503c84d05a34",
+    "evaluator_only/gold_DEV44.jsonl": "b5828445ac97a802c0c51248c0c43451b0ca27d01f03fb47860addf0047d7f53",
+    "frozen_demos.json": "dd951eba1a8cf9368b4f8beb5cb3f85575abd173f284d5241994ab7f79b95b4b",
+    "public_docs_DEV44.jsonl": "f2390c275aef4a283039dff439fadb684e5ce59766b6473e31a1fce2ec5c724e"
+  }
+}

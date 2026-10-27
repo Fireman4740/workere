@@ -1,0 +1,48 @@
+schema: workere-campaign/v1
+max_parallel: 8
+confirmation_freeze:
+  freeze: final-freeze.json
+  freeze_sha256: 19d20412bc6fd3a5177a037f1fb070c5529cdf129ffdbd3e8a6aec1c25cc7af3
+  suite: final-conf40-suite.json
+  suite_sha256: 48bd0249e08c5e51b4a9bbddfcea967c39a25b8ccec6f163e3f61cbad6e19da3
+experiments:
+- config: luna/conf40-1_13ecbplus.xml.yaml
+- config: luna/conf40-1_4ecbplus.xml.yaml
+- config: luna/conf40-12_11ecbplus.xml.yaml
+- config: luna/conf40-12_10ecbplus.xml.yaml
+- config: luna/conf40-13_9ecbplus.xml.yaml
+- config: luna/conf40-13_4ecbplus.xml.yaml
+- config: luna/conf40-14_5ecbplus.xml.yaml
+- config: luna/conf40-14_1ecbplus.xml.yaml
+- config: luna/conf40-16_6ecbplus.xml.yaml
+- config: luna/conf40-16_1ecbplus.xml.yaml
+- config: luna/conf40-18_4ecbplus.xml.yaml
+- config: luna/conf40-18_8ecbplus.xml.yaml
+- config: luna/conf40-19_1ecbplus.xml.yaml
+- config: luna/conf40-19_3ecbplus.xml.yaml
+- config: luna/conf40-20_5ecbplus.xml.yaml
+- config: luna/conf40-20_1ecbplus.xml.yaml
+- config: luna/conf40-22_7ecbplus.xml.yaml
+- config: luna/conf40-22_9ecbplus.xml.yaml
+- config: luna/conf40-23_5ecbplus.xml.yaml
+- config: luna/conf40-23_4ecbplus.xml.yaml
+- config: luna/conf40-24_11ecbplus.xml.yaml
+- config: luna/conf40-24_3ecbplus.xml.yaml
+- config: luna/conf40-3_3ecbplus.xml.yaml
+- config: luna/conf40-3_5ecbplus.xml.yaml
+- config: luna/conf40-30_7ecbplus.xml.yaml
+- config: luna/conf40-30_13ecbplus.xml.yaml
+- config: luna/conf40-32_1ecbplus.xml.yaml
+- config: luna/conf40-32_4ecbplus.xml.yaml
+- config: luna/conf40-33_4ecbplus.xml.yaml
+- config: luna/conf40-33_2ecbplus.xml.yaml
+- config: luna/conf40-35_5ecbplus.xml.yaml
+- config: luna/conf40-35_6ecbplus.xml.yaml
+- config: luna/conf40-4_5ecbplus.xml.yaml
+- config: luna/conf40-4_1ecbplus.xml.yaml
+- config: luna/conf40-5_7ecbplus.xml.yaml
+- config: luna/conf40-5_5ecbplus.xml.yaml
+- config: luna/conf40-7_5ecbplus.xml.yaml
+- config: luna/conf40-7_1ecbplus.xml.yaml
+- config: luna/conf40-8_2ecbplus.xml.yaml
+- config: luna/conf40-8_10ecbplus.xml.yaml

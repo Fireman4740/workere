@@ -1,0 +1,12 @@
+{"arm":"B","counts":{"accepted_unique":3},"doc_id":"synthetic001","predicted_pairs":[],"slots":7,"threshold_votes":4,"vote_counts":[{"count":3,"pair":["e1","e2"],"share":0.42857142857142855}]}
+{"arm":"R","counts":{"accepted_unique":3},"doc_id":"synthetic001","predicted_pairs":[],"slots":7,"threshold_votes":4,"vote_counts":[{"count":3,"pair":["e1","e2"],"share":0.42857142857142855}]}
+{"arm":"A","counts":{"accepted_unique":4},"doc_id":"synthetic001","predicted_pairs":[["e1","e2"]],"slots":7,"threshold_votes":4,"vote_counts":[{"count":4,"pair":["e1","e2"],"share":0.5714285714285714}]}
+{"arm":"P","counts":{"accepted_unique":3},"doc_id":"synthetic001","predicted_pairs":[],"slots":7,"threshold_votes":4,"vote_counts":[{"count":3,"pair":["e1","e2"],"share":0.42857142857142855}]}
+{"arm":"B","counts":{"accepted_unique":3},"doc_id":"synthetic002","predicted_pairs":[],"slots":7,"threshold_votes":4,"vote_counts":[{"count":3,"pair":["a1","a2"],"share":0.42857142857142855}]}
+{"arm":"R","counts":{"accepted_unique":3},"doc_id":"synthetic002","predicted_pairs":[],"slots":7,"threshold_votes":4,"vote_counts":[{"count":3,"pair":["a1","a2"],"share":0.42857142857142855}]}
+{"arm":"A","counts":{"accepted_unique":4},"doc_id":"synthetic002","predicted_pairs":[["a1","a2"]],"slots":7,"threshold_votes":4,"vote_counts":[{"count":4,"pair":["a1","a2"],"share":0.5714285714285714}]}
+{"arm":"P","counts":{"accepted_unique":3},"doc_id":"synthetic002","predicted_pairs":[],"slots":7,"threshold_votes":4,"vote_counts":[{"count":3,"pair":["a1","a2"],"share":0.42857142857142855}]}
+{"arm":"B","counts":{"accepted_unique":3},"doc_id":"synthetic003","predicted_pairs":[],"slots":7,"threshold_votes":4,"vote_counts":[{"count":3,"pair":["z1","z2"],"share":0.42857142857142855}]}
+{"arm":"R","counts":{"accepted_unique":3},"doc_id":"synthetic003","predicted_pairs":[],"slots":7,"threshold_votes":4,"vote_counts":[{"count":3,"pair":["z1","z2"],"share":0.42857142857142855}]}
+{"arm":"A","counts":{"accepted_unique":4},"doc_id":"synthetic003","predicted_pairs":[["z1","z2"]],"slots":7,"threshold_votes":4,"vote_counts":[{"count":4,"pair":["z1","z2"],"share":0.5714285714285714}]}
+{"arm":"P","counts":{"accepted_unique":3},"doc_id":"synthetic003","predicted_pairs":[],"slots":7,"threshold_votes":4,"vote_counts":[{"count":3,"pair":["z1","z2"],"share":0.42857142857142855}]}

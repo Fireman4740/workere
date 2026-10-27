@@ -1,0 +1,84 @@
+{"doc_id": "synthetic001", "arm": "B", "pass_index": 0, "status": "ok", "response": [["e1", "causes", "e2"]]}
+{"doc_id": "synthetic001", "arm": "B", "pass_index": 1, "status": "ok", "response": [["e1", "causes", "e2"]]}
+{"doc_id": "synthetic001", "arm": "B", "pass_index": 2, "status": "ok", "response": [["e1", "causes", "e2"]]}
+{"doc_id": "synthetic001", "arm": "B", "pass_index": 3, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "B", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "B", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "B", "pass_index": 6, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "R", "pass_index": 0, "status": "ok", "response": [["e1", "causes", "e2"]]}
+{"doc_id": "synthetic001", "arm": "R", "pass_index": 1, "status": "ok", "response": [["e1", "causes", "e2"]]}
+{"doc_id": "synthetic001", "arm": "R", "pass_index": 2, "status": "ok", "response": [["e1", "causes", "e2"]]}
+{"doc_id": "synthetic001", "arm": "R", "pass_index": 3, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "R", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "R", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "R", "pass_index": 6, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "A", "pass_index": 0, "status": "ok", "response": [["e1", "causes", "e2"]]}
+{"doc_id": "synthetic001", "arm": "A", "pass_index": 1, "status": "ok", "response": [["e1", "causes", "e2"]]}
+{"doc_id": "synthetic001", "arm": "A", "pass_index": 2, "status": "ok", "response": [["e1", "causes", "e2"]]}
+{"doc_id": "synthetic001", "arm": "A", "pass_index": 3, "status": "ok", "response": [["e1", "causes", "e2"]]}
+{"doc_id": "synthetic001", "arm": "A", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "A", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "A", "pass_index": 6, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "P", "pass_index": 0, "status": "ok", "response": [["p__0002", "causes", "p__0000"]]}
+{"doc_id": "synthetic001", "arm": "P", "pass_index": 1, "status": "ok", "response": [["p__0002", "causes", "p__0000"]]}
+{"doc_id": "synthetic001", "arm": "P", "pass_index": 2, "status": "ok", "response": [["p__0002", "causes", "p__0000"]]}
+{"doc_id": "synthetic001", "arm": "P", "pass_index": 3, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "P", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "P", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic001", "arm": "P", "pass_index": 6, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "B", "pass_index": 0, "status": "ok", "response": [["a1", "causes", "a2"]]}
+{"doc_id": "synthetic002", "arm": "B", "pass_index": 1, "status": "ok", "response": [["a1", "causes", "a2"]]}
+{"doc_id": "synthetic002", "arm": "B", "pass_index": 2, "status": "ok", "response": [["a1", "causes", "a2"]]}
+{"doc_id": "synthetic002", "arm": "B", "pass_index": 3, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "B", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "B", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "B", "pass_index": 6, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "R", "pass_index": 0, "status": "ok", "response": [["a1", "causes", "a2"]]}
+{"doc_id": "synthetic002", "arm": "R", "pass_index": 1, "status": "ok", "response": [["a1", "causes", "a2"]]}
+{"doc_id": "synthetic002", "arm": "R", "pass_index": 2, "status": "ok", "response": [["a1", "causes", "a2"]]}
+{"doc_id": "synthetic002", "arm": "R", "pass_index": 3, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "R", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "R", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "R", "pass_index": 6, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "A", "pass_index": 0, "status": "ok", "response": [["a1", "causes", "a2"]]}
+{"doc_id": "synthetic002", "arm": "A", "pass_index": 1, "status": "ok", "response": [["a1", "causes", "a2"]]}
+{"doc_id": "synthetic002", "arm": "A", "pass_index": 2, "status": "ok", "response": [["a1", "causes", "a2"]]}
+{"doc_id": "synthetic002", "arm": "A", "pass_index": 3, "status": "ok", "response": [["a1", "causes", "a2"]]}
+{"doc_id": "synthetic002", "arm": "A", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "A", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "A", "pass_index": 6, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "P", "pass_index": 0, "status": "ok", "response": [["p__0000", "causes", "p__0001"]]}
+{"doc_id": "synthetic002", "arm": "P", "pass_index": 1, "status": "ok", "response": [["p__0000", "causes", "p__0001"]]}
+{"doc_id": "synthetic002", "arm": "P", "pass_index": 2, "status": "ok", "response": [["p__0000", "causes", "p__0001"]]}
+{"doc_id": "synthetic002", "arm": "P", "pass_index": 3, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "P", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "P", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic002", "arm": "P", "pass_index": 6, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "B", "pass_index": 0, "status": "ok", "response": [["z1", "causes", "z2"]]}
+{"doc_id": "synthetic003", "arm": "B", "pass_index": 1, "status": "ok", "response": [["z1", "causes", "z2"]]}
+{"doc_id": "synthetic003", "arm": "B", "pass_index": 2, "status": "ok", "response": [["z1", "causes", "z2"]]}
+{"doc_id": "synthetic003", "arm": "B", "pass_index": 3, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "B", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "B", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "B", "pass_index": 6, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "R", "pass_index": 0, "status": "ok", "response": [["z1", "causes", "z2"]]}
+{"doc_id": "synthetic003", "arm": "R", "pass_index": 1, "status": "ok", "response": [["z1", "causes", "z2"]]}
+{"doc_id": "synthetic003", "arm": "R", "pass_index": 2, "status": "ok", "response": [["z1", "causes", "z2"]]}
+{"doc_id": "synthetic003", "arm": "R", "pass_index": 3, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "R", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "R", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "R", "pass_index": 6, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "A", "pass_index": 0, "status": "ok", "response": [["z1", "causes", "z2"]]}
+{"doc_id": "synthetic003", "arm": "A", "pass_index": 1, "status": "ok", "response": [["z1", "causes", "z2"]]}
+{"doc_id": "synthetic003", "arm": "A", "pass_index": 2, "status": "ok", "response": [["z1", "causes", "z2"]]}
+{"doc_id": "synthetic003", "arm": "A", "pass_index": 3, "status": "ok", "response": [["z1", "causes", "z2"]]}
+{"doc_id": "synthetic003", "arm": "A", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "A", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "A", "pass_index": 6, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "P", "pass_index": 0, "status": "ok", "response": [["p__0000", "causes", "p__0001"]]}
+{"doc_id": "synthetic003", "arm": "P", "pass_index": 1, "status": "ok", "response": [["p__0000", "causes", "p__0001"]]}
+{"doc_id": "synthetic003", "arm": "P", "pass_index": 2, "status": "ok", "response": [["p__0000", "causes", "p__0001"]]}
+{"doc_id": "synthetic003", "arm": "P", "pass_index": 3, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "P", "pass_index": 4, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "P", "pass_index": 5, "status": "ok", "response": []}
+{"doc_id": "synthetic003", "arm": "P", "pass_index": 6, "status": "ok", "response": []}

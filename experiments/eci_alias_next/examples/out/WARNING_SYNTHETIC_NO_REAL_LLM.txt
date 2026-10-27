@@ -1,0 +1,1 @@
+WARNING: results in this directory use fabricated response fixtures. The illustrated 100% F1 was hard-coded on three synthetic documents to exercise the pipeline. It is NOT a Luna result, not evidence for alias efficacy, and must never appear in a research result table.

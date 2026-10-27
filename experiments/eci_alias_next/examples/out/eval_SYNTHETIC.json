@@ -1,0 +1,244 @@
+{
+  "warning": "Gold is evaluation-only. These are measurements only if inputs are actual model responses.",
+  "results_by_arm": {
+    "A": {
+      "TP": 3,
+      "FP": 0,
+      "FN": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "F1": 1.0,
+      "predicted": 3,
+      "gold": 3
+    },
+    "B": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 3,
+      "precision": 0.0,
+      "recall": 0.0,
+      "F1": 0.0,
+      "predicted": 0,
+      "gold": 3
+    },
+    "P": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 3,
+      "precision": 0.0,
+      "recall": 0.0,
+      "F1": 0.0,
+      "predicted": 0,
+      "gold": 3
+    },
+    "R": {
+      "TP": 0,
+      "FP": 0,
+      "FN": 3,
+      "precision": 0.0,
+      "recall": 0.0,
+      "F1": 0.0,
+      "predicted": 0,
+      "gold": 3
+    }
+  },
+  "comparisons": {
+    "A_vs_R": {
+      "delta_F1_points": 100.0,
+      "added_total": 3,
+      "added_TP": 3,
+      "added_FP": 0,
+      "added_precision": 1.0,
+      "removed_total": 0,
+      "removed_TP": 0,
+      "removed_FP": 0,
+      "delta_TP": 3,
+      "delta_predicted": 3,
+      "utility": 6.0,
+      "ci": {
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "topics": 3,
+        "replicates": 2000,
+        "unit": "topic",
+        "caveat": "exploratory, may be unstable with few topics"
+      }
+    },
+    "A_vs_B": {
+      "delta_F1_points": 100.0,
+      "added_total": 3,
+      "added_TP": 3,
+      "added_FP": 0,
+      "added_precision": 1.0,
+      "removed_total": 0,
+      "removed_TP": 0,
+      "removed_FP": 0,
+      "delta_TP": 3,
+      "delta_predicted": 3,
+      "utility": 6.0,
+      "ci": {
+        "ci95": [
+          1.0,
+          1.0
+        ],
+        "topics": 3,
+        "replicates": 2000,
+        "unit": "topic",
+        "caveat": "exploratory, may be unstable with few topics"
+      }
+    },
+    "P_vs_B": {
+      "delta_F1_points": 0.0,
+      "added_total": 0,
+      "added_TP": 0,
+      "added_FP": 0,
+      "added_precision": null,
+      "removed_total": 0,
+      "removed_TP": 0,
+      "removed_FP": 0,
+      "delta_TP": 0,
+      "delta_predicted": 0,
+      "utility": 0.0,
+      "ci": {
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "topics": 3,
+        "replicates": 2000,
+        "unit": "topic",
+        "caveat": "exploratory, may be unstable with few topics"
+      }
+    }
+  },
+  "topics": {
+    "X": {
+      "A": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "F1": 1.0,
+        "predicted": 1,
+        "gold": 1
+      },
+      "B": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "F1": 0.0,
+        "predicted": 0,
+        "gold": 1
+      },
+      "P": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "F1": 0.0,
+        "predicted": 0,
+        "gold": 1
+      },
+      "R": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "F1": 0.0,
+        "predicted": 0,
+        "gold": 1
+      }
+    },
+    "Y": {
+      "A": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "F1": 1.0,
+        "predicted": 1,
+        "gold": 1
+      },
+      "B": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "F1": 0.0,
+        "predicted": 0,
+        "gold": 1
+      },
+      "P": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "F1": 0.0,
+        "predicted": 0,
+        "gold": 1
+      },
+      "R": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "F1": 0.0,
+        "predicted": 0,
+        "gold": 1
+      }
+    },
+    "Z": {
+      "A": {
+        "TP": 1,
+        "FP": 0,
+        "FN": 0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "F1": 1.0,
+        "predicted": 1,
+        "gold": 1
+      },
+      "B": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "F1": 0.0,
+        "predicted": 0,
+        "gold": 1
+      },
+      "P": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "F1": 0.0,
+        "predicted": 0,
+        "gold": 1
+      },
+      "R": {
+        "TP": 0,
+        "FP": 0,
+        "FN": 1,
+        "precision": 0.0,
+        "recall": 0.0,
+        "F1": 0.0,
+        "predicted": 0,
+        "gold": 1
+      }
+    }
+  }
+}

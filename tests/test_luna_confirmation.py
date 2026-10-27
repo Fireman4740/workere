@@ -24,7 +24,8 @@ class LunaConfirmation(unittest.TestCase):
         self.assertGreater(peak,1)
 
     def test_frozen_reference_rejects_scientific_setting_change(self):
-        path=Path('experiments/jev/active.yaml')
+        # The mutable active campaign is R3, not the historical CONF40 fixture.
+        path=Path('experiments/jev/luna-confirmation-campaign.yaml')
         configs=_configs(path)
         self.assertEqual(len(configs),40)
         tampered=copy.deepcopy(configs)

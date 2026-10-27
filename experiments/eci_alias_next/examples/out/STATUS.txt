@@ -1,0 +1,5 @@
+PROTOCOL PREPARED. ZERO MODEL CALLS.
+Do NOT send private_views.jsonl wholesale to a model.
+You must add historical system prompt and out-of-topic demos via your provider adapter.
+Character caps are not exact tokenizer caps; verify on target model.
+A/R records are the same except handle IDs.

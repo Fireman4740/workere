@@ -1,0 +1,19 @@
+{
+  "schema": "workere-alias-smoke/v1",
+  "stage": "smoke",
+  "max_requests": 14,
+  "max_budget_usd": 0.25,
+  "reservation_per_request_usd": 0.01,
+  "input_token_cap": 16384,
+  "completion_token_cap_including_reasoning": 4096,
+  "auxiliary_token_cap": 768,
+  "relative_input_tolerance": 0.01,
+  "passes": 7,
+  "threshold_votes": 4,
+  "user_authorization": "2026-10-27: add supplied kit to project and run experiment continuation; first gate real calls with one-document smoke",
+  "full_DEV44_pilot": "not automatically launched; requires smoke and coverage gates to pass",
+  "historical_model_route": "openai/gpt-6-luna:batch",
+  "historical_model_version_label": "gpt-6-luna-20260922",
+  "reasoning_effort": "high",
+  "note": "Inherited historical prompt and demo bytes, explicit new output serialization shared by A/R. No historical 0.39 fusion reuse. Provider catalog/credential checks precede any paid submission. Byte-level bounds are conservative estimates, actual A/R token comparability checked after response."
+}
