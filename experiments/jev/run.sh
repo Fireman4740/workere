@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 export PATH="$HOME/.local/bin:$PATH"
+if [[ -f m1-diversity/frozen/m1-protocol-frozen.json ]]; then
+  exec uv run --isolated --no-project --python 3.13 python m1-diversity/run.py
+fi
 # The launcher forwards credentials from its environment; no key is written in source.
 # M0 retains this inherited entry point; protocol/stage are versioned, never env overrides.
 if [[ -f eci_m0_pilot/config.json ]]; then
