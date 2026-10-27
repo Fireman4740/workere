@@ -1,0 +1,1202 @@
+[
+  {
+    "doc": "1_13ecbplus.xml",
+    "generation": 0,
+    "id": "130488363cea7549762d5625",
+    "pair": [
+      "16",
+      "5"
+    ],
+    "score": 0.7898472349660947
+  },
+  {
+    "doc": "12_10ecbplus.xml",
+    "generation": 0,
+    "id": "64e52f7417959ca801a3917d",
+    "pair": [
+      "3",
+      "4"
+    ],
+    "score": 0.7346513767394939
+  },
+  {
+    "doc": "13_14ecbplus.xml",
+    "generation": 0,
+    "id": "51206056b682f42a74481f7f",
+    "pair": [
+      "2",
+      "3"
+    ],
+    "score": 0.9250385055916454
+  },
+  {
+    "doc": "14_1ecbplus.xml",
+    "generation": 0,
+    "id": "d4d7ea978121510f045ba8e2",
+    "pair": [
+      "3",
+      "5"
+    ],
+    "score": 0.7725987085434732
+  },
+  {
+    "doc": "16_6ecbplus.xml",
+    "generation": 0,
+    "id": "ed7fa3980e1bb2afaa87a9d2",
+    "pair": [
+      "12",
+      "16"
+    ],
+    "score": 0.8713462296664634
+  },
+  {
+    "doc": "18_7ecbplus.xml",
+    "generation": 0,
+    "id": "88cae402e6e03a12c5178bb6",
+    "pair": [
+      "34",
+      "4"
+    ],
+    "score": 0.734707062808952
+  },
+  {
+    "doc": "19_1ecbplus.xml",
+    "generation": 0,
+    "id": "24f083341521c28b3aeab190",
+    "pair": [
+      "2",
+      "3"
+    ],
+    "score": 0.8805704005772503
+  },
+  {
+    "doc": "20_10ecbplus.xml",
+    "generation": 0,
+    "id": "26068f48b0d074a005b938e2",
+    "pair": [
+      "3",
+      "5"
+    ],
+    "score": 0.7233202253781832
+  },
+  {
+    "doc": "22_12ecbplus.xml",
+    "generation": 0,
+    "id": "f3887c73ff41253ab71094ec",
+    "pair": [
+      "1",
+      "3"
+    ],
+    "score": 0.9509049112784608
+  },
+  {
+    "doc": "23_1ecbplus.xml",
+    "generation": 0,
+    "id": "8bce840489c6ee87f9c6744c",
+    "pair": [
+      "15",
+      "4"
+    ],
+    "score": 0.944416519529062
+  },
+  {
+    "doc": "24_4ecbplus.xml",
+    "generation": 0,
+    "id": "8f4effbf9b70d2fa1bdbb327",
+    "pair": [
+      "3",
+      "4"
+    ],
+    "score": 0.7836492060731762
+  },
+  {
+    "doc": "3_11ecbplus.xml",
+    "generation": 0,
+    "id": "1d5f4ef9cd3508cea60b6daa",
+    "pair": [
+      "11",
+      "22"
+    ],
+    "score": 0.8663564249740028
+  },
+  {
+    "doc": "30_5ecbplus.xml",
+    "generation": 0,
+    "id": "674e2ad39715792bc2ec251f",
+    "pair": [
+      "27",
+      "4"
+    ],
+    "score": 0.9332423968691694
+  },
+  {
+    "doc": "32_5ecbplus.xml",
+    "generation": 0,
+    "id": "c634939c9b29dfa3cea9be3b",
+    "pair": [
+      "22",
+      "24"
+    ],
+    "score": 0.9552996078592587
+  },
+  {
+    "doc": "33_11ecbplus.xml",
+    "generation": 0,
+    "id": "5c0fd897fced82aefde9481a",
+    "pair": [
+      "3",
+      "42"
+    ],
+    "score": 0.9276174243242465
+  },
+  {
+    "doc": "35_6ecbplus.xml",
+    "generation": 0,
+    "id": "1f3eba0d4678e341705d2752",
+    "pair": [
+      "16",
+      "17"
+    ],
+    "score": 0.9372800253949378
+  },
+  {
+    "doc": "37_1ecbplus.xml",
+    "generation": 0,
+    "id": "45becae44f61c1df2c6cdfa6",
+    "pair": [
+      "32",
+      "33"
+    ],
+    "score": 0.9842189328776652
+  },
+  {
+    "doc": "4_1ecbplus.xml",
+    "generation": 0,
+    "id": "53e097402edc96da170f78ac",
+    "pair": [
+      "18",
+      "2"
+    ],
+    "score": 0.9720128268256193
+  },
+  {
+    "doc": "41_4ecbplus.xml",
+    "generation": 0,
+    "id": "0d82f4df5e72ec25ebe4b6b3",
+    "pair": [
+      "4",
+      "7"
+    ],
+    "score": 0.744827790502332
+  },
+  {
+    "doc": "5_5ecbplus.xml",
+    "generation": 0,
+    "id": "ea04f91d6d9ab0f122098d82",
+    "pair": [
+      "5",
+      "7"
+    ],
+    "score": 0.9107960402307469
+  },
+  {
+    "doc": "7_11ecbplus.xml",
+    "generation": 0,
+    "id": "0fa72ce510c6c63d44184c70",
+    "pair": [
+      "10",
+      "8"
+    ],
+    "score": 0.9015762197223223
+  },
+  {
+    "doc": "8_4ecbplus.xml",
+    "generation": 0,
+    "id": "d47b26c617bff4f0c1b07793",
+    "pair": [
+      "13",
+      "21"
+    ],
+    "score": 0.9579485085529779
+  },
+  {
+    "doc": "1_19ecbplus.xml",
+    "generation": 0,
+    "id": "466f30e46a700211e8f6f78a",
+    "pair": [
+      "15",
+      "16"
+    ],
+    "score": 0.8750698283469263
+  },
+  {
+    "doc": "12_9ecbplus.xml",
+    "generation": 0,
+    "id": "ec3791be82b107f0b0557958",
+    "pair": [
+      "11",
+      "3"
+    ],
+    "score": 0.5995346530923749
+  },
+  {
+    "doc": "13_4ecbplus.xml",
+    "generation": 0,
+    "id": "c51f15ec1be6297b848bfee3",
+    "pair": [
+      "16",
+      "18"
+    ],
+    "score": 0.8836671386462359
+  },
+  {
+    "doc": "14_9ecbplus.xml",
+    "generation": 0,
+    "id": "001bcc3dbab1148c13873544",
+    "pair": [
+      "12",
+      "6"
+    ],
+    "score": 0.9552996101006648
+  },
+  {
+    "doc": "16_9ecbplus.xml",
+    "generation": 0,
+    "id": "86ce02d421b47667f9cc7b2e",
+    "pair": [
+      "5",
+      "6"
+    ],
+    "score": 0.7163140840302449
+  },
+  {
+    "doc": "18_8ecbplus.xml",
+    "generation": 0,
+    "id": "e4a29515d7b3e4fa3e71acd4",
+    "pair": [
+      "1",
+      "19"
+    ],
+    "score": 0.9696070002527192
+  },
+  {
+    "doc": "19_3ecbplus.xml",
+    "generation": 0,
+    "id": "7b9225adbc503638a473646a",
+    "pair": [
+      "16",
+      "22"
+    ],
+    "score": 0.958783139207626
+  },
+  {
+    "doc": "20_1ecbplus.xml",
+    "generation": 0,
+    "id": "e25d1ec1af25d07c78dded82",
+    "pair": [
+      "15",
+      "18"
+    ],
+    "score": 0.980496333139531
+  },
+  {
+    "doc": "22_4ecbplus.xml",
+    "generation": 0,
+    "id": "b87e8428519463feeec9ce25",
+    "pair": [
+      "1",
+      "3"
+    ],
+    "score": 0.8928866202110964
+  },
+  {
+    "doc": "23_9ecbplus.xml",
+    "generation": 0,
+    "id": "0943c04f70946a4d5fa49332",
+    "pair": [
+      "3",
+      "4"
+    ],
+    "score": 0.9436493999074433
+  },
+  {
+    "doc": "24_8ecbplus.xml",
+    "generation": 0,
+    "id": "9566ce1e64b2ae8b0155dfbe",
+    "pair": [
+      "10",
+      "9"
+    ],
+    "score": 0.9343521939087217
+  },
+  {
+    "doc": "3_5ecbplus.xml",
+    "generation": 0,
+    "id": "83ebb218205c88f5aef5c835",
+    "pair": [
+      "11",
+      "15"
+    ],
+    "score": 0.875772866040213
+  },
+  {
+    "doc": "30_6ecbplus.xml",
+    "generation": 0,
+    "id": "398b2e61523b37a0e24baba4",
+    "pair": [
+      "18",
+      "23"
+    ],
+    "score": 0.8466916077128905
+  },
+  {
+    "doc": "32_7ecbplus.xml",
+    "generation": 0,
+    "id": "b092978db51c3cda69b1e156",
+    "pair": [
+      "2",
+      "3"
+    ],
+    "score": 0.9351008807369487
+  },
+  {
+    "doc": "33_8ecbplus.xml",
+    "generation": 0,
+    "id": "d4f98939ca17a6f3bbe920f4",
+    "pair": [
+      "3",
+      "7"
+    ],
+    "score": 0.9177943014865757
+  },
+  {
+    "doc": "35_9ecbplus.xml",
+    "generation": 0,
+    "id": "cf4bcfc167fdfb06f33bbe0f",
+    "pair": [
+      "4",
+      "5"
+    ],
+    "score": 0.9416445404209266
+  },
+  {
+    "doc": "37_9ecbplus.xml",
+    "generation": 0,
+    "id": "0299418a60244677a52c74af",
+    "pair": [
+      "14",
+      "8"
+    ],
+    "score": 0.9684570393152637
+  },
+  {
+    "doc": "4_2ecbplus.xml",
+    "generation": 0,
+    "id": "0e0026f71dfffc6a54f09db8",
+    "pair": [
+      "2",
+      "30"
+    ],
+    "score": 0.9754708247353626
+  },
+  {
+    "doc": "41_5ecbplus.xml",
+    "generation": 0,
+    "id": "ab00d7d835bec8a8b40d723d",
+    "pair": [
+      "38",
+      "8"
+    ],
+    "score": 0.8059538784218951
+  },
+  {
+    "doc": "5_7ecbplus.xml",
+    "generation": 0,
+    "id": "5994f054c2010ba745591588",
+    "pair": [
+      "2",
+      "3"
+    ],
+    "score": 0.8174970844777049
+  },
+  {
+    "doc": "7_5ecbplus.xml",
+    "generation": 0,
+    "id": "cd03a2434130391c04a61c08",
+    "pair": [
+      "19",
+      "23"
+    ],
+    "score": 0.9712461796998484
+  },
+  {
+    "doc": "8_5ecbplus.xml",
+    "generation": 0,
+    "id": "1ca252a20c3b7c98f58e48b2",
+    "pair": [
+      "17",
+      "18"
+    ],
+    "score": 0.9386079371614092
+  },
+  {
+    "doc": "1_13ecbplus.xml",
+    "generation": 0,
+    "id": "95afb5f436ebb5b8ddb7d411",
+    "pair": [
+      "15",
+      "5"
+    ],
+    "score": 0.7851847075407914
+  },
+  {
+    "doc": "12_10ecbplus.xml",
+    "generation": 0,
+    "id": "faabe6d6d87e61d68d320a17",
+    "pair": [
+      "5",
+      "7"
+    ],
+    "score": 0.7316999841662896
+  },
+  {
+    "doc": "13_4ecbplus.xml",
+    "generation": 0,
+    "id": "8f993e83f4ab175ac8ccee0b",
+    "pair": [
+      "18",
+      "5"
+    ],
+    "score": 0.8464231373246014
+  },
+  {
+    "doc": "14_1ecbplus.xml",
+    "generation": 0,
+    "id": "4c83e5c82975912c299bae47",
+    "pair": [
+      "1",
+      "5"
+    ],
+    "score": 0.7583868860986891
+  },
+  {
+    "doc": "16_6ecbplus.xml",
+    "generation": 0,
+    "id": "3dcac58ebfc2f47e39da0de4",
+    "pair": [
+      "14",
+      "20"
+    ],
+    "score": 0.8677094595784266
+  },
+  {
+    "doc": "18_7ecbplus.xml",
+    "generation": 0,
+    "id": "fef83cc76489c199da23eaa8",
+    "pair": [
+      "11",
+      "34"
+    ],
+    "score": 0.7168718231380948
+  },
+  {
+    "doc": "19_1ecbplus.xml",
+    "generation": 0,
+    "id": "9f0d7d3135575775ef1f6975",
+    "pair": [
+      "11",
+      "8"
+    ],
+    "score": 0.5980118910584732
+  },
+  {
+    "doc": "20_10ecbplus.xml",
+    "generation": 0,
+    "id": "2d569ba113e4028b9cf8e1ea",
+    "pair": [
+      "2",
+      "5"
+    ],
+    "score": 0.6386309293242655
+  },
+  {
+    "doc": "22_12ecbplus.xml",
+    "generation": 0,
+    "id": "4585ef37d2055707175643c0",
+    "pair": [
+      "11",
+      "12"
+    ],
+    "score": 0.9437188934391852
+  },
+  {
+    "doc": "23_1ecbplus.xml",
+    "generation": 0,
+    "id": "64ba59535f9d9c4ae905db83",
+    "pair": [
+      "16",
+      "3"
+    ],
+    "score": 0.9288530549651678
+  },
+  {
+    "doc": "24_4ecbplus.xml",
+    "generation": 0,
+    "id": "42cc7f8b9ecb111cf569ca84",
+    "pair": [
+      "2",
+      "4"
+    ],
+    "score": 0.6565429801793218
+  },
+  {
+    "doc": "3_11ecbplus.xml",
+    "generation": 0,
+    "id": "5b1a3963360700e0250b39ec",
+    "pair": [
+      "12",
+      "22"
+    ],
+    "score": 0.864056492931953
+  },
+  {
+    "doc": "30_5ecbplus.xml",
+    "generation": 0,
+    "id": "57e95a267b14a642db0ffd4d",
+    "pair": [
+      "14",
+      "15"
+    ],
+    "score": 0.9067861873172527
+  },
+  {
+    "doc": "32_5ecbplus.xml",
+    "generation": 0,
+    "id": "a5ffd82e0d06a576f5bdd303",
+    "pair": [
+      "22",
+      "28"
+    ],
+    "score": 0.9156221875052668
+  },
+  {
+    "doc": "33_11ecbplus.xml",
+    "generation": 0,
+    "id": "45d4ce7e0b5860d87cc536dd",
+    "pair": [
+      "2",
+      "3"
+    ],
+    "score": 0.9177943049299231
+  },
+  {
+    "doc": "35_6ecbplus.xml",
+    "generation": 0,
+    "id": "54ca91a8271beb9355620c57",
+    "pair": [
+      "11",
+      "28"
+    ],
+    "score": 0.6404688183111719
+  },
+  {
+    "doc": "37_1ecbplus.xml",
+    "generation": 0,
+    "id": "411317604c8cbe79e0462f6e",
+    "pair": [
+      "32",
+      "34"
+    ],
+    "score": 0.9837886932066948
+  },
+  {
+    "doc": "4_1ecbplus.xml",
+    "generation": 0,
+    "id": "328339356593e8d4bfd0bf9a",
+    "pair": [
+      "14",
+      "22"
+    ],
+    "score": 0.787709982157581
+  },
+  {
+    "doc": "41_4ecbplus.xml",
+    "generation": 0,
+    "id": "4b6ffbb65f577d34627ea660",
+    "pair": [
+      "39",
+      "4"
+    ],
+    "score": 0.7237954054469871
+  },
+  {
+    "doc": "5_5ecbplus.xml",
+    "generation": 0,
+    "id": "56a17b5e60a519ae32cea227",
+    "pair": [
+      "3",
+      "4"
+    ],
+    "score": 0.8486914813248742
+  },
+  {
+    "doc": "7_11ecbplus.xml",
+    "generation": 0,
+    "id": "ec38f181a64c58c7aa98b105",
+    "pair": [
+      "37",
+      "8"
+    ],
+    "score": 0.8814569860039159
+  },
+  {
+    "doc": "8_4ecbplus.xml",
+    "generation": 0,
+    "id": "d85eee538a940b18107fd12d",
+    "pair": [
+      "10",
+      "25"
+    ],
+    "score": 0.9288530570310094
+  },
+  {
+    "doc": "1_19ecbplus.xml",
+    "generation": 0,
+    "id": "2ab49a1ba22e482012b6ad26",
+    "pair": [
+      "10",
+      "9"
+    ],
+    "score": 0.8586667595049858
+  },
+  {
+    "doc": "12_9ecbplus.xml",
+    "generation": 0,
+    "id": "e9d43bc6d74802c903e353f1",
+    "pair": [
+      "11",
+      "2"
+    ],
+    "score": 0.5796810769981393
+  },
+  {
+    "doc": "13_4ecbplus.xml",
+    "generation": 0,
+    "id": "ae7519b61921fbcd220c7887",
+    "pair": [
+      "10",
+      "18"
+    ],
+    "score": 0.7680807313802449
+  },
+  {
+    "doc": "14_9ecbplus.xml",
+    "generation": 0,
+    "id": "46cf923f11e3f8c5f9ee579f",
+    "pair": [
+      "11",
+      "6"
+    ],
+    "score": 0.891147616618791
+  },
+  {
+    "doc": "16_9ecbplus.xml",
+    "generation": 0,
+    "id": "89bec6078b5d4d05076e2aa7",
+    "pair": [
+      "2",
+      "6"
+    ],
+    "score": 0.685007300170424
+  },
+  {
+    "doc": "18_8ecbplus.xml",
+    "generation": 0,
+    "id": "4dbb87bf5b4be86a712ddb76",
+    "pair": [
+      "19",
+      "2"
+    ],
+    "score": 0.9429687211022945
+  },
+  {
+    "doc": "19_3ecbplus.xml",
+    "generation": 0,
+    "id": "98792ae5f8b1ee32e83bd630",
+    "pair": [
+      "17",
+      "22"
+    ],
+    "score": 0.9109681077845354
+  },
+  {
+    "doc": "20_1ecbplus.xml",
+    "generation": 0,
+    "id": "b01287e341247ab6bc09b42b",
+    "pair": [
+      "15",
+      "16"
+    ],
+    "score": 0.9756480836355179
+  },
+  {
+    "doc": "22_4ecbplus.xml",
+    "generation": 0,
+    "id": "dc6417ba7c2b8f48204f19c3",
+    "pair": [
+      "1",
+      "2"
+    ],
+    "score": 0.7846477546174476
+  },
+  {
+    "doc": "23_9ecbplus.xml",
+    "generation": 0,
+    "id": "b9c529a4220111b4671d8acf",
+    "pair": [
+      "32",
+      "7"
+    ],
+    "score": 0.9394656850163658
+  },
+  {
+    "doc": "24_8ecbplus.xml",
+    "generation": 0,
+    "id": "78ce1424d7b34494b9a04ffb",
+    "pair": [
+      "10",
+      "13"
+    ],
+    "score": 0.6956416743208732
+  },
+  {
+    "doc": "3_5ecbplus.xml",
+    "generation": 0,
+    "id": "a20624435a8bd81b43a85b82",
+    "pair": [
+      "15",
+      "8"
+    ],
+    "score": 0.8616145063412133
+  },
+  {
+    "doc": "30_6ecbplus.xml",
+    "generation": 0,
+    "id": "4b60db66ea79cba50e49e75b",
+    "pair": [
+      "6",
+      "9"
+    ],
+    "score": 0.8459249940472525
+  },
+  {
+    "doc": "32_7ecbplus.xml",
+    "generation": 0,
+    "id": "b890056d1bbc3924ff61d405",
+    "pair": [
+      "3",
+      "4"
+    ],
+    "score": 0.9159602188197538
+  },
+  {
+    "doc": "33_8ecbplus.xml",
+    "generation": 0,
+    "id": "a288fe6bb5d11c7490d13380",
+    "pair": [
+      "3",
+      "8"
+    ],
+    "score": 0.8956555602383034
+  },
+  {
+    "doc": "35_9ecbplus.xml",
+    "generation": 0,
+    "id": "8f8c89de38333dd68bbc1cd4",
+    "pair": [
+      "10",
+      "36"
+    ],
+    "score": 0.924345216899451
+  },
+  {
+    "doc": "37_9ecbplus.xml",
+    "generation": 0,
+    "id": "942221098d610779f7cd284f",
+    "pair": [
+      "19",
+      "8"
+    ],
+    "score": 0.9651166845046236
+  },
+  {
+    "doc": "4_2ecbplus.xml",
+    "generation": 0,
+    "id": "75b0a64aa8f20ce8fe0f36c7",
+    "pair": [
+      "2",
+      "28"
+    ],
+    "score": 0.44885552025106257
+  },
+  {
+    "doc": "41_5ecbplus.xml",
+    "generation": 0,
+    "id": "6197ed839555a68453221e4c",
+    "pair": [
+      "11",
+      "8"
+    ],
+    "score": 0.7930503490108103
+  },
+  {
+    "doc": "5_7ecbplus.xml",
+    "generation": 0,
+    "id": "f9b0864c9d67f18c0f0dd77a",
+    "pair": [
+      "1",
+      "3"
+    ],
+    "score": 0.7671867284672974
+  },
+  {
+    "doc": "7_5ecbplus.xml",
+    "generation": 0,
+    "id": "18cb3986b5abae8833c4fbac",
+    "pair": [
+      "2",
+      "31"
+    ],
+    "score": 0.892811386870326
+  },
+  {
+    "doc": "8_5ecbplus.xml",
+    "generation": 0,
+    "id": "19cb7a1f26a1a497743237fb",
+    "pair": [
+      "17",
+      "19"
+    ],
+    "score": 0.9304614891008177
+  },
+  {
+    "doc": "1_13ecbplus.xml",
+    "generation": 0,
+    "id": "529540624ec1062c544158f3",
+    "pair": [
+      "13",
+      "5"
+    ],
+    "score": 0.7774511505173514
+  },
+  {
+    "doc": "12_10ecbplus.xml",
+    "generation": 0,
+    "id": "0ea21e402e1e83acb5f3ffa9",
+    "pair": [
+      "4",
+      "5"
+    ],
+    "score": 0.7061356873432985
+  },
+  {
+    "doc": "13_4ecbplus.xml",
+    "generation": 0,
+    "id": "7ccae48df6b9df16dab77024",
+    "pair": [
+      "2",
+      "3"
+    ],
+    "score": 0.7316223987880256
+  },
+  {
+    "doc": "14_1ecbplus.xml",
+    "generation": 0,
+    "id": "074ae068822ee0d9059d2e91",
+    "pair": [
+      "1",
+      "2"
+    ],
+    "score": 0.7272758430101793
+  },
+  {
+    "doc": "16_6ecbplus.xml",
+    "generation": 0,
+    "id": "0bc2adac3cf1ec7557d70664",
+    "pair": [
+      "14",
+      "16"
+    ],
+    "score": 0.8588570150135654
+  },
+  {
+    "doc": "18_7ecbplus.xml",
+    "generation": 0,
+    "id": "026305794faa8ca3a8630d59",
+    "pair": [
+      "11",
+      "12"
+    ],
+    "score": 0.6495100343298656
+  },
+  {
+    "doc": "19_1ecbplus.xml",
+    "generation": 0,
+    "id": "2da659d64a20a44f62a8c6f5",
+    "pair": [
+      "5",
+      "6"
+    ],
+    "score": 0.5139287718771456
+  },
+  {
+    "doc": "20_10ecbplus.xml",
+    "generation": 0,
+    "id": "a4a710bb74ef0b51cbdad905",
+    "pair": [
+      "1",
+      "5"
+    ],
+    "score": 0.48140649464304186
+  },
+  {
+    "doc": "22_12ecbplus.xml",
+    "generation": 0,
+    "id": "dd68706b9abc27ab10209950",
+    "pair": [
+      "1",
+      "9"
+    ],
+    "score": 0.9128021983908579
+  },
+  {
+    "doc": "23_1ecbplus.xml",
+    "generation": 0,
+    "id": "21d1d43b3f3dc1d242526428",
+    "pair": [
+      "16",
+      "4"
+    ],
+    "score": 0.9089786760957724
+  },
+  {
+    "doc": "24_4ecbplus.xml",
+    "generation": 0,
+    "id": "db7b3867c416f7703842909d",
+    "pair": [
+      "6",
+      "7"
+    ],
+    "score": 0.5753352477997374
+  },
+  {
+    "doc": "3_11ecbplus.xml",
+    "generation": 0,
+    "id": "2a77348ba0e2d02638dc562b",
+    "pair": [
+      "22",
+      "33"
+    ],
+    "score": 0.8478855796636882
+  },
+  {
+    "doc": "30_5ecbplus.xml",
+    "generation": 0,
+    "id": "d62aa2aeca3dc705ff0ce100",
+    "pair": [
+      "12",
+      "13"
+    ],
+    "score": 0.9000198610671175
+  },
+  {
+    "doc": "32_5ecbplus.xml",
+    "generation": 0,
+    "id": "0c4406320d130b451cb88fee",
+    "pair": [
+      "15",
+      "82"
+    ],
+    "score": 0.895655567040844
+  },
+  {
+    "doc": "33_11ecbplus.xml",
+    "generation": 0,
+    "id": "067ce10cccd49db3569261a3",
+    "pair": [
+      "1",
+      "5"
+    ],
+    "score": 0.8631197269683303
+  },
+  {
+    "doc": "35_6ecbplus.xml",
+    "generation": 0,
+    "id": "cab5ea50aecca2eb9a942051",
+    "pair": [
+      "28",
+      "6"
+    ],
+    "score": 0.6163818603942514
+  },
+  {
+    "doc": "37_1ecbplus.xml",
+    "generation": 0,
+    "id": "7d651a29c06bb5393297c92e",
+    "pair": [
+      "14",
+      "16"
+    ],
+    "score": 0.9690471200994484
+  },
+  {
+    "doc": "4_1ecbplus.xml",
+    "generation": 0,
+    "id": "b805a23723252bd2756652a1",
+    "pair": [
+      "14",
+      "23"
+    ],
+    "score": 0.6998222233498146
+  },
+  {
+    "doc": "41_4ecbplus.xml",
+    "generation": 0,
+    "id": "35579cded30fc3b6806d6eac",
+    "pair": [
+      "4",
+      "5"
+    ],
+    "score": 0.7162737697507515
+  },
+  {
+    "doc": "5_5ecbplus.xml",
+    "generation": 0,
+    "id": "a1b40f128a17d4b242784b6d",
+    "pair": [
+      "5",
+      "6"
+    ],
+    "score": 0.7559350404576318
+  },
+  {
+    "doc": "7_11ecbplus.xml",
+    "generation": 0,
+    "id": "c1b07128719d5a704e6a6beb",
+    "pair": [
+      "3",
+      "7"
+    ],
+    "score": 0.8690463019564552
+  },
+  {
+    "doc": "8_4ecbplus.xml",
+    "generation": 0,
+    "id": "b337d6be62071e0d9a0b889e",
+    "pair": [
+      "20",
+      "6"
+    ],
+    "score": 0.9116632766366506
+  },
+  {
+    "doc": "1_19ecbplus.xml",
+    "generation": 0,
+    "id": "1e6277c2068874519bc43c46",
+    "pair": [
+      "7",
+      "9"
+    ],
+    "score": 0.8126522812703034
+  },
+  {
+    "doc": "12_9ecbplus.xml",
+    "generation": 0,
+    "id": "006fc80bb19cb208c778d9f3",
+    "pair": [
+      "3",
+      "4"
+    ],
+    "score": 0.5231596368687093
+  },
+  {
+    "doc": "13_4ecbplus.xml",
+    "generation": 0,
+    "id": "54f4e51f90c87b72796ab40e",
+    "pair": [
+      "1",
+      "2"
+    ],
+    "score": 0.7167143884924758
+  },
+  {
+    "doc": "14_9ecbplus.xml",
+    "generation": 0,
+    "id": "b2a04fc62541e06e4bf71106",
+    "pair": [
+      "13",
+      "6"
+    ],
+    "score": 0.8459543307742754
+  },
+  {
+    "doc": "16_9ecbplus.xml",
+    "generation": 0,
+    "id": "ced428081a217753adffcc59",
+    "pair": [
+      "6",
+      "7"
+    ],
+    "score": 0.6705123312139583
+  },
+  {
+    "doc": "18_8ecbplus.xml",
+    "generation": 0,
+    "id": "73310c1fecbb7cfe4b6e94fa",
+    "pair": [
+      "1",
+      "13"
+    ],
+    "score": 0.829815454757113
+  },
+  {
+    "doc": "19_3ecbplus.xml",
+    "generation": 0,
+    "id": "26b6d7c01f18c405e2b97b00",
+    "pair": [
+      "24",
+      "8"
+    ],
+    "score": 0.8826685151725591
+  },
+  {
+    "doc": "20_1ecbplus.xml",
+    "generation": 0,
+    "id": "474aa91fb2bf0c27e7cce500",
+    "pair": [
+      "1",
+      "18"
+    ],
+    "score": 0.9481437985189224
+  },
+  {
+    "doc": "22_12ecbplus.xml",
+    "generation": 0,
+    "id": "2dd43fee28d98405811a5203",
+    "pair": [
+      "2",
+      "7"
+    ],
+    "score": 0.8330614022860843
+  },
+  {
+    "doc": "23_9ecbplus.xml",
+    "generation": 0,
+    "id": "6791c26dc65d43d407587bfc",
+    "pair": [
+      "8",
+      "9"
+    ],
+    "score": 0.9253242214051459
+  }
+]

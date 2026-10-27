@@ -6,7 +6,7 @@ Sidecar indépendant : aucun import du runner de baseline, aucun entraînement, 
 uv run --locked python -m proof_transport --help
 ```
 
-**Ne pas lancer `experiments/jev/run.sh` pour ce pilote : c’est encore le lanceur hérité de la baseline.** Aucun appel fournisseur n’a lieu dans les commandes de préparation, de requêtes, de replay ou de smoke. `execute` soumet uniquement de vrais jobs batch, avec autorisation externe explicite. `collect-batches` récupère seulement leurs IDs déjà acquittés, sans POST ni repli synchrone. Les tests ne contactent pas de modèle.
+**Sur la révision de lancement autorisée de cette branche expérimentale, `experiments/jev/run.sh` est routé vers le contrôleur du sidecar ; le lanceur de la branche parent reste inchangé.** Utiliser le lancement supervisé, pas un processus d’inférence manuel. Le contrôleur vérifie le plan gelé et l’autorisation puis emploie le même environnement verrouillé `benchmark --extra hub` que le parent. Les anciens artefacts `988b06f`/`4ac6713` décrivent le lanceur avant cette connexion. Aucun appel fournisseur n’a lieu dans les commandes de préparation, de requêtes, de replay ou de smoke. `execute` soumet uniquement de vrais jobs batch, avec autorisation externe explicite. `collect-batches` récupère seulement leurs IDs déjà acquittés, sans POST ni repli synchrone. Les tests ne contactent pas de modèle.
 
 ## Contrat et variantes
 

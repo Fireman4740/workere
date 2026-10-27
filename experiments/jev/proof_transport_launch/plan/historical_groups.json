@@ -1,0 +1,1996 @@
+{
+  "12_10ecbplus.xml": {
+    "groups": [
+      [
+        "3",
+        "5"
+      ],
+      [
+        "4",
+        "6"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "3",
+            "5"
+          ],
+          [
+            "4",
+            "6"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-12_10ecbplus-seed-42-b7fe15ca2358/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "a4e120eb6776dd8fed094b9edc2f77be1d340de6ca35192c2de4fadd54645e11",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "12_9ecbplus.xml": {
+    "groups": [
+      [
+        "2",
+        "3"
+      ],
+      [
+        "4",
+        "5",
+        "11"
+      ],
+      [
+        "6",
+        "7"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "2",
+            "3"
+          ],
+          [
+            "4",
+            "5",
+            "11"
+          ],
+          [
+            "6",
+            "7"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-12_9ecbplus-seed-42-d21e65ca27d2/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "124038fd6cfefbd9a7cb83bd82be69a1a9b9bb9d596d9b52dfaeab2fa7bb1316",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "13_14ecbplus.xml": {
+    "groups": [
+      [
+        "2",
+        "3"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "2",
+            "3"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-13_14ecbplus-seed-42-ad9f1f1cfe7b/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "32e58e76a666250ee4720a9ed41fd69d2fcca027ce22242a47eaa036a5db98b9",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "13_4ecbplus.xml": {
+    "groups": [
+      [
+        "5",
+        "10",
+        "16",
+        "18"
+      ],
+      [
+        "6",
+        "19"
+      ],
+      [
+        "9",
+        "11"
+      ],
+      [
+        "1",
+        "3",
+        "4",
+        "12",
+        "15",
+        "17"
+      ],
+      [
+        "2",
+        "13"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "5",
+            "10",
+            "16",
+            "18"
+          ],
+          [
+            "6",
+            "19"
+          ],
+          [
+            "9",
+            "11"
+          ],
+          [
+            "1",
+            "3",
+            "4",
+            "12",
+            "15",
+            "17"
+          ],
+          [
+            "2",
+            "13"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-13_4ecbplus-seed-42-91bfdd40f465/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "ef48e5a0f333337568442116883c98eb37473bd5870bec69647d1493de9976e5",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "14_1ecbplus.xml": {
+    "groups": [
+      [
+        "1",
+        "3"
+      ],
+      [
+        "2",
+        "4"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "1",
+            "3"
+          ],
+          [
+            "2",
+            "4"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-14_1ecbplus-seed-42-10b74a0964e3/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "2e180fdc800db4494443f3a87b129a80c0ec9372df2236733bce83db21b7f8d7",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "14_9ecbplus.xml": {
+    "groups": [
+      [
+        "1",
+        "3",
+        "7"
+      ],
+      [
+        "2",
+        "5",
+        "8"
+      ],
+      [
+        "11",
+        "12",
+        "13",
+        "14"
+      ],
+      [
+        "16",
+        "17"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "1",
+            "3",
+            "7"
+          ],
+          [
+            "2",
+            "5",
+            "8"
+          ],
+          [
+            "11",
+            "12",
+            "13",
+            "14"
+          ],
+          [
+            "16",
+            "17"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-d15-14_9ecbplus-seed-42-1f0c0cd5a315/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "e4ba7c4c0281e18181eb475e4c8860412b9055f0ed864fe5fb5564920d9c620f",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "16_6ecbplus.xml": {
+    "groups": [
+      [
+        "9",
+        "10",
+        "12"
+      ],
+      [
+        "2",
+        "3",
+        "5",
+        "6",
+        "17",
+        "18"
+      ],
+      [
+        "1",
+        "16",
+        "20"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "9",
+            "10",
+            "12"
+          ],
+          [
+            "2",
+            "3",
+            "5",
+            "6",
+            "17",
+            "18"
+          ],
+          [
+            "1",
+            "16",
+            "20"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-16_6ecbplus-seed-42-d6698910db57/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "70e611aa62b0e9d8cec7e4971c37de59a332857d3ff91831fe5653b3a5d700f9",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "16_9ecbplus.xml": {
+    "groups": [
+      [
+        "2",
+        "11"
+      ],
+      [
+        "8",
+        "10"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "2",
+            "11"
+          ],
+          [
+            "8",
+            "10"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-16_9ecbplus-seed-42-1f47201f5ac0/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "5feba14f2b658330ebbbe4e49df9aa1ab624ebc89c449d8f8f4946f322c64b7c",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "18_7ecbplus.xml": {
+    "groups": [
+      [
+        "1",
+        "6"
+      ],
+      [
+        "8",
+        "13",
+        "37"
+      ],
+      [
+        "9",
+        "12"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "1",
+            "6"
+          ],
+          [
+            "8",
+            "13",
+            "37"
+          ],
+          [
+            "9",
+            "12"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-18_7ecbplus-seed-42-1ec1c746e6e7/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "ea54d33cfd64b42fb8f66a46cc50fae24b5ece94cb898170d05b161315a52fa4",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "18_8ecbplus.xml": {
+    "groups": [
+      [
+        "59",
+        "63"
+      ],
+      [
+        "13",
+        "14",
+        "19"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "59",
+            "63"
+          ],
+          [
+            "13",
+            "14",
+            "19"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-18_8ecbplus-seed-42-ad240fdc7a3f/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "432b16a493deabba757c855970d66bf4dd4ea2a42db06f9ba3c16a692c4bd5c1",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "19_1ecbplus.xml": {
+    "groups": [],
+    "provenance": [
+      {
+        "groups": [],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-19_1ecbplus-seed-42-23ebebd5511b/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "301cb8569a67e93f00cfe2d76d26a6b093853e79d74958051e2d63628b12a857",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "19_3ecbplus.xml": {
+    "groups": [
+      [
+        "22",
+        "24"
+      ],
+      [
+        "1",
+        "9",
+        "19"
+      ],
+      [
+        "12",
+        "20"
+      ],
+      [
+        "2",
+        "13"
+      ],
+      [
+        "4",
+        "14"
+      ],
+      [
+        "6",
+        "15"
+      ],
+      [
+        "7",
+        "16"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "22",
+            "24"
+          ],
+          [
+            "1",
+            "9",
+            "19"
+          ],
+          [
+            "12",
+            "20"
+          ],
+          [
+            "2",
+            "13"
+          ],
+          [
+            "4",
+            "14"
+          ],
+          [
+            "6",
+            "15"
+          ],
+          [
+            "7",
+            "16"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-19_3ecbplus-seed-42-6ab452d59dca/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "0bfd654a3650c51cc5e398ca89f222a04bea923a36663b944808323488605796",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "1_13ecbplus.xml": {
+    "groups": [
+      [
+        "15",
+        "16"
+      ],
+      [
+        "1",
+        "2"
+      ],
+      [
+        "12",
+        "13"
+      ],
+      [
+        "22",
+        "52"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "15",
+            "16"
+          ],
+          [
+            "1",
+            "2"
+          ],
+          [
+            "12",
+            "13"
+          ],
+          [
+            "22",
+            "52"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-1_13ecbplus-seed-42-7452fb0894ee/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "26cc04ed6e9c298fa57db1ba3915e756b5c120b3e59420186e38e92c4029791d",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "1_19ecbplus.xml": {
+    "groups": [
+      [
+        "7",
+        "10",
+        "13"
+      ],
+      [
+        "5",
+        "8"
+      ],
+      [
+        "12",
+        "15"
+      ],
+      [
+        "2",
+        "3"
+      ],
+      [
+        "14",
+        "20"
+      ],
+      [
+        "26",
+        "27"
+      ],
+      [
+        "25",
+        "69"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "7",
+            "10",
+            "13"
+          ],
+          [
+            "5",
+            "8"
+          ],
+          [
+            "12",
+            "15"
+          ],
+          [
+            "2",
+            "3"
+          ],
+          [
+            "14",
+            "20"
+          ],
+          [
+            "26",
+            "27"
+          ],
+          [
+            "25",
+            "69"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-d15-1_19ecbplus-seed-42-cf50ce7cfbf4/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "fa8c31a9491f96ea4c0f2261ac8f18e309df65cfc0d20a23157d46244cb2dbcc",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "20_10ecbplus.xml": {
+    "groups": [
+      [
+        "1",
+        "2",
+        "6",
+        "13"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "1",
+            "2",
+            "6",
+            "13"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-d15-20_10ecbplus-seed-42-e9d40c8bcc72/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "da352e7754696d818247c7df3ad9cebc3fe39834fdb9dfabe3d31a34752f3701",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "20_1ecbplus.xml": {
+    "groups": [
+      [
+        "1",
+        "2",
+        "3",
+        "5",
+        "7",
+        "9",
+        "10",
+        "12",
+        "14",
+        "15"
+      ],
+      [
+        "16",
+        "48"
+      ],
+      [
+        "6",
+        "19"
+      ],
+      [
+        "11",
+        "17",
+        "25"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "1",
+            "2",
+            "3",
+            "5",
+            "7",
+            "9",
+            "10",
+            "12",
+            "14",
+            "15"
+          ],
+          [
+            "16",
+            "48"
+          ],
+          [
+            "6",
+            "19"
+          ],
+          [
+            "11",
+            "17",
+            "25"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-20_1ecbplus-seed-42-516617939c30/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "2d5ca6c8ba0cd12f1f602c0e7a3f1b2668ec3108be57f831e7ff4f0b4df2da47",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "22_12ecbplus.xml": {
+    "groups": [
+      [
+        "7",
+        "8"
+      ],
+      [
+        "3",
+        "9"
+      ],
+      [
+        "1",
+        "4",
+        "10"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "7",
+            "8"
+          ],
+          [
+            "3",
+            "9"
+          ],
+          [
+            "1",
+            "4",
+            "10"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-d15-22_12ecbplus-seed-42-24bc50b21e20/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "51cf33456f7833d76066e2bb46aa674c45200f1dbf71e6a3bc2edd0df62ae9bc",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "22_4ecbplus.xml": {
+    "groups": [
+      [
+        "2",
+        "3"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "2",
+            "3"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-22_4ecbplus-seed-42-484be44a35a7/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "8ee2092ff74790fa1af342b65bb64feb5b2f24db5c259f6ae887eb73c6f1016b",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "23_1ecbplus.xml": {
+    "groups": [
+      [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      [
+        "15",
+        "16"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          [
+            "15",
+            "16"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-23_1ecbplus-seed-42-a31c482ba0d4/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "6713a2c7c28671632ef2cc00e323ad74dd0165a5ccf416b31d1d7a8e4955de3c",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "23_9ecbplus.xml": {
+    "groups": [
+      [
+        "2",
+        "4",
+        "7"
+      ],
+      [
+        "3",
+        "10",
+        "32",
+        "33"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "2",
+            "4",
+            "7"
+          ],
+          [
+            "3",
+            "10",
+            "32",
+            "33"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-23_9ecbplus-seed-42-beb2377be371/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "191ea9b87c996863fbcafbec8e12e393689995fb2b2a6b31d163fd55235ea776",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "24_4ecbplus.xml": {
+    "groups": [
+      [
+        "1",
+        "5"
+      ],
+      [
+        "2",
+        "6"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "1",
+            "5"
+          ],
+          [
+            "2",
+            "6"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-24_4ecbplus-seed-42-0ee530fabb08/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "88f1bc74434fed84124ba37bae0999384e136b1148b0a45c48649dcd0c3775bd",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "24_8ecbplus.xml": {
+    "groups": [
+      [
+        "6",
+        "7",
+        "11",
+        "12"
+      ],
+      [
+        "9",
+        "13"
+      ],
+      [
+        "1",
+        "4"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "6",
+            "7",
+            "11",
+            "12"
+          ],
+          [
+            "9",
+            "13"
+          ],
+          [
+            "1",
+            "4"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-24_8ecbplus-seed-42-177a4cdd244e/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "726dc030b64161edba17d35a99e83a4ca9a49d975cdbf2cefd414bebbddf634a",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "30_5ecbplus.xml": {
+    "groups": [
+      [
+        "1",
+        "13",
+        "15"
+      ],
+      [
+        "4",
+        "5",
+        "8",
+        "14",
+        "16",
+        "17"
+      ],
+      [
+        "10",
+        "22",
+        "23"
+      ],
+      [
+        "21",
+        "27"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "1",
+            "13",
+            "15"
+          ],
+          [
+            "4",
+            "5",
+            "8",
+            "14",
+            "16",
+            "17"
+          ],
+          [
+            "10",
+            "22",
+            "23"
+          ],
+          [
+            "21",
+            "27"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-d15-30_5ecbplus-seed-42-627072dbe0c2/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "61ca278d4537470fb6056af301c4015a5401c198c5f8e2463c2fabb599d4115e",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "30_6ecbplus.xml": {
+    "groups": [
+      [
+        "5",
+        "6",
+        "8",
+        "13",
+        "23"
+      ],
+      [
+        "4",
+        "7"
+      ],
+      [
+        "9",
+        "11",
+        "14",
+        "17"
+      ],
+      [
+        "12",
+        "15",
+        "26"
+      ],
+      [
+        "18",
+        "22"
+      ],
+      [
+        "24",
+        "25"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "5",
+            "6",
+            "8",
+            "13",
+            "23"
+          ],
+          [
+            "4",
+            "7"
+          ],
+          [
+            "9",
+            "11",
+            "14",
+            "17"
+          ],
+          [
+            "12",
+            "15",
+            "26"
+          ],
+          [
+            "18",
+            "22"
+          ],
+          [
+            "24",
+            "25"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-30_6ecbplus-seed-42-4da397e11013/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "59483a86bb7b165c969d47d0238b73fecac1649a2754e842808fd66d5d72dcf5",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "32_5ecbplus.xml": {
+    "groups": [
+      [
+        "5",
+        "6",
+        "17"
+      ],
+      [
+        "4",
+        "7",
+        "18"
+      ],
+      [
+        "13",
+        "39"
+      ],
+      [
+        "11",
+        "16",
+        "41"
+      ],
+      [
+        "20",
+        "31",
+        "40"
+      ],
+      [
+        "23",
+        "34",
+        "37"
+      ],
+      [
+        "15",
+        "47"
+      ],
+      [
+        "24",
+        "28"
+      ],
+      [
+        "30",
+        "81"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "5",
+            "6",
+            "17"
+          ],
+          [
+            "4",
+            "7",
+            "18"
+          ],
+          [
+            "13",
+            "39"
+          ],
+          [
+            "11",
+            "16",
+            "41"
+          ],
+          [
+            "20",
+            "31",
+            "40"
+          ],
+          [
+            "23",
+            "34",
+            "37"
+          ],
+          [
+            "15",
+            "47"
+          ],
+          [
+            "24",
+            "28"
+          ],
+          [
+            "30",
+            "81"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-d15-32_5ecbplus-seed-42-409bb0091058/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "c6beb0787689d6b6f7c2da3a03e4f4b59effb0d4e09b4bd17c1c3aa82a30c9fe",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "32_7ecbplus.xml": {
+    "groups": [
+      [
+        "2",
+        "4"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "2",
+            "4"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-32_7ecbplus-seed-42-32406ec749a3/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "fd1512c51681482ea876e188c241155fc661e04762a3de4c9d361fd428377e6d",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "33_11ecbplus.xml": {
+    "groups": [
+      [
+        "5",
+        "7",
+        "42"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "5",
+            "7",
+            "42"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-33_11ecbplus-seed-42-9f4f747ff550/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "8ed7f83c3ebe4d6f0c9c7d30cb204b4e575e2430128a32b39f0581b973b23362",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "33_8ecbplus.xml": {
+    "groups": [
+      [
+        "11",
+        "12"
+      ],
+      [
+        "13",
+        "14"
+      ],
+      [
+        "2",
+        "10"
+      ],
+      [
+        "1",
+        "9"
+      ],
+      [
+        "7",
+        "8"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "11",
+            "12"
+          ],
+          [
+            "13",
+            "14"
+          ],
+          [
+            "2",
+            "10"
+          ],
+          [
+            "1",
+            "9"
+          ],
+          [
+            "7",
+            "8"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-33_8ecbplus-seed-42-8025db499caa/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "9b35d7215d76df5601ef4e4072187e0263962f63a315794e32319d8398148ca8",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "35_6ecbplus.xml": {
+    "groups": [
+      [
+        "3",
+        "5"
+      ],
+      [
+        "2",
+        "4"
+      ],
+      [
+        "7",
+        "8",
+        "60"
+      ],
+      [
+        "10",
+        "13"
+      ],
+      [
+        "6",
+        "11",
+        "19"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "3",
+            "5"
+          ],
+          [
+            "2",
+            "4"
+          ],
+          [
+            "7",
+            "8",
+            "60"
+          ],
+          [
+            "10",
+            "13"
+          ],
+          [
+            "6",
+            "11",
+            "19"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-35_6ecbplus-seed-42-820f69a09e6d/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "ed6001bb3c28bc5154ac4e6adb34895ca735cb0fa7b4c117e916cbf765f319c3",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "35_9ecbplus.xml": {
+    "groups": [
+      [
+        "3",
+        "8"
+      ],
+      [
+        "4",
+        "15"
+      ],
+      [
+        "7",
+        "14"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "3",
+            "8"
+          ],
+          [
+            "4",
+            "15"
+          ],
+          [
+            "7",
+            "14"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-35_9ecbplus-seed-42-3511ffa766fd/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "952a2e86a4ecf6ada4494239ce288467e2bbfe31455f8d1befa50f1d85222f5c",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "37_1ecbplus.xml": {
+    "groups": [
+      [
+        "25",
+        "34"
+      ],
+      [
+        "30",
+        "35"
+      ],
+      [
+        "11",
+        "23",
+        "24",
+        "31",
+        "32"
+      ],
+      [
+        "4",
+        "5"
+      ],
+      [
+        "28",
+        "29"
+      ],
+      [
+        "10",
+        "26"
+      ],
+      [
+        "2",
+        "3"
+      ],
+      [
+        "9",
+        "12"
+      ],
+      [
+        "14",
+        "15",
+        "19"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "25",
+            "34"
+          ],
+          [
+            "30",
+            "35"
+          ],
+          [
+            "11",
+            "23",
+            "24",
+            "31",
+            "32"
+          ],
+          [
+            "4",
+            "5"
+          ],
+          [
+            "28",
+            "29"
+          ],
+          [
+            "10",
+            "26"
+          ],
+          [
+            "2",
+            "3"
+          ],
+          [
+            "9",
+            "12"
+          ],
+          [
+            "14",
+            "15",
+            "19"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-dev25-37_1ecbplus-seed-42-e9a15373b5f2/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "77279cc2fc5653d59a5b7f831fcaad2e227d9d276bc8dcc84260652c28d4fd09",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "37_9ecbplus.xml": {
+    "reason": "MISSING_T2_CACHE",
+    "status": "UNAVAILABLE"
+  },
+  "3_11ecbplus.xml": {
+    "groups": [
+      [
+        "22",
+        "30"
+      ],
+      [
+        "5",
+        "7",
+        "11",
+        "12",
+        "19",
+        "20",
+        "32",
+        "33",
+        "38"
+      ],
+      [
+        "21",
+        "40"
+      ],
+      [
+        "17",
+        "24"
+      ],
+      [
+        "47",
+        "104"
+      ],
+      [
+        "4",
+        "23"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "22",
+            "30"
+          ],
+          [
+            "5",
+            "7",
+            "11",
+            "12",
+            "19",
+            "20",
+            "32",
+            "33",
+            "38"
+          ],
+          [
+            "21",
+            "40"
+          ],
+          [
+            "17",
+            "24"
+          ],
+          [
+            "47",
+            "104"
+          ],
+          [
+            "4",
+            "23"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-3_11ecbplus-seed-42-ab204f637dd6/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "5455a8f130aff9f7b5e9e72a9e5b6a97eb2106db86a253439bbbcbae9859233e",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "3_5ecbplus.xml": {
+    "groups": [
+      [
+        "2",
+        "12"
+      ],
+      [
+        "3",
+        "8"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "2",
+            "12"
+          ],
+          [
+            "3",
+            "8"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-3_5ecbplus-seed-42-cf7a6b43eb8d/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "f2f867771d3c5b9d1f16c9645adaa81fe85fa3565749ceb2b497013407b1b05c",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "41_4ecbplus.xml": {
+    "groups": [
+      [
+        "2",
+        "12",
+        "13"
+      ],
+      [
+        "3",
+        "39"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "2",
+            "12",
+            "13"
+          ],
+          [
+            "3",
+            "39"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-dev25-41_4ecbplus-seed-42-3ae076b1d9d3/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "1447805f62966fd78ee9bb731a0eb29cd47060ec2a83dba89f8aee6c3bee00d3",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "41_5ecbplus.xml": {
+    "groups": [
+      [
+        "2",
+        "3",
+        "6",
+        "8"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "2",
+            "3",
+            "6",
+            "8"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-dev25-41_5ecbplus-seed-42-7fdcb5095623/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "8b4623aa1f68bd467af6b358d6bdfab844091b30d195ae2c851fe0f946ec7c90",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "4_1ecbplus.xml": {
+    "groups": [
+      [
+        "4",
+        "8",
+        "12",
+        "13"
+      ],
+      [
+        "1",
+        "22",
+        "23"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "4",
+            "8",
+            "12",
+            "13"
+          ],
+          [
+            "1",
+            "22",
+            "23"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-4_1ecbplus-seed-42-92db79f5e64b/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "90c6ff804170cfe2dfb3b5a5db29a4015e0fb57242a7cb33ec90c695f9a5ed4f",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "4_2ecbplus.xml": {
+    "groups": [
+      [
+        "5",
+        "27",
+        "29"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "5",
+            "27",
+            "29"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-4_2ecbplus-seed-42-05df1f21c049/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "db89b78cfefe26c7cb7aea58dba6f06cd47e497c5cc930d2af35f63d1c0365d8",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "5_5ecbplus.xml": {
+    "groups": [
+      [
+        "1",
+        "4",
+        "6"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "1",
+            "4",
+            "6"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-5_5ecbplus-seed-42-31d5c002626a/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "c57ddeb3e7b6b4db734079e7474689802fa586ba318b685b5489749fa7a77a0a",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "5_7ecbplus.xml": {
+    "groups": [
+      [
+        "1",
+        "2"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "1",
+            "2"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-5_7ecbplus-seed-42-c895dbd50928/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "bc6eafcb7b9370f4f8178ef7de6e2963519410501afbc52e3444983bece060f6",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "7_11ecbplus.xml": {
+    "groups": [
+      [
+        "3",
+        "4",
+        "16"
+      ],
+      [
+        "5",
+        "6",
+        "13"
+      ],
+      [
+        "7",
+        "44"
+      ],
+      [
+        "14",
+        "15"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "3",
+            "4",
+            "16"
+          ],
+          [
+            "5",
+            "6",
+            "13"
+          ],
+          [
+            "7",
+            "44"
+          ],
+          [
+            "14",
+            "15"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-7_11ecbplus-seed-42-b4848a42fa3e/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "f43cf3a383a8f437dd36f7e6235b1ecfaef7bda19e4fd8175cd1e51b4709320d",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "7_5ecbplus.xml": {
+    "groups": [
+      [
+        "3",
+        "4",
+        "7",
+        "8",
+        "10",
+        "14"
+      ],
+      [
+        "2",
+        "12"
+      ],
+      [
+        "19",
+        "20"
+      ],
+      [
+        "22",
+        "24",
+        "26"
+      ],
+      [
+        "13",
+        "27",
+        "32"
+      ],
+      [
+        "9",
+        "11",
+        "15",
+        "16"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "3",
+            "4",
+            "7",
+            "8",
+            "10",
+            "14"
+          ],
+          [
+            "2",
+            "12"
+          ],
+          [
+            "19",
+            "20"
+          ],
+          [
+            "22",
+            "24",
+            "26"
+          ],
+          [
+            "13",
+            "27",
+            "32"
+          ],
+          [
+            "9",
+            "11",
+            "15",
+            "16"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-conf40-7_5ecbplus-seed-42-197a2d4a07a7/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "b60eafa1f5a4740da94050c0fd4ce1c4ee39f8ea7886af03297d421f497c3e50",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "8_4ecbplus.xml": {
+    "groups": [
+      [
+        "2",
+        "6",
+        "52"
+      ],
+      [
+        "17",
+        "18",
+        "20"
+      ],
+      [
+        "15",
+        "19"
+      ],
+      [
+        "7",
+        "8"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "2",
+            "6",
+            "52"
+          ],
+          [
+            "17",
+            "18",
+            "20"
+          ],
+          [
+            "15",
+            "19"
+          ],
+          [
+            "7",
+            "8"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-8_4ecbplus-seed-42-25453826aee4/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "c14d8c2ef6e7912d0c12c754cc98238dc20051e5a195f35098274f9a68d877be",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  },
+  "8_5ecbplus.xml": {
+    "groups": [
+      [
+        "5",
+        "6",
+        "16"
+      ],
+      [
+        "17",
+        "26"
+      ],
+      [
+        "1",
+        "2",
+        "10",
+        "15",
+        "21",
+        "28"
+      ]
+    ],
+    "provenance": [
+      {
+        "groups": [
+          [
+            "5",
+            "6",
+            "16"
+          ],
+          [
+            "17",
+            "26"
+          ],
+          [
+            "1",
+            "2",
+            "10",
+            "15",
+            "21",
+            "28"
+          ]
+        ],
+        "model": "openai/gpt-6-luna:batch",
+        "path": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/round3/runs/T2/esc-r3-t2-coref-test-s40-8_5ecbplus-seed-42-8dc14b59a4aa/predictions.jsonl",
+        "reasoning_effort": "high",
+        "sha256": "06a232a65bc8421317e112fe8cd3959feb297047a9b5a3ed5a98135267e1e5bf",
+        "valid": true
+      }
+    ],
+    "status": "AVAILABLE"
+  }
+}

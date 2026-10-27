@@ -1,0 +1,48 @@
+{
+  "baseline_modified": false,
+  "candidate_capacity_not_actual_candidates": 240,
+  "candidate_registry_status": "PENDING_COMMON_MODEL_STAGES",
+  "documents": 44,
+  "files": {
+    "config.json": "3794b194c30dc8163c567246459242bdc98bdac1b209cec5287412099cad55c4",
+    "historical_groups.json": "26c45d42818cc9f778731642829ff7e097c502b0b0c6c46619376034b9895cbf",
+    "prompts.json": "755ede16b5982503c92f921dcd894a0072babe2f5c1eb1d809a21747c05e14d8",
+    "public.json": "92972f304d1e8530a87fe70cc8db4fa368090f96f84431dc2b71c4edd2991cc5",
+    "roots.json": "f9694044e44985dad11346c63311014d68634d8323691ba459bf6abd76060708"
+  },
+  "historical_T2_available": 43,
+  "historical_T2_missing": {
+    "37_9ecbplus.xml": "MISSING_T2_CACHE"
+  },
+  "implementation_hashes": {
+    "__init__.py": "279528ff748b71c77c720705b86434f5c2ca00fd5fc6ee3b2a1bbd010990a773",
+    "__main__.py": "4e2c64d346229a2452bc914e0867eb988822b8130626aa1afbb4162ae6f979c5",
+    "batch.py": "67efa5f778aab31237e374dc9ee985a7948bba8e51787ae83f39b2f893f7ca72",
+    "client.py": "ca149474c55f1db2b90839eb6813db77c87a2d6c25377a3ae987ba1e64750cc9",
+    "core.py": "46c77c9c45efcb96be8d6772edcf041e9e97b5d99a1fa87dc7d779151e8d9bc9",
+    "data.py": "70222551b6dbc165177f0090b9632b1e058aebbae47023dea486eba29614b285",
+    "diagnostics.py": "030b76d44b8b25d04f38cf9a2209b951e7ee9f16e489fd671ffcdcade5d66b0d",
+    "evaluation.py": "bba47e4b3395f744db9d98c6793fd780555df3a972f2605aab00f29eecec73b9",
+    "fixtures.py": "3303a6d8dd336ae7e045ad09bc6e17babc69efc6060997dac9ffec5b33c885f7",
+    "historical.py": "6d953d4a7c1e7935846d32360dd796ac74353bb0e407d838a81fdecdb9b7b72d",
+    "pipeline.py": "5fd44cd93e17e8412ab0945e140dea127bc5edf3cea12939fa565bd5b198d5b1",
+    "prompts.py": "cdcd5f414459b94aa080ff966784e327be773fa3ec77795663fdcdb9329fe7e8",
+    "pyproject.toml": "5b07ef0cb86b2cd6b4a8171928403b0ba59a18b1038de56c8d4f7d91a04da584",
+    "schema.py": "6ad06a66d45e5345bd653223c282ba9e936408b9bb0f0a26c11379b17cbf84e1",
+    "uv.lock": "7f779a5adfb915c457011ccfb9d58a1cc2d02ca7334b49edf2154cdc0b8ac38e",
+    "validation.py": "1ce9b12ce1bede0f8e7c8396a5d26a70c326f3da2435e8d30879a8e9f957299c"
+  },
+  "old_88_pristine": false,
+  "provenance": {
+    "adapter": "strict allowlist; gold ignored and not exported to inference",
+    "git_commit": "e1c9baff072de16d8fb30ab261636070beb2f1b0",
+    "historical_ref": "e1c9baff072de16d8fb30ab261636070beb2f1b0",
+    "mixed_control_sha256_utf8": "1ddd9a33f4c77df9cd963f0b06de8f29e022d36b6b790a81da692d147a5c8ec6",
+    "mixed_suite_sha256_utf8": "a96528f6a05e39dde946dc17e3deaf799f9a95444a58d612d97b62eecd3f8540",
+    "source_report": "transport-preuve-locale-conception-2026-10-27.md"
+  },
+  "schema": "eci-proof-plan/v1",
+  "selected_documents": 44,
+  "source_count": 120,
+  "uses_gold_for_selection": false
+}

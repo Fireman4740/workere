@@ -1,0 +1,12 @@
+{
+  "approval": "APPROVED_BY_USER",
+  "approved_by": "Explicit user message: Lance le pilote; openai/gpt-6-luna:batch; global10USD and1.5M billed tokens",
+  "config_hash": "3794b194c30dc8163c567246459242bdc98bdac1b209cec5287412099cad55c4",
+  "expires_utc": "2026-10-31T16:48:05.568294+00:00",
+  "ledger_path": "/home/toor/.local/share/openresearch/workere-proof-transport/pilot-70b43b9a4419952c5bd95b22a5c99dc289976b54a129fa21bff90b15b69901e7/budget.sqlite",
+  "max_billed_tokens": 1500000,
+  "max_usd": 10.0,
+  "model": "openai/gpt-6-luna:batch",
+  "plan_hash": "70b43b9a4419952c5bd95b22a5c99dc289976b54a129fa21bff90b15b69901e7",
+  "pricing_hash": "c904390fa76f43310b8d9659b815aa59410b1ce4c0bc8ef91b9f616452b018f2"
+}

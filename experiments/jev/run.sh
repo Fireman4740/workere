@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 export PATH="$HOME/.local/bin:$PATH"
-# The launcher forwards credentials from its environment; no key is written in source.
-uv run --project benchmark --locked --extra hub python -m pipelines.jev.cli dry-run \
-  --config experiments/jev/active.yaml --output logs/jev-plan.json
-uv run --project benchmark --locked --extra hub python -m pipelines.jev.cli run \
-  --config experiments/jev/active.yaml --output logs/jev-receipt.json
+# Experimental child only: supervised authorized proof-transport sidecar.
+# Parent baseline and its active.yaml stay immutable; never dispatch them here.
+# Same locked benchmark+hub environment and fixed command as the parent.
+exec uv run --project benchmark --locked --extra hub python \
+  -m experiments.jev.proof_transport_launch.controller
