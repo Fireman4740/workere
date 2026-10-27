@@ -88,10 +88,14 @@ def main():
     ap.add_argument('--out', required=True)
     ap.add_argument('--expected-doc-ids', help='one document ID per line')
     ap.add_argument('--require-provenance', action='store_true')
+    ap.add_argument('--max-input', type=int, default=16384)
+    ap.add_argument('--max-completion', type=int, default=4096,
+                    help='explicitly select a registered budget; original default remains 4096')
     args = ap.parse_args()
     rows = [json.loads(x) for x in Path(args.usage).read_text().splitlines() if x.strip()]
     expected = Path(args.expected_doc_ids).read_text().splitlines() if args.expected_doc_ids else None
-    result = verify(rows, expected_doc_ids=expected, require_provenance=args.require_provenance)
+    result = verify(rows, max_input=args.max_input, max_completion=args.max_completion,
+                    expected_doc_ids=expected, require_provenance=args.require_provenance)
     Path(args.out).write_text(json.dumps(result, indent=2) + '\n')
     print('BUDGET GATE', result['status'], result['matched_passes'], 'matched passes', len(result['issues']), 'issues')
     raise SystemExit(0 if result['status'] == 'PASS' else 2)

@@ -38,6 +38,10 @@ def parse_response(content):
     value = json.loads(text)
     if not isinstance(value, list):
         raise ValueError('final response is not a JSON triple list')
+    for row in value:
+        if (not isinstance(row, list) or len(row) != 3 or
+                not all(isinstance(x, str) for x in row) or row[1] not in {'causes', 'causedby'}):
+            raise ValueError('malformed positive-triple schema')
     return value
 
 
@@ -125,12 +129,48 @@ def emit_bundle(out):
     print('ALIAS_ARTIFACT_BUNDLE ' + base64.b64encode(buffer.getvalue()).decode(), flush=True)
 
 
+def protocol_limits(config):
+    """Explicit versioned budget; never silently reuse the first 4096-token gate."""
+    input_cap = config['input_token_cap']
+    completion_cap = config['completion_token_cap_including_reasoning']
+    if type(input_cap) is not int or input_cap != 16384:
+        raise ValueError('input cap must remain 16384')
+    if type(completion_cap) is not int or completion_cap not in (4096, 16384):
+        raise ValueError('unregistered completion budget')
+    if (config['passes'] != 7 or config['threshold_votes'] != 4 or
+            config['auxiliary_token_cap'] != 768 or config['reasoning_effort'] != 'high'):
+        raise ValueError('unregistered scientific setting change')
+    return input_cap, completion_cap
+
+
+def score_smoke(out, did, gate):
+    """Never read gold or emit an empirical F1 if the comparability gate fails."""
+    if gate.get('status') != 'PASS':
+        raise ValueError('smoke gate BLOCKED: no scoring or gold access permitted')
+    from argparse import Namespace
+    from .cli import do_aggregate, do_evaluate
+    do_aggregate(Namespace(views=str(out/'smoke_private_views.jsonl'), responses=str(out/'responses.jsonl'),
+                           passes=7, threshold_votes=4, out=str(out/'predictions.jsonl')))
+    gold = [r for r in read_jsonl(DATA/'evaluator_only/gold_DEV44.jsonl') if r['doc_id'] == did]
+    write_jsonl(out/'smoke_gold_evaluator_only.jsonl', gold)
+    do_evaluate(Namespace(views=str(out/'smoke_private_views.jsonl'), results=str(out/'predictions.jsonl'),
+                          gold=str(out/'smoke_gold_evaluator_only.jsonl'), out=str(out/'evaluation.json')))
+    result = json.loads((out/'evaluation.json').read_text())
+    result['interpretation'] = 'One-document development smoke only. Not a DEV44 result or confirmation; gate PASS is required for cost-matched interpretation.'
+    (out/'evaluation.json').write_text(json.dumps(result, indent=2)+'\n')
+    return result
+
+
 def main():
     config = json.loads((ROOT / 'workere-run.json').read_text())
+    input_cap, completion_cap = protocol_limits(config)
     out = Path('logs/alias-followup-tracked')
     out.mkdir(parents=True, exist_ok=True)
     status = {'kind': 'alias_AR_development_smoke', 'stage': 'preparing', 'real_model_calls_attempted': 0,
-              'synthetic': False, 'full_pilot_launched': False}
+              'synthetic': False, 'full_pilot_launched': False,
+              'protocol_revision': config.get('protocol_revision', 1),
+              'input_token_cap': input_cap, 'completion_token_cap_including_reasoning': completion_cap,
+              'total_token_cap': input_cap + completion_cap}
     client = None
     try:
         documents, jobs, views, checks = prepare(out)
@@ -149,7 +189,7 @@ def main():
             return
         if config['stage'] != 'smoke' or config['max_requests'] != 14 or len(smoke) != 14:
             raise ValueError('only the preregistered 14-request smoke is enabled')
-        if max(j['input_tokens_upper_bound'] for j in smoke) > 16384:
+        if max(j['input_tokens_upper_bound'] for j in smoke) > input_cap:
             raise ValueError('conservative full-input bound exceeds 16384; no truncation/no calls')
         if not (os.environ.get('OPENROUTER_API_KEY') or os.environ.get('OPENROUTER')):
             raise ValueError('missing remote OpenRouter credential; no model calls')
@@ -166,16 +206,16 @@ def main():
                 parse_response(choice.get('message', {}).get('content'))
             def validate_request(self, messages, questions):
                 body = {'model': self.identity['model'], 'messages': messages,
-                        'reasoning': {'effort': 'high'}, 'max_tokens': 4096}
+                        'reasoning': {'effort': 'high'}, 'max_tokens': completion_cap}
                 bound = byte_bound(messages)
-                if bound > 16384 or bound + 4096 > 20480:
+                if bound > input_cap or bound + completion_cap > input_cap + completion_cap:
                     raise DecisionError('input bound exceeds frozen cap')
                 return body, bound
         cache = Path.home() / '.local/share/openresearch/workere-decisions/alias-smoke-20261027.sqlite'
         client = AliasBatchClient(model='openai/gpt-6-luna:batch', model_version='gpt-6-luna-20260922',
              endpoint='https://openrouter.ai/api/v1/batches', mode='live', cache_path=str(cache),
              max_calls=14, budget_usd=config['max_budget_usd'], max_cost_per_call_usd=config['reservation_per_request_usd'],
-             reasoning_effort='high', max_output_tokens=4096, max_context_tokens=20480,
+             reasoning_effort='high', max_output_tokens=completion_cap, max_context_tokens=input_cap+completion_cap,
              retries=0, timeout=600,
              shared_budget={'path': str(cache.parent / 'alias-smoke-budget.sqlite'),
                             'scope': 'alias-smoke-20261027-14requests', 'limit_usd': config['max_budget_usd'],
@@ -185,13 +225,15 @@ def main():
         model = next((m for m in catalog.get('data', []) if m.get('id') == 'openai/gpt-6-luna'), None)
         if model is None:
             raise ValueError('frozen Luna route absent from current provider catalog')
+        if model.get('canonical_slug') != 'openai/gpt-6-luna-20260922':
+            raise ValueError('Luna route canonical version changed; no new model calls')
         (out / 'provider_model_metadata.json').write_text(json.dumps(model, indent=2) + '\n')
         tokenizer = (model.get('architecture') or {}).get('tokenizer', '')
         if not isinstance(tokenizer, str) or not any(x in tokenizer.lower() for x in ('gpt', 'o200k', 'cl100k')):
             raise ValueError('provider tokenizer not verified as GPT byte-level; conservative bound cannot authorize launch')
         pricing = model.get('pricing') or {}
         ip, op = float(pricing['prompt']), float(pricing['completion'])
-        worst = 16384 * ip + 4096 * op
+        worst = input_cap * ip + completion_cap * op
         if not all(math.isfinite(x) and x >= 0 for x in (ip, op, worst)) or worst > config['reservation_per_request_usd']:
             raise ValueError('current provider prices exceed per-request reservation')
         if 14 * config['reservation_per_request_usd'] > config['max_budget_usd']:
@@ -199,7 +241,7 @@ def main():
         status.update(stage='submitting_or_resuming_smoke', paid_submission_status='receipt_is_authoritative',
                       tokenizer_metadata=tokenizer, max_price_bound_usd_per_request=worst)
         responses, usage, callbacks = [], [], []
-        decode_hash = digest(compact({'reasoning': {'effort': 'high'}, 'max_tokens': 4096, 'temperature': 'provider_default_as_historical'}))
+        decode_hash = digest(compact({'reasoning': {'effort': 'high'}, 'max_tokens': completion_cap, 'temperature': 'provider_default_as_historical'}))
         def make_callback(job):
             def record(event):
                 raw = event.get('response') or {}
@@ -238,24 +280,14 @@ def main():
         except Exception as exc:
             status['transport_error'] = type(exc).__name__ + ': ' + str(exc)
         status['real_model_calls_attempted'] = client.calls if client.calls or not status.get('transport_error') else None
-        gate = verify(usage, expected_doc_ids=[did], require_provenance=True)
+        gate = verify(usage, max_input=input_cap, max_completion=completion_cap,
+                      expected_doc_ids=[did], require_provenance=True)
         (out / 'budget_gate.json').write_text(json.dumps(gate, indent=2) + '\n')
         status.update(stage='smoke_complete' if gate['status'] == 'PASS' else 'smoke_blocked', budget_gate=gate['status'])
         print('ALIAS_BUDGET_GATE ' + compact(gate), flush=True)
         if len(responses) != 14:
             raise ValueError('missing attempted slots; no synthetic errors substituted')
-        from argparse import Namespace
-        from .cli import do_aggregate, do_evaluate
-        do_aggregate(Namespace(views=str(out/'smoke_private_views.jsonl'), responses=str(out/'responses.jsonl'),
-                               passes=7, threshold_votes=4, out=str(out/'predictions.jsonl')))
-        # Gold is read only after predictions have been written and fixed.
-        gold = [r for r in read_jsonl(DATA/'evaluator_only/gold_DEV44.jsonl') if r['doc_id'] == did]
-        write_jsonl(out/'smoke_gold_evaluator_only.jsonl', gold)
-        do_evaluate(Namespace(views=str(out/'smoke_private_views.jsonl'), results=str(out/'predictions.jsonl'),
-                              gold=str(out/'smoke_gold_evaluator_only.jsonl'), out=str(out/'evaluation.json')))
-        result = json.loads((out/'evaluation.json').read_text())
-        result['interpretation'] = 'One-document development smoke only. Not a DEV44 result or confirmation; gate PASS is required for cost-matched interpretation.'
-        (out/'evaluation.json').write_text(json.dumps(result, indent=2)+'\n')
+        result = score_smoke(out, did, gate)
         print('ALIAS_REAL_SMOKE_RESULT ' + compact(result), flush=True)
     except Exception as exc:
         status.update(stage='blocked', launch_blocker=type(exc).__name__ + ': ' + str(exc))

@@ -35,7 +35,8 @@ UTF-8 byte upper bounds, conditional on provider catalog metadata identifying a
 GPT byte-level tokenizer, with 1,024 tokens reserved for the four-message framing.
 This is NOT exact tokenization. A shared selection prefix is reduced to fit the
 768-token conservative auxiliary bound. Actual provider prompt/completion usage
-must subsequently pass the <=1% A/R difference and 16,384/4,096 ceilings.
+must subsequently pass the <=1% A/R difference and registered ceilings: 16,384
+input tokens; completion cap 4,096 in v1 and 16,384 in explicit repair v2.
 Completion includes provider-counted reasoning; equality of hidden compute is not
 claimed. No truncation, automatic request retry or synchronous model fallback.
 
@@ -63,7 +64,8 @@ uv run --project benchmark --locked --extra hub python -m unittest discover \
 ```
 
 The imported 37 tests were reproduced before edits. After integration there are
-62 passing kit/integration tests. Six inherited Luna regression tests also pass;
+62 passing kit/integration tests initially, then 67 after repair-v2 regressions.
+Six inherited Luna regression tests also pass;
 the old confirmation test now points at an immutable CONF40 campaign fixture,
 not the unrelated mutable R3 active campaign. A synthetic 3-document / 4-arm /
 7-slot (84 fake outputs) end-to-end CLI path was rerun locally. Its scores are
@@ -77,3 +79,28 @@ alter any frozen parent node or invoke the historical 41-job campaign.
 The runner stores logs under `logs/alias-followup-tracked/`. It emits a final
 status and an archive of its evidence in the persisted run log. A gate failure
 is a blocker, not evidence that virtual aliases do or do not improve ECI.
+
+## Observed smoke failure and one bounded repair
+
+Run `04704436-7ff7-4456-bc8c-44d306547de3`, source `0fbf1e5`, completed
+14 real requests. The batch-reported total cost is USD 0.01547165. Ten outputs
+hit the 4,096-token completion cap (including reasoning): A has only one complete
+generation, R has three. Eight truncated outputs spent the entire cap on reasoning.
+The largest A/R prompt-token difference was 0.29703%, below the 1% criterion.
+The gate correctly BLOCKED on truncation. No interpretable F1 comparison exists.
+
+A reporting bug in v1 nevertheless calculated a mechanical all-zero prediction
+score after a blocked gate. That archived score is excluded from scientific
+interpretation. Repair v2 makes gate PASS mandatory before aggregation, gold
+access or scoring; tests exercise this exclusion directly. Malformed provider
+triple-list schemas now fail instead of silently turning into empty predictions.
+
+Only one repair is planned: same document, same A/R selections, exact same
+messages and demo hashes, same high reasoning; raise the symmetric completion
+cap to 16,384. This is a declared budget revision, not a resubmission of the
+original 4,096-token requests or a merge of old and new votes. The shared ledger
+retains the first run's cost and the cumulative USD 0.25 limit. At the observed
+catalog prices, the conservative non-batch upper price is USD 0.0098304 per
+request; each request still reserves USD 0.01, with prices rechecked live before
+submission. At most 14 additional requests (28 cumulative) and no full DEV44
+pilot. If this second smoke is still incomplete, stop and request a decision.

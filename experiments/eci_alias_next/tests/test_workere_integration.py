@@ -7,7 +7,7 @@ import unittest
 from eci_alias.budget import verify
 from eci_alias.core import Document, prepare_view, validate_pair_view
 from eci_alias.eval import evaluate
-from eci_alias.workere_run import prepare, parse_response, byte_bound
+from eci_alias.workere_run import prepare, parse_response, byte_bound, protocol_limits, score_smoke
 
 
 def usage():
@@ -104,6 +104,40 @@ class TestGateRegressions(unittest.TestCase):
 
     def test_utf8_bound_counts_non_ascii_bytes(self):
         self.assertGreater(byte_bound([{'content':'é'}]), byte_bound([{'content':'e'}]))
+
+    def test_blocked_gate_never_reads_gold_or_scores(self):
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch('eci_alias.workere_run.read_jsonl', side_effect=AssertionError('gold read')):
+                with patch('eci_alias.cli.do_evaluate') as evaluate_mock:
+                    with self.assertRaisesRegex(ValueError, 'no scoring or gold access'):
+                        score_smoke(Path(tmp), 'd', {'status':'BLOCKED'})
+                    evaluate_mock.assert_not_called()
+            self.assertFalse((Path(tmp)/'evaluation.json').exists())
+
+    def test_provider_schema_mismatch_is_not_an_empty_prediction(self):
+        for content in ('[{"pair":"a,b","label":"causes"}]', '[[]]', '[["a","norel","b"]]'):
+            with self.assertRaisesRegex(ValueError,'positive-triple schema'):
+                parse_response(content)
+
+    def test_budget_revision_is_explicit(self):
+        cfg={'input_token_cap':16384,'completion_token_cap_including_reasoning':16384,
+             'passes':7,'threshold_votes':4,'auxiliary_token_cap':768,'reasoning_effort':'high'}
+        self.assertEqual(protocol_limits(cfg),(16384,16384))
+        cfg['completion_token_cap_including_reasoning']=4096
+        self.assertEqual(protocol_limits(cfg),(16384,4096))
+        cfg['completion_token_cap_including_reasoning']=32768
+        with self.assertRaises(ValueError):protocol_limits(cfg)
+
+    def test_revised_cap_does_not_salvage_truncated_old_outputs(self):
+        x=usage();x[0]['truncated']=True;x[0]['completion_tokens']=4096
+        self.assertEqual(verify(x,max_completion=16384,require_provenance=True)['status'],'BLOCKED')
+
+    def test_revised_completion_usage_requires_explicit_cap(self):
+        x=usage()
+        for row in x:row['completion_tokens']=8192
+        self.assertEqual(verify(x,require_provenance=True)['status'],'BLOCKED')
+        self.assertEqual(verify(x,max_completion=16384,require_provenance=True)['status'],'PASS')
 
 
 class TestFrozenRealRendering(unittest.TestCase):
