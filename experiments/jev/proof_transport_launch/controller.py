@@ -196,7 +196,13 @@ def main(argv=None):
         "read_gold": False,
     }
     if args.check:
-        client.validate_approval(approval, manifest, config, pricing)
+        client.validate_approval(
+            approval,
+            manifest,
+            config,
+            pricing,
+            collection_only=recipe.get("mode") == "collect_existing_only",
+        )
         print(
             json.dumps(
                 {"status": "PREFLIGHT_ONLY_NO_PROVIDER_CALLS", **check}, sort_keys=True
@@ -206,6 +212,22 @@ def main(argv=None):
     require(
         check["credential_present"], "MISSING_PROVIDER_CREDENTIAL_BEFORE_SUBMISSION"
     )
+    if recipe.get("mode") == "collect_existing_only":
+        from .recover_only import recover
+
+        require(state.is_dir(), "RECOVERY_REQUIRES_EXISTING_STATE")
+        context = Context(values)
+        try:
+            return recover(context)
+        except Exception as error:
+            context.emit(
+                "GET_ONLY_RECOVERY_STOPPED",
+                error_type=type(error).__name__,
+                reason=str(error),
+                new_model_posts=0,
+                budget=budget_status(Path(approval["ledger_path"]), digest(manifest)),
+            )
+            raise
     state.mkdir(parents=True, exist_ok=True, mode=0o700)
     context = Context(values)
     lock = (state / "controller.lock").open("a")
