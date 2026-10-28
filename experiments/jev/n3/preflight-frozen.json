@@ -1,0 +1,585 @@
+{
+  "gate": "PASS",
+  "planned_requests": 72,
+  "reserve_USD": 1.8,
+  "cap_USD": 2,
+  "max_input_utf8_bound": 20792,
+  "requests": [
+    {
+      "config": "n3-ordinary-14_9ecbplus",
+      "doc": "14_9ecbplus.xml",
+      "pass": 0,
+      "demo": "12_3ecbplus.xml",
+      "input_utf8_bound": 11560,
+      "request_sha256": "2769ef6577e2db6bf706ee3aa598a7e8d8638dac1dbd2a4cdec2785145ad5250"
+    },
+    {
+      "config": "n3-ordinary-14_9ecbplus",
+      "doc": "14_9ecbplus.xml",
+      "pass": 1,
+      "demo": "13_7ecbplus.xml",
+      "input_utf8_bound": 10855,
+      "request_sha256": "4809da34b40cad2e52115311f1bd7e47d9509f2acb7e991f93608082876d30db"
+    },
+    {
+      "config": "n3-ordinary-14_9ecbplus",
+      "doc": "14_9ecbplus.xml",
+      "pass": 2,
+      "demo": "7_9ecbplus.xml",
+      "input_utf8_bound": 8735,
+      "request_sha256": "6345722fca3c107c838523bee9e986191e4313d9aef62e34d1f76cd9e87fcfb2"
+    },
+    {
+      "config": "n3-contrastive-14_9ecbplus",
+      "doc": "14_9ecbplus.xml",
+      "pass": 0,
+      "demo": "3_9ecbplus.xml",
+      "input_utf8_bound": 9995,
+      "request_sha256": "9cff9dc7592c5701e9a83dc8b73b88a58104feefca4b07a2abab95fb01cfff24"
+    },
+    {
+      "config": "n3-contrastive-14_9ecbplus",
+      "doc": "14_9ecbplus.xml",
+      "pass": 1,
+      "demo": "13_7ecbplus.xml",
+      "input_utf8_bound": 11201,
+      "request_sha256": "9d0b804de4ed9c32d545bf6227246b9b9bbf8f5e30794ee1f9054d93946affd8"
+    },
+    {
+      "config": "n3-contrastive-14_9ecbplus",
+      "doc": "14_9ecbplus.xml",
+      "pass": 2,
+      "demo": "19_11ecbplus.xml",
+      "input_utf8_bound": 11345,
+      "request_sha256": "29218595309106a9325cbe457c4c1c7704e4b19c96778eb087dccaf5852036e5"
+    },
+    {
+      "config": "n3-ordinary-1_19ecbplus",
+      "doc": "1_19ecbplus.xml",
+      "pass": 0,
+      "demo": "13_7ecbplus.xml",
+      "input_utf8_bound": 11460,
+      "request_sha256": "63572609e16e1ad9c4333d4bb26ea016955c910d70f7bc388befae498fe8c703"
+    },
+    {
+      "config": "n3-ordinary-1_19ecbplus",
+      "doc": "1_19ecbplus.xml",
+      "pass": 1,
+      "demo": "3_6ecbplus.xml",
+      "input_utf8_bound": 11081,
+      "request_sha256": "11878448ba11deee0da358638f4a70e9e95a29c6feb6bd4ff23027aeb4d0f3b8"
+    },
+    {
+      "config": "n3-ordinary-1_19ecbplus",
+      "doc": "1_19ecbplus.xml",
+      "pass": 2,
+      "demo": "19_11ecbplus.xml",
+      "input_utf8_bound": 11602,
+      "request_sha256": "b5d5e24bc5e30d12dd34aa71c05b3e257d4e89c9adf96002c87ce33c711f3977"
+    },
+    {
+      "config": "n3-contrastive-1_19ecbplus",
+      "doc": "1_19ecbplus.xml",
+      "pass": 0,
+      "demo": "3_6ecbplus.xml",
+      "input_utf8_bound": 11427,
+      "request_sha256": "b1d9866966e7c4b3dbc64b05acda9cdfaa8d94a8b41c84712806a370605a669a"
+    },
+    {
+      "config": "n3-contrastive-1_19ecbplus",
+      "doc": "1_19ecbplus.xml",
+      "pass": 1,
+      "demo": "3_9ecbplus.xml",
+      "input_utf8_bound": 10600,
+      "request_sha256": "e9f14df773806b34d9fe2b40d08947afcd8fc9f9f9ad87e347d1e5166a25e7a0"
+    },
+    {
+      "config": "n3-contrastive-1_19ecbplus",
+      "doc": "1_19ecbplus.xml",
+      "pass": 2,
+      "demo": "30_12ecbplus.xml",
+      "input_utf8_bound": 9605,
+      "request_sha256": "ad9729004ee284fcd079aa5eaf161dcddbf4696f7466ca9d942ec79894554b06"
+    },
+    {
+      "config": "n3-ordinary-33_8ecbplus",
+      "doc": "33_8ecbplus.xml",
+      "pass": 0,
+      "demo": "30_12ecbplus.xml",
+      "input_utf8_bound": 8638,
+      "request_sha256": "3dcb863001a9664fe17f2e77810e29aee78f99a21c68115328100b2bf3e91281"
+    },
+    {
+      "config": "n3-ordinary-33_8ecbplus",
+      "doc": "33_8ecbplus.xml",
+      "pass": 1,
+      "demo": "7_9ecbplus.xml",
+      "input_utf8_bound": 8727,
+      "request_sha256": "a9ecee9a92143b5642ac21d2235edb06578106ba424adfa90bc78dd1896666da"
+    },
+    {
+      "config": "n3-ordinary-33_8ecbplus",
+      "doc": "33_8ecbplus.xml",
+      "pass": 2,
+      "demo": "4_4ecbplus.xml",
+      "input_utf8_bound": 7460,
+      "request_sha256": "d2a22cd9862a1428767398fef02395e90e48eec14c9e469f6ba87ef7c64f5613"
+    },
+    {
+      "config": "n3-contrastive-33_8ecbplus",
+      "doc": "33_8ecbplus.xml",
+      "pass": 0,
+      "demo": "30_12ecbplus.xml",
+      "input_utf8_bound": 8992,
+      "request_sha256": "b558b363382f058a4f952097fc0dee60e5f8eeaa1e34c721b6f0b9abf4cb007f"
+    },
+    {
+      "config": "n3-contrastive-33_8ecbplus",
+      "doc": "33_8ecbplus.xml",
+      "pass": 1,
+      "demo": "3_6ecbplus.xml",
+      "input_utf8_bound": 10814,
+      "request_sha256": "64b9d0ad7136bae210ff040607dac4a917c80bc761c7d64db262c2c42c3d0321"
+    },
+    {
+      "config": "n3-contrastive-33_8ecbplus",
+      "doc": "33_8ecbplus.xml",
+      "pass": 2,
+      "demo": "1_14ecbplus.xml",
+      "input_utf8_bound": 9746,
+      "request_sha256": "0db58c000fdb3e0d3b94ed4ca60eaa69bb11eaf2e5bcc245625a3fbcc5e79b3f"
+    },
+    {
+      "config": "n3-ordinary-22_4ecbplus",
+      "doc": "22_4ecbplus.xml",
+      "pass": 0,
+      "demo": "1_21ecbplus.xml",
+      "input_utf8_bound": 8126,
+      "request_sha256": "9fa88dc379901b12ef3b59f5b2ab65dbd13d5f9aa2d85b0b3057562b1bf78d6f"
+    },
+    {
+      "config": "n3-ordinary-22_4ecbplus",
+      "doc": "22_4ecbplus.xml",
+      "pass": 1,
+      "demo": "7_9ecbplus.xml",
+      "input_utf8_bound": 8278,
+      "request_sha256": "064d33d0831c9bd256af960f8c8ad47ecb4fee0854a18e5ced9d76fffebc6925"
+    },
+    {
+      "config": "n3-ordinary-22_4ecbplus",
+      "doc": "22_4ecbplus.xml",
+      "pass": 2,
+      "demo": "20_8ecbplus.xml",
+      "input_utf8_bound": 12889,
+      "request_sha256": "31caf8204d03e3dfa0ed1b9057d1f516481daaf9b14f27d1da1484caaeaf8d44"
+    },
+    {
+      "config": "n3-contrastive-22_4ecbplus",
+      "doc": "22_4ecbplus.xml",
+      "pass": 0,
+      "demo": "5_6ecbplus.xml",
+      "input_utf8_bound": 9825,
+      "request_sha256": "d7b3c670408e98eac5b710592bb31870222bc762a85124e98eded4c51bb26eb4"
+    },
+    {
+      "config": "n3-contrastive-22_4ecbplus",
+      "doc": "22_4ecbplus.xml",
+      "pass": 1,
+      "demo": "18_3ecbplus.xml",
+      "input_utf8_bound": 11106,
+      "request_sha256": "f9f8eeb7b50194f0a9565f1c8416f29349bc0c780c82f1600a27501fd6a6c212"
+    },
+    {
+      "config": "n3-contrastive-22_4ecbplus",
+      "doc": "22_4ecbplus.xml",
+      "pass": 2,
+      "demo": "12_3ecbplus.xml",
+      "input_utf8_bound": 11447,
+      "request_sha256": "a60f400abe67dede6545dae5569dd79520f0fe8a88a1d4912343607638b19bd1"
+    },
+    {
+      "config": "n3-ordinary-24_8ecbplus",
+      "doc": "24_8ecbplus.xml",
+      "pass": 0,
+      "demo": "32_6ecbplus.xml",
+      "input_utf8_bound": 9444,
+      "request_sha256": "3423cd8e99f9f2204e8a0eebbb76e683d417101573b5503cb940d79379dee17d"
+    },
+    {
+      "config": "n3-ordinary-24_8ecbplus",
+      "doc": "24_8ecbplus.xml",
+      "pass": 1,
+      "demo": "1_6ecbplus.xml",
+      "input_utf8_bound": 7106,
+      "request_sha256": "619b53866e7203ce6a2de697b27996ab4b47e93fe1063ab786f7dba30c075a34"
+    },
+    {
+      "config": "n3-ordinary-24_8ecbplus",
+      "doc": "24_8ecbplus.xml",
+      "pass": 2,
+      "demo": "30_1ecbplus.xml",
+      "input_utf8_bound": 11259,
+      "request_sha256": "79a83262d5d0e513f415bd05438d8157c6dede20916b717d5403f450ae5c3256"
+    },
+    {
+      "config": "n3-contrastive-24_8ecbplus",
+      "doc": "24_8ecbplus.xml",
+      "pass": 0,
+      "demo": "3_9ecbplus.xml",
+      "input_utf8_bound": 9978,
+      "request_sha256": "79cfb53e4d15b6f228ba62ad6258034eb5333937415f9405d3ea826824df6cf5"
+    },
+    {
+      "config": "n3-contrastive-24_8ecbplus",
+      "doc": "24_8ecbplus.xml",
+      "pass": 1,
+      "demo": "3_6ecbplus.xml",
+      "input_utf8_bound": 10805,
+      "request_sha256": "a9a5246635e79c3b303bcd3ac23a1b1e35bbe7dc492cec47c069310e6da7f3c0"
+    },
+    {
+      "config": "n3-contrastive-24_8ecbplus",
+      "doc": "24_8ecbplus.xml",
+      "pass": 2,
+      "demo": "13_7ecbplus.xml",
+      "input_utf8_bound": 11184,
+      "request_sha256": "64b11e83230cbb624f2fb2c7d46aaf2d4bfa750e518698c00bdc3840ef2f7c2f"
+    },
+    {
+      "config": "n3-ordinary-12_9ecbplus",
+      "doc": "12_9ecbplus.xml",
+      "pass": 0,
+      "demo": "35_7ecbplus.xml",
+      "input_utf8_bound": 10699,
+      "request_sha256": "565a8a510eca59f400efb98cfcd8ede670272d4e31589d8a4b5242f0f1dfe615"
+    },
+    {
+      "config": "n3-ordinary-12_9ecbplus",
+      "doc": "12_9ecbplus.xml",
+      "pass": 1,
+      "demo": "30_12ecbplus.xml",
+      "input_utf8_bound": 10305,
+      "request_sha256": "362a732577baed79ce8a8c1f4e21ca38fea45db86ab109a239155378c5ffa072"
+    },
+    {
+      "config": "n3-ordinary-12_9ecbplus",
+      "doc": "12_9ecbplus.xml",
+      "pass": 2,
+      "demo": "1_6ecbplus.xml",
+      "input_utf8_bound": 8782,
+      "request_sha256": "0089f7f6cd114f3cdef50fa4248e001262c59076f361bf508513515e77297277"
+    },
+    {
+      "config": "n3-contrastive-12_9ecbplus",
+      "doc": "12_9ecbplus.xml",
+      "pass": 0,
+      "demo": "18_3ecbplus.xml",
+      "input_utf8_bound": 13222,
+      "request_sha256": "15fbcbbc100ba3d9d7256f7800b24494770bab422603eb2fec0b9c0e63d9aed9"
+    },
+    {
+      "config": "n3-contrastive-12_9ecbplus",
+      "doc": "12_9ecbplus.xml",
+      "pass": 1,
+      "demo": "16_11ecbplus.xml",
+      "input_utf8_bound": 10119,
+      "request_sha256": "a96a7c7b46e9542421a24f693915752f1f7738f06f0dd62be9bacf5a4f86039a"
+    },
+    {
+      "config": "n3-contrastive-12_9ecbplus",
+      "doc": "12_9ecbplus.xml",
+      "pass": 2,
+      "demo": "13_5ecbplus.xml",
+      "input_utf8_bound": 18941,
+      "request_sha256": "8e6bdcfb2434404b4fe3474e999cd19ea18d1b81c597fce53fb7f5e04f946bf9"
+    },
+    {
+      "config": "n3-ordinary-16_6ecbplus",
+      "doc": "16_6ecbplus.xml",
+      "pass": 0,
+      "demo": "30_1ecbplus.xml",
+      "input_utf8_bound": 12572,
+      "request_sha256": "cf93c2ae124676fe1ea543d4f2705c9e08d10efa56c95d2b62f85facb3b8b3cb"
+    },
+    {
+      "config": "n3-ordinary-16_6ecbplus",
+      "doc": "16_6ecbplus.xml",
+      "pass": 1,
+      "demo": "5_6ecbplus.xml",
+      "input_utf8_bound": 11406,
+      "request_sha256": "24c32512a87a92bbc9160d2cd00b0d2cba84998160c23dd3fe2243cb5ff24ec9"
+    },
+    {
+      "config": "n3-ordinary-16_6ecbplus",
+      "doc": "16_6ecbplus.xml",
+      "pass": 2,
+      "demo": "30_12ecbplus.xml",
+      "input_utf8_bound": 9942,
+      "request_sha256": "c791cb320953afc11c0b6cdd2d5b6ded1c6952c9f57b1fc43f927e3e1519a8d8"
+    },
+    {
+      "config": "n3-contrastive-16_6ecbplus",
+      "doc": "16_6ecbplus.xml",
+      "pass": 0,
+      "demo": "19_11ecbplus.xml",
+      "input_utf8_bound": 12641,
+      "request_sha256": "93101de20459431fcfd3fd8d8891464dd93332e28acfaae173893fc9c7a3dd22"
+    },
+    {
+      "config": "n3-contrastive-16_6ecbplus",
+      "doc": "16_6ecbplus.xml",
+      "pass": 1,
+      "demo": "13_7ecbplus.xml",
+      "input_utf8_bound": 12497,
+      "request_sha256": "93058588c1711d652fc7c3ac75bdad9f817714acb70e3cdbb53982f4cfa6f172"
+    },
+    {
+      "config": "n3-contrastive-16_6ecbplus",
+      "doc": "16_6ecbplus.xml",
+      "pass": 2,
+      "demo": "7_9ecbplus.xml",
+      "input_utf8_bound": 10379,
+      "request_sha256": "cbbcb7a3af41dff8b64847ff37fd090f25804b9f44355606ae6fbb62412c891f"
+    },
+    {
+      "config": "n3-ordinary-7_5ecbplus",
+      "doc": "7_5ecbplus.xml",
+      "pass": 0,
+      "demo": "35_7ecbplus.xml",
+      "input_utf8_bound": 10718,
+      "request_sha256": "5a9ac9dd92ef2aefc0e401ea07d38a4268d376ecc381ff08ca18ebb635733655"
+    },
+    {
+      "config": "n3-ordinary-7_5ecbplus",
+      "doc": "7_5ecbplus.xml",
+      "pass": 1,
+      "demo": "4_4ecbplus.xml",
+      "input_utf8_bound": 9146,
+      "request_sha256": "92e1282b8a51c5154da3eb3467f71664869aa7e3cbe7d7e81b043581c660b8c3"
+    },
+    {
+      "config": "n3-ordinary-7_5ecbplus",
+      "doc": "7_5ecbplus.xml",
+      "pass": 2,
+      "demo": "32_6ecbplus.xml",
+      "input_utf8_bound": 11139,
+      "request_sha256": "2c5f9624cba1517fe8d31bb98a5b2ff92e2d76585dc6226b81f9fbf4fc5cf44f"
+    },
+    {
+      "config": "n3-contrastive-7_5ecbplus",
+      "doc": "7_5ecbplus.xml",
+      "pass": 0,
+      "demo": "35_7ecbplus.xml",
+      "input_utf8_bound": 11068,
+      "request_sha256": "e9f12b4307e32350edb787483a691d6d2be8d2f141676913b34981a6877a5f48"
+    },
+    {
+      "config": "n3-contrastive-7_5ecbplus",
+      "doc": "7_5ecbplus.xml",
+      "pass": 1,
+      "demo": "20_8ecbplus.xml",
+      "input_utf8_bound": 15370,
+      "request_sha256": "8ee685944ddb4df7d069edffd58686c7b5bf24221dfa89328c31bbc038744d18"
+    },
+    {
+      "config": "n3-contrastive-7_5ecbplus",
+      "doc": "7_5ecbplus.xml",
+      "pass": 2,
+      "demo": "30_1ecbplus.xml",
+      "input_utf8_bound": 13300,
+      "request_sha256": "e3ae169abce62bfb2e38b040f4787f372e73abd8138cad4aec913d832619d213"
+    },
+    {
+      "config": "n3-ordinary-20_1ecbplus",
+      "doc": "20_1ecbplus.xml",
+      "pass": 0,
+      "demo": "1_14ecbplus.xml",
+      "input_utf8_bound": 11166,
+      "request_sha256": "429f702dc56004a9d33491ad2850e33781d24ce54cd44d99b6aae24a3e3cdfbc"
+    },
+    {
+      "config": "n3-ordinary-20_1ecbplus",
+      "doc": "20_1ecbplus.xml",
+      "pass": 1,
+      "demo": "4_4ecbplus.xml",
+      "input_utf8_bound": 9228,
+      "request_sha256": "1c9921a408e38ae21a4e124e0a31feda3f50a3bf441afab0d04fe08d8e58cd3a"
+    },
+    {
+      "config": "n3-ordinary-20_1ecbplus",
+      "doc": "20_1ecbplus.xml",
+      "pass": 2,
+      "demo": "13_5ecbplus.xml",
+      "input_utf8_bound": 18696,
+      "request_sha256": "f77e4f063ee1f31052fd12df62745647717a32d6e41116f052c042ba34763891"
+    },
+    {
+      "config": "n3-contrastive-20_1ecbplus",
+      "doc": "20_1ecbplus.xml",
+      "pass": 0,
+      "demo": "30_1ecbplus.xml",
+      "input_utf8_bound": 13382,
+      "request_sha256": "4edf1bad5f9a784d1f84719f373bedaa261e38cc5851e26164d67fcc75311dd1"
+    },
+    {
+      "config": "n3-contrastive-20_1ecbplus",
+      "doc": "20_1ecbplus.xml",
+      "pass": 1,
+      "demo": "35_7ecbplus.xml",
+      "input_utf8_bound": 11150,
+      "request_sha256": "4d177c0d5433f939e0adc6ad57aa9d5d2db33fec108b6357eb78a7981cd31fe9"
+    },
+    {
+      "config": "n3-contrastive-20_1ecbplus",
+      "doc": "20_1ecbplus.xml",
+      "pass": 2,
+      "demo": "7_9ecbplus.xml",
+      "input_utf8_bound": 10843,
+      "request_sha256": "6b1a6a7891fae9a90afa443ce73b007ca42d9308d2faa7f85e461e71ef6ae386"
+    },
+    {
+      "config": "n3-ordinary-41_5ecbplus",
+      "doc": "41_5ecbplus.xml",
+      "pass": 0,
+      "demo": "35_7ecbplus.xml",
+      "input_utf8_bound": 12550,
+      "request_sha256": "fbdc4a972f348c5b106b4c1e910f1086af355f027407dca310ddb30e88ddc85f"
+    },
+    {
+      "config": "n3-ordinary-41_5ecbplus",
+      "doc": "41_5ecbplus.xml",
+      "pass": 1,
+      "demo": "12_3ecbplus.xml",
+      "input_utf8_bound": 15070,
+      "request_sha256": "dc99fb5209fbe1c5d30ac0a31d2af3a7d1a982e1ab74b5910db07517b4bfc9bd"
+    },
+    {
+      "config": "n3-ordinary-41_5ecbplus",
+      "doc": "41_5ecbplus.xml",
+      "pass": 2,
+      "demo": "1_6ecbplus.xml",
+      "input_utf8_bound": 10633,
+      "request_sha256": "a056fee0712ecb0196101be372e7f1e03c19499d47ae4d41a17c9b7106ec0a63"
+    },
+    {
+      "config": "n3-contrastive-41_5ecbplus",
+      "doc": "41_5ecbplus.xml",
+      "pass": 0,
+      "demo": "13_5ecbplus.xml",
+      "input_utf8_bound": 20792,
+      "request_sha256": "bcd0ef8612a2cbe2fd728664b2db7079f19b054e40f3aa533da92cdca2a3f11e"
+    },
+    {
+      "config": "n3-contrastive-41_5ecbplus",
+      "doc": "41_5ecbplus.xml",
+      "pass": 1,
+      "demo": "20_8ecbplus.xml",
+      "input_utf8_bound": 17202,
+      "request_sha256": "d94537d5aab59aa6d1f5ec602ed8cb484390a7cf7faf9214f9956358241d77d8"
+    },
+    {
+      "config": "n3-contrastive-41_5ecbplus",
+      "doc": "41_5ecbplus.xml",
+      "pass": 2,
+      "demo": "19_11ecbplus.xml",
+      "input_utf8_bound": 14855,
+      "request_sha256": "f8152cb49638ee61a7fe57840567f3d15eab5a8ad2688f4520030c96c00b12fe"
+    },
+    {
+      "config": "n3-ordinary-18_7ecbplus",
+      "doc": "18_7ecbplus.xml",
+      "pass": 0,
+      "demo": "35_7ecbplus.xml",
+      "input_utf8_bound": 12168,
+      "request_sha256": "864e46641d719a0d40805dcba93ed748dd8ecacf6d54692597e9008d51cb992c"
+    },
+    {
+      "config": "n3-ordinary-18_7ecbplus",
+      "doc": "18_7ecbplus.xml",
+      "pass": 1,
+      "demo": "19_11ecbplus.xml",
+      "input_utf8_bound": 14125,
+      "request_sha256": "bf2a571bbc88157fb408f6ff70899a7da1d8014a7262d7a74283cd096b04e1d0"
+    },
+    {
+      "config": "n3-ordinary-18_7ecbplus",
+      "doc": "18_7ecbplus.xml",
+      "pass": 2,
+      "demo": "4_4ecbplus.xml",
+      "input_utf8_bound": 10596,
+      "request_sha256": "bac1e781b4528a3f0f95969f5fd6949fefdce2edf6031f62e89f49519778522e"
+    },
+    {
+      "config": "n3-contrastive-18_7ecbplus",
+      "doc": "18_7ecbplus.xml",
+      "pass": 0,
+      "demo": "13_5ecbplus.xml",
+      "input_utf8_bound": 20410,
+      "request_sha256": "8d4596e0a3bf306e7cfe71c39eafbd66410cab15143ff8a376ef573eb80fdeb3"
+    },
+    {
+      "config": "n3-contrastive-18_7ecbplus",
+      "doc": "18_7ecbplus.xml",
+      "pass": 1,
+      "demo": "19_11ecbplus.xml",
+      "input_utf8_bound": 14473,
+      "request_sha256": "9e8ddb01594a572ae2745750b2553843cd4ef1772bdc3e0e43f5412ba3862aa1"
+    },
+    {
+      "config": "n3-contrastive-18_7ecbplus",
+      "doc": "18_7ecbplus.xml",
+      "pass": 2,
+      "demo": "14_2ecbplus.xml",
+      "input_utf8_bound": 11197,
+      "request_sha256": "65ba9eaf311c465be915c611f4ab6d8c02f1b1536a9e1f34540b4f73bb9f4f72"
+    },
+    {
+      "config": "n3-ordinary-5_7ecbplus",
+      "doc": "5_7ecbplus.xml",
+      "pass": 0,
+      "demo": "14_2ecbplus.xml",
+      "input_utf8_bound": 7169,
+      "request_sha256": "f3685fa1e0d5b3c0c922b1f9a1acde43e2f962f2fa159b3b74dddf260b973171"
+    },
+    {
+      "config": "n3-ordinary-5_7ecbplus",
+      "doc": "5_7ecbplus.xml",
+      "pass": 1,
+      "demo": "30_1ecbplus.xml",
+      "input_utf8_bound": 10720,
+      "request_sha256": "e58f8db596a576eb303be972e9c7348ce09eb049f04c5d1c1607b623d5adb839"
+    },
+    {
+      "config": "n3-ordinary-5_7ecbplus",
+      "doc": "5_7ecbplus.xml",
+      "pass": 2,
+      "demo": "19_11ecbplus.xml",
+      "input_utf8_bound": 10441,
+      "request_sha256": "1e3c9e3c325d62f7a01f96bda886d3272f05a0e068f165b72a7f54536f9004bf"
+    },
+    {
+      "config": "n3-contrastive-5_7ecbplus",
+      "doc": "5_7ecbplus.xml",
+      "pass": 0,
+      "demo": "12_3ecbplus.xml",
+      "input_utf8_bound": 11348,
+      "request_sha256": "4ea0d7085e6ad13b7d26f4285e5c393c1a01b55ec84139a2f9dc653a3a2a65df"
+    },
+    {
+      "config": "n3-contrastive-5_7ecbplus",
+      "doc": "5_7ecbplus.xml",
+      "pass": 1,
+      "demo": "13_7ecbplus.xml",
+      "input_utf8_bound": 10645,
+      "request_sha256": "aebd805bfa95cef4cb4a3f68ad17f22d349b772a2457abf219b3577d68273942"
+    },
+    {
+      "config": "n3-contrastive-5_7ecbplus",
+      "doc": "5_7ecbplus.xml",
+      "pass": 2,
+      "demo": "14_2ecbplus.xml",
+      "input_utf8_bound": 7513,
+      "request_sha256": "e24f0fe2142b9107afebe976ea6f72c340deac314a1e48b851db0f18b6cd594c"
+    }
+  ]
+}

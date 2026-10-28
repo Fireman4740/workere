@@ -1,0 +1,68 @@
+schema: workere-experiment/v1
+name: n3-ordinary-12_9ecbplus
+dataset:
+  name: esc
+  split: train
+  suite: ../round4/suites/12_9ecbplus.xml.json
+protocol: relation_gold_mentions
+seed: 20261028
+plugins:
+- pipelines.jev.llm
+models:
+- id: openai/gpt-6-luna:batch
+  version: gpt-6-luna-20260922
+pipeline:
+  entity_extractor:
+    plugin: reference
+    version: '1'
+  candidate_generator:
+    plugin: historical
+    version: '1'
+  relation_predictor:
+    plugin: luna_document
+    version: '1'
+    params:
+      client:
+        provider: openrouter
+        endpoint: https://openrouter.ai/api/v1/batches
+        model: openai/gpt-6-luna:batch
+        model_version: gpt-6-luna-20260922
+        api_key_env: OPENROUTER_API_KEY
+        mode: live
+        timeout: 600
+        retries: 0
+        requests_per_minute: 6000
+        max_calls: 3
+        max_context_tokens: 65536
+        budget_usd: 0.08
+        max_cost_per_call_usd: 0.025
+        input_price_per_million: 0.1
+        cache_path: logs/n3-cache/ordinary-12_9ecbplus.xml.sqlite
+        retry_backoff_seconds: 2
+        retry_max_wait_seconds: 3600
+        reasoning_effort: high
+        max_output_tokens: 32768
+        shared_budget:
+          path: logs/n3-shared-budget.sqlite
+          scope: n3-fresh-dev12-20261028-cap2usd
+          limit_usd: 2
+          initial_spend_usd: 0
+      path: ../../../prompts/esl_standard_eci_lean_coref.yaml
+      selection_path: experiments/jev/document-selection.json
+      repo_id: Nofing/EventStoryLine-0.9-standard-eci-workere
+      revision: e6418e8747ac1c7fecf66d56ae41fbde7fd5967a
+      passes: 3
+      demo_bank_path: experiments/jev/round4/demo-bank.json
+      demo_selection: random
+evaluation:
+  primary_metric: binary
+  bootstrap_samples: 0
+  confidence_level: 0.95
+  bootstrap_seed: 42
+  require_historical_parity: false
+  historical_reports: []
+execution:
+  allow_network: true
+  allow_paid: true
+  error_policy: raise
+output_dir: ../../../logs/jev-runs

@@ -60,6 +60,9 @@ def main(argv=None):
         return 0
     configs = _configs(args.config)
     if args.command == "dry-run":
+        if read_yaml(args.config).get("n3_evaluation"):
+            from pipelines.jev.n3 import preflight
+            preflight(configs)
         from pipelines.jev.planning import plan
         plans = [plan(config) for config in configs]
         result = plans[0] if len(plans) == 1 else {"schema": "workere-jev-campaign-plan/v1", "plans": plans,
@@ -89,6 +92,13 @@ def main(argv=None):
             print(json.dumps({"run_dir": run["run_dir"], "summary": metrics["summary"],
                               "uncertainty": metrics["uncertainty"],
                               "metadata": read_json(directory / "metadata.json")}, ensure_ascii=False), flush=True)
+    n3 = read_yaml(args.config).get("n3_evaluation")
+    if n3:
+        from pathlib import Path
+        from pipelines.jev.n3 import evaluate
+        report = evaluate(result, Path(args.config).parent / n3["control_path"])
+        write_json(Path(args.output).with_name("n3-result.json"), report)
+        print("N3_RESULT " + json.dumps(report, ensure_ascii=False), flush=True)
     post = read_yaml(args.config).get("round4_evaluation")
     if post and result["status"] != "errors":
         from pathlib import Path

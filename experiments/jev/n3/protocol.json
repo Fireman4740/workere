@@ -1,0 +1,36 @@
+{
+  "study": "N3",
+  "role": "exploratory exposed DEV, not independent confirmation",
+  "selection": "one hash-min eligible document per topic; hash-min12 topics; eligibility <=35 mentions; only ID/candidate count used",
+  "document_ids": [
+    "14_9ecbplus.xml",
+    "1_19ecbplus.xml",
+    "33_8ecbplus.xml",
+    "22_4ecbplus.xml",
+    "24_8ecbplus.xml",
+    "12_9ecbplus.xml",
+    "16_6ecbplus.xml",
+    "7_5ecbplus.xml",
+    "20_1ecbplus.xml",
+    "41_5ecbplus.xml",
+    "18_7ecbplus.xml",
+    "5_7ecbplus.xml"
+  ],
+  "passes": 3,
+  "seed": 20261028,
+  "arms": [
+    "fresh ordinary random gold-positive demonstrations",
+    "fresh structural contrastive gold-positive plus explicit gold-negative demonstrations"
+  ],
+  "shared": "same base prompt, model route/version, high reasoning, one-demo-per-read, max_tokens32768, max_context65536, seed, document inputs, frozen d1 and fusion0.39",
+  "changed": "R4-B demonstration retrieval plus explicit negatives, packaged guidance intervention",
+  "budget": "USD2 new cumulative cap;72calls max, per-call reserveUSD0.025,total reserveUSD1.8; no retries or rescue",
+  "primary": "paired micro-F1 contrastive-minus-ordinary fused with fixed d1 at threshold0.39",
+  "bootstrap": "5000 topic-cluster draws seed20261028",
+  "promotion": "candidate only if >=1pp and topicCI95 lower>0; no production promotion here",
+  "integrity": "all72 replies complete, parseable, expected declared model; incomplete => INCONCLUSIVE, no negatives substituted",
+  "human_annotation": false,
+  "training": false,
+  "multiple_stochastic_schedules": false,
+  "limitation": "one schedule,3 independent model reads per arm; no claim that compute usage or token cost equal, same allocation and ceilings only"
+}
