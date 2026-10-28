@@ -1,0 +1,77 @@
+{
+ "study": "N8",
+ "parent": "N5 archived-subset efficiency observation",
+ "role": "exposed development feasibility; not independent confirmation",
+ "document_ids": [
+  "4_1ecbplus.xml",
+  "35_9ecbplus.xml",
+  "1_19ecbplus.xml",
+  "22_4ecbplus.xml",
+  "7_5ecbplus.xml",
+  "19_1ecbplus.xml",
+  "18_8ecbplus.xml",
+  "5_7ecbplus.xml"
+ ],
+ "selection": {
+  "hash_prefix": "N8-20261028::",
+  "algorithm": "exclude N7 document IDs, <=35 mentions, min sha256 doc per topic, min sha256 topic first8",
+  "excluded_N7": [
+   "32_7ecbplus.xml",
+   "7_11ecbplus.xml",
+   "37_9ecbplus.xml",
+   "24_4ecbplus.xml",
+   "1_13ecbplus.xml",
+   "33_11ecbplus.xml",
+   "30_5ecbplus.xml",
+   "20_10ecbplus.xml",
+   "35_6ecbplus.xml",
+   "23_9ecbplus.xml",
+   "19_3ecbplus.xml",
+   "13_14ecbplus.xml",
+   "14_1ecbplus.xml",
+   "12_10ecbplus.xml",
+   "3_5ecbplus.xml",
+   "8_5ecbplus.xml"
+  ],
+  "eligible_documents": 25,
+  "eligible_topics": 19,
+  "source_metadata_sha256": "3128acc49ad6ac61c886462fd4e32463b7e9b337e50a5f7622c12f2692e2ac7e"
+ },
+ "model": "openai/gpt-6-luna:batch",
+ "canonical_model": "openai/gpt-6-luna-20260922",
+ "reasoning_effort": "high",
+ "max_output_tokens": 32768,
+ "max_context_tokens": 65536,
+ "max_calls": 56,
+ "max_new_USD": 1.5,
+ "per_call_reservation_USD": 0.025,
+ "reservation_USD": 1.4,
+ "demo_seed": 20261029,
+ "demonstrations": "seven distinct frozen ordinary gold-positive demonstrations outside each target topic",
+ "comparison": "first3 shared responses versus all7 from exactly same fresh schedule; no subset selection",
+ "fusion": "(L_ab+L_ba+d1_ab+d1_ba)/4 >=0.39",
+ "positive_probability": "one last-label-wins directed causal vote per pass; omitted norel",
+ "primary": "micro F1(first3)-micro F1(all7) points on ordered candidates",
+ "noninferiority_margin_pp": 1.0,
+ "decision": "NONINFERIOR_DEVELOPMENT if all56 valid and bootstrap CI95 lower > -1pp; INFERIOR if upper < -1pp; otherwise INCONCLUSIVE",
+ "bootstrap": {
+  "unit": "topic",
+  "draws": 10000,
+  "seed": 20261029,
+  "percentile_indices": [
+   250,
+   9749
+  ]
+ },
+ "integrity": "all56 full stop, expected declared model, parseable arrays, allowed IDs/labels and exact coverage; any failure blocks primary; no partial negatives, retries, paid rescue or threshold tuning",
+ "human_annotation": false,
+ "training": false,
+ "gold_policy": "d1 separate from labels; all56 outputs and both fused decision sets frozen/hash-receipted before controls labels read; cohort uses metadata only; corpus already exposed",
+ "limitations": [
+  "one fresh schedule only",
+  "eight topics, <=35 mention restriction",
+  "conditional d1 fixed historical values; historical d1 cost excluded",
+  "57.14% call saving concerns Luna only; billed token and cache costs may differ",
+  "model alias weights unverified if no fingerprint"
+ ]
+}

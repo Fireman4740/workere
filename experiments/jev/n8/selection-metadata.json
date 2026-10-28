@@ -1,0 +1,222 @@
+[
+ {
+  "id": "1_13ecbplus.xml",
+  "mentions": 25,
+  "topic": "1"
+ },
+ {
+  "id": "1_19ecbplus.xml",
+  "mentions": 30,
+  "topic": "1"
+ },
+ {
+  "id": "3_11ecbplus.xml",
+  "mentions": 52,
+  "topic": "3"
+ },
+ {
+  "id": "3_5ecbplus.xml",
+  "mentions": 15,
+  "topic": "3"
+ },
+ {
+  "id": "4_1ecbplus.xml",
+  "mentions": 24,
+  "topic": "4"
+ },
+ {
+  "id": "4_2ecbplus.xml",
+  "mentions": 15,
+  "topic": "4"
+ },
+ {
+  "id": "5_5ecbplus.xml",
+  "mentions": 7,
+  "topic": "5"
+ },
+ {
+  "id": "5_7ecbplus.xml",
+  "mentions": 3,
+  "topic": "5"
+ },
+ {
+  "id": "7_11ecbplus.xml",
+  "mentions": 23,
+  "topic": "7"
+ },
+ {
+  "id": "7_5ecbplus.xml",
+  "mentions": 34,
+  "topic": "7"
+ },
+ {
+  "id": "8_4ecbplus.xml",
+  "mentions": 26,
+  "topic": "8"
+ },
+ {
+  "id": "8_5ecbplus.xml",
+  "mentions": 31,
+  "topic": "8"
+ },
+ {
+  "id": "12_10ecbplus.xml",
+  "mentions": 7,
+  "topic": "12"
+ },
+ {
+  "id": "12_9ecbplus.xml",
+  "mentions": 12,
+  "topic": "12"
+ },
+ {
+  "id": "13_14ecbplus.xml",
+  "mentions": 6,
+  "topic": "13"
+ },
+ {
+  "id": "13_4ecbplus.xml",
+  "mentions": 23,
+  "topic": "13"
+ },
+ {
+  "id": "14_1ecbplus.xml",
+  "mentions": 5,
+  "topic": "14"
+ },
+ {
+  "id": "14_9ecbplus.xml",
+  "mentions": 17,
+  "topic": "14"
+ },
+ {
+  "id": "16_6ecbplus.xml",
+  "mentions": 22,
+  "topic": "16"
+ },
+ {
+  "id": "16_9ecbplus.xml",
+  "mentions": 11,
+  "topic": "16"
+ },
+ {
+  "id": "18_7ecbplus.xml",
+  "mentions": 17,
+  "topic": "18"
+ },
+ {
+  "id": "18_8ecbplus.xml",
+  "mentions": 27,
+  "topic": "18"
+ },
+ {
+  "id": "19_1ecbplus.xml",
+  "mentions": 11,
+  "topic": "19"
+ },
+ {
+  "id": "19_3ecbplus.xml",
+  "mentions": 25,
+  "topic": "19"
+ },
+ {
+  "id": "20_10ecbplus.xml",
+  "mentions": 7,
+  "topic": "20"
+ },
+ {
+  "id": "20_1ecbplus.xml",
+  "mentions": 26,
+  "topic": "20"
+ },
+ {
+  "id": "22_12ecbplus.xml",
+  "mentions": 17,
+  "topic": "22"
+ },
+ {
+  "id": "22_4ecbplus.xml",
+  "mentions": 4,
+  "topic": "22"
+ },
+ {
+  "id": "23_1ecbplus.xml",
+  "mentions": 7,
+  "topic": "23"
+ },
+ {
+  "id": "23_9ecbplus.xml",
+  "mentions": 16,
+  "topic": "23"
+ },
+ {
+  "id": "24_4ecbplus.xml",
+  "mentions": 7,
+  "topic": "24"
+ },
+ {
+  "id": "24_8ecbplus.xml",
+  "mentions": 13,
+  "topic": "24"
+ },
+ {
+  "id": "30_5ecbplus.xml",
+  "mentions": 33,
+  "topic": "30"
+ },
+ {
+  "id": "30_6ecbplus.xml",
+  "mentions": 27,
+  "topic": "30"
+ },
+ {
+  "id": "32_5ecbplus.xml",
+  "mentions": 50,
+  "topic": "32"
+ },
+ {
+  "id": "32_7ecbplus.xml",
+  "mentions": 7,
+  "topic": "32"
+ },
+ {
+  "id": "33_11ecbplus.xml",
+  "mentions": 15,
+  "topic": "33"
+ },
+ {
+  "id": "33_8ecbplus.xml",
+  "mentions": 16,
+  "topic": "33"
+ },
+ {
+  "id": "35_6ecbplus.xml",
+  "mentions": 29,
+  "topic": "35"
+ },
+ {
+  "id": "35_9ecbplus.xml",
+  "mentions": 27,
+  "topic": "35"
+ },
+ {
+  "id": "37_1ecbplus.xml",
+  "mentions": 38,
+  "topic": "37"
+ },
+ {
+  "id": "37_9ecbplus.xml",
+  "mentions": 20,
+  "topic": "37"
+ },
+ {
+  "id": "41_4ecbplus.xml",
+  "mentions": 18,
+  "topic": "41"
+ },
+ {
+  "id": "41_5ecbplus.xml",
+  "mentions": 22,
+  "topic": "41"
+ }
+]
