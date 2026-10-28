@@ -9,7 +9,7 @@ assert len({r['body_sha256'] for r in requests})==135
 freeze=read(P/'freeze-before-gold.json');assert not freeze['controls_opened'];assert freeze['events_sha256']==sha((P/'events.jsonl').read_bytes());assert freeze['predictions_sha256']==sha((P/'predictions-before-gold.json').read_bytes())
 public={d['id']:d for d in read(P/'public.json')};labels={};batches={};slots=collections.Counter()
 for e in events:
- k=e['logical_id'];r=expected[k];assert k not in labels and e['request']==r['body'] and not e['cache_hit'] and e['error'] is None
+ k=e['logical_id'];r=expected[k];assert k not in labels and e['request']==r['body'] and not e['cache_hit'] and e['error'] is None and e['api_call'] is True
  resp=e['response'];assert resp['model'] in {'openai/gpt-6-luna','openai/gpt-6-luna:batch','openai/gpt-6-luna-20260922'} and resp['provider']=='OpenAI';assert len(resp['choices'])==1 and resp['choices'][0]['finish_reason']=='stop'
  text=resp['choices'][0]['message']['content']
  # N7 gate uses the legacy parser; strict JSON here independently audits normal provider answers.
@@ -30,7 +30,7 @@ for s in (0,1):
   for doc,x,y in gold:
    v=sum(labels[f's{s}:{a}:{doc}:{i}'].get((x,y),'norel')!='norel' for i in range(3))/3;assert stored[s,a,doc,x,y]==v;sc[doc,x,y]=v
   for k,y in gold.items():
-   rev=k[0],k[2],k[1];assert gold[k]==gold[rev];fused=(sc[k]+sc[rev]+d1[k]+d1[rev])/4;pred=fused>=.39;assert frozen_decisions[s,a,*k]['fused_score']==fused and frozen_decisions[s,a,*k]['positive']==pred;c=per[str(s)][a][k[0].split('_')[0]];c[0]+=int(pred and y);c[1]+=int(pred and not y);c[2]+=int(not pred and y)
+   rev=k[0],k[2],k[1];assert gold[k]==gold[rev];fused=(sc[k]+sc[rev]+d1[k]+d1[rev])/4;pred=fused>=.39;assert frozen_decisions[(s,a)+k]['fused_score']==fused and frozen_decisions[(s,a)+k]['positive']==pred;c=per[str(s)][a][k[0].split('_')[0]];c[0]+=int(pred and y);c[1]+=int(pred and not y);c[2]+=int(not pred and y)
 topics=sorted(per['0']['ordinary'])
 def total(s,a,ts):return [sum(per[str(s)][a][t][i] for t in ts) for i in range(3)]
 def delta(s,ts):return f1(total(s,'contrastive',ts))-f1(total(s,'ordinary',ts))

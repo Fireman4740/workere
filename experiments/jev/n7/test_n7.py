@@ -15,9 +15,11 @@ class N7Tests(unittest.TestCase):
   with self.assertRaises(AssertionError):validate_content(response,{('1','2')})
  def test_global_gate_blocks_one_bad_event(self):
   req=prepare();events=[]
-  for r in req:events.append({'logical_id':r['logical_id'],'cache_hit':False,'error':None,'request':r['body'],'response':{'model':'openai/gpt-6-luna','provider':'OpenAI','choices':[{'finish_reason':'stop','message':{'content':'[]'}}]}})
+  for r in req:events.append({'logical_id':r['logical_id'],'cache_hit':False,'error':None,'api_call':True,'batch_id':r['logical_id'].rsplit(':',1)[0],'request':r['body'],'response':{'model':'openai/gpt-6-luna','provider':'OpenAI','choices':[{'finish_reason':'stop','message':{'content':'[]'}}]}})
   predictions,failures=freeze_predictions(req,events);self.assertFalse(failures);self.assertEqual(len(predictions),64)
   events[-1]['response']['choices'][0]['finish_reason']='length';predictions,failures=freeze_predictions(req,events);self.assertIsNone(predictions);self.assertEqual(len(failures),1)
+  events[-1]['response']['choices'][0]['finish_reason']='stop';events[-1]['api_call']=False;predictions,failures=freeze_predictions(req,events);self.assertIsNone(predictions)
+  events[-1]['api_call']=True;events[-1]['batch_id']=events[0]['batch_id'];predictions,failures=freeze_predictions(req,events);self.assertIsNone(predictions)
  def test_identical_schedule_prompts_are_new_submissions(self):
   calls=[];events=[]
   def http(client,method,url,payload=None):

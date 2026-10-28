@@ -40,14 +40,17 @@ def validate_content(response,allowed):
 
 def freeze_predictions(requests,events):
  docs={d['id']:d for d in read(P/'public.json')};by={e['logical_id']:e for e in events};assert len(by)==len(events)==192
- labels={};failures=[]
+ labels={};failures=[];group_batches=collections.defaultdict(set)
  for r in requests:
   e=by[r['logical_id']]
   try:
-   assert not e['cache_hit'] and e['error'] is None
+   assert not e['cache_hit'] and e['error'] is None and e['api_call'] is True
+   assert isinstance(e['batch_id'],str) and e['batch_id']
+   group_batches[r['logical_id'].rsplit(':',1)[0]].add(e['batch_id'])
    assert e['request']==r['body']
    labels[r['logical_id']]=validate_content(e['response'],{tuple(x) for x in docs[r['doc']]['pair_list']})
   except Exception as exc:failures.append({'logical_id':r['logical_id'],'type':type(exc).__name__,'message':str(exc)})
+ if len(group_batches)!=64 or any(len(v)!=1 for v in group_batches.values()) or len({next(iter(v)) for v in group_batches.values() if v})!=64:failures.append({'freshness':'requires64distinctproviderbatchIDs, oneperlogicalgroup'})
  if failures:return None,failures
  predictions=[]
  for schedule in (0,1):
