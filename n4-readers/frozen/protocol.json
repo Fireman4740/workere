@@ -46,10 +46,17 @@
   "no_training": true,
   "passes": 3,
   "primary": "Fresh DeepSeek versus fresh Luna under identical messages, three-pass fixed majority and fixed fusion0.39 with historical d1; no equal-cost claim",
+  "prior_rejected_protocol_sha256": "ef4ab72358f6cd4c8aa3b1cdf24d86e8507bb03bc7b52313e022949b8ebfa8e8",
+  "prior_rejected_run": "239d529e-1438-46bc-8417-7260f5c26fab",
   "public_sha256": "dbabd1f7bdd84461e88a56adda8eede9b93a727df67dc5e75b6fecd7b2665a22",
   "reasoning": "high",
+  "repair": "HTTP422 rejected initial DeepSeek batch before any accepted batch. Change DeepSeek transport to supported direct chat only; same72 frozen jobs/messages/limits/budget. No scientific result from first run, no paid retry.",
   "selection": "First12 document IDs sorted by sha256 N4-20261028:id over frozen M1 cohort; no labels",
   "study": "N4",
+  "transport": {
+    "DeepSeek": "direct",
+    "Luna": "batch"
+  },
   "validity": "all72 complete stop responses + exact model/schema/IDs; otherwise primary metrics null; no missing negative",
   "version": 1
 }

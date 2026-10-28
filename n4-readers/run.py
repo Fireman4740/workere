@@ -1,6 +1,7 @@
 """N4 paired document readers, frozen inputs, no training or human annotation."""
 import base64
 from collections import Counter, defaultdict
+from concurrent.futures import ThreadPoolExecutor
 import fcntl
 import gzip
 import hashlib
@@ -149,9 +150,24 @@ def main():
     with (state / 'controller.lock').open('a') as lock:
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         save(state / 'reservation.json', {'maximum_usd': ceiling, 'cap_usd': protocol['budget_usd']})
+        # The only previous submission was definitively rejected HTTP422, no batch id.
+        # Preserve its receipt and explicitly release its unspent reservation.
+        prior_hash = protocol.get('prior_rejected_protocol_sha256')
+        if prior_hash:
+            prior = state.parent / prior_hash
+            prior_receipt = prior / 'DeepSeek.json'
+            old = json.loads(prior_receipt.read_text())
+            assert old.get('first_run_id') == protocol['prior_rejected_run'] and not old.get('batch')
+            old['resolution'] = {'status': 'REJECTED_HTTP422', 'evidence_run': protocol['prior_rejected_run'],
+                                 'accepted_batch_id': None, 'repair_run': run_id, 'reserved_budget_released': True}
+            save(prior_receipt, old)
+            emit('N4_TECHNICAL_REPAIR', old['resolution'])
         batches = {}
-        # Submit both arms before waiting; no duplicate submission on resume.
+        # Submit Luna's asynchronous batch first, then use the supported direct
+        # transport for DeepSeek. Messages, decoding and logical calls unchanged.
         for arm, model in protocol['models'].items():
+            if protocol['transport'][arm] != 'batch':
+                continue
             rr = [r for r in rows if r['arm'] == arm]
             payload = {'endpoint': '/v1/chat/completions', 'model': model['id'].removesuffix(':batch'),
                        'completion_window': '24h', 'requests': [{'custom_id': r['custom_id'],
@@ -171,6 +187,34 @@ def main():
                 save(receipt, record)
             batches[arm] = record
             emit('N4_BATCH_SUBMITTED', {'arm': arm, 'id': record['batch']['id'], 'requests': len(rr), 'ceiling_total_usd': ceiling})
+        def direct(row):
+            receipt = state / ('direct-' + row['custom_id'] + '.json')
+            if receipt.exists():
+                record = json.loads(receipt.read_text())
+                if record.get('status') != 'DELIVERED':
+                    raise RuntimeError('Uncertain prior direct POST; never resubmitting')
+                return record['item']
+            record = {'status': 'SUBMITTING', 'first_run_id': run_id, 'request': row['body']}
+            save(receipt, record)
+            try:
+                body = dict(row['body'])
+                body['model'] = body['model'].removesuffix(':batch')
+                response = http('POST', 'https://openrouter.ai/api/v1/chat/completions', body)
+                item = {'custom_id': row['custom_id'], 'response': {'status_code': 200, 'body': response}}
+            except Exception as exc:
+                item = {'custom_id': row['custom_id'], 'error': {'type': type(exc).__name__, 'message': str(exc)}}
+            record.update(status='DELIVERED', item=item)
+            save(receipt, record)
+            emit('N4_DIRECT_DELIVERED', {'custom_id': row['custom_id'], 'error': bool(item.get('error'))})
+            return item
+        direct_rows = [r for r in rows if protocol['transport'][r['arm']] == 'direct']
+        with ThreadPoolExecutor(max_workers=4) as workers:
+            direct_results = list(workers.map(direct, direct_rows))
+        direct_costs = [((r.get('response') or {}).get('body') or {}).get('usage', {}).get('cost') for r in direct_results]
+        direct_cost = sum(direct_costs) if all(type(v) in (int, float) for v in direct_costs) else None
+        batches['DeepSeek'] = {'transport': 'direct', 'batch': {'id': 'direct-completions', 'status': 'completed',
+            'results': direct_results, 'usage': {'cost': direct_cost},
+            'request_counts': {'total': len(direct_rows), 'failed': sum(bool(r.get('error')) for r in direct_results)}}}
         deadline = time.monotonic() + 26 * 3600
         while any(r['batch'].get('status') not in {'completed', 'failed', 'expired', 'cancelled'} for r in batches.values()):
             if time.monotonic() > deadline:
