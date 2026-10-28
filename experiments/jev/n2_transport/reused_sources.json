@@ -1,0 +1,5036 @@
+[
+  {
+    "root": {
+      "doc": "3_5ecbplus.xml",
+      "generation": 0,
+      "id": "83ebb218205c88f5aef5c835",
+      "pair": [
+        "11",
+        "15"
+      ],
+      "score": 0.875772866040213
+    },
+    "extraction": {
+      "source_id": "83ebb218205c88f5aef5c835",
+      "verdict": "SUPPORTED",
+      "reason": "The phrase \u201cforced to drive\u201d explicitly expresses coercion of the driving event: mention 15 is the cause and mention 11 is the effect.",
+      "certificate": {
+        "source_id": "83ebb218205c88f5aef5c835",
+        "document_sha256": "105535289a91dc3a977f2d0b49d0abced18d7f59bd942d87e59bf12bfeab434a",
+        "cause": "15",
+        "effect": "11",
+        "evidence": [
+          {
+            "start": 743,
+            "end": 758,
+            "quote": "forced to drive"
+          }
+        ],
+        "frames": {
+          "15": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "patient": [
+                  "both guards"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 705,
+                  "end": 716,
+                  "quote": "Both guards"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "forcing the guards to drive",
+              "citations": [
+                {
+                  "start": 743,
+                  "end": 758,
+                  "quote": "forced to drive"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "one mentioned forcing episode",
+              "citations": [
+                {
+                  "start": 737,
+                  "end": 758,
+                  "quote": "being forced to drive"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [
+                "force"
+              ],
+              "citations": [
+                {
+                  "start": 743,
+                  "end": 758,
+                  "quote": "forced to drive"
+                }
+              ]
+            }
+          },
+          "11": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "both guards"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 705,
+                  "end": 716,
+                  "quote": "Both guards"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "driving to the Baytown area",
+              "citations": [
+                {
+                  "start": 753,
+                  "end": 778,
+                  "quote": "drive to the Baytown area"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "Baytown area (destination)",
+              "citations": [
+                {
+                  "start": 759,
+                  "end": 778,
+                  "quote": "to the Baytown area"
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "one mentioned driving episode",
+              "citations": [
+                {
+                  "start": 743,
+                  "end": 758,
+                  "quote": "forced to drive"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [
+                "force"
+              ],
+              "citations": [
+                {
+                  "start": 743,
+                  "end": 758,
+                  "quote": "forced to drive"
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "document narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [
+            "force"
+          ],
+          "citations": [
+            {
+              "start": 743,
+              "end": 758,
+              "quote": "forced to drive"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The explicit construction \u201cforced to drive\u201d presents the forcing as compelling the guards\u2019 driving, establishing mention 15 as cause and mention 11 as effect."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "3_11ecbplus.xml",
+      "generation": 0,
+      "id": "5b1a3963360700e0250b39ec",
+      "pair": [
+        "12",
+        "22"
+      ],
+      "score": 0.864056492931953
+    },
+    "extraction": {
+      "source_id": "5b1a3963360700e0250b39ec",
+      "verdict": "SUPPORTED",
+      "reason": "The document explicitly states that the Nov. 30 escape \u201chas led to\u201d fallout.",
+      "certificate": {
+        "source_id": "5b1a3963360700e0250b39ec",
+        "document_sha256": "91a89d28810438d68d8b2c25c81e24dc72a72b02da248346fc1b18e86e555571",
+        "cause": "12",
+        "effect": "22",
+        "evidence": [
+          {
+            "start": 323,
+            "end": 706,
+            "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+          }
+        ],
+        "frames": {
+          "12": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "Arcade Joseph Comeaux Jr."
+                ]
+              },
+              "citations": [
+                {
+                  "start": 323,
+                  "end": 706,
+                  "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "escape",
+              "citations": [
+                {
+                  "start": 323,
+                  "end": 706,
+                  "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "November 30",
+              "citations": [
+                {
+                  "start": 323,
+                  "end": 706,
+                  "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+                }
+              ]
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single escape event",
+              "citations": [
+                {
+                  "start": 323,
+                  "end": 706,
+                  "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "TDCJ Inspector General John Moriarty",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [
+                "attribution: said"
+              ],
+              "citations": [
+                {
+                  "start": 323,
+                  "end": 706,
+                  "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+                }
+              ]
+            }
+          },
+          "22": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "affected_object": [
+                  "TDCJ employees"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 323,
+                  "end": 706,
+                  "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "fallout",
+              "citations": [
+                {
+                  "start": 323,
+                  "end": 706,
+                  "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "prison unit",
+              "citations": [
+                {
+                  "start": 323,
+                  "end": 706,
+                  "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "aggregate consequences",
+              "citations": [
+                {
+                  "start": 323,
+                  "end": 706,
+                  "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "TDCJ Inspector General John Moriarty",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [
+                "attribution: said"
+              ],
+              "citations": [
+                {
+                  "start": 323,
+                  "end": 706,
+                  "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "TDCJ Inspector General John Moriarty",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [
+            "attribution: said"
+          ],
+          "citations": [
+            {
+              "start": 323,
+              "end": 706,
+              "quote": "The Nov . 30 escape by Arcade Joseph Comeaux Jr . , a convicted rapist recaptured last month after eight days on the run in Baytown and Houston , has led to unprecedented fallout at the prison unit where he was housed , with the largest number of TDCJ employees ever facing termination or disciplinary action because of a single incident , said TDCJ Inspector General John Moriarty ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The sentence explicitly states that the Nov. 30 escape \u201chas led to\u201d fallout; the causal claim is attributed to TDCJ Inspector General John Moriarty."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "14_9ecbplus.xml",
+      "generation": 0,
+      "id": "001bcc3dbab1148c13873544",
+      "pair": [
+        "12",
+        "6"
+      ],
+      "score": 0.9552996101006648
+    },
+    "extraction": {
+      "source_id": "001bcc3dbab1148c13873544",
+      "verdict": "SUPPORTED",
+      "reason": "The text explicitly states that the fire devastated a Somerset supermarket, supporting the fire as cause and the devastation as effect.",
+      "certificate": {
+        "source_id": "001bcc3dbab1148c13873544",
+        "document_sha256": "18578639f10ccdd99c734723c49f7ac131799f78d30744264e1bd13661592187",
+        "cause": "12",
+        "effect": "6",
+        "evidence": [
+          {
+            "start": 299,
+            "end": 342,
+            "quote": "fire that devastated a Somerset supermarket"
+          }
+        ],
+        "frames": {
+          "12": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "affected_object": [
+                  "Somerset supermarket"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 299,
+                  "end": 342,
+                  "quote": "fire that devastated a Somerset supermarket"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "fire",
+              "citations": [
+                {
+                  "start": 299,
+                  "end": 303,
+                  "quote": "fire"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "Somerset",
+              "citations": [
+                {
+                  "start": 322,
+                  "end": 330,
+                  "quote": "Somerset"
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single fire occurrence",
+              "citations": [
+                {
+                  "start": 299,
+                  "end": 303,
+                  "quote": "fire"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 299,
+                  "end": 342,
+                  "quote": "fire that devastated a Somerset supermarket"
+                }
+              ]
+            }
+          },
+          "6": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "fire"
+                ],
+                "patient": [
+                  "Somerset supermarket"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 299,
+                  "end": 342,
+                  "quote": "fire that devastated a Somerset supermarket"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "devastation of a Somerset supermarket",
+              "citations": [
+                {
+                  "start": 309,
+                  "end": 342,
+                  "quote": "devastated a Somerset supermarket"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "Somerset",
+              "citations": [
+                {
+                  "start": 322,
+                  "end": 330,
+                  "quote": "Somerset"
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single devastation event",
+              "citations": [
+                {
+                  "start": 309,
+                  "end": 342,
+                  "quote": "devastated a Somerset supermarket"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 299,
+                  "end": 342,
+                  "quote": "fire that devastated a Somerset supermarket"
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "article narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [],
+          "citations": [
+            {
+              "start": 299,
+              "end": 342,
+              "quote": "fire that devastated a Somerset supermarket"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The relative clause directly predicates the devastation of a supermarket of the fire, explicitly supporting the fire as cause of the devastation."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "7_5ecbplus.xml",
+      "generation": 0,
+      "id": "cd03a2434130391c04a61c08",
+      "pair": [
+        "19",
+        "23"
+      ],
+      "score": 0.9712461796998484
+    },
+    "extraction": {
+      "source_id": "cd03a2434130391c04a61c08",
+      "verdict": "SUPPORTED",
+      "reason": "The sentence explicitly states that Klitschko bombed Thompson, \u201cputting him down\u201d; the participial clause expresses the resulting knockdown.",
+      "certificate": {
+        "source_id": "cd03a2434130391c04a61c08",
+        "document_sha256": "6dbf7a5bba015cbc6a57325143cd16be0b35f801649f2b166444b19882169e0b",
+        "cause": "19",
+        "effect": "23",
+        "evidence": [
+          {
+            "start": 527,
+            "end": 655,
+            "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+          }
+        ],
+        "frames": {
+          "19": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "Klitschko"
+                ],
+                "patient": [
+                  "Thompson"
+                ],
+                "instrument": [
+                  "vicious right hand"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 527,
+                  "end": 655,
+                  "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "Klitschko bombed Thompson with a vicious right hand",
+              "citations": [
+                {
+                  "start": 527,
+                  "end": 655,
+                  "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "fifth round",
+              "citations": [
+                {
+                  "start": 527,
+                  "end": 655,
+                  "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+                }
+              ]
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single event-level action",
+              "citations": [
+                {
+                  "start": 527,
+                  "end": 655,
+                  "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 527,
+                  "end": 655,
+                  "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+                }
+              ]
+            }
+          },
+          "23": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "Klitschko"
+                ],
+                "patient": [
+                  "Thompson"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 527,
+                  "end": 655,
+                  "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "Klitschko put Thompson down",
+              "citations": [
+                {
+                  "start": 527,
+                  "end": 655,
+                  "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "fifth round",
+              "citations": [
+                {
+                  "start": 527,
+                  "end": 655,
+                  "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+                }
+              ]
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single knockdown event",
+              "citations": [
+                {
+                  "start": 527,
+                  "end": 655,
+                  "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 527,
+                  "end": 655,
+                  "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "article narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [],
+          "citations": [
+            {
+              "start": 527,
+              "end": 655,
+              "quote": "Klitschko ( 58 - 3 , 51 KO ) bombed Thompson with a vicious right hand in the fifth round , putting him down late in the frame ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The sentence links the bombing to the knockdown through the resultative participial clause \u201cputting him down,\u201d identifying the bombing as cause and the knockdown as effect."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "37_1ecbplus.xml",
+      "generation": 0,
+      "id": "7d651a29c06bb5393297c92e",
+      "pair": [
+        "14",
+        "16"
+      ],
+      "score": 0.9690471200994484
+    },
+    "extraction": {
+      "source_id": "7d651a29c06bb5393297c92e",
+      "verdict": "SUPPORTED",
+      "reason": "The sentence explicitly says the quake prompted a tsunami alert, establishing the quake as cause and the alert as effect.",
+      "certificate": {
+        "source_id": "7d651a29c06bb5393297c92e",
+        "document_sha256": "04260468c004a2ec0e2ff41b530e8a66c653ed4425cd51d8012b7b1042f15db6",
+        "cause": "14",
+        "effect": "16",
+        "evidence": [
+          {
+            "start": 2766,
+            "end": 2899,
+            "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+          }
+        ],
+        "frames": {
+          "14": {
+            "participants": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "earthquake occurrence",
+              "citations": [
+                {
+                  "start": 2766,
+                  "end": 2899,
+                  "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "April last year",
+              "citations": [
+                {
+                  "start": 2766,
+                  "end": 2899,
+                  "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+                }
+              ]
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "431 kilometres off Banda Aceh",
+              "citations": [
+                {
+                  "start": 2766,
+                  "end": 2899,
+                  "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "one reported 8.6-magnitude quake occurrence",
+              "citations": [
+                {
+                  "start": 2766,
+                  "end": 2899,
+                  "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "affirmative",
+              "world": "actual",
+              "modality": "unmodalized assertion",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 2766,
+                  "end": 2899,
+                  "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+                }
+              ]
+            }
+          },
+          "16": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "8.6-magnitude quake"
+                ],
+                "affected_object": [
+                  "Indian Ocean-wide tsunami alert"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 2766,
+                  "end": 2899,
+                  "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "Indian Ocean-wide tsunami alert",
+              "citations": [
+                {
+                  "start": 2766,
+                  "end": 2899,
+                  "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "April last year",
+              "citations": [
+                {
+                  "start": 2766,
+                  "end": 2899,
+                  "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+                }
+              ]
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "Indian Ocean-wide",
+              "citations": [
+                {
+                  "start": 2766,
+                  "end": 2899,
+                  "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "one tsunami alert",
+              "citations": [
+                {
+                  "start": 2766,
+                  "end": 2899,
+                  "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "affirmative",
+              "world": "actual",
+              "modality": "unmodalized assertion",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 2766,
+                  "end": 2899,
+                  "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "document narrator",
+          "polarity": "affirmative",
+          "world": "actual",
+          "modality": "unmodalized assertion",
+          "operators": [],
+          "citations": [
+            {
+              "start": 2766,
+              "end": 2899,
+              "quote": "In April last year an 8 . 6 - magnitude quake struck 431 kilometres off Banda Aceh , prompting an Indian Ocean - wide tsunami alert ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The clause states that the quake struck, \u201cprompting\u201d the tsunami alert; this explicitly links the quake occurrence to the alert."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "22_12ecbplus.xml",
+      "generation": 0,
+      "id": "4585ef37d2055707175643c0",
+      "pair": [
+        "11",
+        "12"
+      ],
+      "score": 0.9437188934391852
+    },
+    "extraction": {
+      "source_id": "4585ef37d2055707175643c0",
+      "verdict": "SUPPORTED",
+      "reason": "The text explicitly says the worker had been suspended \u201cfor feuding with colleagues,\u201d marking the feuding as the reason for the suspension.",
+      "certificate": {
+        "source_id": "4585ef37d2055707175643c0",
+        "document_sha256": "9ab68f2760afec25e085c127fdcd186bd43d14b2ee8959ed8d917659bcd6fc27",
+        "cause": "12",
+        "effect": "11",
+        "evidence": [
+          {
+            "start": 242,
+            "end": 279,
+            "quote": "suspended for feuding with colleagues"
+          }
+        ],
+        "frames": {
+          "12": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "other": [
+                  "Kraft Foods plant worker",
+                  "colleagues"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 202,
+                  "end": 228,
+                  "quote": "A Kraft Foods plant worker"
+                },
+                {
+                  "start": 269,
+                  "end": 279,
+                  "quote": "colleagues"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "Feuding with colleagues",
+              "citations": [
+                {
+                  "start": 256,
+                  "end": 263,
+                  "quote": "feuding"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "Feuding activity of unspecified duration",
+              "citations": [
+                {
+                  "start": 256,
+                  "end": 279,
+                  "quote": "feuding with colleagues"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 242,
+                  "end": 279,
+                  "quote": "suspended for feuding with colleagues"
+                }
+              ]
+            }
+          },
+          "11": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "patient": [
+                  "Kraft Foods plant worker"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 202,
+                  "end": 251,
+                  "quote": "A Kraft Foods plant worker who had been suspended"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "Suspension of the Kraft Foods plant worker",
+              "citations": [
+                {
+                  "start": 242,
+                  "end": 251,
+                  "quote": "suspended"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "Reported suspension event",
+              "citations": [
+                {
+                  "start": 242,
+                  "end": 251,
+                  "quote": "suspended"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 242,
+                  "end": 279,
+                  "quote": "suspended for feuding with colleagues"
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "article narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [
+            "for"
+          ],
+          "citations": [
+            {
+              "start": 242,
+              "end": 279,
+              "quote": "suspended for feuding with colleagues"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The clause explicitly links the feuding to the suspension with the causal-reason construction \u201csuspended for feuding with colleagues\u201d; therefore mention 12 is the cause and mention 11 is the effect."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "41_5ecbplus.xml",
+      "generation": 0,
+      "id": "6197ed839555a68453221e4c",
+      "pair": [
+        "11",
+        "8"
+      ],
+      "score": 0.7930503490108103
+    },
+    "extraction": {
+      "source_id": "6197ed839555a68453221e4c",
+      "verdict": "SUPPORTED",
+      "reason": "The sentence explicitly describes the bombing as \u201cthreatening to raise\u201d tensions, supporting a threatened, non-categorical causal relation from the bombing to the raising event.",
+      "certificate": {
+        "source_id": "6197ed839555a68453221e4c",
+        "document_sha256": "5a7f4a693c684d8f8ebcf7f1856b38b8419708d43507b37d52371a1c0466b6b6",
+        "cause": "8",
+        "effect": "11",
+        "evidence": [
+          {
+            "start": 197,
+            "end": 388,
+            "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+          }
+        ],
+        "frames": {
+          "8": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "affected_object": [
+                  "a refugee camp in South Sudan's Unity state"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 197,
+                  "end": 388,
+                  "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "bombing of a refugee camp",
+              "citations": [
+                {
+                  "start": 197,
+                  "end": 388,
+                  "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "Thursday",
+              "citations": [
+                {
+                  "start": 197,
+                  "end": 388,
+                  "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+                }
+              ]
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "South Sudan's Unity state",
+              "citations": [
+                {
+                  "start": 197,
+                  "end": 388,
+                  "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "a bombing of one refugee camp",
+              "citations": [
+                {
+                  "start": 197,
+                  "end": 388,
+                  "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "South Sudan officials and witnesses",
+              "polarity": "positive",
+              "world": "reported actual-world occurrence",
+              "modality": "reported assertion",
+              "operators": [
+                "said"
+              ],
+              "citations": [
+                {
+                  "start": 197,
+                  "end": 388,
+                  "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+                }
+              ]
+            }
+          },
+          "11": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "patient": [
+                  "tensions with Sudan"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 197,
+                  "end": 388,
+                  "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "raising tensions with Sudan",
+              "citations": [
+                {
+                  "start": 197,
+                  "end": 388,
+                  "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "violence-plagued border region",
+              "citations": [
+                {
+                  "start": 197,
+                  "end": 388,
+                  "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "a prospective raising of tensions",
+              "citations": [
+                {
+                  "start": 197,
+                  "end": 388,
+                  "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "South Sudan officials and witnesses",
+              "polarity": "positive",
+              "world": "possible future consequence",
+              "modality": "threat",
+              "operators": [
+                "said",
+                "threatening",
+                "to"
+              ],
+              "citations": [
+                {
+                  "start": 197,
+                  "end": 388,
+                  "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "South Sudan officials and witnesses",
+          "polarity": "positive",
+          "world": "possible future consequence",
+          "modality": "threat",
+          "operators": [
+            "said",
+            "threatening",
+            "to"
+          ],
+          "citations": [
+            {
+              "start": 197,
+              "end": 388,
+              "quote": "A refugee camp in South Sudan's Unity state was bombed Thursday , South Sudan officials and witnesses said , threatening to raise tensions with Sudan in the violence - plagued border region ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The sentence reports that the camp was bombed and explicitly characterizes that bombing as \u201cthreatening to raise tensions.\u201d This supports the raising event as a threatened consequence, without asserting that the increase actually occurred."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "1_19ecbplus.xml",
+      "generation": 0,
+      "id": "2ab49a1ba22e482012b6ad26",
+      "pair": [
+        "10",
+        "9"
+      ],
+      "score": 0.8586667595049858
+    },
+    "extraction": {
+      "source_id": "2ab49a1ba22e482012b6ad26",
+      "verdict": "SUPPORTED",
+      "reason": "The phrase \u201cavoided jail time by checking into\u201d explicitly presents checking into the second rehab center as the means of avoiding jail time.",
+      "certificate": {
+        "source_id": "2ab49a1ba22e482012b6ad26",
+        "document_sha256": "ac84abf8273a766575ba2dc3d209083394df594ca596067e7b0c5b89d507f6fd",
+        "cause": "10",
+        "effect": "9",
+        "evidence": [
+          {
+            "start": 306,
+            "end": 362,
+            "quote": "avoided jail time by checking into a second rehab center"
+          }
+        ],
+        "frames": {
+          "10": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "the 26 - year troubled starlet"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 266,
+                  "end": 296,
+                  "quote": "The 26 - year troubled starlet"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "checking into a second rehab center",
+              "citations": [
+                {
+                  "start": 327,
+                  "end": 362,
+                  "quote": "checking into a second rehab center"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "a second rehab center",
+              "citations": [
+                {
+                  "start": 341,
+                  "end": 362,
+                  "quote": "a second rehab center"
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single check-in event",
+              "citations": [
+                {
+                  "start": 327,
+                  "end": 362,
+                  "quote": "checking into a second rehab center"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 327,
+                  "end": 362,
+                  "quote": "checking into a second rehab center"
+                }
+              ]
+            }
+          },
+          "9": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "the 26 - year troubled starlet"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 266,
+                  "end": 296,
+                  "quote": "The 26 - year troubled starlet"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "avoiding jail time",
+              "citations": [
+                {
+                  "start": 306,
+                  "end": 323,
+                  "quote": "avoided jail time"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single avoidance event",
+              "citations": [
+                {
+                  "start": 306,
+                  "end": 323,
+                  "quote": "avoided jail time"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 306,
+                  "end": 323,
+                  "quote": "avoided jail time"
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "article narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [
+            "by"
+          ],
+          "citations": [
+            {
+              "start": 306,
+              "end": 362,
+              "quote": "avoided jail time by checking into a second rehab center"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The explicit \u201cby checking into\u201d construction identifies the check-in as the means by which jail time was avoided."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "18_8ecbplus.xml",
+      "generation": 0,
+      "id": "e4a29515d7b3e4fa3e71acd4",
+      "pair": [
+        "1",
+        "19"
+      ],
+      "score": 0.9696070002527192
+    },
+    "extraction": {
+      "source_id": "e4a29515d7b3e4fa3e71acd4",
+      "verdict": "SUPPORTED",
+      "reason": "The text presents the wounding as a result of the opening fire in the same clause, attributed to the Associated Press.",
+      "certificate": {
+        "source_id": "e4a29515d7b3e4fa3e71acd4",
+        "document_sha256": "ba9cf88e1bf008a24cdac833b5ef13329a265e2e1f081dada7e0125e2c1262aa",
+        "cause": "19",
+        "effect": "1",
+        "evidence": [
+          {
+            "start": 277,
+            "end": 379,
+            "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+          }
+        ],
+        "frames": {
+          "19": {
+            "participants": {
+              "state": "INFERRED",
+              "value": {
+                "agent": [
+                  "the fired accountant"
+                ],
+                "patient": [
+                  "his bosses"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "opening fire",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "time": {
+              "state": "INFERRED",
+              "value": "the following week",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "place": {
+              "state": "INFERRED",
+              "value": "the office",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "specific event",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "Associated Press",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [
+                "reported"
+              ],
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            }
+          },
+          "1": {
+            "participants": {
+              "state": "INFERRED",
+              "value": {
+                "agent": [
+                  "the fired accountant"
+                ],
+                "patient": [
+                  "his bosses"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "wounding",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "time": {
+              "state": "INFERRED",
+              "value": "the following week",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "place": {
+              "state": "INFERRED",
+              "value": "the office",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "specific event",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "Associated Press",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [
+                "reported"
+              ],
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "Associated Press",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [
+            "reported"
+          ],
+          "citations": [
+            {
+              "start": 277,
+              "end": 379,
+              "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The resultative construction \u201copened fire on his bosses , wounding both\u201d presents the wounding as a consequence of the opening fire. The full clause is attributed to the Associated Press."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "18_8ecbplus.xml",
+      "generation": 0,
+      "id": "4dbb87bf5b4be86a712ddb76",
+      "pair": [
+        "19",
+        "2"
+      ],
+      "score": 0.9429687211022945
+    },
+    "extraction": {
+      "source_id": "4dbb87bf5b4be86a712ddb76",
+      "verdict": "SUPPORTED",
+      "reason": "The text presents the receptionist's killing as a result of the opening fire in the same clause, attributed to the Associated Press.",
+      "certificate": {
+        "source_id": "4dbb87bf5b4be86a712ddb76",
+        "document_sha256": "ba9cf88e1bf008a24cdac833b5ef13329a265e2e1f081dada7e0125e2c1262aa",
+        "cause": "19",
+        "effect": "2",
+        "evidence": [
+          {
+            "start": 277,
+            "end": 379,
+            "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+          }
+        ],
+        "frames": {
+          "19": {
+            "participants": {
+              "state": "INFERRED",
+              "value": {
+                "agent": [
+                  "the fired accountant"
+                ],
+                "patient": [
+                  "his bosses"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "opening fire",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "time": {
+              "state": "INFERRED",
+              "value": "the following week",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "place": {
+              "state": "INFERRED",
+              "value": "the office",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "specific event",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "Associated Press",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [
+                "reported"
+              ],
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            }
+          },
+          "2": {
+            "participants": {
+              "state": "INFERRED",
+              "value": {
+                "agent": [
+                  "the fired accountant"
+                ],
+                "patient": [
+                  "a receptionist"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "killing",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "time": {
+              "state": "INFERRED",
+              "value": "the following week",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "place": {
+              "state": "INFERRED",
+              "value": "the office",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "specific event",
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "Associated Press",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [
+                "reported"
+              ],
+              "citations": [
+                {
+                  "start": 277,
+                  "end": 379,
+                  "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "Associated Press",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [
+            "reported"
+          ],
+          "citations": [
+            {
+              "start": 277,
+              "end": 379,
+              "quote": "opened fire on his bosses , wounding both and killing a receptionist , the Associated Press reported ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The construction \u201copened fire ... and killing a receptionist\u201d presents the killing as a consequence of the opening fire. The full clause is attributed to the Associated Press."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "4_1ecbplus.xml",
+      "generation": 0,
+      "id": "328339356593e8d4bfd0bf9a",
+      "pair": [
+        "14",
+        "22"
+      ],
+      "score": 0.787709982157581
+    },
+    "extraction": {
+      "source_id": "328339356593e8d4bfd0bf9a",
+      "verdict": "SUPPORTED",
+      "reason": "The text explicitly says the pool and wartime pinup pictures \u201cmade her popular,\u201d connecting the making event to the popular state.",
+      "certificate": {
+        "source_id": "328339356593e8d4bfd0bf9a",
+        "document_sha256": "da45300b4b7c9b2af17eeedaf6f0c1929de98572f9795fcbdee928f1acfdbbb4",
+        "cause": "14",
+        "effect": "22",
+        "evidence": [
+          {
+            "start": 736,
+            "end": 828,
+            "quote": "It was the pool \u2014 and wartime pinup pictures of her in bathing suits \u2014 that made her popular"
+          }
+        ],
+        "frames": {
+          "14": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "other": [
+                  "the pool",
+                  "wartime pinup pictures"
+                ],
+                "affected_object": [
+                  "her"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 736,
+                  "end": 828,
+                  "quote": "It was the pool \u2014 and wartime pinup pictures of her in bathing suits \u2014 that made her popular"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "making her popular",
+              "citations": [
+                {
+                  "start": 812,
+                  "end": 828,
+                  "quote": "made her popular"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "one causative predication; internal duration unspecified",
+              "citations": [
+                {
+                  "start": 812,
+                  "end": 828,
+                  "quote": "made her popular"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 736,
+                  "end": 828,
+                  "quote": "It was the pool \u2014 and wartime pinup pictures of her in bathing suits \u2014 that made her popular"
+                }
+              ]
+            }
+          },
+          "22": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "affected_object": [
+                  "her"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 821,
+                  "end": 828,
+                  "quote": "popular"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "being popular",
+              "citations": [
+                {
+                  "start": 821,
+                  "end": 828,
+                  "quote": "popular"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "state",
+              "citations": [
+                {
+                  "start": 821,
+                  "end": 828,
+                  "quote": "popular"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 736,
+                  "end": 828,
+                  "quote": "It was the pool \u2014 and wartime pinup pictures of her in bathing suits \u2014 that made her popular"
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "document narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [],
+          "citations": [
+            {
+              "start": 736,
+              "end": 828,
+              "quote": "It was the pool \u2014 and wartime pinup pictures of her in bathing suits \u2014 that made her popular"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The cleft construction explicitly identifies the pool and wartime pinup pictures as what made her popular."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "24_8ecbplus.xml",
+      "generation": 0,
+      "id": "9566ce1e64b2ae8b0155dfbe",
+      "pair": [
+        "10",
+        "9"
+      ],
+      "score": 0.9343521939087217
+    },
+    "extraction": {
+      "source_id": "9566ce1e64b2ae8b0155dfbe",
+      "verdict": "SUPPORTED",
+      "reason": "The resultative participial construction links the ramming to the smashing of the shop window.",
+      "certificate": {
+        "source_id": "9566ce1e64b2ae8b0155dfbe",
+        "document_sha256": "ec2cb2fdec5d1cc3cd465a7a2932ea48d556df959585a75e194fca47ef68b0d2",
+        "cause": "9",
+        "effect": "10",
+        "evidence": [
+          {
+            "start": 186,
+            "end": 378,
+            "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+          }
+        ],
+        "frames": {
+          "9": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "four men"
+                ],
+                "instrument": [
+                  "their car"
+                ],
+                "affected_object": [
+                  "upmarket jewelry store"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "ramming their car into an upmarket jewelry store",
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "Monday",
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "central Paris",
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "INFERRED",
+              "value": "single specific event occurrence",
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "AFP",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "reported assertion",
+              "operators": [
+                "according to AFP"
+              ],
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            }
+          },
+          "10": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "four men"
+                ],
+                "affected_object": [
+                  "shop window"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "smashing the shop window",
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "Monday",
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "central Paris",
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "INFERRED",
+              "value": "single specific event occurrence",
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "AFP",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "reported assertion",
+              "operators": [
+                "according to AFP"
+              ],
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 378,
+                  "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "AFP",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "reported assertion",
+          "operators": [
+            "according to AFP"
+          ],
+          "citations": [
+            {
+              "start": 186,
+              "end": 378,
+              "quote": "Four men rammed their car into an upmarket jewelry store in central Paris on Monday , smashing the shop window and stealing $2 . 6 million ( two million Euros ) in jewelry , according to AFP ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The sentence presents \u201csmashing the shop window\u201d as a resultative participial consequence of \u201crammed their car into\u201d the store. The reported attribution to AFP is retained in the relation scope."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "12_9ecbplus.xml",
+      "generation": 0,
+      "id": "ec3791be82b107f0b0557958",
+      "pair": [
+        "11",
+        "3"
+      ],
+      "score": 0.5995346530923749
+    },
+    "extraction": {
+      "source_id": "ec3791be82b107f0b0557958",
+      "verdict": "SUPPORTED",
+      "reason": "The text explicitly says Sukanya was \u201cthwarting\u201d the multiple-boat piracy attack. This supports a preventive relation: the thwarting is asserted, while occurrence of the attack is not.",
+      "certificate": {
+        "source_id": "ec3791be82b107f0b0557958",
+        "document_sha256": "b7ddc0e15001d25c69852ec1b73b5d05bfc643eb4b18f5c812d2d9bfdbffba85",
+        "cause": "11",
+        "effect": "3",
+        "evidence": [
+          {
+            "start": 364,
+            "end": 405,
+            "quote": "thwarting a multiple - boat piracy attack"
+          }
+        ],
+        "frames": {
+          "11": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "Indian Naval Ship Sukanya"
+                ],
+                "affected_object": [
+                  "multiple-boat piracy attack"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 161,
+                  "end": 186,
+                  "quote": "Indian Naval Ship Sukanya"
+                },
+                {
+                  "start": 364,
+                  "end": 405,
+                  "quote": "thwarting a multiple - boat piracy attack"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "thwarting of a multiple-boat piracy attack",
+              "citations": [
+                {
+                  "start": 364,
+                  "end": 405,
+                  "quote": "thwarting a multiple - boat piracy attack"
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "10 November 2011",
+              "citations": [
+                {
+                  "start": 406,
+                  "end": 418,
+                  "quote": "on 10 Nov 11"
+                }
+              ]
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "one specific thwarting incident",
+              "citations": [
+                {
+                  "start": 364,
+                  "end": 405,
+                  "quote": "thwarting a multiple - boat piracy attack"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual thwarting event",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 364,
+                  "end": 405,
+                  "quote": "thwarting a multiple - boat piracy attack"
+                }
+              ]
+            }
+          },
+          "3": {
+            "participants": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "multiple-boat piracy attack, presented as thwarted rather than as an occurrence",
+              "citations": [
+                {
+                  "start": 364,
+                  "end": 405,
+                  "quote": "thwarting a multiple - boat piracy attack"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "one specific multiple-boat piracy attack",
+              "citations": [
+                {
+                  "start": 364,
+                  "end": 405,
+                  "quote": "thwarting a multiple - boat piracy attack"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "prevented, nonactual attack",
+              "modality": "prevented",
+              "operators": [
+                "thwarting"
+              ],
+              "citations": [
+                {
+                  "start": 364,
+                  "end": 405,
+                  "quote": "thwarting a multiple - boat piracy attack"
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "document narrator",
+          "polarity": "positive",
+          "world": "actual thwarting of a prevented, nonactual attack",
+          "modality": "prevention",
+          "operators": [
+            "thwarting"
+          ],
+          "citations": [
+            {
+              "start": 364,
+              "end": 405,
+              "quote": "thwarting a multiple - boat piracy attack"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The verb \u201cthwarting\u201d directly takes the specific attack as its target, explicitly asserting prevention; the attack is not asserted to have occurred."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "23_9ecbplus.xml",
+      "generation": 0,
+      "id": "b9c529a4220111b4671d8acf",
+      "pair": [
+        "32",
+        "7"
+      ],
+      "score": 0.9394656850163658
+    },
+    "extraction": {
+      "source_id": "b9c529a4220111b4671d8acf",
+      "verdict": "SUPPORTED",
+      "reason": "The phrase \u201cfell to his death\u201d explicitly links the fall to the death.",
+      "certificate": {
+        "source_id": "b9c529a4220111b4671d8acf",
+        "document_sha256": "5667ced9cfa87a8dd261c0e70a859ab8d237413faf7442cbb8a5cc513a18d52a",
+        "cause": "7",
+        "effect": "32",
+        "evidence": [
+          {
+            "start": 664,
+            "end": 681,
+            "quote": "fell to his death"
+          }
+        ],
+        "frames": {
+          "7": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "patient": [
+                  "Duncan Robert Rait"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 374,
+                  "end": 392,
+                  "quote": "Duncan Robert Rait"
+                },
+                {
+                  "start": 630,
+                  "end": 681,
+                  "quote": "he slipped from the ridgeline and fell to his death"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "fall",
+              "citations": [
+                {
+                  "start": 664,
+                  "end": 681,
+                  "quote": "fell to his death"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "INFERRED",
+              "value": "ridgeline",
+              "citations": [
+                {
+                  "start": 641,
+                  "end": 681,
+                  "quote": "from the ridgeline and fell to his death"
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single fall occurrence",
+              "citations": [
+                {
+                  "start": 664,
+                  "end": 681,
+                  "quote": "fell to his death"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "unmodalized",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 664,
+                  "end": 681,
+                  "quote": "fell to his death"
+                }
+              ]
+            }
+          },
+          "32": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "patient": [
+                  "Duncan Robert Rait"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 374,
+                  "end": 392,
+                  "quote": "Duncan Robert Rait"
+                },
+                {
+                  "start": 630,
+                  "end": 681,
+                  "quote": "he slipped from the ridgeline and fell to his death"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "death",
+              "citations": [
+                {
+                  "start": 676,
+                  "end": 681,
+                  "quote": "death"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "INFERRED",
+              "value": "ridgeline",
+              "citations": [
+                {
+                  "start": 664,
+                  "end": 681,
+                  "quote": "fell to his death"
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single death occurrence",
+              "citations": [
+                {
+                  "start": 664,
+                  "end": 681,
+                  "quote": "fell to his death"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "unmodalized",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 676,
+                  "end": 681,
+                  "quote": "death"
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "article narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "unmodalized",
+          "operators": [],
+          "citations": [
+            {
+              "start": 664,
+              "end": 681,
+              "quote": "fell to his death"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The phrase \u201cfell to his death\u201d explicitly presents the fall as resulting in the death, linking mention 7 to mention 32."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "19_3ecbplus.xml",
+      "generation": 0,
+      "id": "7b9225adbc503638a473646a",
+      "pair": [
+        "16",
+        "22"
+      ],
+      "score": 0.958783139207626
+    },
+    "extraction": {
+      "source_id": "7b9225adbc503638a473646a",
+      "verdict": "SUPPORTED",
+      "reason": "The text explicitly says protesters were \u201cenraged over\u201d the fatal shooting, supporting the shooting as the cause of the enragement.",
+      "certificate": {
+        "source_id": "7b9225adbc503638a473646a",
+        "document_sha256": "afb3a52c0ea486199c0921f3b90591e8ebbac16cdb14528eed52dae1d17e899f",
+        "cause": "16",
+        "effect": "22",
+        "evidence": [
+          {
+            "start": 574,
+            "end": 640,
+            "quote": "Protesters enraged over the fatal shooting of a teenager by police"
+          }
+        ],
+        "frames": {
+          "16": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "police"
+                ],
+                "patient": [
+                  "a teenager"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 585,
+                  "end": 640,
+                  "quote": "enraged over the fatal shooting of a teenager by police"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "fatal shooting of a teenager by police",
+              "citations": [
+                {
+                  "start": 585,
+                  "end": 640,
+                  "quote": "enraged over the fatal shooting of a teenager by police"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single fatal shooting event",
+              "citations": [
+                {
+                  "start": 585,
+                  "end": 640,
+                  "quote": "enraged over the fatal shooting of a teenager by police"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 585,
+                  "end": 640,
+                  "quote": "enraged over the fatal shooting of a teenager by police"
+                }
+              ]
+            }
+          },
+          "22": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "other": [
+                  "protesters"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 574,
+                  "end": 584,
+                  "quote": "Protesters"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "protesters' enragement over the fatal shooting of a teenager by police",
+              "citations": [
+                {
+                  "start": 574,
+                  "end": 640,
+                  "quote": "Protesters enraged over the fatal shooting of a teenager by police"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "collective emotional state of protesters",
+              "citations": [
+                {
+                  "start": 574,
+                  "end": 592,
+                  "quote": "Protesters enraged"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 574,
+                  "end": 640,
+                  "quote": "Protesters enraged over the fatal shooting of a teenager by police"
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "document narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [
+            "over"
+          ],
+          "citations": [
+            {
+              "start": 574,
+              "end": 640,
+              "quote": "Protesters enraged over the fatal shooting of a teenager by police"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The phrase \u201cenraged over the fatal shooting\u201d explicitly connects the shooting (16) with the protesters\u2019 enragement (22)."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "13_14ecbplus.xml",
+      "generation": 0,
+      "id": "51206056b682f42a74481f7f",
+      "pair": [
+        "2",
+        "3"
+      ],
+      "score": 0.9250385055916454
+    },
+    "extraction": {
+      "source_id": "51206056b682f42a74481f7f",
+      "verdict": "SUPPORTED",
+      "reason": "The text explicitly says that the fire \u201cburned\u201d the Creamery, supporting the fire as cause and the Creamery-burning event as effect.",
+      "certificate": {
+        "source_id": "51206056b682f42a74481f7f",
+        "document_sha256": "5e5a48a1b1cfb2e919ebc2b208ac5eff9e4118b24773c0b8c75bae4af07666ce",
+        "cause": "2",
+        "effect": "3",
+        "evidence": [
+          {
+            "start": 3472,
+            "end": 3488,
+            "quote": "fire that burned"
+          },
+          {
+            "start": 3472,
+            "end": 3520,
+            "quote": "fire that burned the old Matanuska Maid Creamery"
+          }
+        ],
+        "frames": {
+          "2": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "affected_object": [
+                  "Matanuska Maid Creamery"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 3472,
+                  "end": 3520,
+                  "quote": "fire that burned the old Matanuska Maid Creamery"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "fire",
+              "citations": [
+                {
+                  "start": 3472,
+                  "end": 3476,
+                  "quote": "fire"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single fire occurrence",
+              "citations": [
+                {
+                  "start": 3472,
+                  "end": 3476,
+                  "quote": "fire"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 3472,
+                  "end": 3488,
+                  "quote": "fire that burned"
+                }
+              ]
+            }
+          },
+          "3": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "fire"
+                ],
+                "patient": [
+                  "Matanuska Maid Creamery"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 3472,
+                  "end": 3520,
+                  "quote": "fire that burned the old Matanuska Maid Creamery"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "burning",
+              "citations": [
+                {
+                  "start": 3482,
+                  "end": 3488,
+                  "quote": "burned"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "single burning event affecting the Creamery",
+              "citations": [
+                {
+                  "start": 3472,
+                  "end": 3520,
+                  "quote": "fire that burned the old Matanuska Maid Creamery"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 3472,
+                  "end": 3488,
+                  "quote": "fire that burned"
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "document narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [],
+          "citations": [
+            {
+              "start": 3472,
+              "end": 3488,
+              "quote": "fire that burned"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The relative clause directly predicates \u201cburned\u201d of the specific fire, and names the Creamery as the affected object. This supports the fire-to-burning causal direction without relying on the pair order."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "7_11ecbplus.xml",
+      "generation": 0,
+      "id": "c1b07128719d5a704e6a6beb",
+      "pair": [
+        "3",
+        "7"
+      ],
+      "score": 0.8690463019564552
+    },
+    "extraction": {
+      "source_id": "c1b07128719d5a704e6a6beb",
+      "verdict": "SUPPORTED",
+      "reason": "The headline explicitly presents retaining the belts as the purpose of stopping Thompson. This supports an intended, not categorical, cause-effect relation.",
+      "certificate": {
+        "source_id": "c1b07128719d5a704e6a6beb",
+        "document_sha256": "5b1ff6a3c76563610d7f0af573f27d7714fefe0097c0d1e610cfbdb7303053af",
+        "cause": "3",
+        "effect": "7",
+        "evidence": [
+          {
+            "start": 167,
+            "end": 252,
+            "quote": "Wladimir Klitschko stops Tony Thompson in 6th round to retain world heavyweight belts"
+          }
+        ],
+        "frames": {
+          "3": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "Wladimir Klitschko"
+                ],
+                "patient": [
+                  "Tony Thompson"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 167,
+                  "end": 252,
+                  "quote": "Wladimir Klitschko stops Tony Thompson in 6th round to retain world heavyweight belts"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "stopping Tony Thompson",
+              "citations": [
+                {
+                  "start": 186,
+                  "end": 205,
+                  "quote": "stops Tony Thompson"
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "6th round",
+              "citations": [
+                {
+                  "start": 206,
+                  "end": 218,
+                  "quote": "in 6th round"
+                }
+              ]
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "one stopping event",
+              "citations": [
+                {
+                  "start": 167,
+                  "end": 252,
+                  "quote": "Wladimir Klitschko stops Tony Thompson in 6th round to retain world heavyweight belts"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 167,
+                  "end": 252,
+                  "quote": "Wladimir Klitschko stops Tony Thompson in 6th round to retain world heavyweight belts"
+                }
+              ]
+            }
+          },
+          "7": {
+            "participants": {
+              "state": "INFERRED",
+              "value": {
+                "agent": [
+                  "Wladimir Klitschko"
+                ],
+                "affected_object": [
+                  "world heavyweight belts"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 167,
+                  "end": 252,
+                  "quote": "Wladimir Klitschko stops Tony Thompson in 6th round to retain world heavyweight belts"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "retaining world heavyweight belts",
+              "citations": [
+                {
+                  "start": 222,
+                  "end": 252,
+                  "quote": "retain world heavyweight belts"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "one intended retention outcome",
+              "citations": [
+                {
+                  "start": 167,
+                  "end": 252,
+                  "quote": "Wladimir Klitschko stops Tony Thompson in 6th round to retain world heavyweight belts"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "Wladimir Klitschko",
+              "polarity": "positive",
+              "world": "intended",
+              "modality": "purpose",
+              "operators": [
+                "to"
+              ],
+              "citations": [
+                {
+                  "start": 167,
+                  "end": 252,
+                  "quote": "Wladimir Klitschko stops Tony Thompson in 6th round to retain world heavyweight belts"
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "Wladimir Klitschko",
+          "polarity": "positive",
+          "world": "intended",
+          "modality": "purpose",
+          "operators": [
+            "to"
+          ],
+          "citations": [
+            {
+              "start": 167,
+              "end": 252,
+              "quote": "Wladimir Klitschko stops Tony Thompson in 6th round to retain world heavyweight belts"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The purpose clause \u201cto retain world heavyweight belts\u201d explicitly links the stopping event to an intended retention outcome; the headline supplies the stopping event\u2019s agent, patient, and time."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "32_5ecbplus.xml",
+      "generation": 0,
+      "id": "c634939c9b29dfa3cea9be3b",
+      "pair": [
+        "22",
+        "24"
+      ],
+      "score": 0.9552996078592587
+    },
+    "extraction": {
+      "source_id": "c634939c9b29dfa3cea9be3b",
+      "verdict": "SUPPORTED",
+      "reason": "The phrase \u201cbeaten to death\u201d explicitly links the beating to the death.",
+      "certificate": {
+        "source_id": "c634939c9b29dfa3cea9be3b",
+        "document_sha256": "95e2262c91c07c65d38cfa63a571e451f5502f6765dcbdf282b97696f3e01a3f",
+        "cause": "22",
+        "effect": "24",
+        "evidence": [
+          {
+            "start": 1168,
+            "end": 1183,
+            "quote": "beaten to death"
+          }
+        ],
+        "frames": {
+          "22": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "patient": [
+                  "Fenn"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 1111,
+                  "end": 1214,
+                  "quote": "The family's border collie , named Fenn , was also found beaten to death in the backyard of the house ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "Fenn being beaten",
+              "citations": [
+                {
+                  "start": 1168,
+                  "end": 1183,
+                  "quote": "beaten to death"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "backyard of the house",
+              "citations": [
+                {
+                  "start": 1111,
+                  "end": 1214,
+                  "quote": "The family's border collie , named Fenn , was also found beaten to death in the backyard of the house ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "individual event",
+              "citations": [
+                {
+                  "start": 1111,
+                  "end": 1214,
+                  "quote": "The family's border collie , named Fenn , was also found beaten to death in the backyard of the house ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narration",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 1111,
+                  "end": 1214,
+                  "quote": "The family's border collie , named Fenn , was also found beaten to death in the backyard of the house ."
+                }
+              ]
+            }
+          },
+          "24": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "patient": [
+                  "Fenn"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 1111,
+                  "end": 1214,
+                  "quote": "The family's border collie , named Fenn , was also found beaten to death in the backyard of the house ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "Fenn's death",
+              "citations": [
+                {
+                  "start": 1168,
+                  "end": 1183,
+                  "quote": "beaten to death"
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "backyard of the house",
+              "citations": [
+                {
+                  "start": 1111,
+                  "end": 1214,
+                  "quote": "The family's border collie , named Fenn , was also found beaten to death in the backyard of the house ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "individual event",
+              "citations": [
+                {
+                  "start": 1111,
+                  "end": 1214,
+                  "quote": "The family's border collie , named Fenn , was also found beaten to death in the backyard of the house ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narration",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 1111,
+                  "end": 1214,
+                  "quote": "The family's border collie , named Fenn , was also found beaten to death in the backyard of the house ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "article narration",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [],
+          "citations": [
+            {
+              "start": 1168,
+              "end": 1183,
+              "quote": "beaten to death"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The unqualified narrative phrase \u201cbeaten to death\u201d explicitly presents the beating of Fenn as resulting in Fenn's death."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "20_1ecbplus.xml",
+      "generation": 0,
+      "id": "e25d1ec1af25d07c78dded82",
+      "pair": [
+        "15",
+        "18"
+      ],
+      "score": 0.980496333139531
+    },
+    "extraction": {
+      "source_id": "e25d1ec1af25d07c78dded82",
+      "verdict": "SUPPORTED",
+      "reason": "The sentence directly links the earthquake to the resulting injuries through the participial construction \u201cinjuring dozens more,\u201d under the attribution \u201cofficials say.\u201d",
+      "certificate": {
+        "source_id": "e25d1ec1af25d07c78dded82",
+        "document_sha256": "f2a99ecb9911c5921c3cb2d7361b44cd95a4fe7725a9fc03bbea897beb733d0f",
+        "cause": "15",
+        "effect": "18",
+        "evidence": [
+          {
+            "start": 160,
+            "end": 303,
+            "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+          }
+        ],
+        "frames": {
+          "15": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "earthquake"
+                ],
+                "affected_object": [
+                  "southern Iran"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "southern Iran earthquake occurrence",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "southern Iran",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "the earthquake occurrence",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "officials",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "assertion",
+              "operators": [
+                "reported speech"
+              ],
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            }
+          },
+          "18": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "earthquake"
+                ],
+                "patient": [
+                  "dozens more"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "injury of dozens more",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "INFERRED",
+              "value": "southern Iran",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "group injury event involving dozens more",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "officials",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "assertion",
+              "operators": [
+                "reported speech"
+              ],
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "officials",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "assertion",
+          "operators": [
+            "reported speech"
+          ],
+          "citations": [
+            {
+              "start": 160,
+              "end": 303,
+              "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The sentence presents \u201cinjuring dozens more\u201d as a consequence of the earthquake and attributes the assertion to officials."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "20_1ecbplus.xml",
+      "generation": 0,
+      "id": "b01287e341247ab6bc09b42b",
+      "pair": [
+        "15",
+        "16"
+      ],
+      "score": 0.9756480836355179
+    },
+    "extraction": {
+      "source_id": "b01287e341247ab6bc09b42b",
+      "verdict": "SUPPORTED",
+      "reason": "The sentence directly links the earthquake to the deaths through the participial construction \u201ckilling at least 10 people,\u201d under the attribution \u201cofficials say.\u201d",
+      "certificate": {
+        "source_id": "b01287e341247ab6bc09b42b",
+        "document_sha256": "f2a99ecb9911c5921c3cb2d7361b44cd95a4fe7725a9fc03bbea897beb733d0f",
+        "cause": "15",
+        "effect": "16",
+        "evidence": [
+          {
+            "start": 160,
+            "end": 303,
+            "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+          }
+        ],
+        "frames": {
+          "15": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "earthquake"
+                ],
+                "affected_object": [
+                  "southern Iran"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "southern Iran earthquake occurrence",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "southern Iran",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "the earthquake occurrence",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "officials",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "assertion",
+              "operators": [
+                "reported speech"
+              ],
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            }
+          },
+          "16": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "earthquake"
+                ],
+                "patient": [
+                  "at least 10 people"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "deaths of at least 10 people",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "INFERRED",
+              "value": "southern Iran",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "group fatality event involving at least 10 people",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "officials",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "assertion",
+              "operators": [
+                "reported speech"
+              ],
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "officials",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "assertion",
+          "operators": [
+            "reported speech"
+          ],
+          "citations": [
+            {
+              "start": 160,
+              "end": 303,
+              "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The sentence presents \u201ckilling at least 10 people\u201d as a consequence of the earthquake and attributes the assertion to officials."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "20_1ecbplus.xml",
+      "generation": 0,
+      "id": "474aa91fb2bf0c27e7cce500",
+      "pair": [
+        "1",
+        "18"
+      ],
+      "score": 0.9481437985189224
+    },
+    "extraction": {
+      "source_id": "474aa91fb2bf0c27e7cce500",
+      "verdict": "SUPPORTED",
+      "reason": "The sentence states that the earthquake hit southern Iran and continues with \u201cinjuring dozens more,\u201d explicitly presenting the injury event as a consequence of that hit, under the attribution \u201cofficials say.\u201d",
+      "certificate": {
+        "source_id": "474aa91fb2bf0c27e7cce500",
+        "document_sha256": "f2a99ecb9911c5921c3cb2d7361b44cd95a4fe7725a9fc03bbea897beb733d0f",
+        "cause": "1",
+        "effect": "18",
+        "evidence": [
+          {
+            "start": 160,
+            "end": 303,
+            "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+          }
+        ],
+        "frames": {
+          "1": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "earthquake"
+                ],
+                "affected_object": [
+                  "southern Iran"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "earthquake hitting southern Iran",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "southern Iran",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "the earthquake's hit of southern Iran",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "officials",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "assertion",
+              "operators": [
+                "reported speech"
+              ],
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            }
+          },
+          "18": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "earthquake"
+                ],
+                "patient": [
+                  "dozens more"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "injury of dozens more",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "INFERRED",
+              "value": "southern Iran",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "group injury event involving dozens more",
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "officials",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "assertion",
+              "operators": [
+                "reported speech"
+              ],
+              "citations": [
+                {
+                  "start": 160,
+                  "end": 303,
+                  "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "officials",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "assertion",
+          "operators": [
+            "reported speech"
+          ],
+          "citations": [
+            {
+              "start": 160,
+              "end": 303,
+              "quote": "A powerful earthquake has hit southern Iran , killing at least 10 people , injuring dozens more and damaging several villages , officials say ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The sentence connects the earthquake hitting southern Iran with the resulting injury clause \u201cinjuring dozens more,\u201d within the officials' reported assertion."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "35_9ecbplus.xml",
+      "generation": 0,
+      "id": "cf4bcfc167fdfb06f33bbe0f",
+      "pair": [
+        "4",
+        "5"
+      ],
+      "score": 0.9416445404209266
+    },
+    "extraction": {
+      "source_id": "cf4bcfc167fdfb06f33bbe0f",
+      "verdict": "SUPPORTED",
+      "reason": "The text explicitly gives speeding as the reason Williams was pulled over: \u201cpulled over for speeding.\u201d",
+      "certificate": {
+        "source_id": "cf4bcfc167fdfb06f33bbe0f",
+        "document_sha256": "d634688694da890b33151459faf140b56ca9815fb7139254be99140dc0cd66cc",
+        "cause": "5",
+        "effect": "4",
+        "evidence": [
+          {
+            "start": 356,
+            "end": 380,
+            "quote": "pulled over for speeding"
+          }
+        ],
+        "frames": {
+          "5": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "Jamal Williams"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 336,
+                  "end": 344,
+                  "quote": "Williams"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "speeding",
+              "citations": [
+                {
+                  "start": 372,
+                  "end": 380,
+                  "quote": "speeding"
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "around 1:30 a.m. on February 1; year unspecified",
+              "citations": [
+                {
+                  "start": 336,
+                  "end": 500,
+                  "quote": "Williams , 32 , was pulled over for speeding in his Bentley on State Route 94 around 1 : 30 a . m . on February 1 , but was arrested on suspicion of drunk driving ."
+                }
+              ]
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "State Route 94",
+              "citations": [
+                {
+                  "start": 336,
+                  "end": 500,
+                  "quote": "Williams , 32 , was pulled over for speeding in his Bentley on State Route 94 around 1 : 30 a . m . on February 1 , but was arrested on suspicion of drunk driving ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "individual speeding event",
+              "citations": [
+                {
+                  "start": 336,
+                  "end": 500,
+                  "quote": "Williams , 32 , was pulled over for speeding in his Bentley on State Route 94 around 1 : 30 a . m . on February 1 , but was arrested on suspicion of drunk driving ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 336,
+                  "end": 500,
+                  "quote": "Williams , 32 , was pulled over for speeding in his Bentley on State Route 94 around 1 : 30 a . m . on February 1 , but was arrested on suspicion of drunk driving ."
+                }
+              ]
+            }
+          },
+          "4": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "patient": [
+                  "Jamal Williams"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 336,
+                  "end": 344,
+                  "quote": "Williams"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "pulled over",
+              "citations": [
+                {
+                  "start": 356,
+                  "end": 362,
+                  "quote": "pulled"
+                },
+                {
+                  "start": 363,
+                  "end": 367,
+                  "quote": "over"
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "around 1:30 a.m. on February 1; year unspecified",
+              "citations": [
+                {
+                  "start": 336,
+                  "end": 500,
+                  "quote": "Williams , 32 , was pulled over for speeding in his Bentley on State Route 94 around 1 : 30 a . m . on February 1 , but was arrested on suspicion of drunk driving ."
+                }
+              ]
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "State Route 94",
+              "citations": [
+                {
+                  "start": 336,
+                  "end": 500,
+                  "quote": "Williams , 32 , was pulled over for speeding in his Bentley on State Route 94 around 1 : 30 a . m . on February 1 , but was arrested on suspicion of drunk driving ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "individual traffic stop",
+              "citations": [
+                {
+                  "start": 336,
+                  "end": 500,
+                  "quote": "Williams , 32 , was pulled over for speeding in his Bentley on State Route 94 around 1 : 30 a . m . on February 1 , but was arrested on suspicion of drunk driving ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 336,
+                  "end": 500,
+                  "quote": "Williams , 32 , was pulled over for speeding in his Bentley on State Route 94 around 1 : 30 a . m . on February 1 , but was arrested on suspicion of drunk driving ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "document narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [
+            "for (reason)"
+          ],
+          "citations": [
+            {
+              "start": 356,
+              "end": 380,
+              "quote": "pulled over for speeding"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The explicit construction \u201cpulled over for speeding\u201d presents speeding as the reason for the pull-over, supporting mention 5 as cause and mention 4 as effect."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "19_1ecbplus.xml",
+      "generation": 0,
+      "id": "24f083341521c28b3aeab190",
+      "pair": [
+        "2",
+        "3"
+      ],
+      "score": 0.8805704005772503
+    },
+    "extraction": {
+      "source_id": "24f083341521c28b3aeab190",
+      "verdict": "SUPPORTED",
+      "reason": "The participial phrase explicitly links the protesters splitting off with drawing riot police, supporting a causal/result relation.",
+      "certificate": {
+        "source_id": "24f083341521c28b3aeab190",
+        "document_sha256": "97f7669754defec8f8ac744bd880b6bd9a263c2eb492d397af17cca5d46e8e15",
+        "cause": "2",
+        "effect": "3",
+        "evidence": [
+          {
+            "start": 545,
+            "end": 581,
+            "quote": "splintered off \u2014 drawing riot police"
+          }
+        ],
+        "frames": {
+          "2": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "about two dozen young protesters"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 512,
+                  "end": 544,
+                  "quote": "about two dozen young protesters"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "the young protesters splintering off",
+              "citations": [
+                {
+                  "start": 512,
+                  "end": 559,
+                  "quote": "about two dozen young protesters splintered off"
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "Monday",
+              "citations": [
+                {
+                  "start": 415,
+                  "end": 424,
+                  "quote": "On Monday"
+                }
+              ]
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "one collective splintering-off event",
+              "citations": [
+                {
+                  "start": 512,
+                  "end": 559,
+                  "quote": "about two dozen young protesters splintered off"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 512,
+                  "end": 559,
+                  "quote": "about two dozen young protesters splintered off"
+                }
+              ]
+            }
+          },
+          "3": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "about two dozen young protesters"
+                ],
+                "patient": [
+                  "riot police"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 512,
+                  "end": 544,
+                  "quote": "about two dozen young protesters"
+                },
+                {
+                  "start": 570,
+                  "end": 581,
+                  "quote": "riot police"
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "the young protesters drawing riot police",
+              "citations": [
+                {
+                  "start": 562,
+                  "end": 581,
+                  "quote": "drawing riot police"
+                }
+              ]
+            },
+            "time": {
+              "state": "OBSERVED",
+              "value": "Monday",
+              "citations": [
+                {
+                  "start": 415,
+                  "end": 424,
+                  "quote": "On Monday"
+                }
+              ]
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "one drawing event",
+              "citations": [
+                {
+                  "start": 562,
+                  "end": 581,
+                  "quote": "drawing riot police"
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "article narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 545,
+                  "end": 581,
+                  "quote": "splintered off \u2014 drawing riot police"
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "article narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [],
+          "citations": [
+            {
+              "start": 545,
+              "end": 581,
+              "quote": "splintered off \u2014 drawing riot police"
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The text presents the drawing of riot police as the result of the young protesters splintering off."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "8_4ecbplus.xml",
+      "generation": 0,
+      "id": "d47b26c617bff4f0c1b07793",
+      "pair": [
+        "13",
+        "21"
+      ],
+      "score": 0.9579485085529779
+    },
+    "extraction": {
+      "source_id": "d47b26c617bff4f0c1b07793",
+      "verdict": "SUPPORTED",
+      "reason": "The sentence says hooded youths hurled petrol bombs, \u201csetting\u201d the bank and government buildings ablaze; the result clause explicitly links the hurling to the fires.",
+      "certificate": {
+        "source_id": "d47b26c617bff4f0c1b07793",
+        "document_sha256": "14d1053258013f23fe56d0aa025151087b9792a77da7f75b6604ec73a9cddbc7",
+        "cause": "21",
+        "effect": "13",
+        "evidence": [
+          {
+            "start": 442,
+            "end": 578,
+            "quote": "Hooded youths hurled petrol bombs at stores and businesses in the Greek capital , setting the bank and two government buildings ablaze ."
+          }
+        ],
+        "frames": {
+          "21": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "hooded youths"
+                ],
+                "instrument": [
+                  "petrol bombs"
+                ],
+                "patient": [
+                  "stores and businesses"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 442,
+                  "end": 578,
+                  "quote": "Hooded youths hurled petrol bombs at stores and businesses in the Greek capital , setting the bank and two government buildings ablaze ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "hurling petrol bombs at stores and businesses",
+              "citations": [
+                {
+                  "start": 442,
+                  "end": 578,
+                  "quote": "Hooded youths hurled petrol bombs at stores and businesses in the Greek capital , setting the bank and two government buildings ablaze ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "Greek capital",
+              "citations": [
+                {
+                  "start": 442,
+                  "end": 578,
+                  "quote": "Hooded youths hurled petrol bombs at stores and businesses in the Greek capital , setting the bank and two government buildings ablaze ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 442,
+                  "end": 578,
+                  "quote": "Hooded youths hurled petrol bombs at stores and businesses in the Greek capital , setting the bank and two government buildings ablaze ."
+                }
+              ]
+            }
+          },
+          "13": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "agent": [
+                  "hooded youths"
+                ],
+                "affected_object": [
+                  "the bank",
+                  "two government buildings"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 442,
+                  "end": 578,
+                  "quote": "Hooded youths hurled petrol bombs at stores and businesses in the Greek capital , setting the bank and two government buildings ablaze ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "setting the bank and two government buildings ablaze",
+              "citations": [
+                {
+                  "start": 442,
+                  "end": 578,
+                  "quote": "Hooded youths hurled petrol bombs at stores and businesses in the Greek capital , setting the bank and two government buildings ablaze ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "Greek capital",
+              "citations": [
+                {
+                  "start": 442,
+                  "end": 578,
+                  "quote": "Hooded youths hurled petrol bombs at stores and businesses in the Greek capital , setting the bank and two government buildings ablaze ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 442,
+                  "end": 578,
+                  "quote": "Hooded youths hurled petrol bombs at stores and businesses in the Greek capital , setting the bank and two government buildings ablaze ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "document narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [],
+          "citations": [
+            {
+              "start": 442,
+              "end": 578,
+              "quote": "Hooded youths hurled petrol bombs at stores and businesses in the Greek capital , setting the bank and two government buildings ablaze ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The result participle \u201csetting\u201d attaches the bank and government buildings being set ablaze to the immediately described hurling of petrol bombs."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "8_4ecbplus.xml",
+      "generation": 0,
+      "id": "d85eee538a940b18107fd12d",
+      "pair": [
+        "10",
+        "25"
+      ],
+      "score": 0.9288530570310094
+    },
+    "extraction": {
+      "source_id": "d85eee538a940b18107fd12d",
+      "verdict": "SUPPORTED",
+      "reason": "The protesters are described as \u201cfurious at\u201d the spending cuts, explicitly identifying the cuts as the reason for their fury.",
+      "certificate": {
+        "source_id": "d85eee538a940b18107fd12d",
+        "document_sha256": "14d1053258013f23fe56d0aa025151087b9792a77da7f75b6604ec73a9cddbc7",
+        "cause": "10",
+        "effect": "25",
+        "evidence": [
+          {
+            "start": 239,
+            "end": 441,
+            "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+          }
+        ],
+        "frames": {
+          "10": {
+            "participants": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "brutal spending cuts",
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [
+                "designed to avoid national bankruptcy (intended purpose)"
+              ],
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            }
+          },
+          "25": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "other": [
+                  "striking protesters"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "being furious",
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "granularity": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "document narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [],
+          "citations": [
+            {
+              "start": 239,
+              "end": 441,
+              "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The construction \u201cfurious at brutal spending cuts\u201d explicitly presents the spending cuts as the target and reason for the protesters\u2019 fury."
+      }
+    }
+  },
+  {
+    "root": {
+      "doc": "8_4ecbplus.xml",
+      "generation": 0,
+      "id": "b337d6be62071e0d9a0b889e",
+      "pair": [
+        "20",
+        "6"
+      ],
+      "score": 0.9116632766366506
+    },
+    "extraction": {
+      "source_id": "b337d6be62071e0d9a0b889e",
+      "verdict": "SUPPORTED",
+      "reason": "The sentence explicitly states that the fire-bomb attack on a bank \u201cleft at least three people dead,\u201d presenting the attack as the cause of the deaths.",
+      "certificate": {
+        "source_id": "b337d6be62071e0d9a0b889e",
+        "document_sha256": "14d1053258013f23fe56d0aa025151087b9792a77da7f75b6604ec73a9cddbc7",
+        "cause": "20",
+        "effect": "6",
+        "evidence": [
+          {
+            "start": 239,
+            "end": 441,
+            "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+          }
+        ],
+        "frames": {
+          "20": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "patient": [
+                  "a bank"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "fire-bomb attack on a bank",
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "Athens",
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "OBSERVED",
+              "value": "singular attack described",
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            }
+          },
+          "6": {
+            "participants": {
+              "state": "OBSERVED",
+              "value": {
+                "affected_object": [
+                  "at least three people"
+                ]
+              },
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            },
+            "incident": {
+              "state": "OBSERVED",
+              "value": "people left dead",
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            },
+            "time": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "place": {
+              "state": "OBSERVED",
+              "value": "Athens",
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            },
+            "granularity": {
+              "state": "UNKNOWN",
+              "value": null,
+              "citations": []
+            },
+            "scope": {
+              "state": "OBSERVED",
+              "holder": "document narrator",
+              "polarity": "positive",
+              "world": "actual",
+              "modality": "asserted",
+              "operators": [],
+              "citations": [
+                {
+                  "start": 239,
+                  "end": 441,
+                  "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+                }
+              ]
+            }
+          }
+        },
+        "relation_scope": {
+          "state": "OBSERVED",
+          "holder": "document narrator",
+          "polarity": "positive",
+          "world": "actual",
+          "modality": "asserted",
+          "operators": [],
+          "citations": [
+            {
+              "start": 239,
+              "end": 441,
+              "quote": "A FIRE - BOMB attack on a bank in Athens left at least three people dead as police fought pitched battles with striking protesters furious at brutal spending cuts designed to avoid national bankruptcy ."
+            }
+          ]
+        },
+        "support_mode": "EXPLICIT",
+        "justification": "The clause \u201cattack on a bank ... left at least three people dead\u201d explicitly connects the attack to the resulting deaths."
+      }
+    }
+  }
+]

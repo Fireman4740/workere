@@ -1,0 +1,119 @@
+[
+  {
+    "alternative": "63",
+    "cause": "19",
+    "doc": "18_8ecbplus.xml",
+    "effect": "1",
+    "id": "539a68cf5030fc8a229c936c",
+    "root_id": "e4a29515d7b3e4fa3e71acd4",
+    "root_score": 0.9696070002527192,
+    "target": [
+      "1",
+      "63"
+    ]
+  },
+  {
+    "alternative": "59",
+    "cause": "19",
+    "doc": "18_8ecbplus.xml",
+    "effect": "1",
+    "id": "eeaf7c623b821f9a33e6a5ec",
+    "root_id": "e4a29515d7b3e4fa3e71acd4",
+    "root_score": 0.9696070002527192,
+    "target": [
+      "1",
+      "59"
+    ]
+  },
+  {
+    "alternative": "26",
+    "cause": "14",
+    "doc": "37_1ecbplus.xml",
+    "effect": "16",
+    "id": "56a46479b73d844fd9a5418b",
+    "root_id": "7d651a29c06bb5393297c92e",
+    "root_score": 0.9690471200994484,
+    "target": [
+      "16",
+      "26"
+    ]
+  },
+  {
+    "alternative": "6",
+    "cause": "14",
+    "doc": "37_1ecbplus.xml",
+    "effect": "16",
+    "id": "83dde78fac042bd462e86dd2",
+    "root_id": "7d651a29c06bb5393297c92e",
+    "root_score": 0.9690471200994484,
+    "target": [
+      "16",
+      "6"
+    ]
+  },
+  {
+    "alternative": "7",
+    "cause": "1",
+    "doc": "20_1ecbplus.xml",
+    "effect": "18",
+    "id": "a30d24d5433b9a9ba5665bdb",
+    "root_id": "474aa91fb2bf0c27e7cce500",
+    "root_score": 0.9481437985189224,
+    "target": [
+      "18",
+      "7"
+    ]
+  },
+  {
+    "alternative": "63",
+    "cause": "19",
+    "doc": "18_8ecbplus.xml",
+    "effect": "2",
+    "id": "6d13578ebeb38dd964e16e0c",
+    "root_id": "4dbb87bf5b4be86a712ddb76",
+    "root_score": 0.9429687211022945,
+    "target": [
+      "2",
+      "63"
+    ]
+  },
+  {
+    "alternative": "59",
+    "cause": "19",
+    "doc": "18_8ecbplus.xml",
+    "effect": "2",
+    "id": "afad6ffaa30b46e6afb5125a",
+    "root_id": "4dbb87bf5b4be86a712ddb76",
+    "root_score": 0.9429687211022945,
+    "target": [
+      "2",
+      "59"
+    ]
+  },
+  {
+    "alternative": "9",
+    "cause": "7",
+    "doc": "23_9ecbplus.xml",
+    "effect": "32",
+    "id": "6cc7359114d49e5cd084b1a6",
+    "root_id": "b9c529a4220111b4671d8acf",
+    "root_score": 0.9394656850163658,
+    "target": [
+      "32",
+      "9"
+    ]
+  },
+  {
+    "alternative": "2",
+    "cause": "3",
+    "doc": "7_11ecbplus.xml",
+    "effect": "7",
+    "id": "8289d6769a94173a8e9593e7",
+    "root_id": "c1b07128719d5a704e6a6beb",
+    "root_score": 0.8690463019564552,
+    "target": [
+      "2",
+      "7"
+    ]
+  }
+]

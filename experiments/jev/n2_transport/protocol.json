@@ -1,0 +1,46 @@
+{
+  "arms": {
+    "A0": "same occurrence identity",
+    "A1": "incident/arguments/scope/granularity compatible",
+    "A2": "same-witness positive binding no new causal premise and competing incidents excluded",
+    "A3": "unchanged historical predicted T2 groups"
+  },
+  "common": "same source semantic checks, frozen Cstar, final independent target verifier shared all4 arms, one add/source,max5/doc,no recursion; no rectangles,no gold coreference",
+  "cost_policy": "2USD hard new reservations, prior extraction0.054917165 separately and cumulatively reported; full reservations before batches",
+  "dataset": "DEV44 previously exposed; not independent confirmation",
+  "decision": "Feasibility NO-GO if zero viable candidates. Otherwise exploratory effect only; continuation requires positive A2 marginal utility, at least5 selected links across3 topics, A2 better than A0/A1/A3 on common set; insufficient volume=>inconclusive. No promotion from this study.",
+  "development_only": true,
+  "documents_with_candidates": 5,
+  "expected_version": "gpt-6-luna-20260922",
+  "failure_policy": "Truncated/invalid responses quarantined, missing evidence not a negative; report coverage and no paid retries. Invalid shared verdict blocks all arm additions for that candidate.",
+  "frozen_utc": "2026-10-28T12:04:43.763264+00:00",
+  "gold_policy": "No gold read before immutable prediction freeze; evaluation separate after freeze, no tuning or confirmation claim",
+  "human_annotations": 0,
+  "hypothesis": "A2 witness transport selects more useful missing links than identity/compatibility/historical T2 with a shared final verifier",
+  "max_new_billed_tokens": 1500000,
+  "max_new_usd": 2.0,
+  "max_output_tokens": 16384,
+  "max_retries": 0,
+  "model": "openai/gpt-6-luna:batch",
+  "parent_commit": "3663d645fb1e31e2dbb8246220ffb91ce08c62ae",
+  "planned_candidates": 9,
+  "planned_registry_hash": "ab4ebbd652901c6833c5a00822e079f6e1a149cf2871678214466b9c2d3f3733",
+  "prior_runs": [
+    "e390a333-f7da-4844-aaca-aac99607ac8f",
+    "ca2990dd-5338-418c-bfdb-abd220a32782"
+  ],
+  "reasoning": "high",
+  "reused_source_archive": {
+    "artifact": "transport-preuve-locale/pilote-batch/echec-e390/collecte-finale/state-final/budget.sqlite",
+    "old_complete_requests": 39,
+    "old_request_count": 44,
+    "selected_structural_items": 26,
+    "sha256": "c3abbf73ce0f64859bf3ac73ca21c983418b2de8c99eb92c8254596a260aabef"
+  },
+  "revision": "explicit new protocol drops historical min50, source schemas simplified to sentence evidence and automatic assessments; no v1 success claim",
+  "schema": "workere-n2-automatic-transport/v2",
+  "selection": "pre-gold lexical token Jaccard>=.5 with fixed morphology; max2 alternatives per source ranked overlap,distance,ID; global max20 by source score then hash; source cause only; target baseline negative",
+  "semantic_validity": "automatic model assessments are not independent truth adjudication",
+  "source_reuse": "26 structurally valid complete original extraction items, unchanged; 72 abstentions,7 invalid and15 missing excluded; no new extraction and no pooled votes",
+  "sources": 26
+}
