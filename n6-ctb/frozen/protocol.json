@@ -1,0 +1,28 @@
+{
+  "api_ceiling_usd": 0.365,
+  "canonical_pairs": 73,
+  "cap_usd": 0.5,
+  "documents": [
+    "APW19980418.0210",
+    "wsj_0662",
+    "ea980120.1830.0456",
+    "wsj_0541",
+    "wsj_0551",
+    "wsj_0751",
+    "wsj_0168"
+  ],
+  "expected_served": "liquid/d1-ultra-20261015",
+  "human_annotation": false,
+  "model": "liquid/d1-ultra",
+  "orientation": "One deterministic canonical unordered orientation; no direction-score symmetrization; both questions ask either direction",
+  "paid_retries": 0,
+  "per_request_reservation_usd": 0.0025,
+  "primary": "Lexical d1 question minus generic d1 question, same canonical pairs and full context, threshold0.5 fixed, no fusion tuning",
+  "public_sha256": "f3ebc214aca3164ba9eb3fd8721c985a06414f3f356320d64ee1b0bc005c64e7",
+  "request_count": 146,
+  "scope": "Exploratory exposed CTB; small size-limited cohort, no confirmation",
+  "selection": "Hash N6-20261028:id on CTB metadata-eligible3..15 canonical pairs, <=12000textbytes; longest prefix up to80pairs/10docs. No relation labels used.",
+  "study": "N6",
+  "training": false,
+  "validity": "Any missing/error/model mismatch blocks primary score; never negative"
+}
