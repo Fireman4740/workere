@@ -1,0 +1,55 @@
+{
+  "api_ceiling_usd": 1.1868888,
+  "budget_usd": 1.5,
+  "confirmation": "exploratory exposed development, no independent confirmation",
+  "documents": [
+    "22_12ecbplus.xml",
+    "35_9ecbplus.xml",
+    "33_8ecbplus.xml",
+    "1_19ecbplus.xml",
+    "16_6ecbplus.xml",
+    "12_9ecbplus.xml",
+    "24_8ecbplus.xml",
+    "13_14ecbplus.xml",
+    "5_5ecbplus.xml",
+    "19_1ecbplus.xml",
+    "14_1ecbplus.xml",
+    "3_11ecbplus.xml"
+  ],
+  "gold_policy": "evaluation-only file opened after outputs freeze",
+  "human_annotation": false,
+  "max_output_tokens": 32768,
+  "models": {
+    "DeepSeek": {
+      "canonical": "deepseek/deepseek-v4.1-flash-20260910",
+      "id": "deepseek/deepseek-v4.1-flash:batch",
+      "input": 0.14,
+      "output": 0.42,
+      "served": [
+        "deepseek/deepseek-v4.1-flash",
+        "deepseek/deepseek-v4.1-flash:batch",
+        "deepseek/deepseek-v4.1-flash-20260910"
+      ]
+    },
+    "Luna": {
+      "canonical": "openai/gpt-6-luna-20260922",
+      "id": "openai/gpt-6-luna",
+      "input": 0.1,
+      "output": 0.5,
+      "served": [
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna-20260922"
+      ]
+    }
+  },
+  "new_paid_retries": 0,
+  "no_training": true,
+  "passes": 3,
+  "primary": "Fresh DeepSeek versus fresh Luna under identical messages, three-pass fixed majority and fixed fusion0.39 with historical d1; no equal-cost claim",
+  "public_sha256": "dbabd1f7bdd84461e88a56adda8eede9b93a727df67dc5e75b6fecd7b2665a22",
+  "reasoning": "high",
+  "selection": "First12 document IDs sorted by sha256 N4-20261028:id over frozen M1 cohort; no labels",
+  "study": "N4",
+  "validity": "all72 complete stop responses + exact model/schema/IDs; otherwise primary metrics null; no missing negative",
+  "version": 1
+}
