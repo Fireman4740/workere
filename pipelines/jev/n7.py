@@ -1,5 +1,5 @@
 """N7 frozen paired two-schedule replication with pre-gold raw export."""
-import base64, collections, concurrent.futures, hashlib, io, json, os, pathlib, random, sys, threading, zipfile
+import math, urllib.request, base64, collections, concurrent.futures, hashlib, io, json, os, pathlib, random, sys, threading, zipfile
 P=pathlib.Path('experiments/jev/n7')
 ARMS=('ordinary','contrastive')
 def read(p):return json.loads(pathlib.Path(p).read_text())
@@ -85,6 +85,15 @@ def export(root):
  for i in range(0,len(enc),size):print('N7_EVIDENCE_CHUNK '+json.dumps({'index':i//size,'data':enc[i:i+size]}),flush=True)
  print('N7_EVIDENCE_END',flush=True)
 
+def catalog(root):
+ with urllib.request.urlopen('https://openrouter.ai/api/v1/models',timeout=60) as response:data=json.load(response)
+ rows=[r for r in data['data'] if r['id']=='openai/gpt-6-luna'];assert len(rows)==1,'expected route absent or ambiguous'
+ row=rows[0];save(root/'catalog-model.json',row)
+ assert row.get('canonical_slug')=='openai/gpt-6-luna-20260922','canonical route changed'
+ prices=row['pricing'];prompt=float(prices['prompt']);completion=float(prices['completion'])
+ assert math.isfinite(prompt) and math.isfinite(completion) and 0<=prompt<=1e-7 and 0<=completion<=5e-7,'price exceeds frozen reservation'
+ return row
+
 def main():
  requests=prepare();pre={'gate':'PASS','requests':len(requests),'distinct_request_bodies':len({r['body_sha256'] for r in requests}),'logical_slots':192,'full_reservation_usd':4.8,'hard_cap_usd':5,'max_input_bound':max(r['input_utf8_bound'] for r in requests)};print('N7_PREFLIGHT '+json.dumps(pre),flush=True)
  if '--preflight' in sys.argv:save(P/'preflight-frozen.json',pre);save(P/'requests-frozen.json',requests);return
@@ -113,10 +122,11 @@ def main():
   except Exception as exc:return {'group':gid,'status':'failed','type':type(exc).__name__,'message':str(exc)[:1000]}
   finally:client.close()
  try:
+  catalog(root)
   with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:statuses=list(pool.map(generate,groups.items()))
   save(root/'group-status.json',statuses);batches={e['batch_id']:e['provider_reported_batch_cost_usd'] for e in events if e.get('batch_id')};known=sum(v for v in batches.values() if v is not None);unknown=192-len(events)+sum(e.get('provider_reported_batch_cost_usd') is None for e in events);upper=known+unknown*.025
   budget.settle(ticket,upper);save(root/'costs.json',{'known_provider_reported_usd':known,'conservative_usd':upper,'unaccounted_call_slots':unknown,'batch_totals':batches,'perrequest_costs':'allocated equalshare within eachbatch, not measured perrequest','budget':budget.status()})
-  predictions,failures=freeze_predictions(requests,events) if len(events)==192 else (None,[{'missing_events':192-len(events)}]);save(root/'validity.json',{'failures':failures,'answers':len(events)})
+  predictions,failures=freeze_predictions(requests,events) if len(events)==192 and len(statuses)==64 and all(g['status']=='completed' for g in statuses) else (None,[{'missing_events':192-len(events),'failed_groups':[g for g in statuses if g['status']!='completed']}]);save(root/'validity.json',{'failures':failures,'answers':len(events)})
   if predictions is None:result={'status':'BLOCKED_VALIDITY','primary_mean_delta_points':None,'failures':failures,'read_gold':False}
   else:
    save(root/'predictions-before-gold.json',predictions)

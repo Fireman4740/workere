@@ -40,7 +40,7 @@
   "fixed_fusion": "(L_ab+L_ba+d1_ab+d1_ba)/4 >=0.39",
   "primary": "arithmetic mean of two schedule micro-F1 contrasts in percentage points",
   "uncertainty": "20000paired topic bootstrap draws, same topicdraw for both schedules; meancontrast; percentile endpoints index500,19499,seed20261028",
-  "gate": "all192delivered,complete,parseable,declaredmodel/provider,knownIDs andvalidlabels; elseBLOCKED, no primaryscore",
+  "gate": "all64groupscompleted AND192delivered,complete,parseable,declaredmodel/provider,knownIDs andvalidlabels; elseBLOCKED, no primaryscore",
   "continuation": "meanDelta>=1point AND lowerCI>0 AND eachscheduleDelta>0; exploratorycandidate only",
   "budget": {
     "hard_cap_usd": 5,
@@ -58,5 +58,6 @@
     "repeated prompts neither independentweights nor192distinct bodies"
   ],
   "training": false,
-  "human_annotation": false
+  "human_annotation": false,
+  "catalog_precheck": "read-only current models catalog canonical_slug openai/gpt-6-luna-20260922, prompt<=1e-7USD/token and completion<=5e-7USD/token, rowarchived; declaration not servedweights fingerprint"
 }
