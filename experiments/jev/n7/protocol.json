@@ -1,0 +1,62 @@
+{
+  "study": "N7",
+  "parent": "N3 f2f58ed",
+  "role": "replication on exposed development, not blind confirmation",
+  "document_ids": [
+    "32_7ecbplus.xml",
+    "7_11ecbplus.xml",
+    "37_9ecbplus.xml",
+    "24_4ecbplus.xml",
+    "1_13ecbplus.xml",
+    "33_11ecbplus.xml",
+    "30_5ecbplus.xml",
+    "20_10ecbplus.xml",
+    "35_6ecbplus.xml",
+    "23_9ecbplus.xml",
+    "19_3ecbplus.xml",
+    "13_14ecbplus.xml",
+    "14_1ecbplus.xml",
+    "12_10ecbplus.xml",
+    "3_5ecbplus.xml",
+    "8_5ecbplus.xml"
+  ],
+  "selection": "exclude N3 doc IDs; <=35mentions; hashmin doc per topic, then hashmin16topics, SHA256 N7::20261028::<key>",
+  "schedule_seeds": [
+    202610281,
+    202610282
+  ],
+  "reads_per_arm_schedule_document": 3,
+  "requests": 192,
+  "arms": [
+    "ordinary",
+    "contrastive"
+  ],
+  "guidance": "unchanged N3 baseprompt and structural top3demonstrations plus explicitnegatives; ordinary sampled3 outside topic per schedule seed",
+  "model": "openai/gpt-6-luna:batch",
+  "declared_version": "gpt-6-luna-20260922",
+  "reasoning": "high",
+  "max_output_tokens": 32768,
+  "max_context_tokens": 65536,
+  "fixed_fusion": "(L_ab+L_ba+d1_ab+d1_ba)/4 >=0.39",
+  "primary": "arithmetic mean of two schedule micro-F1 contrasts in percentage points",
+  "uncertainty": "20000paired topic bootstrap draws, same topicdraw for both schedules; meancontrast; percentile endpoints index500,19499,seed20261028",
+  "gate": "all192delivered,complete,parseable,declaredmodel/provider,knownIDs andvalidlabels; elseBLOCKED, no primaryscore",
+  "continuation": "meanDelta>=1point AND lowerCI>0 AND eachscheduleDelta>0; exploratorycandidate only",
+  "budget": {
+    "hard_cap_usd": 5,
+    "per_call_reservation_usd": 0.025,
+    "full_plan_reservation_usd": 4.8,
+    "max_calls": 192,
+    "paid_retries": 0
+  },
+  "freeze": "all raw replies and predictions hashed before controlsopened at runtime",
+  "cache": "new perrun perschedule perarm perdoc SQLite and batchreceipt paths, refuse cachehits; logicalslots distinct although contrastive promptbodies repeat across schedules",
+  "limitations": [
+    "two schedules do not establish full stochastic variance",
+    "equal calls and ceilings not realizedcompute or cost equality",
+    "same topics may have other previously exposed documents",
+    "repeated prompts neither independentweights nor192distinct bodies"
+  ],
+  "training": false,
+  "human_annotation": false
+}

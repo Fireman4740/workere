@@ -1,0 +1,9 @@
+{
+  "gate": "PASS",
+  "requests": 192,
+  "distinct_request_bodies": 135,
+  "logical_slots": 192,
+  "full_reservation_usd": 4.8,
+  "hard_cap_usd": 5,
+  "max_input_bound": 18992
+}
