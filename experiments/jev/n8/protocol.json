@@ -63,7 +63,7 @@
    9749
   ]
  },
- "integrity": "all56 full stop, expected declared model, parseable arrays, allowed IDs/labels and exact coverage; any failure blocks primary; no partial negatives, retries, paid rescue or threshold tuning",
+ "integrity": "all56 full stop, exactly one choice, expected declared model and OpenAI provider, parseable arrays, allowed IDs/labels and exact coverage; any failure blocks primary; no partial negatives, retries, paid rescue or threshold tuning",
  "human_annotation": false,
  "training": false,
  "gold_policy": "d1 separate from labels; all56 outputs and both fused decision sets frozen/hash-receipted before controls labels read; cohort uses metadata only; corpus already exposed",

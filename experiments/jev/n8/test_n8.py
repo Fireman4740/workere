@@ -8,6 +8,10 @@ class Contract(unittest.TestCase):
   allowed={('1','2')};self.assertEqual(n.positive_pairs(response('[{"pair":"1,2","label":"causes"},{"pair":"1,2","label":"norel"}]'),allowed),set())
   with self.assertRaises(ValueError):n.positive_pairs(response('[{"pair":"9,2","label":"causes"}]'),allowed)
   with self.assertRaises(ValueError):n.positive_pairs(response('[]','length'),allowed)
+  bad=response('[]');bad['provider']='other'
+  with self.assertRaises(ValueError):n.positive_pairs(bad,allowed)
+  bad=response('[]');bad['choices']*=2
+  with self.assertRaises(ValueError):n.positive_pairs(bad,allowed)
  def test_none_response_keeps_financial_report_and_export(self):
   events=[{'batch_id':'batch1','provider_reported_batch_cost_usd':.01,'response':None}]
   report=n.financial_summary(events);self.assertEqual(report['new_API_reported_cost_USD'],.01);self.assertEqual(report['usage_totals']['completion_tokens'],0)
