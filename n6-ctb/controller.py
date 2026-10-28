@@ -49,16 +49,18 @@ def execute(row,state,p,transport=http):
    record.update(state='ERROR',error=('HTTP'+str(exc.code)) if isinstance(exc,urllib.error.HTTPError) else type(exc).__name__+':'+str(exc)[:200])
   record['ended_unix']=time.time();save(path,record);return record
 
-def catalog_gate(p,rows):
- catalog=http('GET','https://openrouter.ai/api/v1/models');models=[m for m in catalog.get('data',[]) if m.get('id')==p['model']]
- if len(models)!=1:raise RuntimeError('catalog model absent or ambiguous')
- m=models[0];price=float((m.get('pricing') or {})['prompt']);assert math.isfinite(price) and price>=0
+def request_gate(p,rows):
+ # Decisions is a distinct API; the chat-model catalog does not enumerate d1.
+ # Preserve H1 verified client constraints, and require exact served identity
+ # plus actual per-response cost bounds. No assertion of current tariff.
  for row in rows:
   assert row['body']['model']==p['model']
   assert row['input_utf8_bound']>=len(canonical(row['body']).encode())
-  assert row['input_utf8_bound']*price<=p['per_request_reservation_usd']
-  assert row['input_utf8_bound']<=m['context_length']
- return dict(model=m['id'],canonical_slug=m.get('canonical_slug'),context_length=m.get('context_length'),prompt_price_per_token=price)
+  assert row['input_utf8_bound']<=32768
+  assert row['input_utf8_bound']*.042/1e6<=p['per_request_reservation_usd']
+  assert set(row['body']['questions'])=={'causal'}
+  q=row['body']['questions']['causal'];assert q['type']=='noul' and set(q['criteria'])=={'true','false'} and all(isinstance(v,str) for v in q['criteria'].values())
+ return dict(model=p['model'],expected_served=p['expected_served'],max_context_upper_bound=32768,historical_input_price_per_million=.042,live_tariff_verified=False,note='Decisions route absent from chat catalog; exact served and cost reservation guards enforced per response.')
 
 def main():
  runid=os.environ.get('ORX_RUN_ID');assert runid,'tracked run required'
@@ -69,7 +71,7 @@ def main():
  out=ROOT/'logs'/('n6-'+runid);out.mkdir(parents=True,exist_ok=True)
  for name in ['public.json','protocol.json']:(out/name).write_bytes((frozen/name).read_bytes())
  emit('N6_CONFIG',dict(protocol=p,run_id=runid,commit=os.environ.get('ORX_COMMIT'),parallelism=8,threshold=.5,threshold_comparison='>=',endpoint=ENDPOINT))
- gate=catalog_gate(p,rows);save(out/'preflight.json',dict(status='PASS',catalog=gate,reserved_usd=reserved,cap_usd=p['cap_usd'],paid_retries=0,no_human_annotation=True,no_training=True))
+ gate=request_gate(p,rows);save(out/'preflight.json',dict(status='PASS',catalog=gate,reserved_usd=reserved,cap_usd=p['cap_usd'],paid_retries=0,no_human_annotation=True,no_training=True))
  state=Path('~/.local/share/openresearch/workere-decisions/n6-ctb-v1').expanduser()/sha(frozen/'protocol.json');state.mkdir(parents=True,exist_ok=True)
  with (state/'controller.lock').open('a') as lock:
   fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
