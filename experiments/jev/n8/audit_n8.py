@@ -32,6 +32,7 @@ def audit(root):
   assert digest(body)==pre['request_hashes'][requests.index(r)]
   assert r['doc'].split('_')[0]!=r['demonstration_id'].split('_')[0]
   assert response['model'] in {'openai/gpt-6-luna','openai/gpt-6-luna:batch','openai/gpt-6-luna-20260922'}
+  assert response.get('provider')=='OpenAI' and isinstance(response.get('choices'),list) and len(response['choices'])==1
   models[response['model']]+=1;choice=response['choices'][0];assert choice['finish_reason']=='stop';text=choice['message']['content'];assert isinstance(text,str)
   # An independent JSONDecoder scans every '['; pick last nonempty list of objects.
   arrays=[]

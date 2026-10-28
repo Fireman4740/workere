@@ -19,6 +19,7 @@ def positive_pairs(response,allowed):
  from eci.parse import answer_array,parse_triples
  from benchmark.labels import normalize
  if response.get('model') not in {'openai/gpt-6-luna','openai/gpt-6-luna:batch','openai/gpt-6-luna-20260922'}:raise ValueError('unexpected served model')
+ if response.get('provider')!='OpenAI' or not isinstance(response.get('choices'),list) or len(response['choices'])!=1:raise ValueError('unexpected provider or choice count')
  choice=response['choices'][0]
  if choice.get('finish_reason')!='stop':raise ValueError('incomplete generation')
  content=choice['message']['content'];items=answer_array(content)
@@ -110,6 +111,16 @@ def export():
  for i in range(0,len(encoded),chunk):print('N8_EVIDENCE_CHUNK '+json.dumps({'index':i//chunk,'data':encoded[i:i+chunk]}),flush=True)
  print('N8_EVIDENCE_END '+json.dumps({'chunks':(len(encoded)+chunk-1)//chunk,'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data)}),flush=True)
 
+def financial_summary(events):
+ by_batch={e['batch_id']:e['provider_reported_batch_cost_usd'] for e in events if e.get('batch_id')}
+ totals={k:0 for k in ['prompt_tokens','completion_tokens','total_tokens']}
+ for e in events:
+  response=e.get('response') if isinstance(e.get('response'),dict) else {}
+  usage=response.get('usage') if isinstance(response.get('usage'),dict) else {}
+  for k in totals:
+   if type(usage.get(k)) in (int,float):totals[k]+=usage[k]
+ return {'replies_recorded':len(events),'new_API_reported_cost_USD':sum(v for v in by_batch.values() if v is not None),'batch_costs':by_batch,'usage_totals':totals}
+
 def main():
  if not os.environ.get('ORX_RUN_ID'):raise RuntimeError('tracked run only')
  STATE.mkdir(parents=True,exist_ok=True);events=[];client=None
@@ -132,8 +143,7 @@ def main():
  finally:
   if client:
    summary['budget']=client.shared_budget.status();client.close()
-  by_batch={e['batch_id']:e['provider_reported_batch_cost_usd'] for e in events if e.get('batch_id')}
-  summary.update(replies_recorded=len(events),new_API_reported_cost_USD=sum(v for v in by_batch.values() if v is not None),batch_costs=by_batch,usage_totals={k:sum((e.get('response',{}).get('usage') or {}).get(k,0) or 0 for e in events) for k in ['prompt_tokens','completion_tokens','total_tokens']})
+  summary.update(financial_summary(events))
   save(STATE/'summary.json',summary);print('N8_RESULT '+json.dumps(summary),flush=True);export()
 
 if __name__=='__main__':main()
