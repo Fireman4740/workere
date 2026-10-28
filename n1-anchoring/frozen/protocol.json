@@ -1,0 +1,41 @@
+{
+  "acceptance": "Only SUPPORTED, exact nonempty unique evidence substring, both exact mention-tag-containing occurrence substrings, valid cause/effect IDs and both scope_consistent true. Invalid/truncated/missing response quarantined, no partial salvage and no paid retries. UNKNOWN is abstention. P0 always preserved.",
+  "budget": "Fresh cap2USD, conservatively reserve every request before single batch POST; no paid retries, no changes after outputs; prior balances unused. Unknown POST never repeated. GET retrieval may retry.",
+  "candidates": 120,
+  "conservative_api_ceiling_usd": 0.40682700000000005,
+  "decision": "INCONCLUSIVE if any request lacks valid complete output; otherwise GO exploratory only if H exceeds P0 by >=1pp, positive marginal utility and positive H gain after every leave-one-topic-out. Otherwise NO-GO or inconclusive small positive; no automatic promotion.",
+  "documents": 20,
+  "files_sha256": {
+    "channels.json": "4ba2ba53a5300776962eb490c108d4a847083ae05dbe5bca8d731d6394307d5c",
+    "documents.json": "d93b280e52fbc9980458cee7e000e343f420827b27169755cee42b25f54cef92",
+    "reference.json": "d3a37dd87a5437295db20cb98f7472b185524469dcb43aadf3c4a5725f3543e3",
+    "requests.json": "0c290259fbb06e99a1a8530e98845bd1e2f965ec4f52a3a7fb0523acd73df710"
+  },
+  "hypothesis": "Automatic exact evidence plus mention anchoring filters saved M1 additions to positive marginal utility, identically across MP and ordinary controls.",
+  "limitations": "Consumed M1 DEV20; prior metrics exposed to researchers. Existing gold only evaluator after freeze, no human annotations, no training, no independent confirmation.",
+  "parent_commit": "9cc4587780530f7061089867715de3e88d2e30cf",
+  "primary": "P0+verified(shared union MP) versus P0; comparator P0+verified(shared union extra); report unfiltered counterparts and union, exact TP/FP/FN and marginal utility. Conditional exclusive MP after verified ordinary, by-topic bootstrap and LOTO.",
+  "requests": 45,
+  "schema": "workere-n1/v1",
+  "selection": "Entire union of archived M1 eligible shared/extra/MP additions; deduplicated. No gold or error selection. Channel membership hidden from common verifier. Three candidates per request, one high-reasoning pass.",
+  "settings": {
+    "allowed_served_models": [
+      "openai/gpt-6-luna",
+      "openai/gpt-6-luna:batch",
+      "openai/gpt-6-luna-20260922"
+    ],
+    "budget_usd": 2,
+    "input_price_per_million": 0.1,
+    "max_logical_requests": 45,
+    "max_output_tokens": 16384,
+    "model": "openai/gpt-6-luna",
+    "output_price_per_million": 0.5,
+    "poll_deadline_seconds": 90000,
+    "reservation_per_request_usd": 0.009040600000000001
+  },
+  "source_sha256": {
+    "m1-outputs-before-gold.json": "c0973376f9cacfd3bf25bf26583a9b5acd4f8bb40f2c87754b366360375ab8d8",
+    "m1-public-documents.json": "93cddca07057ec8fea3a45028c72421bc853fff88359fbed1aea321a34af9b89",
+    "m1-reference-without-gold.json": "8d9e238ee7f00c20ca5cdbfd57cd84e7605f796b0a7cbcf5bc12b667e6359bdf"
+  }
+}

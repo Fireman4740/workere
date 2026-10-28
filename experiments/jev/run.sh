@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 export PATH="$HOME/.local/bin:$PATH"
+if [[ -f n1-anchoring/frozen/protocol.json ]]; then
+  exec uv run --isolated --no-project --python 3.13 python n1-anchoring/run.py
+fi
 if [[ -f m1-diversity/frozen/m1-protocol-frozen.json ]]; then
   exec uv run --isolated --no-project --python 3.13 python m1-diversity/run.py
 fi
