@@ -58,6 +58,9 @@ def main(argv=None):
                   rethreshold(args.run_dir, args.threshold, args.output_dir))
         print(json.dumps(result, ensure_ascii=False), flush=True)
         return 0
+    if read_yaml(args.config).get("n5_cached_ablation"):
+        from pipelines.jev.n5 import main as n5_main
+        return n5_main(args.command, args.output)
     configs = _configs(args.config)
     if args.command == "dry-run":
         from pipelines.jev.planning import plan
