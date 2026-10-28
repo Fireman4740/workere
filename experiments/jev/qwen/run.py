@@ -25,6 +25,7 @@ from eci.config import load_config, prompt_spec
 from eci.data import load_eval_docs
 from eci.fewshot import FewShotBank
 from eci.llm import _openrouter_chat
+from eci.parse import parse_triples
 from eci.runner import Runner
 from eci.tracking import RunDir
 
@@ -60,6 +61,71 @@ def restore_demo_caches(spec, state):
     receipt = {"source_run": previous, "corpora": receipts, "evaluation_predictions_reused": False}
     (state / "resume-caches.json").write_text(json.dumps(receipt, indent=2))
     print("QWEN_CACHE_REUSE " + json.dumps(receipt), flush=True)
+
+
+def restore_evaluation(spec, configs, state):
+    """Copy stopped-run evidence, requiring the identical evaluation configuration."""
+    previous = spec.get("resume_evaluation_from_run")
+    if not previous or state.name == "preflight" or (state / "resume-evaluation.json").exists():
+        return
+    if previous != spec.get("resume_cache_from_run"):
+        raise ValueError("Evaluation and demonstration resume sources must match")
+    source = Path(spec["state_root"]).expanduser() / previous
+    # restore_demo_caches checks transport identity before this function is called.
+    if not (state / "resume-caches.json").exists():
+        raise ValueError("Transport identity must be verified before evaluation reuse")
+
+    def scientific_config(cfg):
+        cfg = json.loads(json.dumps(cfg))
+        cfg["llm_cache"].pop("path", None)
+        cfg["runtime"].pop("logdir", None)
+        for key in ("cache_path", "dump_dir"):
+            cfg["few_shot"]["cot_generation"].pop(key, None)
+        return cfg
+
+    receipts = []
+    for name, cfg in configs.items():
+        old_dir = Path((source / name / "run-dir.txt").read_text().strip())
+        old_cfg = yaml.safe_load(next(old_dir.glob("*.config.yaml")).read_text())
+        if scientific_config(old_cfg) != scientific_config(cfg):
+            raise ValueError("Refusing evaluation reuse after configuration change: " + name)
+        if cfg["experiment"]["enable_tools"] or prompt_spec(cfg).steps:
+            raise ValueError("Resume requires the single-step, tool-free baseline")
+        destination = state / name
+        docs = old_dir / "docs.jsonl"
+        completed = []
+        if docs.exists():
+            completed = [json.loads(line) for line in docs.read_text().splitlines()]
+            completed = [row for row in completed if not row["failure"]]
+            (destination / "resume-docs.jsonl").write_text(
+                "".join(json.dumps(row) + "\n" for row in completed))
+        trace = next(old_dir.glob("*.traces.jsonl"))
+        shutil.copy2(trace, destination / "resume-traces.jsonl")
+        passes = load_resume_passes(destination / "resume-traces.jsonl")
+        receipts.append({"corpus": name, "completed_documents": len(completed),
+                         "valid_inference_passes": len(passes)})
+    receipt = {"source_run": previous, "corpora": receipts,
+               "reuse_policy": "completed documents; successful passes only on exact prompt match"}
+    (state / "resume-evaluation.json").write_text(json.dumps(receipt, indent=2))
+    print("QWEN_EVALUATION_RESUME " + json.dumps(receipt), flush=True)
+
+
+def load_resume_passes(path):
+    passes = {}
+    if not path or not path.exists():
+        return passes
+    for line in path.read_text().splitlines():
+        row = json.loads(line)
+        if row["role"] != "inference" or not row["ok"]:
+            continue
+        if row.get("finish_reason") != "stop" or row["block"] is not None:
+            continue
+        parse_triples(row["messages"][-1]["kwargs"]["content"])
+        key = (row["doc_id"], row["pass"], row["block"])
+        if key in passes:
+            raise ValueError("Duplicate valid resumed inference pass: " + str(key))
+        passes[key] = row
+    return passes
 
 
 async def wait_for_api(spec, key, http):
@@ -171,13 +237,34 @@ def model_factory(spec, key, http):
 
 
 class SharedRunner(Runner):
-    def __init__(self, *args, shared_slots, **kwargs):
+    def __init__(self, *args, shared_slots, resume_traces=None, resume_source=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.shared_slots = shared_slots
+        self.resume_passes = load_resume_passes(resume_traces)
+        self.resume_source = resume_source
+        self.resumed_calls = 0
 
     def _clients(self):
         super()._clients()
         self.infer.slots = self.cot.slots = self.shared_slots
+
+    async def _pass(self, msgs, meta, tools):
+        key = (meta.doc_id, meta.pass_idx, meta.block)
+        saved = self.resume_passes.get(key)
+        if saved is not None and tools is None and not self.prompt.steps:
+            original = saved["messages"][:-1]
+            current = [message.to_json() for message in msgs]
+            if json.dumps(original, sort_keys=True) == json.dumps(current, sort_keys=True):
+                text = saved["messages"][-1]["kwargs"]["content"]
+                triples = parse_triples(text)
+                self.trace.write({**saved, "resumed_from_run": self.resume_source})
+                self.resumed_calls += 1
+                print("QWEN_PASS_RESUMED " + json.dumps({"doc_id": meta.doc_id,
+                    "pass": meta.pass_idx, "source_run": self.resume_source}), flush=True)
+                return text, triples, []
+            print("QWEN_RESUME_PROMPT_MISMATCH " + json.dumps({"doc_id": meta.doc_id,
+                "pass": meta.pass_idx}), flush=True)
+        return await super()._pass(msgs, meta, tools)
 
 
 async def execute(spec, configs, state, plans):
@@ -215,11 +302,19 @@ async def execute(spec, configs, state, plans):
                 run_dir = RunDir(Path(manifest.read_text().strip()))
             else:
                 run_dir = RunDir.create(cfg["runtime"]["logdir"])
+                checkpoint = state / name / "resume-docs.jsonl"
+                if checkpoint.exists():
+                    shutil.copy2(checkpoint, run_dir.checkpoint)
                 manifest.write_text(str(run_dir.path))
-            runner = SharedRunner(cfg, run_dir, factory=factory, retry_failed=True, shared_slots=slots)
+            runner = SharedRunner(cfg, run_dir, factory=factory, retry_failed=True, shared_slots=slots,
+                resume_traces=state / name / "resume-traces.jsonl",
+                resume_source=spec.get("resume_evaluation_from_run"))
             report = await runner.run()
             result = {"corpus": name, "run_dir": str(run_dir.path),
                       "documents": len(report["per_doc_metrics"]), "failures": report["retry_failed_docs"],
+                      "resumed_partial_passes": runner.resumed_calls,
+                      "resume_source_run": spec.get("resume_evaluation_from_run"),
+                      "usage_scope": "new calls in this tracked run; restored responses excluded",
                       **{k: report[k] for k in ("binary", "binary_intra", "binary_inter", "usage")}}
             complete = result["documents"] == plans[name]["documents"] and not result["failures"]
             result["complete"] = complete
@@ -248,6 +343,7 @@ def main():
     state = Path(spec["state_root"]).expanduser() / run_id
     restore_demo_caches(spec, state)
     configs = effective_configs(spec, state)
+    restore_evaluation(spec, configs, state)
     print("QWEN_EFFECTIVE_CONFIG " + json.dumps({**spec, "run_id": run_id, "state": str(state),
           "decision_model": False, "few_shot": "1 gold-guided CoT demo/pass; rewrite; same-fold exclusion",
           "passes": 7, "vote": "plurality with implicit norel", "corpora_parallel": True}), flush=True)

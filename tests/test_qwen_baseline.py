@@ -5,12 +5,14 @@ import json
 from pathlib import Path
 import sqlite3
 import tempfile
+from types import SimpleNamespace
 import unittest
-from unittest.mock import AsyncMock, patch
+from unittest.mock import AsyncMock, Mock, patch
 
 import httpx
 import yaml
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import AIMessage, HumanMessage
+from eci.llm import CallMeta
 
 from benchmark.data import load_split
 
@@ -21,6 +23,57 @@ loader.loader.exec_module(qwen)
 
 
 class QwenBaseline(unittest.TestCase):
+    def test_resume_reuses_only_valid_pass_with_exact_prompt(self):
+        messages = [HumanMessage(content="original prompt")]
+        answer = '[{"pair":"a,b","label":"causes"}]'
+        row = {"role": "inference", "doc_id": "doc", "pass": 2, "block": None,
+               "ok": True, "finish_reason": "stop", "messages":
+                   [m.to_json() for m in messages + [AIMessage(content=answer)]]}
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "trace.jsonl"
+            truncated = {**row, "pass": 3, "ok": False, "finish_reason": "length"}
+            path.write_text(json.dumps(row) + "\n" + json.dumps(truncated) + "\n")
+            runner = qwen.SharedRunner.__new__(qwen.SharedRunner)
+            runner.resume_passes = qwen.load_resume_passes(path)
+            self.assertEqual(len(runner.resume_passes), 1)
+            runner.prompt = SimpleNamespace(steps=None)
+            runner.trace, runner.resumed_calls, runner.resume_source = Mock(), 0, "source"
+            meta = CallMeta(role="inference", doc_id="doc", pass_idx=2)
+            with patch.object(qwen.Runner, "_pass", new_callable=AsyncMock) as fresh:
+                value = asyncio.run(runner._pass(messages, meta, None))
+                self.assertEqual(value, (answer, [("a", "causes", "b")], []))
+                fresh.assert_not_awaited()
+                self.assertEqual(runner.resumed_calls, 1)
+                self.assertEqual(runner.trace.write.call_args.args[0]["resumed_from_run"], "source")
+                asyncio.run(runner._pass([HumanMessage(content="changed prompt")], meta, None))
+                fresh.assert_awaited_once()
+
+    def test_resume_requires_identical_scientific_configuration(self):
+        spec = yaml.safe_load(qwen.SPEC.read_text())
+        with tempfile.TemporaryDirectory() as tmp:
+            spec["state_root"] = tmp
+            spec["only"] = ["r7_ctb"]
+            old_state = Path(tmp) / spec["resume_evaluation_from_run"]
+            old_dir = old_state / "r7_ctb" / "runs" / "prior"
+            old_dir.mkdir(parents=True)
+            (old_state / "r7_ctb/run-dir.txt").write_text(str(old_dir))
+            old_cfg = qwen.effective_configs(spec, old_state)["r7_ctb"]
+            (old_dir / "prior.config.yaml").write_text(yaml.safe_dump(old_cfg))
+            (old_dir / "prior.traces.jsonl").write_text("")
+            (old_dir / "docs.jsonl").write_text(json.dumps({"id": "done", "failure": None}) + "\n"
+                                                  + json.dumps({"id": "failed", "failure": "error"}) + "\n")
+            state = Path(tmp) / "next-run"
+            (state / "r7_ctb").mkdir(parents=True)
+            (state / "resume-caches.json").write_text("{}")
+            configs = qwen.effective_configs(spec, state)
+            configs["r7_ctb"]["seed"] += 1
+            with self.assertRaisesRegex(ValueError, "configuration change"):
+                qwen.restore_evaluation(spec, configs, state)
+            configs = qwen.effective_configs(spec, state)
+            qwen.restore_evaluation(spec, configs, state)
+            saved = (state / "r7_ctb/resume-docs.jsonl").read_text().splitlines()
+            self.assertEqual([json.loads(row)["id"] for row in saved], ["done"])
+
     def test_waits_for_model_service_before_inference(self):
         spec = yaml.safe_load(qwen.SPEC.read_text())
         calls = []
