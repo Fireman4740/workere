@@ -1,0 +1,103 @@
+{
+  "study": "N9",
+  "parent_experiment": "2b118e89-feae-4028-8a5f-041b35fadc7a",
+  "parent_commit": "69b91eaa3b3028606086914b8f54bdaad18ee33b",
+  "parent_established": "N7 packaged structural retrieval+negative answers was not robust across two fresh schedules; N9 separates the components rather than promoting the package",
+  "role": "exploratory factorial diagnosis on exposed development, not blind confirmation",
+  "document_ids": [
+    "41_4ecbplus.xml",
+    "5_5ecbplus.xml",
+    "32_7ecbplus.xml",
+    "20_10ecbplus.xml",
+    "37_9ecbplus.xml",
+    "30_6ecbplus.xml",
+    "18_7ecbplus.xml",
+    "22_12ecbplus.xml",
+    "23_1ecbplus.xml",
+    "4_2ecbplus.xml"
+  ],
+  "selection": "DEV44,2..35mentions; within each topic minimize N3/N7/N8 document exposure count then SHA256(N9::20261028::docID); choose hash-min10topics by SHA256(N9::20261028::topic::topicID)",
+  "selection_uses_labels": false,
+  "schedule_seeds": [
+    2026102891,
+    2026102892
+  ],
+  "reads_per_condition_schedule_document": 3,
+  "conditions": [
+    "R0N0",
+    "R0N1",
+    "R1N0",
+    "R1N1"
+  ],
+  "factors": {
+    "R0": "sample3 demos without replacement from the identical structurally admissible outside-topic bank using Random(seed::docID)",
+    "R1": "unchanged N3/N7 select_demonstrations top3 structural ranking",
+    "N0": "all positive answer rows from selected demonstration",
+    "N1": "same exact demo ID, text, prompt and positive answer rows as paired N0, append at most4 negative_pairs in both directions; no replacement or synthesized rationale"
+  },
+  "model": "openai/gpt-6-luna:batch",
+  "declared_version": "gpt-6-luna-20260922",
+  "reasoning": "high",
+  "max_output_tokens": 32768,
+  "max_context_tokens": 65536,
+  "fixed_fusion": "(L_ab+L_ba+d1_ab+d1_ba)/4>=0.39; ordered pair controls, unordered decisions counted twice consistently",
+  "generation_transport": {
+    "logical_slots": 240,
+    "provider_batches": 10,
+    "slots_per_document_batch": 24,
+    "max_concurrent_batches": 4,
+    "mixing": "each document batch contains all four conditions, both schedules and3reads; shuffle order with Random(N9::mixed-batch::20261028::docID)",
+    "freshness": "unique custom_id hash per logical generation; no body-keyed de-duplication or response cache; identical request bodies submitted separately; require240distinct served responseIDs",
+    "paid_retries": 0,
+    "GET_polling": "idempotent inherited GETpolling of submitted batch IDs, no repeat POST"
+  },
+  "primary_family": {
+    "contrasts": {
+      "retrieval_main": "mean_s((F1_R1N0+F1_R1N1-F1_R0N0-F1_R0N1)/2)",
+      "negatives_main": "mean_s((F1_R0N1+F1_R1N1-F1_R0N0-F1_R1N0)/2)",
+      "interaction": "mean_s(F1_R1N1-F1_R1N0-F1_R0N1+F1_R0N0)",
+      "R0N1_vs_R0N0": "mean_s(F1_R0N1-F1_R0N0)",
+      "R1N0_vs_R0N0": "mean_s(F1_R1N0-F1_R0N0)",
+      "R1N1_vs_R0N0": "mean_s(F1_R1N1-F1_R0N0)"
+    },
+    "metric": "compute each condition micro-F1 on its full cohort in each schedule; take linear combinations and average two schedules, never average pair labels or pick a seed",
+    "uncertainty": {
+      "draws": 20000,
+      "unit": "topic cluster; same sampled topic list in all8condition/schedule cells",
+      "seed": 202610289,
+      "family_size": 6,
+      "method": "percentile intervals with Bonferroni tails .05/(2*6); nominal99.1666666667% per interval",
+      "sorted_zero_based_indices": [
+        83,
+        19916
+      ],
+      "index_rule": "lower=floor(B*.05/12); upper=B-lower-1"
+    },
+    "limitations": "Bonferroni percentile bootstrap intervals are approximate; ten topics and two schedules do not establish full sampling or generation variance"
+  },
+  "continuation": "any nonbaseline condition is exploratory candidate only if its family-adjusted contrast vsR0N0 has mean>=1pp, lower bound>0 and both schedule deltas>0. Report all6 contrasts and all conditions regardless of outcome. No production promotion.",
+  "global_gate": "All240events delivered once, complete stop, providerOpenAI, allowed declared Luna model, strict JSON list schema, known pair IDs/labels, unique logical/custom/served responseIDs, ten completed providerbatches each mixing all24slots, exact frozen bodies; else BLOCKED_VALIDITY, no target gold read or scientific metrics.",
+  "freeze": "raw events, predictions and fixed-d1 fused decisions hashed with timestamp before opening target controls at runtime. D1 fixed public scores available independently of target labels.",
+  "budget": {
+    "hard_cap_usd": 6.25,
+    "max_calls": 240,
+    "per_call_reservation_usd": 0.025,
+    "full_plan_reservation_usd": 6.0,
+    "reserve_timing": "entire6USDreserved before firstPOST",
+    "global_prior_conservative_usd": 1.05466455460946,
+    "global_with_new_cap_usd": 7.30466455460946,
+    "original_global_cap_usd": 8.0,
+    "paid_retries": 0
+  },
+  "catalog_precheck": "archive current modelcatalog; requirecanonical_slug openai/gpt-6-luna-20260922, prompt<=1e-7USD/token and completion<=5e-7USD/token; declaration not immutableweights fingerprint",
+  "training": false,
+  "human_annotation": false,
+  "limitations": [
+    "all development data previously exposed; no independent confirmation",
+    "local setup inspection displayed historical gold for1_13ecbplus.xml, which is not a selectedN9document; selection predicates use only metadata",
+    "allocation is equal calls/ceilings, not realized hiddencompute or monetarycost equality",
+    "prompts repeat across structural schedules; distinct logical generations are not necessarily statistically independent",
+    "explicit negatives change assistant token count as an intrinsic part of the intervention",
+    "cache-read tokens are reported if present but are not response-cache reuse"
+  ]
+}

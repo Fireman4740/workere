@@ -1,0 +1,12 @@
+{
+  "gate": "PASS",
+  "logical_slots": 240,
+  "documents": 10,
+  "batches": 10,
+  "requests_per_batch": 24,
+  "distinct_request_bodies": 154,
+  "max_input_bound": 21493,
+  "full_reservation_usd": 6.0,
+  "hard_cap_usd": 6.25,
+  "paid_retries": 0
+}

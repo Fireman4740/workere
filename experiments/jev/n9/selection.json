@@ -1,0 +1,333 @@
+{
+  "selection": "DEV44,2..35mentions; within each topic minimize N3/N7/N8 document exposure count then SHA256(N9::20261028::docID); choose hash-min10topics by SHA256(N9::20261028::topic::topicID)",
+  "previous_document_exposures": {
+    "N3": [
+      "14_9ecbplus.xml",
+      "1_19ecbplus.xml",
+      "33_8ecbplus.xml",
+      "22_4ecbplus.xml",
+      "24_8ecbplus.xml",
+      "12_9ecbplus.xml",
+      "16_6ecbplus.xml",
+      "7_5ecbplus.xml",
+      "20_1ecbplus.xml",
+      "41_5ecbplus.xml",
+      "18_7ecbplus.xml",
+      "5_7ecbplus.xml"
+    ],
+    "N7": [
+      "32_7ecbplus.xml",
+      "7_11ecbplus.xml",
+      "37_9ecbplus.xml",
+      "24_4ecbplus.xml",
+      "1_13ecbplus.xml",
+      "33_11ecbplus.xml",
+      "30_5ecbplus.xml",
+      "20_10ecbplus.xml",
+      "35_6ecbplus.xml",
+      "23_9ecbplus.xml",
+      "19_3ecbplus.xml",
+      "13_14ecbplus.xml",
+      "14_1ecbplus.xml",
+      "12_10ecbplus.xml",
+      "3_5ecbplus.xml",
+      "8_5ecbplus.xml"
+    ],
+    "N8": [
+      "4_1ecbplus.xml",
+      "35_9ecbplus.xml",
+      "1_19ecbplus.xml",
+      "22_4ecbplus.xml",
+      "7_5ecbplus.xml",
+      "19_1ecbplus.xml",
+      "18_8ecbplus.xml",
+      "5_7ecbplus.xml"
+    ]
+  },
+  "eligible_metadata": [
+    {
+      "id": "1_13ecbplus.xml",
+      "mentions": 25,
+      "previous_exposures": 1,
+      "hash": "88cd42cae4c8d2869ec43a0b6c98c1161557e12bbec534ce2688de526db2178e"
+    },
+    {
+      "id": "1_19ecbplus.xml",
+      "mentions": 30,
+      "previous_exposures": 2,
+      "hash": "9d8198ca99f38259ced607bd80c7c8e633451c153646d637ab8392ab62eed361"
+    },
+    {
+      "id": "3_5ecbplus.xml",
+      "mentions": 15,
+      "previous_exposures": 1,
+      "hash": "bcf83023b9b7f6cf104c0e1aed88afc1e65d0acb6a23570b708b5917f4c0e3b8"
+    },
+    {
+      "id": "4_1ecbplus.xml",
+      "mentions": 24,
+      "previous_exposures": 1,
+      "hash": "a041de4d406e156e745a0ef2918000dc2601f1d389aec85e8e2c1fd03082d2d5"
+    },
+    {
+      "id": "4_2ecbplus.xml",
+      "mentions": 15,
+      "previous_exposures": 0,
+      "hash": "d61d4793fd933128fa8310114ecd2a3bec18295c7cb7c97840e684de059a1fe1"
+    },
+    {
+      "id": "5_5ecbplus.xml",
+      "mentions": 7,
+      "previous_exposures": 0,
+      "hash": "d4d51e83609eebc9586ec065175c94aa5b025d6a35ee0fd166ec909e6908dd73"
+    },
+    {
+      "id": "5_7ecbplus.xml",
+      "mentions": 3,
+      "previous_exposures": 2,
+      "hash": "2cf5d5f97a69d7d7395a4de2cb4f4fc1e0c7adedaf471a67f44338e5a57ddafd"
+    },
+    {
+      "id": "7_11ecbplus.xml",
+      "mentions": 23,
+      "previous_exposures": 1,
+      "hash": "95bfa728ee94d1ebac407acd14776423a12aaf835132ac97c4c76fd1220ad04c"
+    },
+    {
+      "id": "7_5ecbplus.xml",
+      "mentions": 34,
+      "previous_exposures": 2,
+      "hash": "5e9a32893cb2294074e59627df4495a2dd69661b064365fa450d64ecbf53310b"
+    },
+    {
+      "id": "8_4ecbplus.xml",
+      "mentions": 26,
+      "previous_exposures": 0,
+      "hash": "01556b1a3822b9ab2e217edd22b2e11fb00646860366d730fe9dc81433d13d54"
+    },
+    {
+      "id": "8_5ecbplus.xml",
+      "mentions": 31,
+      "previous_exposures": 1,
+      "hash": "a611ad6525395adcaf8d99aa14ace780ec9a666c70220daca44ffcd27c6bad04"
+    },
+    {
+      "id": "12_10ecbplus.xml",
+      "mentions": 7,
+      "previous_exposures": 1,
+      "hash": "5ca53b400aaeb204c9a156fb16a8d01e93dd499350e32fec83111edc8565d7b0"
+    },
+    {
+      "id": "12_9ecbplus.xml",
+      "mentions": 12,
+      "previous_exposures": 1,
+      "hash": "3841b09805acf365560834d4c559ab0253c40fc5436a93dcd2b5548cd111828d"
+    },
+    {
+      "id": "13_14ecbplus.xml",
+      "mentions": 6,
+      "previous_exposures": 1,
+      "hash": "1205c51d4683db85ae2345386f1dd8495c8e49e41f90336397b3995d765807e1"
+    },
+    {
+      "id": "13_4ecbplus.xml",
+      "mentions": 23,
+      "previous_exposures": 0,
+      "hash": "aea0a373d3a13a1efcbbbdb11e36528f849ddd40ac6c82dea95038414189e796"
+    },
+    {
+      "id": "14_1ecbplus.xml",
+      "mentions": 5,
+      "previous_exposures": 1,
+      "hash": "a2c404041e13c35ad32ff2fad2d989d32f9b2240d2d782b7d8f27b371343402d"
+    },
+    {
+      "id": "14_9ecbplus.xml",
+      "mentions": 17,
+      "previous_exposures": 1,
+      "hash": "3ec0f425ddfe202f5a5ad0bae197e0b2f2e6c517006a5d8edcf505cf0934d759"
+    },
+    {
+      "id": "16_6ecbplus.xml",
+      "mentions": 22,
+      "previous_exposures": 1,
+      "hash": "6a2c2153049d7b3c81863e6faafccc32e05ce8f36f06150a44c1048724b7d140"
+    },
+    {
+      "id": "16_9ecbplus.xml",
+      "mentions": 11,
+      "previous_exposures": 0,
+      "hash": "6d98980baeea97fadf86ea861c3fbc6172f8bf4fcfac3d138c77b993defe0960"
+    },
+    {
+      "id": "18_7ecbplus.xml",
+      "mentions": 17,
+      "previous_exposures": 1,
+      "hash": "303f91655a63de2812c8777f377d86a48cf4dee96bbaa7eba3ade594b8f05502"
+    },
+    {
+      "id": "18_8ecbplus.xml",
+      "mentions": 27,
+      "previous_exposures": 1,
+      "hash": "bec8bb5b064a7ccbcd281dbfcb2f2dab0be9b47367c6f81a234d19760e1898a2"
+    },
+    {
+      "id": "19_1ecbplus.xml",
+      "mentions": 11,
+      "previous_exposures": 1,
+      "hash": "ef91542324da265a534c3a56b61cffc289c87adf6625d2b9f94c516310f43546"
+    },
+    {
+      "id": "19_3ecbplus.xml",
+      "mentions": 25,
+      "previous_exposures": 1,
+      "hash": "124794cd8628cc58c39aa060882daca1d0a961440937413940263463581247a5"
+    },
+    {
+      "id": "20_10ecbplus.xml",
+      "mentions": 7,
+      "previous_exposures": 1,
+      "hash": "54f6441fe9c5132249b3b711f2ad577bc0036ab7945f9aee6b261483837bcb0f"
+    },
+    {
+      "id": "20_1ecbplus.xml",
+      "mentions": 26,
+      "previous_exposures": 1,
+      "hash": "f981ef7590a0f7980660458fb757fb32d3cb0f264a8fc98cbd44774e032357b3"
+    },
+    {
+      "id": "22_12ecbplus.xml",
+      "mentions": 17,
+      "previous_exposures": 0,
+      "hash": "80a99e39acf30444a33a783c3ff7c898b17f229548fe493531f6b33cd0b7749a"
+    },
+    {
+      "id": "22_4ecbplus.xml",
+      "mentions": 4,
+      "previous_exposures": 2,
+      "hash": "3a7686bb603da0c2a43b00c9450c70a525b8ab66145fa0ffe2046c57b8d7805f"
+    },
+    {
+      "id": "23_1ecbplus.xml",
+      "mentions": 7,
+      "previous_exposures": 0,
+      "hash": "11c32bbb8a8652774ef6d99d5189ab58c0261d62f66524f63fa54312c190dcd7"
+    },
+    {
+      "id": "23_9ecbplus.xml",
+      "mentions": 16,
+      "previous_exposures": 1,
+      "hash": "438fad69574dde8a4af52fd5dc107e568e7cc6760583cd59a8cb4097b86f4264"
+    },
+    {
+      "id": "24_4ecbplus.xml",
+      "mentions": 7,
+      "previous_exposures": 1,
+      "hash": "04d0ba9f6c4aaa5ca15918083d41a2635f5fdb5096f51f6ddff4bbd34084b2b4"
+    },
+    {
+      "id": "24_8ecbplus.xml",
+      "mentions": 13,
+      "previous_exposures": 1,
+      "hash": "f3112f18fb0566430f8779a2b9e98022e01e52bbe8ad4af6c0240bbb91b9da55"
+    },
+    {
+      "id": "30_5ecbplus.xml",
+      "mentions": 33,
+      "previous_exposures": 1,
+      "hash": "0dfe3bc2b4066ed4882fa7ff2bc915d691b8e7cd83cbf9cf478af26dc191c5dc"
+    },
+    {
+      "id": "30_6ecbplus.xml",
+      "mentions": 27,
+      "previous_exposures": 0,
+      "hash": "28b13e18c5d4674b9aa27ae21706b065c4557cb31943473cf57f5b373c1a0306"
+    },
+    {
+      "id": "32_7ecbplus.xml",
+      "mentions": 7,
+      "previous_exposures": 1,
+      "hash": "523c83560281a12ab00a87f719322712c2716c5d0d370ed5973cb422f0440eb5"
+    },
+    {
+      "id": "33_11ecbplus.xml",
+      "mentions": 15,
+      "previous_exposures": 1,
+      "hash": "0cbeae4b8b16e63f9a5cd7f44a9ead5142b86169d43a6c54de1b9ee24d63b320"
+    },
+    {
+      "id": "33_8ecbplus.xml",
+      "mentions": 16,
+      "previous_exposures": 1,
+      "hash": "6fd8328a85474b9fc39a53856898c7992c7312ae715d876dd499df3934b407c5"
+    },
+    {
+      "id": "35_6ecbplus.xml",
+      "mentions": 29,
+      "previous_exposures": 1,
+      "hash": "1af4118821ce13bbdb4b8a055b8686d6660bc8aafd52ca7c16d8035062a5cf51"
+    },
+    {
+      "id": "35_9ecbplus.xml",
+      "mentions": 27,
+      "previous_exposures": 1,
+      "hash": "d66dffce231646c7bc32fb1a5c5cb1ead981f659353c81962d17937436a18a49"
+    },
+    {
+      "id": "37_9ecbplus.xml",
+      "mentions": 20,
+      "previous_exposures": 1,
+      "hash": "f45a157e277bcad20f58ff25dec785f29ced476847dc59fb6758a36c3d9fc387"
+    },
+    {
+      "id": "41_4ecbplus.xml",
+      "mentions": 18,
+      "previous_exposures": 0,
+      "hash": "25f3abc486e81d4db27b392a519c3a53dab5fe1419983b705a6cf2ecef58964b"
+    },
+    {
+      "id": "41_5ecbplus.xml",
+      "mentions": 22,
+      "previous_exposures": 1,
+      "hash": "5b9a84fc3a6c08b85467a772f91fab0571bae3602ee4eb53eceb16054f0443b5"
+    }
+  ],
+  "representatives": [
+    "1_13ecbplus.xml",
+    "3_5ecbplus.xml",
+    "4_2ecbplus.xml",
+    "5_5ecbplus.xml",
+    "7_11ecbplus.xml",
+    "8_4ecbplus.xml",
+    "12_9ecbplus.xml",
+    "13_4ecbplus.xml",
+    "14_9ecbplus.xml",
+    "16_9ecbplus.xml",
+    "18_7ecbplus.xml",
+    "19_3ecbplus.xml",
+    "20_10ecbplus.xml",
+    "22_12ecbplus.xml",
+    "23_1ecbplus.xml",
+    "24_4ecbplus.xml",
+    "30_6ecbplus.xml",
+    "32_7ecbplus.xml",
+    "33_11ecbplus.xml",
+    "35_6ecbplus.xml",
+    "37_9ecbplus.xml",
+    "41_4ecbplus.xml"
+  ],
+  "document_ids": [
+    "41_4ecbplus.xml",
+    "5_5ecbplus.xml",
+    "32_7ecbplus.xml",
+    "20_10ecbplus.xml",
+    "37_9ecbplus.xml",
+    "30_6ecbplus.xml",
+    "18_7ecbplus.xml",
+    "22_12ecbplus.xml",
+    "23_1ecbplus.xml",
+    "4_2ecbplus.xml"
+  ],
+  "selection_uses_labels": false,
+  "status": "already exposed development; not blind confirmation"
+}
