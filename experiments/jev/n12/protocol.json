@@ -1,0 +1,34 @@
+{
+ "study": "N12",
+ "arms": [
+  "original",
+  "local",
+  "table"
+ ],
+ "documents": 4,
+ "schedule_seeds": [
+  202610300,
+  202610301
+ ],
+ "reads_per_schedule": 3,
+ "logical_slots": 72,
+ "cap_usd": 1.8,
+ "per_call_reservation_usd": 0.025,
+ "max_tokens": 32768,
+ "context_tokens": 65536,
+ "reasoning": "high",
+ "model": "openai/gpt-6-luna:batch",
+ "canonical_model": "openai/gpt-6-luna-20260922",
+ "fusion_threshold": 0.39,
+ "local_view": "union of original sentence ranges with a mention plus one adjacent sentence on each side, preserving order, original IDs and all evaluated mentions; gaps marked",
+ "table_view": "full original text plus deterministic ID/sentence/surface occurrence inventory; no inferred coreference, alias or relation",
+ "demonstrations": "same full-document positive-only example for all3arms within each paired slot, sampled without replacement outside target topic",
+ "decision": "technical/exploratory only, no promotion or confirmatory claim on4documents",
+ "paid_retries": 0,
+ "target_gold": "opened for evaluation only after all72valid replies and decisions frozen; dataset previously exposed",
+ "prior_campaign_conservative_usd": 1.27237988460946,
+ "campaign_upper_after_reservation_usd": 3.07237988460946,
+ "large_runs": "user explicit cost approval required; not launched",
+ "training": false,
+ "human_annotations": 0
+}

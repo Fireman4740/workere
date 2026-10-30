@@ -1,0 +1,50 @@
+{
+  "gate": "PASS",
+  "logical_slots": 72,
+  "documents": 4,
+  "batches": 4,
+  "requests_per_batch": 18,
+  "views": [
+    {
+      "doc": "5_7ecbplus.xml",
+      "total_sentences": 4,
+      "kept_sentences": 3,
+      "kept_tokens": 30,
+      "total_tokens": 49,
+      "all_mentions_retained": true,
+      "local_equals_original": false
+    },
+    {
+      "doc": "4_1ecbplus.xml",
+      "total_sentences": 10,
+      "kept_sentences": 9,
+      "kept_tokens": 162,
+      "total_tokens": 188,
+      "all_mentions_retained": true,
+      "local_equals_original": false
+    },
+    {
+      "doc": "7_5ecbplus.xml",
+      "total_sentences": 17,
+      "kept_sentences": 11,
+      "kept_tokens": 316,
+      "total_tokens": 471,
+      "all_mentions_retained": true,
+      "local_equals_original": false
+    },
+    {
+      "doc": "18_8ecbplus.xml",
+      "total_sentences": 31,
+      "kept_sentences": 12,
+      "kept_tokens": 275,
+      "total_tokens": 690,
+      "all_mentions_retained": true,
+      "local_equals_original": false
+    }
+  ],
+  "distinct_request_bodies": 63,
+  "max_input_bound": 22066,
+  "full_reservation_usd": 1.8,
+  "hard_cap_usd": 1.8,
+  "paid_retries": 0
+}

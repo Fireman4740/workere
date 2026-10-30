@@ -1,0 +1,52 @@
+{
+ "selection": "N8 public8 sorted target UTF8bytes ascending, ranks0,2,5,7; no gold/error selection",
+ "ids": [
+  "5_7ecbplus.xml",
+  "4_1ecbplus.xml",
+  "7_5ecbplus.xml",
+  "18_8ecbplus.xml"
+ ],
+ "all_ranked_metadata": [
+  {
+   "id": "5_7ecbplus.xml",
+   "text_bytes": 232,
+   "mentions": 3
+  },
+  {
+   "id": "22_4ecbplus.xml",
+   "text_bytes": 331,
+   "mentions": 4
+  },
+  {
+   "id": "4_1ecbplus.xml",
+   "text_bytes": 1077,
+   "mentions": 24
+  },
+  {
+   "id": "35_9ecbplus.xml",
+   "text_bytes": 1138,
+   "mentions": 27
+  },
+  {
+   "id": "1_19ecbplus.xml",
+   "text_bytes": 1393,
+   "mentions": 30
+  },
+  {
+   "id": "7_5ecbplus.xml",
+   "text_bytes": 2464,
+   "mentions": 34
+  },
+  {
+   "id": "19_1ecbplus.xml",
+   "text_bytes": 3818,
+   "mentions": 11
+  },
+  {
+   "id": "18_8ecbplus.xml",
+   "text_bytes": 3845,
+   "mentions": 27
+  }
+ ],
+ "scope": "exposed short and medium DEV smoke, not longest full documents"
+}
