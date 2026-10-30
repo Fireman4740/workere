@@ -1,0 +1,12 @@
+{
+  "study": "N11",
+  "new_model_calls": 0,
+  "training": false,
+  "human_annotations": 0,
+  "target_gold_read": false,
+  "input_sha256": "120b3d726ded96c5a21ed39d6f697d53321ebeb9b8454692db940b4a6fc68126",
+  "rule": "same seven-read denominator, symmetrized scores and threshold0.39; document stops only when all pairs fixed",
+  "candidate_call_saving_threshold": 0.2,
+  "cohorts_analyzed_separately": true,
+  "summary_metadata_is_not_approved_cache_reuse": true
+}
