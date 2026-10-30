@@ -33,17 +33,20 @@ SPEC = ROOT / "experiments/jev/qwen/active.yaml"
 
 
 def restore_demo_caches(spec, state):
-    """Reuse successful demo calls from the failed run, with identical transport."""
+    """Reuse successful demo calls with identical model and sampling settings."""
     previous = spec.get("resume_cache_from_run")
     if not previous or state.name == "preflight" or (state / "resume-caches.json").exists():
         return
     source = Path(spec["state_root"]).expanduser() / previous
     old = yaml.safe_load((source / "transport.yaml").read_text())
-    identity = ("model", "base_url", "temperature", "reasoning_effort", "top_p", "top_k", "min_p",
+    identity = ("model", "temperature", "reasoning_effort", "top_p", "top_k", "min_p",
                 "presence_penalty", "repetition_penalty", "max_tokens", "chat_template_kwargs",
                 "cache_namespace", "protocol_queue", "only", "corpora")
     if any(old.get(k) != spec.get(k) for k in identity):
         raise ValueError("Refusing cache reuse after a model, sampling or corpus change")
+    endpoint_changed = old["base_url"] != spec["base_url"]
+    if endpoint_changed and not spec.get("resume_allow_endpoint_change", False):
+        raise ValueError("Endpoint change must be explicitly allowed after verifying the model service")
     receipts = []
     for name in spec["only"]:
         destination = state / name
@@ -58,7 +61,8 @@ def restore_demo_caches(spec, state):
         if cot.exists() and not cot_output.exists():
             shutil.copy2(cot, cot_output)
         receipts.append({"corpus": name, "cached_calls_restored": rows})
-    receipt = {"source_run": previous, "corpora": receipts, "evaluation_predictions_reused": False}
+    receipt = {"source_run": previous, "corpora": receipts, "evaluation_predictions_reused": False,
+               "endpoint_change": {"from": old["base_url"], "to": spec["base_url"]} if endpoint_changed else None}
     (state / "resume-caches.json").write_text(json.dumps(receipt, indent=2))
     print("QWEN_CACHE_REUSE " + json.dumps(receipt), flush=True)
 
@@ -79,6 +83,8 @@ def restore_evaluation(spec, configs, state):
         cfg = json.loads(json.dumps(cfg))
         cfg["llm_cache"].pop("path", None)
         cfg["runtime"].pop("logdir", None)
+        if spec.get("resume_allow_endpoint_change", False):
+            cfg["model"].pop("base_url", None)
         for key in ("cache_path", "dump_dir"):
             cfg["few_shot"]["cot_generation"].pop(key, None)
         return cfg
@@ -99,8 +105,11 @@ def restore_evaluation(spec, configs, state):
             completed = [row for row in completed if not row["failure"]]
             (destination / "resume-docs.jsonl").write_text(
                 "".join(json.dumps(row) + "\n" for row in completed))
-        trace = next(old_dir.glob("*.traces.jsonl"))
-        shutil.copy2(trace, destination / "resume-traces.jsonl")
+        trace = next(old_dir.glob("*.traces.jsonl"), None)
+        if trace is not None:
+            shutil.copy2(trace, destination / "resume-traces.jsonl")
+        else:
+            (destination / "resume-traces.jsonl").write_text("")
         passes = load_resume_passes(destination / "resume-traces.jsonl")
         receipts.append({"corpus": name, "completed_documents": len(completed),
                          "valid_inference_passes": len(passes)})

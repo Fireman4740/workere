@@ -2,7 +2,7 @@ schema: workere-qwen-baseline/v1
 protocol_queue: queues/baseline_coref.yaml
 only: [r7_ctb, r7_esc]
 model: qwen3.8-27b
-base_url: http://192.168.1.166:18020/v1
+base_url: http://127.0.0.1:18020/v1
 temperature: 0.0
 top_p: 0.95
 top_k: 20
@@ -20,8 +20,9 @@ cache_namespace: qwen38-thinking-xhigh-t0-p095-k20-32k
 concurrency: 64
 timeout_seconds: 86400
 api_ready_timeout_seconds: 1800
-resume_cache_from_run: d0ce6e2d-a39b-4770-891a-2394c17d596d
-resume_evaluation_from_run: d0ce6e2d-a39b-4770-891a-2394c17d596d
+resume_cache_from_run: 6233eb3f-8d87-4e56-a769-70c6cea0ac5a
+resume_evaluation_from_run: 6233eb3f-8d87-4e56-a769-70c6cea0ac5a
+resume_allow_endpoint_change: true  # Same verified local batch service; LAN address changed.
 credential_file: ~/qwen38-27b-rtx3090/.env
 credential_name: VLLM_API_KEY
 state_root: ~/.local/share/openresearch/workere-qwen38

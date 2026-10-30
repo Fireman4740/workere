@@ -59,7 +59,7 @@ class QwenBaseline(unittest.TestCase):
             (old_state / "r7_ctb/run-dir.txt").write_text(str(old_dir))
             old_cfg = qwen.effective_configs(spec, old_state)["r7_ctb"]
             (old_dir / "prior.config.yaml").write_text(yaml.safe_dump(old_cfg))
-            (old_dir / "prior.traces.jsonl").write_text("")
+            # A stopped corpus can have no traces yet (all prior demo calls cached).
             (old_dir / "docs.jsonl").write_text(json.dumps({"id": "done", "failure": None}) + "\n"
                                                   + json.dumps({"id": "failed", "failure": "error"}) + "\n")
             state = Path(tmp) / "next-run"
@@ -73,6 +73,7 @@ class QwenBaseline(unittest.TestCase):
             qwen.restore_evaluation(spec, configs, state)
             saved = (state / "r7_ctb/resume-docs.jsonl").read_text().splitlines()
             self.assertEqual([json.loads(row)["id"] for row in saved], ["done"])
+            self.assertEqual((state / "r7_ctb/resume-traces.jsonl").read_text(), "")
 
     def test_waits_for_model_service_before_inference(self):
         spec = yaml.safe_load(qwen.SPEC.read_text())
@@ -118,6 +119,13 @@ class QwenBaseline(unittest.TestCase):
             self.assertFalse(receipt["evaluation_predictions_reused"])
             with self.assertRaisesRegex(ValueError, "sampling"):
                 qwen.restore_demo_caches({**spec, "temperature": 0.5}, Path(tmp) / "different-run")
+            changed = {**spec, "base_url": "http://new-local-route:18020/v1", "resume_allow_endpoint_change": False}
+            with self.assertRaisesRegex(ValueError, "Endpoint change"):
+                qwen.restore_demo_caches(changed, Path(tmp) / "blocked-endpoint")
+            qwen.restore_demo_caches({**changed, "resume_allow_endpoint_change": True}, Path(tmp) / "allowed-endpoint")
+            with self.assertRaisesRegex(ValueError, "sampling"):
+                qwen.restore_demo_caches({**changed, "resume_allow_endpoint_change": True, "temperature": 0.5},
+                                         Path(tmp) / "blocked-sampling")
 
     def test_transport_uses_requested_temperature_zero_and_keeps_reasoning(self):
         spec = yaml.safe_load(qwen.SPEC.read_text())
