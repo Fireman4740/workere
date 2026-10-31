@@ -1,0 +1,36 @@
+{
+  "study": "N13",
+  "model": "qwen3.8-27b",
+  "base_url": "http://127.0.0.1:18020/v1",
+  "credential_file": "~/qwen38-27b-rtx3090/.env",
+  "credential_name": "VLLM_API_KEY",
+  "wait_for_run": "a082a2f5-96b1-4c75-a89f-8bbed54d2ed2",
+  "queue_timeout_hours": 72,
+  "max_input_tokens": 16384,
+  "max_tokens": 32768,
+  "max_context_tokens": 49152,
+  "concurrency": 8,
+  "request_timeout_seconds": 86400,
+  "request_counts": {
+    "smoke": 72,
+    "pilot40": 720
+  },
+  "maximum_generation_calls": 792,
+  "external_API_cost_usd": 0,
+  "electricity_and_hardware_cost": "not metered; not claimed zero",
+  "no_external_fallback": true,
+  "generation_retries": 0,
+  "training": false,
+  "human_annotations": 0,
+  "reasoning_study": "deferred pending verified local service semantics; do not pretend high/medium/low were tested",
+  "stages": "wait existing local baseline then smoke72; launch pilot720 only if smoke complete and all valid; smoke performance never selects docs or changes prompts",
+  "primary_score": "Qwen-only undirected majority2of3; reverse outputs deduplicated within generation. No threshold fitting and no new d1 model calls. Not the historical Luna x d1 fusion score.",
+  "selection": "unchanged metadata-selected40,2documents per20topics; same4smoke docs asN12",
+  "schedule_seeds": [
+    202610300,
+    202610301
+  ],
+  "model_identity_limit": "declared local model identity and service limits; no assertion of immutable weights or generation independence",
+  "corpus_exposure": "previously exposed development data; not an untouched confirmation",
+  "input_sha256": "e7850f932739116710f957e40771f4e80239e2b2157337795b64d2f43d435ee8"
+}
