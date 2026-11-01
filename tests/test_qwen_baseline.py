@@ -104,7 +104,8 @@ class QwenBaseline(unittest.TestCase):
             spec["state_root"] = tmp
             source = Path(tmp) / spec["resume_cache_from_run"]
             source.mkdir()
-            (source / "transport.yaml").write_text(yaml.safe_dump(spec))
+            # CTB-only continuation may use a prior run that also included ESC.
+            (source / "transport.yaml").write_text(yaml.safe_dump({**spec, "only": ["r7_ctb", "r7_esc"]}))
             corpus = source / "r7_ctb"
             corpus.mkdir()
             with sqlite3.connect(corpus / "llm-cache.sqlite") as db:
@@ -126,6 +127,9 @@ class QwenBaseline(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "sampling"):
                 qwen.restore_demo_caches({**changed, "resume_allow_endpoint_change": True, "temperature": 0.5},
                                          Path(tmp) / "blocked-sampling")
+            with self.assertRaisesRegex(ValueError, "subset"):
+                qwen.restore_demo_caches({**spec, "only": ["r7_ctb", "unseen_corpus"]},
+                                         Path(tmp) / "blocked-dataset")
 
     def test_transport_uses_requested_temperature_zero_and_keeps_reasoning(self):
         spec = yaml.safe_load(qwen.SPEC.read_text())
@@ -175,7 +179,7 @@ class QwenBaseline(unittest.TestCase):
     def test_only_requested_corpora_use_original_best_protocol(self):
         spec = yaml.safe_load(qwen.SPEC.read_text())
         configs = qwen.effective_configs(spec, Path("/tmp/qwen-test"))
-        self.assertEqual(set(configs), {"r7_ctb", "r7_esc"})
+        self.assertEqual(set(configs), {"r7_ctb"})
         for cfg in configs.values():
             self.assertEqual(cfg["model"]["reasoning_effort"], "xhigh")
             self.assertEqual(cfg["model"]["temperature"], 0.0)

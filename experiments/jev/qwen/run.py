@@ -41,9 +41,12 @@ def restore_demo_caches(spec, state):
     old = yaml.safe_load((source / "transport.yaml").read_text())
     identity = ("model", "temperature", "reasoning_effort", "top_p", "top_k", "min_p",
                 "presence_penalty", "repetition_penalty", "max_tokens", "chat_template_kwargs",
-                "cache_namespace", "protocol_queue", "only", "corpora")
+                "cache_namespace", "protocol_queue", "corpora")
     if any(old.get(k) != spec.get(k) for k in identity):
         raise ValueError("Refusing cache reuse after a model, sampling or corpus change")
+    requested = set(spec["only"])
+    if not requested or len(requested) != len(spec["only"]) or not requested.issubset(old["only"]):
+        raise ValueError("Resume datasets must be a nonempty subset of the source run")
     endpoint_changed = old["base_url"] != spec["base_url"]
     if endpoint_changed and not spec.get("resume_allow_endpoint_change", False):
         raise ValueError("Endpoint change must be explicitly allowed after verifying the model service")
