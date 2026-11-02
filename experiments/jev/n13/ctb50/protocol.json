@@ -1,6 +1,6 @@
 {
  "study": "N13-CTB50",
- "user_authorization": "2026-11-02 relance N13 sur50items de CTB",
+ "user_authorization": "2026-11-02 explicit relaunch after user restarted batch: input16384 output65536 context81920;64server admissions;single remains stopped",
  "model": "qwen3.8-27b",
  "base_url": "http://127.0.0.1:18020/v1",
  "credential_file": "~/qwen38-27b-rtx3090/.env",
@@ -21,8 +21,8 @@
  },
  "maximum_generation_calls": 900,
  "max_input_tokens": 16384,
- "max_tokens": 32768,
- "max_context_tokens": 49152,
+ "max_tokens": 65536,
+ "max_context_tokens": 81920,
  "concurrency": 4,
  "request_timeout_seconds": 86400,
  "api_ready_timeout_seconds": 1800,
@@ -41,8 +41,11 @@
  "electricity_and_hardware_cost": "not metered",
  "no_external_fallback": true,
  "generation_retries": 0,
- "input_sha256": "5c251063523916a6787f1f0820bd3b73816530e2ac4e17596783f7954c4efc21",
+ "input_sha256": "4f3fc17ac675454bc2377379a77b159f3717a3b3e568aa34a55fe2a684f09322",
  "source_suite_sha256": "80d9b63e68f15c333d72cf878877fca545c4576aa9ded978ec5448419276338f",
  "model_identity_limit": "declared served model and limits only; no proof immutable weights or independent stochastic reads; temp0 retained",
- "exposure": "existing exposed dataset, not blind confirmation; all gold confined to frozen examples and evaluation exports"
+ "exposure": "existing exposed dataset, not blind confirmation; all gold confined to frozen examples and evaluation exports",
+ "relaunch_policy": "fresh900slots, do not mix prior72responses; only completion ceiling changes in requests, symmetric across all3arms; previous run BLOCKED_VALIDITY, no gold evaluated",
+ "previous_run": "e163b810-e9f7-419d-b769-168265cf4c49",
+ "server_admissions_user_reported": 64
 }

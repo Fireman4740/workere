@@ -49,7 +49,7 @@ def preflight():
         rs=[r for r in rows if r['stage']==stage];assert len(rs)==n
         docs={d['id']:d for d in read(P/(stage+'-public.json'))}
         for r in rs:
-            b=r['body'];assert b['model']==spec['model'] and b['max_tokens']==32768
+            b=r['body'];assert b['model']==spec['model'] and b['max_tokens']==spec['max_tokens']
             assert b['reasoning_effort']=='xhigh' and b['temperature']==0.
             assert b['chat_template_kwargs']=={'enable_thinking':True,'preserve_thinking':True}
             assert sha(canonical(b))==r['body_sha256']
@@ -181,7 +181,7 @@ def ready_model(http,spec,state):
         try:
             models=http('GET',spec['base_url']+'/models',timeout=10)
             row=next(r for r in models['data'] if r['id']==spec['model'])
-            assert row.get('max_model_len',49152)>=49152
+            assert row.get('max_model_len',0)>=spec['max_context_tokens'],'served model context below frozen protocol'
             save(state/'served-models.json',models);return row
         except (urllib.error.URLError,TimeoutError,OSError,ValueError,StopIteration) as exc:
             if time.monotonic()>=deadline:raise RuntimeError('local model API readiness deadline reached; no generation') from exc
@@ -202,7 +202,8 @@ def main():
     try:
         http=LocalHTTP(credential(spec));row=ready_model(http,spec,state)
         save(state/'tokenizer-probe.json',tokenize(http,spec,rows[0]))
-        print('N13_LOCAL_MODEL_READY '+json.dumps({'model':row['id'],'reported_max_model_len':row.get('max_model_len'),'external_API_calls':0}),flush=True)
+        print('N13_LOCAL_MODEL_READY '+json.dumps({'model':row['id'],'reported_max_model_len':row.get('max_model_len'),'external_API_calls':0,
+            'max_input_tokens':spec['max_input_tokens'],'max_completion_tokens':spec['max_tokens'],'max_context_tokens':spec['max_context_tokens'],'concurrency':spec['concurrency']}),flush=True)
         for stage in spec['stages']:
             good=stage_run(spec,[r for r in rows if r['stage']==stage],state,http)
             export(state,stage.upper())

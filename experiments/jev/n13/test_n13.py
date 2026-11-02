@@ -26,10 +26,20 @@ class Contract(unittest.TestCase):
         def fake(method,url,payload=None,timeout=60):
             calls.append((method,url))
             if len(calls)==1:raise n.urllib.error.URLError('synthetic loading')
-            return {'data':[{'id':'qwen3.8-27b','max_model_len':49152}]}
+            return {'data':[{'id':'qwen3.8-27b','max_model_len':spec['max_context_tokens']}]}
         with tempfile.TemporaryDirectory() as d,patch.object(n.time,'sleep') as sleep,contextlib.redirect_stdout(io.StringIO()):
             row=n.ready_model(fake,spec,pathlib.Path(d));self.assertEqual(row['id'],'qwen3.8-27b');self.assertEqual(sleep.call_count,1)
         self.assertTrue(all(method=='GET' and url.endswith('/models') for method,url in calls))
+    def test_old_or_unreported_context_blocks_before_generation(self):
+        spec,_=n.preflight()
+        for context in (49152,None):
+            row={'id':spec['model']}
+            if context is not None:row['max_model_len']=context
+            def fake(method,url,payload=None,timeout=60):
+                self.assertEqual(method,'GET');self.assertTrue(url.endswith('/models'))
+                return {'data':[row]}
+            with tempfile.TemporaryDirectory() as d,self.assertRaisesRegex(AssertionError,'context below'):
+                n.ready_model(fake,spec,pathlib.Path(d))
     def test_ctb_candidate_scope_and_fold_exclusion(self):
         spec,rows=n.preflight();docs={d['id']:d for d in n.read(n.P/'ctb50-public.json')};bank={d['id']:d for d in n.read(n.P/'demo-bank.json')['documents']}
         self.assertFalse(set(docs)&set(bank))
