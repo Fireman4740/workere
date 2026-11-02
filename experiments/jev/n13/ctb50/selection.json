@@ -1,0 +1,135 @@
+{
+ "rule": "exclude fixed20baseline demo pool and zero-candidate docs;5peroriginal_idx_mod10fold, rank SHA256(seed::id); labels/errors unused",
+ "seed": "N13-CTB50-20261102",
+ "folds": {
+  "0": {
+   "eligible": 19,
+   "selected": [
+    "ed980111.1130.0089",
+    "wsj_0610",
+    "wsj_1040",
+    "APW19980501.0480",
+    "wsj_0806"
+   ]
+  },
+  "1": {
+   "eligible": 17,
+   "selected": [
+    "NYT19980424.0421",
+    "wsj_0006",
+    "wsj_0471",
+    "wsj_1042",
+    "wsj_0927"
+   ]
+  },
+  "2": {
+   "eligible": 15,
+   "selected": [
+    "wsj_0685",
+    "wsj_0505",
+    "wsj_0762",
+    "CNN19980126.1600.1104",
+    "VOA19980303.1600.2745"
+   ]
+  },
+  "3": {
+   "eligible": 15,
+   "selected": [
+    "wsj_0938",
+    "wsj_0329",
+    "ABC19980304.1830.1636",
+    "wsj_0027",
+    "wsj_0187"
+   ]
+  },
+  "4": {
+   "eligible": 15,
+   "selected": [
+    "wsj_0144",
+    "wsj_0570",
+    "VOA19980331.1700.1533",
+    "CNN19980222.1130.0084",
+    "PRI19980205.2000.1890"
+   ]
+  },
+  "5": {
+   "eligible": 16,
+   "selected": [
+    "wsj_0533",
+    "wsj_0068",
+    "wsj_0575",
+    "wsj_0168",
+    "AP900816-0139"
+   ]
+  },
+  "6": {
+   "eligible": 16,
+   "selected": [
+    "CNN19980227.2130.0067",
+    "wsj_0344",
+    "wsj_0151",
+    "wsj_0662",
+    "WSJ900813-0157"
+   ]
+  },
+  "7": {
+   "eligible": 16,
+   "selected": [
+    "wsj_0991",
+    "wsj_0791",
+    "wsj_1035",
+    "APW19980213.1320",
+    "WSJ910225-0066"
+   ]
+  },
+  "8": {
+   "eligible": 17,
+   "selected": [
+    "wsj_0585",
+    "wsj_0348",
+    "wsj_0313",
+    "wsj_0745",
+    "PRI19980303.2000.2550"
+   ]
+  },
+  "9": {
+   "eligible": 17,
+   "selected": [
+    "wsj_0356",
+    "wsj_0173",
+    "wsj_0586",
+    "wsj_0923",
+    "wsj_0316"
+   ]
+  }
+ },
+ "demo_ids": [
+  "ABC19980120.1830.0957",
+  "APW19980227.0494",
+  "wsj_0612",
+  "wsj_0778",
+  "wsj_0583",
+  "wsj_0907",
+  "PRI19980213.2000.0313",
+  "wsj_0557",
+  "wsj_0568",
+  "APW19980227.0489",
+  "wsj_0815",
+  "APW19980301.0720",
+  "PRI19980216.2000.0170",
+  "wsj_0798",
+  "wsj_0558",
+  "PRI19980115.2000.0186",
+  "wsj_1013",
+  "wsj_0150",
+  "wsj_0950",
+  "wsj_1039"
+ ],
+ "smoke_ids": [
+  "wsj_0006",
+  "wsj_0329",
+  "NYT19980424.0421",
+  "WSJ910225-0066"
+ ],
+ "smoke_rule": "target public UTF8length ranks0,16,33,49 of50; smoke is subset not additional requests"
+}

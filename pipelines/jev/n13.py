@@ -1,7 +1,7 @@
-"""Tracked local Qwen representation study. No external model/provider fallback."""
+"""User-authorized N13 CTB50 relaunch;900fresh generations, local Qwen only."""
 import base64,collections,concurrent.futures,datetime,hashlib,io,json,os,pathlib,random,shlex,sys,threading,time,urllib.error,urllib.parse,urllib.request,zipfile
 
-P=pathlib.Path('experiments/jev/n13')
+P=pathlib.Path('experiments/jev/n13/ctb50')
 ARMS=('original','local','table')
 read=lambda p:json.loads(pathlib.Path(p).read_text())
 canonical=lambda v:json.dumps(v,sort_keys=True,ensure_ascii=False,separators=(',',':'),allow_nan=False).encode()
@@ -37,35 +37,14 @@ class LocalHTTP:
             headers={'Authorization':'Bearer '+self.key,'Content-Type':'application/json'})
         with self.opener.open(req,timeout=timeout) as response:return json.load(response)
 
-def active_dependency_processes(run):
-    # Process CWD identifies the existing tracked job. Never read credentials or /proc/environ.
-    proc=pathlib.Path('/proc')
-    if not proc.is_dir():raise RuntimeError('Linux execution host required for dependency inspection')
-    active=[]
-    for p in proc.iterdir():
-        if not p.name.isdigit():continue
-        try:cwd=os.readlink(p/'cwd')
-        except (FileNotFoundError,PermissionError,ProcessLookupError):continue
-        if '/.orx/runs/'+run+'/' in cwd or cwd.endswith('/.orx/runs/'+run):active.append(int(p.name))
-    return sorted(active)
-
-def wait_for_dependency(spec,state):
-    deadline=time.monotonic()+spec['queue_timeout_hours']*3600
-    while True:
-        active=active_dependency_processes(spec['wait_for_run'])
-        status={'phase':'WAITING_FOR_EXISTING_LOCAL_BASELINE' if active else 'LOCAL_CAPACITY_RELEASED',
-                'dependency_run':spec['wait_for_run'],'dependency_processes':active,'new_generation_calls':0,
-                'utc':datetime.datetime.now(datetime.timezone.utc).isoformat()}
-        save(state/'queue-status.json',status);print('N13_QUEUE '+json.dumps(status),flush=True)
-        if not active:return
-        if time.monotonic()>=deadline:raise RuntimeError('queue deadline reached; no generation submitted')
-        time.sleep(60)
-
 def preflight():
     spec=read(P/'protocol.json');raw=(P/'requests.jsonl').read_bytes()
     assert sha(raw)==spec['input_sha256']
     rows=[json.loads(l) for l in raw.splitlines()]
-    assert len(rows)==len({r['logical_id'] for r in rows})==len({r['custom_id'] for r in rows})==792
+    assert len(rows)==len({r['logical_id'] for r in rows})==len({r['custom_id'] for r in rows})==900
+    demo_folds={d['id']:d['fold'] for d in read(P/'demo-bank.json')['documents']}
+    all_docs={d['id']:d for d in read(P/'all-public.json')}
+    assert not set(demo_folds)&set(all_docs)
     for stage,n in spec['request_counts'].items():
         rs=[r for r in rows if r['stage']==stage];assert len(rs)==n
         docs={d['id']:d for d in read(P/(stage+'-public.json'))}
@@ -74,7 +53,7 @@ def preflight():
             assert b['reasoning_effort']=='xhigh' and b['temperature']==0.
             assert b['chat_template_kwargs']=={'enable_thinking':True,'preserve_thinking':True}
             assert sha(canonical(b))==r['body_sha256']
-            assert r['demo'].split('_')[0]!=r['doc'].split('_')[0]
+            assert r['demo']!=r['doc'] and demo_folds[r['demo']]!=int(all_docs[r['doc']]['idx'])%10
             assert r['doc'] in docs and r['arm'] in ARMS
     return spec,rows
 
@@ -97,7 +76,7 @@ def decisions_before_gold(rows,events,public):
     by={e['logical_id']:e for e in events};docs={d['id']:d for d in public};positive={};ids=[]
     for r in rows:
         e=by[r['logical_id']];assert not e['error'] and e['request']==r['body']
-        positive[r['logical_id']]=verify_response(e['response'],set(map(tuple,docs[r['doc']]['pair_list'])))
+        positive[r['schedule'],r['arm'],r['doc'],r['slot']]=verify_response(e['response'],set(map(tuple,docs[r['doc']]['pair_list'])))
         ids.append(e['response']['id'])
     assert len(ids)==len(set(ids))
     output=[];stage=rows[0]['stage']
@@ -106,7 +85,7 @@ def decisions_before_gold(rows,events,public):
             for doc,d in docs.items():
                 for a,b in d['pair_list']:
                     if a>b:continue
-                    votes=sum(tuple(sorted((a,b))) in positive[f'{stage}:s{s}:{arm}:{doc}:{slot}'] for slot in range(3))
+                    votes=sum(tuple(sorted((a,b))) in positive[s,arm,doc,slot] for slot in range(3))
                     output.append({'schedule':s,'arm':arm,'doc':doc,'a':a,'b':b,'votes':votes,'positive':votes>=2})
     return output
 
@@ -114,7 +93,7 @@ def evaluate(decisions,gold_rows,stage):
     gold={(r['doc'],r['a'],r['b']):r['gold'] for r in gold_rows};per={str(s):{a:collections.defaultdict(lambda:[0,0,0]) for a in ARMS} for s in (0,1)}
     assert len(decisions)==len(gold)*6
     for r in decisions:
-        y=gold[r['doc'],r['a'],r['b']];pred=r['positive'];c=per[str(r['schedule'])][r['arm']][r['doc'].split('_')[0]]
+        y=gold[r['doc'],r['a'],r['b']];pred=r['positive'];c=per[str(r['schedule'])][r['arm']][r['doc']]
         c[0]+=int(pred and y);c[1]+=int(pred and not y);c[2]+=int(not pred and y)
     topics=sorted(per['0']['original'])
     def score(s,a,ts):
@@ -123,16 +102,16 @@ def evaluate(decisions,gold_rows,stage):
     systems={str(s):{a:score(s,a,topics) for a in ARMS} for s in (0,1)}
     deltas={a:[systems[str(s)][a]['F1']-systems[str(s)]['original']['F1'] for s in (0,1)] for a in ARMS[1:]}
     ci=None
-    if stage=='pilot40':
-        rng=random.Random(2026103140);boot={a:[] for a in ARMS[1:]}
+    if stage=='ctb50':
+        rng=random.Random(2026110250);boot={a:[] for a in ARMS[1:]}
         for _ in range(10000):
             draw=rng.choices(topics,k=len(topics))
             for a in ARMS[1:]:boot[a].append(sum(score(s,a,draw)['F1']-score(s,'original',draw)['F1'] for s in (0,1))/2)
         ci={a:[sorted(ds)[125],sorted(ds)[9874]] for a,ds in boot.items()}
-    return {'study':'N13','stage':stage,'status':'COMPLETE_DEVELOPMENT_ONLY','systems':systems,'schedule_delta_points':deltas,
-            'mean_delta_points':{a:sum(ds)/2 for a,ds in deltas.items()},'paired_topic_CI97_5_family2':ci,
-            'per_topic_counts':per,'primary':'Qwen-only unordered2of3majority; not historical Luna x d1 fusion',
-            'promotion':False,'new_external_API_usd':0,'human_annotations':0,'training':False}
+    return {'study':'N13-CTB50','stage':stage,'status':'COMPLETE_DEVELOPMENT_ONLY','systems':systems,'schedule_delta_points':deltas,
+            'mean_delta_points':{a:sum(ds)/2 for a,ds in deltas.items()},'paired_document_CI97_5_family2':ci,
+            'per_document_counts':per,'primary':'Qwen-only unordered2of3majority; not historical Luna x d1 fusion',
+            'documents':len(topics),'promotion':False,'new_external_API_usd':0,'human_annotations':0,'training':False}
 
 def export(state,label):
     files={str(p.relative_to(state)):sha(p.read_bytes()) for p in state.rglob('*') if p.is_file() and p.suffix not in ('.tmp','.zip') and p.name!='manifest.json'}
@@ -186,33 +165,53 @@ def stage_run(spec,rows,state,http):
     if any(e['error'] for e in events):
         result={'stage':stage,'status':'BLOCKED_VALIDITY','valid':sum(not e['error'] for e in events),'expected':len(rows),'read_gold':False,'new_external_API_usd':0}
         save(target/'result.json',result);print('N13_RESULT '+json.dumps(result),flush=True);return False
+    finish_evaluation(rows,events,public,target,stage)
+    return True
+
+def finish_evaluation(rows,events,public,target,stage):
     decisions=decisions_before_gold(rows,events,public);save(target/'decisions-before-gold.json',decisions)
-    save(target/'freeze-before-gold.json',{'decisions_sha256':sha((target/'decisions-before-gold.json').read_bytes()),'events_sha256':sha((target/'events.jsonl').read_bytes()),'gold_opened':False,'utc':datetime.datetime.now(datetime.timezone.utc).isoformat()})
+    save(target/'freeze-before-gold.json',{'decisions_sha256':sha((target/'decisions-before-gold.json').read_bytes()),'events_canonical_sha256':sha(canonical(events)),'gold_opened':False,'utc':datetime.datetime.now(datetime.timezone.utc).isoformat()})
     gold=read(P/(stage+'-gold.json'));save(target/'gold-evaluated.json',gold);result=evaluate(decisions,gold,stage)
-    save(target/'result.json',result);print('N13_RESULT '+json.dumps(result),flush=True);return True
+    save(target/'result.json',result);print('N13_RESULT '+json.dumps(result),flush=True)
+    return result
+
+def ready_model(http,spec,state):
+    deadline=time.monotonic()+spec['api_ready_timeout_seconds']
+    while True:
+        try:
+            models=http('GET',spec['base_url']+'/models',timeout=10)
+            row=next(r for r in models['data'] if r['id']==spec['model'])
+            assert row.get('max_model_len',49152)>=49152
+            save(state/'served-models.json',models);return row
+        except (urllib.error.URLError,TimeoutError,OSError,ValueError,StopIteration) as exc:
+            if time.monotonic()>=deadline:raise RuntimeError('local model API readiness deadline reached; no generation') from exc
+            print('N13_API_WAIT '+json.dumps({'reason':type(exc).__name__,'remaining_seconds':round(deadline-time.monotonic())}),flush=True)
+            time.sleep(min(spec['readiness_poll_seconds'],max(0,deadline-time.monotonic())))
+
 
 def main():
     spec,rows=preflight()
     if '--preflight' in sys.argv:
         print(json.dumps({'gate':'PASS','stage_requests':spec['request_counts'],'API_cost':0,'queued_after':spec['wait_for_run']}));return
-    run=os.environ['ORX_RUN_ID'];state=pathlib.Path('~/.local/share/openresearch/workere-n13').expanduser()/run
+    run=os.environ['ORX_RUN_ID'];state=pathlib.Path(spec['state_root']).expanduser()/run
     assert not state.exists(),'fresh tracked state required, no automatic inference resubmission'
     state.mkdir(parents=True)
     for p in P.glob('*'):
         if p.is_file() and 'gold' not in p.name:(state/p.name).write_bytes(p.read_bytes())
     (state/'n13.py').write_bytes(pathlib.Path(__file__).read_bytes())
     try:
-        http=LocalHTTP(credential(spec));models=http('GET',spec['base_url']+'/models')
-        row=next(r for r in models['data'] if r['id']==spec['model']);assert row.get('max_model_len',49152)>=49152
-        save(state/'served-models.json',models)
+        http=LocalHTTP(credential(spec));row=ready_model(http,spec,state)
         save(state/'tokenizer-probe.json',tokenize(http,spec,rows[0]))
         print('N13_LOCAL_MODEL_READY '+json.dumps({'model':row['id'],'reported_max_model_len':row.get('max_model_len'),'external_API_calls':0}),flush=True)
-        wait_for_dependency(spec,state)
-        for stage in ('smoke','pilot40'):
+        for stage in spec['stages']:
             good=stage_run(spec,[r for r in rows if r['stage']==stage],state,http)
             export(state,stage.upper())
             if not good:return
-        save(state/'completion.json',{'status':'COMPLETE','generation_calls':792,'API_usd':0,'human_annotations':0})
+        events=[json.loads(line) for stage in spec['stages'] for line in (state/stage/'events.jsonl').read_text().splitlines()]
+        final=state/'ctb50';final.mkdir()
+        finish_evaluation(rows,events,read(P/'ctb50-public.json'),final,'ctb50')
+        save(state/'completion.json',{'status':'COMPLETE','generation_calls':900,'API_usd':0,'human_annotations':0})
+        export(state,'CTB50')
     except Exception as exc:
         save(state/'controller-error.json',{'type':type(exc).__name__,'message':str(exc)[:1000],'no_external_fallback':True,'no_generation_retry':True})
         print('N13_FAILURE '+json.dumps(read(state/'controller-error.json')),flush=True)

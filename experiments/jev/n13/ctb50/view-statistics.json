@@ -1,0 +1,502 @@
+[
+ {
+  "doc": "ed980111.1130.0089",
+  "total_sentences": 6,
+  "kept_sentences": 6,
+  "kept_tokens": 120,
+  "total_tokens": 120,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0610",
+  "total_sentences": 44,
+  "kept_sentences": 39,
+  "kept_tokens": 915,
+  "total_tokens": 989,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_1040",
+  "total_sentences": 6,
+  "kept_sentences": 6,
+  "kept_tokens": 118,
+  "total_tokens": 118,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "APW19980501.0480",
+  "total_sentences": 19,
+  "kept_sentences": 19,
+  "kept_tokens": 518,
+  "total_tokens": 518,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0806",
+  "total_sentences": 6,
+  "kept_sentences": 6,
+  "kept_tokens": 133,
+  "total_tokens": 133,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "total_sentences": 13,
+  "kept_sentences": 10,
+  "kept_tokens": 377,
+  "total_tokens": 432,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0006",
+  "total_sentences": 2,
+  "kept_sentences": 2,
+  "kept_tokens": 44,
+  "total_tokens": 44,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0471",
+  "total_sentences": 5,
+  "kept_sentences": 5,
+  "kept_tokens": 120,
+  "total_tokens": 120,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_1042",
+  "total_sentences": 7,
+  "kept_sentences": 6,
+  "kept_tokens": 114,
+  "total_tokens": 131,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0927",
+  "total_sentences": 30,
+  "kept_sentences": 27,
+  "kept_tokens": 575,
+  "total_tokens": 622,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0685",
+  "total_sentences": 2,
+  "kept_sentences": 2,
+  "kept_tokens": 62,
+  "total_tokens": 62,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0505",
+  "total_sentences": 10,
+  "kept_sentences": 9,
+  "kept_tokens": 173,
+  "total_tokens": 193,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0762",
+  "total_sentences": 5,
+  "kept_sentences": 4,
+  "kept_tokens": 92,
+  "total_tokens": 104,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "CNN19980126.1600.1104",
+  "total_sentences": 13,
+  "kept_sentences": 10,
+  "kept_tokens": 191,
+  "total_tokens": 213,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "VOA19980303.1600.2745",
+  "total_sentences": 21,
+  "kept_sentences": 19,
+  "kept_tokens": 521,
+  "total_tokens": 541,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0938",
+  "total_sentences": 29,
+  "kept_sentences": 26,
+  "kept_tokens": 711,
+  "total_tokens": 768,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0329",
+  "total_sentences": 5,
+  "kept_sentences": 5,
+  "kept_tokens": 178,
+  "total_tokens": 178,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "ABC19980304.1830.1636",
+  "total_sentences": 19,
+  "kept_sentences": 13,
+  "kept_tokens": 221,
+  "total_tokens": 292,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0027",
+  "total_sentences": 13,
+  "kept_sentences": 13,
+  "kept_tokens": 276,
+  "total_tokens": 276,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0187",
+  "total_sentences": 12,
+  "kept_sentences": 11,
+  "kept_tokens": 278,
+  "total_tokens": 289,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0144",
+  "total_sentences": 8,
+  "kept_sentences": 8,
+  "kept_tokens": 221,
+  "total_tokens": 221,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0570",
+  "total_sentences": 16,
+  "kept_sentences": 15,
+  "kept_tokens": 394,
+  "total_tokens": 400,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "VOA19980331.1700.1533",
+  "total_sentences": 20,
+  "kept_sentences": 15,
+  "kept_tokens": 387,
+  "total_tokens": 466,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "CNN19980222.1130.0084",
+  "total_sentences": 7,
+  "kept_sentences": 6,
+  "kept_tokens": 114,
+  "total_tokens": 123,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "PRI19980205.2000.1890",
+  "total_sentences": 8,
+  "kept_sentences": 6,
+  "kept_tokens": 162,
+  "total_tokens": 195,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0533",
+  "total_sentences": 16,
+  "kept_sentences": 13,
+  "kept_tokens": 376,
+  "total_tokens": 434,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0068",
+  "total_sentences": 5,
+  "kept_sentences": 5,
+  "kept_tokens": 95,
+  "total_tokens": 95,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0575",
+  "total_sentences": 39,
+  "kept_sentences": 35,
+  "kept_tokens": 847,
+  "total_tokens": 903,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0168",
+  "total_sentences": 6,
+  "kept_sentences": 6,
+  "kept_tokens": 171,
+  "total_tokens": 171,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "AP900816-0139",
+  "total_sentences": 65,
+  "kept_sentences": 60,
+  "kept_tokens": 1432,
+  "total_tokens": 1487,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "CNN19980227.2130.0067",
+  "total_sentences": 29,
+  "kept_sentences": 21,
+  "kept_tokens": 357,
+  "total_tokens": 418,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0344",
+  "total_sentences": 8,
+  "kept_sentences": 6,
+  "kept_tokens": 248,
+  "total_tokens": 282,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0151",
+  "total_sentences": 8,
+  "kept_sentences": 8,
+  "kept_tokens": 218,
+  "total_tokens": 218,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0662",
+  "total_sentences": 8,
+  "kept_sentences": 4,
+  "kept_tokens": 96,
+  "total_tokens": 164,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "WSJ900813-0157",
+  "total_sentences": 60,
+  "kept_sentences": 52,
+  "kept_tokens": 1565,
+  "total_tokens": 1831,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0991",
+  "total_sentences": 5,
+  "kept_sentences": 3,
+  "kept_tokens": 82,
+  "total_tokens": 105,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0791",
+  "total_sentences": 10,
+  "kept_sentences": 10,
+  "kept_tokens": 218,
+  "total_tokens": 218,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_1035",
+  "total_sentences": 6,
+  "kept_sentences": 6,
+  "kept_tokens": 160,
+  "total_tokens": 160,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "APW19980213.1320",
+  "total_sentences": 9,
+  "kept_sentences": 9,
+  "kept_tokens": 216,
+  "total_tokens": 216,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "total_sentences": 75,
+  "kept_sentences": 72,
+  "kept_tokens": 2001,
+  "total_tokens": 2070,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0585",
+  "total_sentences": 61,
+  "kept_sentences": 48,
+  "kept_tokens": 1154,
+  "total_tokens": 1386,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0348",
+  "total_sentences": 8,
+  "kept_sentences": 8,
+  "kept_tokens": 194,
+  "total_tokens": 194,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0313",
+  "total_sentences": 8,
+  "kept_sentences": 8,
+  "kept_tokens": 203,
+  "total_tokens": 203,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0745",
+  "total_sentences": 29,
+  "kept_sentences": 24,
+  "kept_tokens": 688,
+  "total_tokens": 803,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "PRI19980303.2000.2550",
+  "total_sentences": 32,
+  "kept_sentences": 22,
+  "kept_tokens": 518,
+  "total_tokens": 682,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0356",
+  "total_sentences": 5,
+  "kept_sentences": 3,
+  "kept_tokens": 103,
+  "total_tokens": 138,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0173",
+  "total_sentences": 8,
+  "kept_sentences": 8,
+  "kept_tokens": 211,
+  "total_tokens": 211,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0586",
+  "total_sentences": 44,
+  "kept_sentences": 37,
+  "kept_tokens": 891,
+  "total_tokens": 1025,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0923",
+  "total_sentences": 4,
+  "kept_sentences": 3,
+  "kept_tokens": 68,
+  "total_tokens": 73,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ },
+ {
+  "doc": "wsj_0316",
+  "total_sentences": 7,
+  "kept_sentences": 5,
+  "kept_tokens": 115,
+  "total_tokens": 147,
+  "all_mentions_retained": true,
+  "local_equals_original": false,
+  "view": "individually delimited sentences containing mentions; original order/IDs; CTB intra-sentence scope"
+ }
+]
