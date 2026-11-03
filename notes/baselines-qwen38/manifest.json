@@ -1,0 +1,37 @@
+{
+  "schema": "workere-baseline-publication/v1",
+  "publication_date": "2026-11-03",
+  "base_commit": "f80a1a4678dde0105a329cb63e200ff6b1c2eed5",
+  "publication_branch": "publication/qwen38-baselines-2026-11-03",
+  "scientific_status": "Qwen incomplete and paused; no new model calls for publication",
+  "files": {
+    "README.md": {
+      "sha256": "ca98515c4d3eb5aa9b08b82efac6380ea2c828c5558c1b19e2d479dbb2c5e20c",
+      "bytes": 16031
+    },
+    "ctb179-progress.json": {
+      "sha256": "a2da2d787bb8833511f5d8046939bd264cab949cdfc6a2d2d425d71d3209c679",
+      "bytes": 5582
+    },
+    "haiku-reference.json": {
+      "sha256": "e305c10a97b92001b6def6cdbb97af8b12b891829c380c762d3aae570853780b",
+      "bytes": 1087
+    },
+    "paired-ctb163-per-document.csv": {
+      "sha256": "2a7e5bb7f4650d74d305410df4bd38941f9b232f5a6b5df1f4eadfcbbc9d6a5a",
+      "bytes": 13164
+    },
+    "paired-ctb163.json": {
+      "sha256": "ea95a5bbb76e1d811899c9fe8ea942450fb98de2e42e359418e73cf14069969d",
+      "bytes": 487158
+    }
+  },
+  "checks": [
+    "CTB163 F1 recomputed from TP/FP/FN for both models",
+    "392 gold directed positives for both models",
+    "326 paired document-model CSV rows",
+    "CTB179 checkpoint and remaining-pass arithmetic",
+    "Exit code 1 and no active controller for latest baseline run",
+    "Relative report links resolved"
+  ]
+}

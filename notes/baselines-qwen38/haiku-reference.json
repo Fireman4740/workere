@@ -1,0 +1,42 @@
+{
+  "schema": "workere-haiku-standalone-reference/v1",
+  "source_run": "a7f7bbd5-b115-4926-850a-af6eb7f44776",
+  "commit": "36de1a08bc427fb8936a34dabbfeb0035ba47b8f",
+  "source_event": "FUSION_RESULT",
+  "selected_field": "vote_alone_majority_4_of_7",
+  "note": "Extracted standalone vote; fusion and decision-model scores excluded. Not the paired CTB163 comparison.",
+  "corpora": {
+    "esc": {
+      "documents": 233,
+      "ordered_candidates": 122130,
+      "gold_positive": 10118,
+      "served_vote_models": [
+        "anthropic/claude-haiku-5.5"
+      ],
+      "vote_alone_majority_4_of_7": {
+        "P": 36.52,
+        "R": 51.61,
+        "F1": 42.78,
+        "tp": 5222,
+        "fp": 9076,
+        "fn": 4896
+      }
+    },
+    "ctb": {
+      "documents": 183,
+      "ordered_candidates": 19442,
+      "gold_positive": 596,
+      "served_vote_models": [
+        "anthropic/claude-haiku-5.5"
+      ],
+      "vote_alone_majority_4_of_7": {
+        "P": 65.68,
+        "R": 59.73,
+        "F1": 62.57,
+        "tp": 356,
+        "fp": 186,
+        "fn": 240
+      }
+    }
+  }
+}
