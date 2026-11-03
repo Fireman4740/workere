@@ -1,0 +1,70 @@
+{
+  "study": "N14-CTB4-2x2",
+  "user_authorization": "2026-11-03 medium plus other recommendations in parallel on same documents",
+  "model": "qwen3.8-27b",
+  "base_url": "http://127.0.0.1:18020/v1",
+  "credential_file": "~/qwen38-27b-rtx3090/.env",
+  "credential_name": "VLLM_API_KEY",
+  "wait_for_run": null,
+  "dataset": "CausalTimeBank-standard-eci-workere",
+  "revision": "1bba25094d1dda15f172c1f17bb88c26fb3d767d",
+  "documents": 4,
+  "candidates": "original CTB intra-sentence pair_list only",
+  "stages": [
+    "same4only"
+  ],
+  "request_counts": {
+    "M00": 72,
+    "M10": 72,
+    "M01": 594,
+    "M11": 594
+  },
+  "maximum_generation_calls": 1332,
+  "max_input_tokens": 16384,
+  "max_tokens": 65536,
+  "max_context_tokens": 81920,
+  "concurrency": 8,
+  "request_timeout_seconds": 86400,
+  "api_ready_timeout_seconds": 1800,
+  "readiness_poll_seconds": 15,
+  "state_root": "~/.local/share/openresearch/workere-n14-medium",
+  "primary_score": "all4complete per condition, unordered2of3majority separately per calendar and representation",
+  "training": false,
+  "human_annotations": 0,
+  "external_API_cost_usd": 0,
+  "electricity_and_hardware_cost": "not metered",
+  "no_external_fallback": true,
+  "generation_retries": 0,
+  "input_sha256": "5ea96ef605b82ac316a0da269c7e0ec9b77136196a4abc91332226ae61eca984",
+  "source_suite_sha256": "80d9b63e68f15c333d72cf878877fca545c4576aa9ded978ec5448419276338f",
+  "model_identity_limit": "declared served model and limits only; no proof immutable weights or independent stochastic reads; temp0 retained",
+  "exposure": "exploratory previously exposed development docs; not blind confirmation; prompts frozen before this run",
+  "server_admissions_user_reported": 64,
+  "reasoning_effort": "medium",
+  "conditions": {
+    "M00": {
+      "clean_prompt": false,
+      "bounded_execution": false
+    },
+    "M10": {
+      "clean_prompt": true,
+      "bounded_execution": false
+    },
+    "M01": {
+      "clean_prompt": false,
+      "bounded_execution": true
+    },
+    "M11": {
+      "clean_prompt": true,
+      "bounded_execution": true
+    }
+  },
+  "condition_concurrency": 2,
+  "factorial_interpretation": "prompt bundle(clean instructions+generic causal definition) x execution bundle(explicit pairs+strict coverage+bounded context+adapted examples), not isolated effects of each component",
+  "coverage": "all original candidates once per reading; invalid or missing responses never negative; complete-document diagnostic and common complete subset reported separately",
+  "cost_comparison": "resource vectors and raw scores; no equal-cost superiority claim",
+  "full50": "not automatically launched in this CTB4 factorial",
+  "template_gate": "actual tokenizer medium vs xhigh must differ before any generation",
+  "source_run": "09873773-2908-459d-bced-dc436272fb32",
+  "no_service_changes": true
+}
