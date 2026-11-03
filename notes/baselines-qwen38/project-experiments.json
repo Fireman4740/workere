@@ -1,0 +1,1541 @@
+{
+  "schema": "workere-project-experiments/v1",
+  "snapshot_at_utc": "2026-11-03T14:11:42.106548+00:00",
+  "experiment_count": 65,
+  "run_count": 105,
+  "experiments": [
+    {
+      "index": 1,
+      "id": "694058c6-1973-46a5-8bc5-3579eada24ad",
+      "title": "ESC free Noul: Span smoke [root]",
+      "branch": "orx/esc-free-noul-span-smoke",
+      "head_commit_at_snapshot": "93bb77ff1fd1c748808263487d6240aa8c32a696",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "aa75d46a-5794-4b93-ab23-126075a69584"
+      ],
+      "method": "Construire un état contenant le document entier et les deux mentions exactes : identifiants, surfaces, positions de tokens, offsets et phrase. Envoyer une question Noul oui/non ; classer causal si la probabilité vaut au moins 0,5. Le gold relationnel n'entre pas dans cet état.",
+      "evaluation_scope": "Un seul document ESC dev, 41_9ecbplus.xml ; 156 candidats ordonnés et huit positifs. Une décision par candidat, sans vote à sept lectures. C'est un test d'intégration en conditions réelles, pas une validation statistique.",
+      "reported_controls": "156 appels réussis ; sauvegarde des probabilités et réponses ; rejeu hors ligne du score identique. Le modèle servi est identifié dans le résumé. Les erreurs de direction sont séparées de la mesure binaire.",
+      "consolidated_outcome": "F1 binaire 0 : aucune relation positive prédite, donc huit faux négatifs. Le chemin de données fonctionne ; le modèle n'a pas réussi la détection positive sur ce document.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/state_builder.py",
+        "pipelines/jev/pipeline.py"
+      ],
+      "description_sha256": "7f63ce35ac2962323f163d5f6e37e58782b73812bffb7973daab3bb3cae33cb4"
+    },
+    {
+      "index": 2,
+      "id": "87cddd6f-7910-4913-8e2f-4fe3441ea33f",
+      "title": "ESC free Noul: Mercury smoke",
+      "branch": "orx/esc-free-noul-mercury-smoke",
+      "head_commit_at_snapshot": "6e48b7e25fad0c3bfea0d47192a62ed96bf1b538",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "654d1602-1b6e-47f3-a88e-aa992adbe7b4"
+      ],
+      "method": "Remplacer Span par Mercury en gardant le document, les 156 candidats, la question Noul, la représentation et le seuil 0,5. Le changement testé est le modèle de décision.",
+      "evaluation_scope": "Comparaison sur le même document et les mêmes huit positifs que Span. Précision, rappel, F1 binaire et sous-périmètres intra/inter-phrases.",
+      "reported_controls": "156 décisions livrées ; version servie enregistrée ; prédictions et métriques sauvegardées pour le rejeu. Aucun seuil choisi après observation du score.",
+      "consolidated_outcome": "Précision 43,75 %, rappel 87,5 %, F1 58,33. Meilleur smoke local, sans preuve de généralisation à ESC233.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/state_builder.py"
+      ],
+      "description_sha256": "d2da8d878554afa7ccfca870cdee677235be82ab69a44cd3e92267791164fe29"
+    },
+    {
+      "index": 3,
+      "id": "2fbe084a-f105-4726-be67-815b8cf98c77",
+      "title": "Mercury Choice vs Noul",
+      "branch": "orx/mercury-choice-vs-noul",
+      "head_commit_at_snapshot": "f9d6dc3eea69aa48f0ebd9cf207e73a70012c26b",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "5d1c4b87-783d-4f15-a87d-5bce934f83f2"
+      ],
+      "method": "Remplacer la question Noul par un choix CAUSES, CAUSED_BY ou NO_RELATION. Le modèle peut donc exprimer la direction. Le contexte et les candidats restent ceux du smoke Mercury.",
+      "evaluation_scope": "Même document et seuil déclaré ; le F1 binaire regroupe les deux classes causales. Les métriques directionnelles sont conservées séparément.",
+      "reported_controls": "156 appels ; réponses/probabilités archivées ; rejeu exact. Vérification que le résultat comparé est bien le binaire, et non une autre colonne de métriques.",
+      "consolidated_outcome": "TP=8, FP=24, FN=0 : F1 40,00. Le rappel augmente, mais les faux positifs font baisser le F1 par rapport au Noul Mercury.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/state_builder.py"
+      ],
+      "description_sha256": "41b1c508cc95427c922d9c589ef7413791a4703ec74703c62e4d81e6fa3bd005"
+    },
+    {
+      "index": 4,
+      "id": "293c814f-d7a3-477f-80e2-dae63e9774b1",
+      "title": "Mercury explicit Context vs Noul",
+      "branch": "orx/mercury-explicit-context-vs-noul",
+      "head_commit_at_snapshot": "bc98c9f8da6357fbb350983ffd1da61a269f1798",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "e8a58cf1-30a2-4562-b1a2-1047d16b8c94"
+      ],
+      "method": "Conserver Noul et ajouter au document une copie où les tokens A/B sont balisés, puis les phrases contenant A et B. Les événements restent les mêmes ; l'intervention porte sur leur présentation.",
+      "evaluation_scope": "Même smoke à 156 candidats ; modèle et seuil 0,5 inchangés. Comparaison appariée à Mercury Noul.",
+      "reported_controls": "156 appels ; sauvegarde et rejeu exact des sorties. Le constructeur d'état vérifie les styles reconnus et conserve les positions des mentions.",
+      "consolidated_outcome": "TP=8, FP=18, FN=0 : F1 47,06. L'explicitation ne surpasse pas le Noul initial sur ce cas unique.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/state_builder.py"
+      ],
+      "description_sha256": "5fed48fbac962d8f51d82b839dca5685ab15812c0b284f041f56c340a53073ea"
+    },
+    {
+      "index": 5,
+      "id": "3afb71c4-e110-4a31-a9eb-899fc1419b68",
+      "title": "Mercury Noul on historical ESC train233",
+      "branch": "orx/mercury-noul-on-historical-esc-train233",
+      "head_commit_at_snapshot": "79169a769738b808ac83aa577119474c934798f9",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "586bbafb-473f-4e7d-94b2-e3eb1b381137",
+        "dfa23986-77a1-4a69-b0ea-b3701fc586bd"
+      ],
+      "method": "Appliquer la même décision Noul à tous les candidats ordonnés d'ESC train : 233 documents, 122 130 paires. Version de données, sélection et empreinte de suite figées ; modèle gratuit uniquement, cadence 20 requêtes/minute et cache partagé persistant.",
+      "evaluation_scope": "Objectif initial : score corpus complet et comparaison historique. Après HTTP429 puis arrêt demandé à une frontière documentaire, seules les unités entièrement terminées sont évaluables. Le diagnostic initial de 13 documents et le paquet final D15 sont deux instantanés distincts.",
+      "reported_controls": "Validation des 4 253 réponses en cache après le premier échec ; respect de Retry-After et cooldown partagé ; test de préflight sans débordement du contexte. Les documents partiels sont exclus des calculs partiels, sans transformer les manquants en négatifs. Les anciennes prédictions DeepSeek n'ont pas été retrouvées.",
+      "consolidated_outcome": "Aucun résultat ESC233 complet. F1 33,00 sur l'instantané 13 documents ; 32,39 sur D15 final, diagnostique seulement. Ni l'un ni l'autre n'est comparable directement au chiffre historique sur 233 documents.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md",
+        "jev-v1/historical-comparison/partial-evaluation-20261016T075639Z/partial-results-report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/state_builder.py",
+        "pipelines/jev/client.py"
+      ],
+      "description_sha256": "80cd1b4f7b632b2179783c0c1008e48f1080e9dd875a2d0a72d654aee2558b3e"
+    },
+    {
+      "index": 6,
+      "id": "2893566d-a69d-4a26-bd2b-54d26c66073d",
+      "title": "d1-ultra Noul baseline (DEV25 + D15)",
+      "branch": "orx/d1-ultra-noul-baseline-dev25-d15",
+      "head_commit_at_snapshot": "4730ae002c705ef6a5bfb634cc57096d380c625b",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [],
+      "method": "Préparer le remplacement de Mercury par liquid/d1-ultra, avec appels parallèles par paire et seuil Noul 0,5. La cible est DEV25 et le diagnostic D15.",
+      "evaluation_scope": "Aucune exécution attachée à ce nœud. La réalisation effective se trouve dans R0, fiche suivante. Les deux nœuds ne sont pas deux comparaisons indépendantes.",
+      "reported_controls": "État et notes du nœud relus ; absence de run dans l'inventaire. Une branche préparée ne démontre ni qualité mesurée ni réussite du déploiement.",
+      "consolidated_outcome": "Préparation remplacée par R0 ; aucun score propre.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/state_builder.py"
+      ],
+      "description_sha256": "ed8978d475986bedfe47e48bf360ab631a0bd759c9eac848edf3493b30504387"
+    },
+    {
+      "index": 7,
+      "id": "9d81e9ba-b528-4f56-89de-049034bb3e07",
+      "title": "R0 d1-ultra Noul DEV25 D15 reprise",
+      "branch": "orx/r0-d1-ultra-noul-dev25-d15-reprise",
+      "head_commit_at_snapshot": "08d8c6bbbb885f73cedb9035cd66ecb937fdc0b4",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "d0e4ab4a-1c61-4c15-871e-fec594d6bcdd",
+        "cc6b7a91-6c5d-4030-a402-21272693157f",
+        "30be8ec8-30b9-4c38-885f-f67e33e88f18"
+      ],
+      "method": "Une probabilité causale par paire ordonnée, document entier et mentions exactes ; seuil 0,5. Modèle servi liquid/d1-ultra-20261015. Ajout de parallélisme, cache et registre atomique de budget ; ces mécanismes d'exécution ne constituent pas des variantes scientifiques.",
+      "evaluation_scope": "DEV25 : 19 028 candidats et 1 086 positifs. Sous-échantillon DEV-SCREEN : dix documents, 6 894 candidats, 436 positifs. D15 sert au diagnostic et pas à la sélection. AP pour le classement, micro-F1 binaire pour les décisions.",
+      "reported_controls": "Correction des verrous SQLite par retry de transaction locale, sans rappel modèle dans cette boucle ; 17 tests rapportés dans la reprise. Données et question maintenues, sorties persistées, comparaison des variantes sur documents appariés.",
+      "consolidated_outcome": "DEV25 : F1 39,26, AP 39,87 ; DEV-SCREEN : F1 42,80. C'est le contrôle de R1 et R2. Les tentatives antérieures incomplètes ne sont pas des F1 supplémentaires.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md",
+        "jev-v1/esc-improvement-plan/r0-baseline/report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/state_builder.py",
+        "pipelines/jev/spend.py",
+        "pipelines/jev/client.py"
+      ],
+      "description_sha256": "dda9f79a6f9984f8b3ff03fd0e862704f5f3d6cb9933fad18095e7d671c4db39"
+    },
+    {
+      "index": 8,
+      "id": "06273e68-8c84-4758-8aa9-e7a2e23fa143",
+      "title": "LLM Luna batch high DEV25 D15",
+      "branch": "orx/llm-luna-batch-high-dev25-d15",
+      "head_commit_at_snapshot": "0cfb03f72e2a9c077829cd6937c0e9d82d1155e3",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "7c9548f7-a36a-41f8-8a1b-9d31748b2810",
+        "fa35ad3a-6863-435e-9bcc-69a602a5584f",
+        "f426ae14-39da-4507-a0ef-b75ad1c2b280"
+      ],
+      "method": "Faire lire chaque document balisé à Luna batch en raisonnement high. Sept générations indépendantes, chacune avec un exemple gold d'un autre topic. La sortie est une liste de paires/labels ; les réponses sont agrégées par le vote historique. Ce système diffère de d1 par le modèle, la granularité et les démonstrations.",
+      "evaluation_scope": "25 documents DEV et 15 D15, soit 280 requêtes documentaires. Contrôle principal DEV25 apparié à R0 ; D15 reste diagnostic. Le vote historique par labels et le F1 binaire ne doivent pas être confondus avec une probabilité calibrée.",
+      "reported_controls": "Correction du transport vers une véritable API batch après HTTP404 ; reçus durables, reprise sans double soumission, cache distinct par document. 40/40 sous-évaluations terminées ; reconstruction hors ligne et contrôle des candidats.",
+      "consolidated_outcome": "DEV25 : F1 50,85, écart à d1 +11,59 points [7,51 ; 15,65]. AP 33,49, inférieure à celle de d1. Le gain n'isole pas l'effet propre de sept lectures ou de l'effort high.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md",
+        "jev-v1/esc-improvement-plan/luna-dev25/report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/llm.py",
+        "pipelines/jev/batch.py"
+      ],
+      "description_sha256": "7c2956b64c65a8c5adb50aba368afc84dd4e003991ee28275f5a55a03355eff5"
+    },
+    {
+      "index": 9,
+      "id": "f17a10ce-51ad-440d-bddf-67fa9abb8ff2",
+      "title": "R1c d1-ultra unordered screen",
+      "branch": "orx/r1c-d1-ultra-unordered-screen",
+      "head_commit_at_snapshot": "236694d268f566116cc769493eac30243ad6ae51",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "5bf3ecaa-c821-43e5-86b9-c9b735da0c0e",
+        "43ba76a3-cae0-49dc-b28d-60b5dbd070d6",
+        "ef9e55e1-34b6-4348-aa77-eb7b8d7210cb"
+      ],
+      "method": "Choisir l'ordre canonique des deux mentions, demander une seule probabilité et la recopier aux deux candidats historiques orientés. Cela divise exactement par deux le nombre logique d'appels d1.",
+      "evaluation_scope": "DEV-SCREEN inchangé ; seuil 0,5 ; comparaison appariée R0. L'objectif d'efficacité inclut une limite de dégradation du F1, et le bilan de sélection R1 examine aussi le classement AP.",
+      "reported_controls": "Contrôle du remappage vers les deux orientations et de l'identité des paires ; cache des reprises ; bootstrap par document, pas par orientation. Les intervalles couvrent des pertes dépassant un point : la proximité ponctuelle ne démontre pas la préservation de qualité.",
+      "consolidated_outcome": "F1 41,93 contre 42,80 pour R0 : −0,88 point ponctuel ; AP en baisse. Aucun finaliste retenu dans la campagne R1.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md",
+        "jev-v1/esc-improvement-plan/r1c-screen/report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/state_builder.py"
+      ],
+      "description_sha256": "cf959aba38204af4c05247c9883994aa05701303827175cb7c86a2ff6d5fd02e"
+    },
+    {
+      "index": 10,
+      "id": "2750ffff-41c6-427e-a1ca-b177049d76fc",
+      "title": "R1a d1-ultra ESC question screen",
+      "branch": "orx/r1a-d1-ultra-esc-question-screen",
+      "head_commit_at_snapshot": "0ae5f91cc2d0a5d81d3948b53abf7588c254eaf5",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "6841832e-ac6f-41fb-8215-730641ce52de",
+        "322bd86a-0212-4fa8-9bed-f177535d4a5a",
+        "fb899aae-c6c9-494a-8a19-01e61209938d"
+      ],
+      "method": "Élargir la définition de causalité dans la question : PLOT_LINK, facilitation, prévention, conséquence narrative soutenue et lien de sous-événement explicite. Conserver modèle, contexte et seuil de R0.",
+      "evaluation_scope": "Dix documents DEV-SCREEN ; une question par paire ordonnée. Sélection sur développement, avec AP comme critère principal de promotion, puis F1 et bootstrap apparié.",
+      "reported_controls": "Reprise des mêmes requêtes depuis le cache après réparation budgétaire ; probabilités archivées. Les ensembles D15 et CONF40 ne servent pas au choix de cette variante.",
+      "consolidated_outcome": "F1 43,30, soit environ +0,50 point ; gain AP incertain. Aucun critère de promotion robuste franchi.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md",
+        "jev-v1/esc-improvement-plan/r1a-screen/report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/state_builder.py"
+      ],
+      "description_sha256": "9afb023d32e5c1300b76dd6589ac70d5cffdbab23f37120c6c95b16169b9a1e7"
+    },
+    {
+      "index": 11,
+      "id": "f0710474-0d2e-42fc-9a96-d7db645dc0ba",
+      "title": "R1b d1-ultra tagged mentions screen",
+      "branch": "orx/r1b-d1-ultra-tagged-mentions-screen",
+      "head_commit_at_snapshot": "ec7de232d726156ed12b63f9c7f6512b129712f1",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "6a71eda4-54ca-424f-9510-ba671d9fe740",
+        "bf51553c-23b4-4a3e-b120-37b63c1b15fc",
+        "10bddad2-a06b-4019-83bb-85e222879c69"
+      ],
+      "method": "Ajouter des balises autour des tokens exacts des deux occurrences visées dans le document de d1 ; préserver la question Noul et les candidats. L'hypothèse est un meilleur rattachement de la question aux mentions.",
+      "evaluation_scope": "DEV-SCREEN commun, seuil 0,5, métriques AP et F1 ; comparaison au R0 du même périmètre.",
+      "reported_controls": "Vérification des positions et de la conservation du texte/identité des candidats, sauvegarde des scores et bootstrap apparié. L'amélioration d'un score de décision ne remplace pas le critère de classement annoncé.",
+      "consolidated_outcome": "F1 44,11, environ +1,31 point ; AP en baisse. L'intervalle du gain F1 inclut zéro : variante non promue.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md",
+        "jev-v1/esc-improvement-plan/r1b-screen/report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/state_builder.py"
+      ],
+      "description_sha256": "8f7ef1508a551ee75d51d8bab43f0bc96bd94444c94ee6a23dc9d7e445b97d0a"
+    },
+    {
+      "index": 12,
+      "id": "7bd4db91-8a31-47ae-bc87-db4d99a57bff",
+      "title": "R1e d1-ultra retrieved demonstrations screen",
+      "branch": "orx/r1e-d1-ultra-retrieved-demonstrations-screen",
+      "head_commit_at_snapshot": "08922d583edd9d1edb4dc6c95505b7db46d318a6",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "41307f1d-6722-48be-903e-4aad11fa6ba2",
+        "10a0a88a-e72c-4ab0-a7e2-a144ff81a78a",
+        "2a62be6b-c7da-407a-96d4-782bd0bc8217"
+      ],
+      "method": "Ajouter quatre exemples récupérés par similarité : deux positifs et deux négatifs. Exclure le topic interrogé et les ensembles protégés de la banque de démonstrations. Les labels de ces exemples sont des annotations d'apprentissage autorisées, pas ceux de la cible.",
+      "evaluation_scope": "Même DEV-SCREEN, même d1 et seuil 0,5. Comparaison AP/F1 au contrôle ; aucune sélection sur D15.",
+      "reported_controls": "Vérification de l'éligibilité de la banque et des exclusions ; cache/reprises conservés ; bootstrap apparié. Le coût du run terminal exclut les réponses déjà payées et relues dans le cache.",
+      "consolidated_outcome": "F1 43,26, environ +0,46 point ; gains de classement et F1 incertains. Aucun élargissement DEV-FULL de ce facteur.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md",
+        "jev-v1/esc-improvement-plan/r1e-screen/report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/demonstrations.py",
+        "pipelines/jev/state_builder.py"
+      ],
+      "description_sha256": "551af65f6cd5a0679f1ef5e9d82d0b5bf04a93dd09beb9454efe29087963c4e1"
+    },
+    {
+      "index": 13,
+      "id": "15d2db3f-307f-477f-aa76-2fe008b320c9",
+      "title": "R1d d1-ultra decomposed questions screen",
+      "branch": "orx/r1d-d1-ultra-decomposed-questions-screen",
+      "head_commit_at_snapshot": "5156f74ab05e7b536118d001a9b811423ed5348a",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "df51a1e6-f0a5-4e06-8685-a90d8685539f",
+        "73ae2296-7d4b-412f-8da4-247a1542752e"
+      ],
+      "method": "Demander plusieurs décisions distinctes dans un appel : causalité, identité événementielle et autres propriétés de la paire. Prévoir un contrôle d'invariance de la probabilité causale avant le tri à grande échelle.",
+      "evaluation_scope": "Prétest sur les 156 paires du document connu : question causale seule versus appel multi-questions. L'évaluation DEV-SCREEN est conditionnelle à la réussite de ce prétest.",
+      "reported_controls": "Les sorties des cinq questions sont distinctes, mais la probabilité causale change jusqu'à 0,21405. Le contrôle d'invariance échoue ; aucun score DEV-SCREEN ni calibrateur dérivé n'est produit. Une répétition dédiée serait nécessaire pour séparer interaction et stochasticité.",
+      "consolidated_outcome": "Prérequis non satisfait, essai arrêté. C'est un résultat du contrôle préalable, pas un F1 nul sur DEV ni la preuve que toutes les formulations multi-questions échouent.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/state_builder.py",
+        "pipelines/jev/preflight.py"
+      ],
+      "description_sha256": "ab48d6362d49ec0f4d07e287304c82378402ab1ed9b9c273341305b21bb48196"
+    },
+    {
+      "index": 14,
+      "id": "4f2e2f6e-82c1-4d88-88d3-ba1047814c5e",
+      "title": "R2a d1-ultra symmetry LODO DEV25",
+      "branch": "orx/r2a-d1-ultra-symmetry-lodo-dev25",
+      "head_commit_at_snapshot": "f358a25f2578e5b6506e3aada8a0729c3ea0543d",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "0c4f8f08-d6d6-4cfa-9bc6-015b307ae418",
+        "3ca1008a-072c-4df5-8195-55fa65887eec"
+      ],
+      "method": "Réutiliser les probabilités R0. Pour chaque paire, moyenner d(a,b) et d(b,a). Comparer le seuil fixe 0,5 à un seuil choisi en leave-one-document-out : aucun label du document évalué pour choisir son seuil. Ajuster ensuite 0,65 sur DEV complet pour la future confirmation.",
+      "evaluation_scope": "DEV25 ; mêmes sorties brutes pour tous les post-traitements, donc zéro nouvel appel. Le réglage est interne au DEV ; les documents partagent néanmoins des topics.",
+      "reported_controls": "Reconstruction déterministe des décisions, contrôle des folds et des seuils. Les IC complémentaires sont post hoc et ne réajustent pas le seuil dans chaque bootstrap. Correction d'un export YAML/date, sans nouvelle inférence.",
+      "consolidated_outcome": "F1 : R0 39,26 ; symétrie seule 39,87 ; symétrie+seuil hors document 42,04. Le +2,78 est un gain DEV incertain ; le transfert du seuil est testé dans la fiche 16.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md",
+        "jev-v1/esc-improvement-plan/r2a-symmetry/report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/refinement.py"
+      ],
+      "description_sha256": "603740394d7c08a464ef1da148251519777038832cc3d28874f54e5faae0cc3d"
+    },
+    {
+      "index": 15,
+      "id": "d02eadb6-4a61-4c0c-a9e2-f5ac246a4ac1",
+      "title": "R2b d1-ultra predicted coreference DEV25",
+      "branch": "orx/r2b-d1-ultra-predicted-coreference-dev25",
+      "head_commit_at_snapshot": "3ba6739bf7b72133ae71c0526636775d6014ac76",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "26ac5081-c538-431e-994c-b6a7097f7245"
+      ],
+      "method": "Poser séparément 9 514 questions d1 « même événement ? » sur les paires non ordonnées. Au seuil 0,5, former les composantes connexes ; agréger au maximum les scores causaux entre chaînes, puis diffuser. Les relations internes à une chaîne sont rejetées. Ajouter un oracle ECB+ pour mesurer le potentiel d'une identité correcte.",
+      "evaluation_scope": "DEV25. Deux évaluations différentes : précision/rappel des liens de coréférence contre ECB+, puis F1 causal sur toutes les paires. Seuil causal fixe ou choisi hors document comme R2a.",
+      "reported_controls": "Questions de coréférence indépendantes de la question causale ; contrôle de fermeture et de propagation ; diagnostic avant/après fermeture. L'oracle utilise le gold de coréférence et n'est pas déployable.",
+      "consolidated_outcome": "Précision des liens : 26,00 % directs, 17,98 % après fermeture. F1 causal 29,27 au seuil 0,5 ; 37,70 avec seuil hors document. Oracle+seuil : 60,88. La sur-fusion prédite empêche de réaliser le potentiel oracle.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md",
+        "jev-v1/esc-improvement-plan/r2b-predicted-coreference/report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/coreference.py",
+        "pipelines/jev/refinement.py"
+      ],
+      "description_sha256": "399b8141958119e08a6bf8e1e1b1ffb2d3e8afc9b101e63c629fa556c0fc18b3"
+    },
+    {
+      "index": 16,
+      "id": "38c20615-90ba-436e-bd97-03400935eb8e",
+      "title": "FINAL d1-ultra frozen symmetry CONF40",
+      "branch": "orx/final-d1-ultra-frozen-symmetry-conf40",
+      "head_commit_at_snapshot": "81a17b23726ee6754bd9602786dcb8787087d541",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "945b655d-4595-4726-8d72-d1714bb2f5e6"
+      ],
+      "method": "Geler la règle choisie sur DEV puis collecter une fois les scores d1 du nouveau CONF40. Appliquer aux mêmes scores la baseline 0,5 et la variante symétrique 0,65, sans régler à nouveau le seuil.",
+      "evaluation_scope": "40 documents, 20 topics, 19 174 candidats ordonnés. Comparaison appariée avec bootstrap documentaire ; ce lot était réservé à cette étape de l'histoire du projet.",
+      "reported_controls": "Empreinte du gel, complétude des candidats et reproduction officielle hors ligne. Les deux systèmes réutilisent les mêmes probabilités : la différence vient du post-traitement, pas d'une nouvelle génération.",
+      "consolidated_outcome": "Baseline F1 34,79 ; variante 28,29 ; −6,50 points [−9,94 ; −2,95]. Le réglage DEV ne se transfère pas. La variante retire 1 010 FP mais aussi 309 TP ; elle n'est pas promue.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md",
+        "jev-v1/esc-improvement-plan/final-report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/confirmation.py"
+      ],
+      "description_sha256": "3277814447ff69755235f9767ee1f46a8e5649a7c62415c40be5e2db24f229d4"
+    },
+    {
+      "index": 17,
+      "id": "18d28e3b-98a1-43d7-8f82-b1386f7b4fbb",
+      "title": "FINAL Luna batch high CONF40 reference",
+      "branch": "orx/final-luna-batch-high-conf40-reference",
+      "head_commit_at_snapshot": "3470a896384c40faba0aa6f0ad92c692963cb547",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "ab42114f-3687-4493-b89a-eb619790fa7b"
+      ],
+      "method": "Conserver Luna high, sept lectures et une démonstration hors topic par lecture. Aucune adaptation sur les labels CONF40. Comparer au d1 original et au post-traitement d1 gelé.",
+      "evaluation_scope": "Les mêmes 40 documents que la confirmation d1 ; 280 réponses Luna. Micro-F1 global, intra/inter et différences appariées.",
+      "reported_controls": "40 lots complets ; reconstruction des votes et du score officiel. Les contrastes Luna sont secondaires, sans correction de multiplicité dans ce premier bilan.",
+      "consolidated_outcome": "F1 36,45 ; +1,65 point [−3,35 ; 6,33] face au d1 original. Le gain net observé sur DEV n'est pas confirmé avec la même ampleur. L'IC contenant zéro ne démontre pas l'équivalence.",
+      "source_artifacts": [
+        "jev-v1/bilan-complet-experiences/rapport-complet.md",
+        "jev-v1/esc-improvement-plan/final-luna/report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/confirm_luna.py",
+        "pipelines/jev/llm.py"
+      ],
+      "description_sha256": "031de0b81cbbd4f35d8350e914cc258eca65a4bb0974e105d77c7eab9cf60e9e"
+    },
+    {
+      "index": 18,
+      "id": "514110b5-14e8-45f7-8347-2feef53129fa",
+      "title": "R3-T0 TEST-S40 controls + frozen Luna x d1 fusion",
+      "branch": "orx/r3-t0-test-s40-controls-frozen-luna-x-d1-fusion",
+      "head_commit_at_snapshot": "d39d3349fe90c2396307d189b32d46ee7f6dabe5",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "64e91e64-d6e8-4a51-94fb-eab40c38eec7",
+        "1906c172-b273-4b3e-94c8-1b7500d8782d"
+      ],
+      "method": "Moyenner les deux orientations du vote Luna et les deux scores d1 : f=(v_ab+v_ba+d_ab+d_ba)/4. Positif si f≥0,39. La famille de règles et le seuil sont choisis sur POOL80, réunion de DEV25+D15+CONF40 (22 topics), en laissant un topic à l'écart, puis figés avant TEST-S40. D15 et CONF40 sont donc réutilisés à ce stade, après leur rôle réservé dans le plan précédent.",
+      "evaluation_scope": "40 documents TEST-S40, 17 958 candidats ordonnés ; deux documents par topic, exclusions de D15, CONF40 et banque de démonstrations. Comparer fusion, Luna seule et d1 seul sur les mêmes documents.",
+      "reported_controls": "Recalcul hors ligne depuis sorties et contrôles ; règle de fusion sans refit sur le test. Bootstrap apparié par document ; lecture des résultats de tous les documents, sans remplacer le micro-F1 par une moyenne documentaire.",
+      "consolidated_outcome": "Fusion 48,64 ; d1 38,59 ; Luna 46,02. Écart +10,05 [6,66 ; 13,65] face à d1, mais +2,62 [−1,37 ; 7,69] face à Luna : la supériorité sur les deux contrôles n'est pas établie.",
+      "source_artifacts": [
+        "jev-v1/round3/round3-results-report.md"
+      ],
+      "code_paths": [
+        "experiments/jev/round3/fusion-rule.json",
+        "experiments/jev/round3/materialize.py"
+      ],
+      "description_sha256": "5e0ff65e215941860c918b2451f24077ebcad359b088894c0dd4aaa709a1d0cb"
+    },
+    {
+      "index": 19,
+      "id": "8d3a10af-5925-4454-b53a-c9aea79c0424",
+      "title": "R3-T1 Luna rationale demonstrations TEST-S40",
+      "branch": "orx/r3-t1-luna-rationale-demonstrations-test-s40",
+      "head_commit_at_snapshot": "f9767cac359edc12cd3c839278929294f2fc39a1",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "fcef631c-414b-4c2e-9edf-31779de3f6d7"
+      ],
+      "method": "Garder les mêmes documents de démonstration que T0, mais ajouter à leur réponse gold une explication produite une fois par Luna. La cible ne reçoit pas son gold ; l'intervention est le contenu des démonstrations.",
+      "evaluation_scope": "TEST-S40 apparié à Luna T0 ; sept lectures high et contrôle gold-answer-only. Comparaison de la majorité binaire et du vote historique par labels.",
+      "reported_controls": "40/40 documents complets ; rapprochement des calendriers de démonstrations. Les deux règles de vote diffèrent légèrement et sont rapportées distinctement.",
+      "consolidated_outcome": "Majorité binaire : F1 44,34 contre 46,02, soit −1,67 [−3,85 ; 0,85]. Vote historique par labels : 44,27. Aucun gain confirmé des rationales.",
+      "source_artifacts": [
+        "jev-v1/round3/round3-results-report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/llm.py"
+      ],
+      "description_sha256": "6288fa9859eed27a2d73f896af9051910f63edea46118fb985c34840e0bfc023"
+    },
+    {
+      "index": 20,
+      "id": "8a84f788-7bed-4d77-a7aa-7e69ab431e7d",
+      "title": "R3-T2 Luna explicit event coreference chains",
+      "branch": "orx/r3-t2-luna-explicit-event-coreference-chains",
+      "head_commit_at_snapshot": "4cb91fe84d5275ce7d07828e887a10a13883dc13",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "7a6bd979-4a1a-4d07-9c28-ae0d488a92b4"
+      ],
+      "method": "Demander une seule fois par document les groupes de mentions du même événement, sans causalité. Propager ensuite au maximum les scores causaux entre groupes, sans suppression interne et sans fermeture additionnelle au-delà des groupes fournis.",
+      "evaluation_scope": "Gate intrinsèque fixé à 60 % de précision des liens de coréférence. Le run vise 120 documents ; 116 sont complets, dont tous ceux de TEST-S40, D15 et CONF40. DEV25 reste incomplet.",
+      "reported_controls": "Séparer échec global du processus et complétude des sous-ensembles. Comparer les liens aux chaînes ECB+ ; les scores causaux après échec du gate sont exploratoires, pas une promotion.",
+      "consolidated_outcome": "Précision TEST-S40 54,86 %, sous le gate. Fusion+groupes F1 48,88, +0,24 [−1,25 ; 1,58] en diagnostic. Aucun avantage validé ; pas de métrique DEV25 complète inventée.",
+      "source_artifacts": [
+        "jev-v1/round3/round3-results-report.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/coref.py",
+        "experiments/jev/round3/materialize_t2.py"
+      ],
+      "description_sha256": "001da54d18c7c7b8cd6f2fae377ae69fa59f046f846e53b240278c2a7fd64e26"
+    },
+    {
+      "index": 21,
+      "id": "c5adf0b0-2e62-43fd-912d-9bbb9cd0d0a7",
+      "title": "R4-A Luna event semantics DEV44",
+      "branch": "orx/r4-a-luna-event-semantics-dev44",
+      "head_commit_at_snapshot": "e1c9baff072de16d8fb30ab261636070beb2f1b0",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "ca86b400-acac-407c-b440-4bdda95463f5"
+      ],
+      "method": "Modifier seulement les consignes Luna : identité stricte, distinction phases/sous-événements, motivation, réaction, facilitation, prévention et cohérence des participants. Maintenir démonstrations, sept lectures et fusion 0,39.",
+      "evaluation_scope": "DEV44, 44 documents de 22 topics, 21 832 candidats orientés ; contrôle de fusion 47,323. Développement déjà consommé, pas confirmation.",
+      "reported_controls": "Sélection de documents sans labels, d1 en cache ; résultat ROUND4_RESULT. Bootstrap documentaire et par topic ; IC 97,5 % également conservés pour les deux comparaisons R4 principales.",
+      "consolidated_outcome": "F1 44,318, −3,006 points. L'IC documentaire à 95 % [−7,157 ; 0,298] inclut zéro ; aucune amélioration à retenir.",
+      "source_artifacts": [
+        "synthese-globale-2026-10-29/recapitulatif-actualise-2026-10-30.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/round4_eval.py",
+        "prompts/esl_standard_eci_event_semantics.yaml"
+      ],
+      "description_sha256": "986a7e9c351f880d0cb8d7b301683319e26981e11bf2381081f65691b969480a"
+    },
+    {
+      "index": 22,
+      "id": "aac30ccd-4e1f-4020-9c28-34e93c7a96bb",
+      "title": "R4-B Luna structural contrastive demos DEV44",
+      "branch": "orx/r4-b-luna-structural-contrastive-demos-dev44",
+      "head_commit_at_snapshot": "93e284dc815f6d396bd11aa06c5216f65ab5da4c",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "6ce6a18b-692d-4cc3-86f5-b06701dd1596"
+      ],
+      "method": "Pour chaque cible, calculer sept caractéristiques publiques : nombre de mentions normalisé, fraction de paires intra-phrase, densité par phrase, répétition des surfaces et densités de mots causaux/temporels/modaux. Classer les démonstrations par cosinus, hors topic. Ajouter jusqu'à quatre négatifs gold des exemples, privilégiant même occurrence, voisin causal commun et même phrase.",
+      "evaluation_scope": "DEV44 identique à R4-A ; sept lectures, banque de 20 démonstrations et fusion 0,39. L'intervention combine sélection des exemples et négatifs : leurs effets ne sont pas séparés ici.",
+      "reported_controls": "Code de profile, negative_pairs et select_demonstrations relu ; exclusions de topic, départage déterministe par hash, candidats et contrôles vérifiés. Bootstrap apparié et correction à deux contrastes disponible.",
+      "consolidated_outcome": "F1 48,429 contre 47,323 ; +1,106 point, IC95 documentaire [−0,815 ; 3,656]. Signal de développement incertain ; il motive N3/N7/N9 sans être une victoire confirmée.",
+      "source_artifacts": [
+        "synthese-globale-2026-10-29/recapitulatif-actualise-2026-10-30.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/contrastive.py",
+        "pipelines/jev/round4_eval.py"
+      ],
+      "description_sha256": "e7d9f02e9d41e7bcfc9325a3ff7f78795845d5a3bfb08a68c7e97f0f323ae3d9"
+    },
+    {
+      "index": 23,
+      "id": "c5ead119-a20f-4a0f-b7bc-33b4760c8aee",
+      "title": "H2-D Harness² test-time harnessing, d1-ultra decision executor",
+      "branch": "orx/h2-d-harness-test-time-harnessing-d1-ultra-decis",
+      "head_commit_at_snapshot": "9ebcf9720d0eb57db7f29c8a5265f34aef053798",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "705c9838-0dcf-4875-bc97-dbbe3025937d",
+        "63f70f4f-5ab9-4822-858f-2c610f92ed69",
+        "f159c4f9-58f7-4fb4-8898-072ec5eb663f",
+        "9c35861e-10df-4bc9-8a72-fd993498e768"
+      ],
+      "method": "Une boucle Propose–Probe–Compose édite instructions et script de post-traitement de l'exécuteur d1. Éditeur/compositeur Luna ; bibliothèque d'expérience par topic ; k=1. Les annotations n'interviennent qu'après adaptation pour mesurer le F1.",
+      "evaluation_scope": "Huit documents DEV44 de quatre topics prévus ; sept disposent de la sortie finale. Comparaison du harness sélectionné au harness de base, bootstrap documentaire sur ces sept documents seulement.",
+      "reported_controls": "Les sorties de base correspondent exactement au cache R3. Traçage des étapes, éditions et fallbacks ; un document manque au stade final. Les échecs 401 et de transport antérieurs ne sont pas des résultats scientifiques.",
+      "consolidated_outcome": "Sur sept documents : F1 39,46→45,87, +6,41 [1,44 ; 14,30]. L'éditeur a surtout retrouvé la symétrisation OR déjà connue. Résultat partiel et petit échantillon, pas nouvelle amélioration confirmée de la fusion.",
+      "source_artifacts": [
+        "jev-v1/harness2-pilots/harness2-pilots-report.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "682d1e9fec257bf819c7ae1803897c3b242811965aefea7c86caa50f603e0871"
+    },
+    {
+      "index": 24,
+      "id": "e8b797ec-3933-4f23-92b3-3faf9c3a5dcc",
+      "title": "H2-L Harness² test-time harnessing, Luna LLM executor",
+      "branch": "orx/h2-l-harness-test-time-harnessing-luna-llm-execu",
+      "head_commit_at_snapshot": "ec2779f76b308e3f0414264d5ce6f6a94eb738e2",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "6de8dcd9-212c-47e3-a408-a296bcdbe675",
+        "36635dc6-82a4-487c-8e3d-d4a741e573cc"
+      ],
+      "method": "Même mécanisme, avec Luna documentaire sept lectures comme exécuteur. Les leviers sont le prompt, les règles, les skills/mémoires et un post-traitement des votes. Sélection sans accès aux labels de la cible.",
+      "evaluation_scope": "Huit documents communs au pilote H2-D ; comparer base et final sélectionné sur les huit complets.",
+      "reported_controls": "Base identique au cache R3 ; journaux des étapes INV/DOM/AGG et décisions KEEP_BASE. L'adaptation et l'évaluation sont deux étapes distinctes ; aucune sélection du meilleur harness selon le F1 cible.",
+      "consolidated_outcome": "F1 43,40→43,83, +0,43 [−5,79 ; 10,10]. Les modifications de domaine augmentent parfois la prudence et réduisent le rappel. Gain non établi.",
+      "source_artifacts": [
+        "jev-v1/harness2-pilots/harness2-pilots-report.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "0a939c1f5b44d463fa7ad7a6f7853c21a2d6443cb3aeac12720fe679d8b122d7"
+    },
+    {
+      "index": 25,
+      "id": "26772f64-c118-453a-b5fc-1fbbf3d9c14d",
+      "title": "H2-F Harness² on frozen Luna x d1 fusion, k=2, routed cheap proposers",
+      "branch": "orx/h2-f-harness-on-frozen-luna-x-d1-fusion-k-2-rout",
+      "head_commit_at_snapshot": "3728959d99169a57d841f34d7a0e3370d51efa87",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "718cb169-5d34-4619-bdc4-0ac967936084",
+        "30ddb304-00dc-4709-b76b-bf1a310e24a3"
+      ],
+      "method": "Donner à l'éditeur la fusion complète et son script de score, avec récursion k=2 et sélection sans labels entre deux finales. Router éditeurs, compositeur, sélecteur et réflecteur vers des modèles distincts ; conserver les fallbacks vers la base en cas d'étape invalide.",
+      "evaluation_scope": "Huit documents du même pilote ; base fusion 45,56. Rapporter aussi le sous-ensemble de sept documents H2-D sans le substituer à l'échantillon principal.",
+      "reported_controls": "Base reproduite exactement depuis les caches ; validation des blocs de réponse des agents. Trois documents perdent la sélection à cause des limites de clé/budget ; fallbacks et taux de sessions acceptées sont conservés.",
+      "consolidated_outcome": "F1 final 47,02, +1,46 [−4,23 ; 8,12]. Pilote techniquement incomplet dans ses sélections, sans gain robuste sur la fusion.",
+      "source_artifacts": [
+        "jev-v1/harness2-pilots/harness2-pilots-report.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "6072427fe3e9b5771caf47cc097c3a6d96e17bd915ab9f5aa1961776fde5a444"
+    },
+    {
+      "index": 26,
+      "id": "38e7efda-ffe4-4da8-b53e-f38cbe627144",
+      "title": "J2 DeepSeek verifier on the uncertain fusion band, DEV44",
+      "branch": "orx/j2-deepseek-verifier-on-the-uncertain-fusion-ban",
+      "head_commit_at_snapshot": "ccdaf3a5c8a4a0aeed21d301437f95bc49cf8cca",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "582ddbdd-9f2b-4878-bd7d-650e2874869b",
+        "42c1426c-7292-41a2-bfb4-01524a3b76e7"
+      ],
+      "method": "Rejuger uniquement les paires de score fusionné dans [0,25 ; 0,55). DeepSeek v4.1 flash, effort max, deux échantillons mélangés ; 1 089 paires non ordonnées, découpées en blocs de 64 maximum. Combiner score initial et score du juge par poids de {0 ; 0,25 ; 0,5 ; 0,75 ; 1}.",
+      "evaluation_scope": "DEV44, 44 documents/22 topics. Primaire : poids choisi hors topic, seuil maintenu à 0,39. Secondaire : ajustement conjoint poids/seuil hors topic. Le reste des décisions reste inchangé.",
+      "reported_controls": "Contrôle exhaustif des paires attendues : omission ou duplication fait échouer le jugement, sans défaut négatif. Première tentative interrompue sur une paire omise, puis réparation du transport/cache. Tests ciblés et scores sauvegardés ; contrôle de l'effort demandé et des tokens de raisonnement retournés.",
+      "consolidated_outcome": "Primaire F1 45,74 contre 47,32, soit −1,58 [−3,06 ; −0,36]. Secondaire réglé 49,31, exploratoire ; cette piste secondaire est ensuite évaluée dans J3 et n'est plus en attente de confirmation.",
+      "source_artifacts": [
+        "jev-v1/new-signal-judges/j1-j2-results-report.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "74552ac81593b5251fcea0c3d883d4ffcdaf53b31799564c116cd0633aead371"
+    },
+    {
+      "index": 27,
+      "id": "8cc07740-6959-4f55-b15a-021f515d0aae",
+      "title": "J1R Luna x DeepSeek max: high-precision coreference agreement DEV44",
+      "branch": "orx/j1r-luna-x-deepseek-max-high-precision-coreferen",
+      "head_commit_at_snapshot": "ca89eb086319761575ef3b65c039be0f6d1ef51f",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "87a81f5a-c099-4c0c-a201-35d99c7d6a9e"
+      ],
+      "method": "Prendre les liens de groupes Luna déjà calculés et demander à DeepSeek max de confirmer l'identité événementielle. Fermer les liens conservés en composantes ; exiger 85 % de précision intrinsèque avant toute propagation causale.",
+      "evaluation_scope": "DEV44 ; 442 liens Luna, 315 liens gold, 43 chunks DeepSeek. La question est d'abord la fiabilité des groupes, pas le F1 causal.",
+      "reported_controls": "Récupération d'un reçu batch Luna déjà payé, sans nouvelle génération ; validation des chunks et de l'identité servie. Le gate empêche explicitement l'évaluation causale quand la précision est insuffisante.",
+      "consolidated_outcome": "Liens d'accord après fermeture : 193/362 corrects, précision 53,31 %. Gate 85 % échoué. Aucun F1 causal calculé : l'échec porte sur le préalable intrinsèque.",
+      "source_artifacts": [
+        "jev-v1/new-signal-judges/j1-coref-agreement-result.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "d2a6e5d9cb2f2519b91d2de11c01be2095e2d8b0fcba492a7c9fcd48c9325f73"
+    },
+    {
+      "index": 28,
+      "id": "0be04739-534b-4a5f-a098-0573be60b6cc",
+      "title": "J3-A RES30 confirmation of frozen J2 calibrated mean",
+      "branch": "orx/j3-a-res30-confirmation-of-frozen-j2-calibrated",
+      "head_commit_at_snapshot": "7ddf032e8f0af4645e128de244b8bff061f3f6f6",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "8f7f88dd-6bed-456b-aad0-dd42fdd2643d",
+        "b14da22c-f858-4f44-b690-d63246d47127",
+        "a744a5b7-a6b5-43f2-bd1c-a7c5782f76b5"
+      ],
+      "method": "Ajuster sur DEV44 puis figer le mélange f/J2 : poids 0,5 et seuil 0,56 dans la bande ; hors bande, décision d'origine. Collecter les signaux d'un nouveau lot RES30 sans régler la règle sur ses labels.",
+      "evaluation_scope": "30 documents, 20 topics, 21 014 candidats ordonnés ; 767 paires non ordonnées dans la bande, deux jugements. Inférence partagée avec J3-B ; IC 97,5 % pour les deux comparaisons prévues.",
+      "reported_controls": "Après le run, découverte d'un gold canonique dans un seul sens comparé à des candidats symétriques. Correction déterministe du gold dans les deux sens, sans changement de prédictions ni nouveau seuil ; double vérification par métriques canoniques officielles et bootstrap. Les F1 bruts du journal sont invalides.",
+      "consolidated_outcome": "Résultat corrigé : base 36,0698, candidat 36,3525, +0,2827 point ; IC97,5 par topic [−3,4041 ; 2,8997]. Gain non confirmé. Utiliser le rapport corrigé et non les F1 initiaux.",
+      "source_artifacts": [
+        "jev-v1/new-signal-judges/res30/res30-results-report.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "d1693ab62f75fa46b7090567abcd97ea6f431fb5e8931057df3117845cf0308a"
+    },
+    {
+      "index": 29,
+      "id": "0a091e08-ee86-4b08-a41e-944b8e5ee36c",
+      "title": "J3-B RES30 confirmation of regularized score calibration",
+      "branch": "orx/j3-b-res30-confirmation-of-regularized-score-cal",
+      "head_commit_at_snapshot": "5c22dcba8598d1f63c3f4b1dc9a2b8df7f4a4142",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "0516bc85-715b-47b6-a144-aa276fdeb4f0",
+        "6f724d67-e29a-4ca5-9359-a4a07c5d3687"
+      ],
+      "method": "Apprendre sur DEV44 une régression logistique L2 sur les logits standardisés du score fusionné et du juge. Geler standardisation, coefficients et seuil 0,24 avant RES30. Préserver les décisions initiales hors bande.",
+      "evaluation_scope": "Même RES30 et mêmes inférences que J3-A ; aucune nouvelle collecte propre à B. Branche avec apprentissage supervisé des scores, même si les modèles API ne sont pas entraînés.",
+      "reported_controls": "Contrôle du gel avant labels de réserve et du partage d'inférence. Même correction de symétrie du gold que J3-A ; recalcul indépendant hors ligne sans refit.",
+      "consolidated_outcome": "F1 corrigé 35,9878 contre 36,0698, −0,0820 point ; IC97,5 par topic [−4,0831 ; 2,8881]. Pas de gain, pas de promotion.",
+      "source_artifacts": [
+        "jev-v1/new-signal-judges/res30/res30-results-report.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "059fb2cab7a538eb45d8072feeb285903bfad5adda9d95e5d380dc58e80c4f56"
+    },
+    {
+      "index": 30,
+      "id": "4e3309d0-10d4-4c59-b098-1b4cd01a6639",
+      "title": "J4-A DEV44 supervised logistic fusion, cached scores only",
+      "branch": "orx/j4-a-dev44-supervised-logistic-fusion-cached-sco",
+      "head_commit_at_snapshot": "58e0a09a3c20bd8e63c1b3f551481a84e2e6ac60",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "136a525c-465e-4e65-ac14-22a55b3893e9"
+      ],
+      "method": "Régression logistique L2=1 sur logits Luna et d1 symétrisés, sans score DeepSeek. Pour chaque fold topic, apprendre moyennes/échelles, coefficients et seuil uniquement sur les autres topics. Ajouter un témoin qui règle seulement le seuil.",
+      "evaluation_scope": "DEV44, 22 folds leave-one-topic-out, 10 916 paires canoniques. Développement exposé ; pas de RES30 et pas d'accès à la réserve.",
+      "reported_controls": "Six tests ciblés rapportés ; contrôle des statistiques d'apprentissage, des folds et des seuils. Reconstruction canonique indépendante des TP/FP/FN et IC ; garde réseau pour un calcul entièrement sur caches.",
+      "consolidated_outcome": "F1 46,759 contre 47,323 : −0,564 point ; IC97,5 par topic [−2,576 ; 1,838]. Aucune amélioration ; zéro nouvel appel API.",
+      "source_artifacts": [
+        "jev-v1/new-signal-judges/j4-offline-fusion/j4-offline-fusion-report.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "f119af8df8bf1d31b54fc14bddf783dbcef3ebd8a7db3ce6b80f04cf8a50f579"
+    },
+    {
+      "index": 31,
+      "id": "adf2136a-1962-47be-9e5f-387b85c52102",
+      "title": "J4-B DEV44 logistic fusion with pair structure, cached scores only",
+      "branch": "orx/j4-b-dev44-logistic-fusion-with-pair-structure-c",
+      "head_commit_at_snapshot": "093d4e22cf749bd5fe0df6c2aa058953aae7208e",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "040544e6-cb82-472f-b1be-16ec3ceb4e4c"
+      ],
+      "method": "Même apprentissage que J4-A, plus désaccord des modèles, asymétrie des orientations, distances de phrase/tokens, même phrase et même surface. Pas d'identifiant topic ni de coréférence gold comme feature.",
+      "evaluation_scope": "Mêmes 22 folds DEV44 et mêmes contrôles ; seule la liste de caractéristiques change. Comparaison exploratoire à la fusion gelée et au témoin de seuil.",
+      "reported_controls": "Même contrôle training-only de la normalisation et du choix du seuil ; six tests de la famille J4 et reconstruction indépendante. Les petits écarts d'arrondi entre plateformes ne changent pas décisions/F1/IC.",
+      "consolidated_outcome": "F1 45,185, −2,138 points ; IC97,5 [−4,397 ; 0,232]. Les features ajoutées n'améliorent pas ce protocole.",
+      "source_artifacts": [
+        "jev-v1/new-signal-judges/j4-offline-fusion/j4-offline-fusion-report.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "a70fbfdf95dbca8e401e50b3f133d67f09f725f2a9bfa5e0350f30c6af2a1900"
+    },
+    {
+      "index": 32,
+      "id": "f644c423-1a72-44a5-8b37-52e136998f86",
+      "title": "K0 Luna per-pair decision, 1-doc test",
+      "branch": "orx/k0-luna-per-pair-decision-1-doc-test",
+      "head_commit_at_snapshot": "0534f92f20f796917e6ba369280a47f532cfddcd",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "f526f74c-454f-48f5-bf1f-73e6bd67adf2"
+      ],
+      "method": "Un appel batch high par paire non ordonnée ; sortie causal, direction et probability. Cette dernière était supposée représenter une probabilité causale, mais le modèle l'utilise parfois comme confiance dans sa réponse négative.",
+      "evaluation_scope": "Un document DEV44 déjà évalué, 23_9ecbplus.xml ; 120 paires. Smoke technique et estimation de coût avant le round à dix documents.",
+      "reported_controls": "Validation live du transport, du parsing et de la facturation ; inspection des réponses montrant causal=false avec probability=99. Le primaire utilise le booléen ; les analyses probabilistes non corrigées sont non interprétables.",
+      "consolidated_outcome": "F1 75,68 contre 94,44 pour la fusion sur ce document facile. Ce n'est pas une performance corpus ni une estimation stable de l'écart.",
+      "source_artifacts": [
+        "synthese-globale-2026-10-29/recapitulatif-actualise-2026-10-30.md"
+      ],
+      "code_paths": [
+        "prompts/esl_luna_round_k.yaml"
+      ],
+      "description_sha256": "04e75e8233b0357fb3366631c925ed98c91116ae3f7cf0f0539ca7c8f4f5a782"
+    },
+    {
+      "index": 33,
+      "id": "ec936f5a-5e3b-4ea3-841f-ed31d44e1852",
+      "title": "KA type-elimination cascade on fusion band, DEV10",
+      "branch": "orx/ka-type-elimination-cascade-on-fusion-band-dev10",
+      "head_commit_at_snapshot": "5edbde6e22867bc40e083381c33ff9c3f12a559b",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "6b39e7f7-371f-4b1a-b86b-fd0bc526a4a1"
+      ],
+      "method": "Sur la bande de fusion [0,2 ; 0,7), interroger huit types : IDENTITY, PART_OF, TEMPORAL_ONLY, DIFFERENT_INCIDENT, DIRECT_CAUSE, ENABLEMENT, REACTION, PREVENTION. Éliminer progressivement des types puis choisir entre les deux derniers. Garder la décision de fusion hors bande.",
+      "evaluation_scope": "Dix documents DEV44, 417 paires dans la bande ; 3 851 appels chat. Comparaison appariée au F1 fusion 50,00 avec bootstrap documentaire.",
+      "reported_controls": "Traçage des étapes et des types finaux ; candidats et contrôles communs à KB/KC/KD. Pas d'apprentissage des règles à partir des labels de ces dix documents.",
+      "consolidated_outcome": "F1 44,89, −5,11 [−9,77 ; −1,20]. 305/417 paires finissent dans un type causal : hausse des faux positifs. La cascade n'agit pas comme un filtre conservateur.",
+      "source_artifacts": [
+        "synthese-globale-2026-10-29/recapitulatif-actualise-2026-10-30.md"
+      ],
+      "code_paths": [
+        "prompts/esl_luna_round_k.yaml"
+      ],
+      "description_sha256": "74a881938cab020f97de13e99e5577fd8505f4bfa3e60bd41404855b49ca31ab"
+    },
+    {
+      "index": 34,
+      "id": "b68899f8-464f-4f60-8dad-e9e29fb3db53",
+      "title": "KB event-centric cause proposer, DEV10",
+      "branch": "orx/kb-event-centric-cause-proposer-dev10",
+      "head_commit_at_snapshot": "9b341c4f84f04e906fb1b4cca37bed895f5e9cec",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "8d22731d-0379-490f-b136-f7af0c15365e",
+        "27fd79e9-7c2e-47ef-9c01-6099286403e3"
+      ],
+      "method": "Un appel par mention, répété trois fois : demander quelles mentions la causent, la facilitent, la motivent ou la préviennent. Ajouter à la fusion les paires proposées dans au moins deux réponses sur trois ; seuils 1/3 et 3/3 secondaires.",
+      "evaluation_scope": "Les mêmes dix documents du round K ; sortie documentaire centrée sur la cible, 645 appels batch. Comparer sur tous les candidats, y compris les non proposés.",
+      "reported_controls": "Réparation d'une connexion SQLite partagée entre threads par clients appropriés aux documents. Cache conservé ; contrôle des doublons, des identifiants et de la règle d'union.",
+      "consolidated_outcome": "F1 46,74 contre 50,00, −3,26 [−10,90 ; 4,83]. Ajouts non orientés : 25 TP pour 125 FP. Les vrais ajouts ne compensent pas le bruit.",
+      "source_artifacts": [
+        "synthese-globale-2026-10-29/recapitulatif-actualise-2026-10-30.md"
+      ],
+      "code_paths": [
+        "prompts/esl_luna_round_k.yaml"
+      ],
+      "description_sha256": "9eb780f40648045af6f9f8fd43a25fca5b847d11c3fa25b40a9516a5a86c4363"
+    },
+    {
+      "index": 35,
+      "id": "a5ca0832-24c6-494e-95d9-ab8a0bead025",
+      "title": "KC event-level decisions copied to mentions, DEV10",
+      "branch": "orx/kc-event-level-decisions-copied-to-mentions-dev1",
+      "head_commit_at_snapshot": "8408f74817e7ac68eeee8899c4cb7d52eda77ead",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "52be4709-d8f6-4cee-a36f-0b99a386c96d",
+        "1083dd4e-0940-47f1-bcfc-06ab2aab848f"
+      ],
+      "method": "Produire trois regroupements de mentions ; conserver les liens d'identité vus au moins deux fois, puis composantes connexes. Interroger chaque paire d'événements avec toutes ses mentions et diffuser la décision à toutes les paires de mentions. Les paires internes aux groupes deviennent non causales.",
+      "evaluation_scope": "Même DEV10 que KA/KB ; mesurer intrinsèquement les groupes contre ECB+, puis F1 causal contre les contrôles. 1 383 appels batch.",
+      "reported_controls": "Réparation SQLite avant l'exécution finale ; contrôle des groupes, de la diffusion et des paires originales. Les variantes fondées sur le champ probability de K0 sont explicitement exclues d'une lecture probabiliste naïve.",
+      "consolidated_outcome": "Précision de regroupement 38,13 % ; F1 causal 39,42 contre 50,00, soit −10,58 points. La diffusion amplifie les erreurs d'identité.",
+      "source_artifacts": [
+        "synthese-globale-2026-10-29/recapitulatif-actualise-2026-10-30.md"
+      ],
+      "code_paths": [
+        "prompts/esl_luna_round_k.yaml"
+      ],
+      "description_sha256": "5388b1c3a696a02cde51f30ed70afe93a8646e6ea796ac5fd238710343e560c7"
+    },
+    {
+      "index": 36,
+      "id": "28784112-0cb3-4466-9a0b-56f5aeba0b57",
+      "title": "KD diverse no-training ensemble (fusion signals + KC + KB), DEV10",
+      "branch": "orx/kd-diverse-no-training-ensemble-fusion-signals-k",
+      "head_commit_at_snapshot": "8cecbcd69a8d9cef1622cc2dc8eebe2f5b0c8943",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "41d741cb-5a24-43bf-a423-1a9364d5866f"
+      ],
+      "method": "Rejouer les caches Luna documentaire, d1, KC et KB. Primaire : moyenne Luna/d1/score KC au seuil 0,39, puis union avec les propositions KB à 2/3. Secondaires : moyenne seule et votes binaires 2/4 ou 3/4. Règles fixes, sans apprentissage.",
+      "evaluation_scope": "DEV10 identique ; aucune inférence nouvelle. K1 n'est pas inclus dans cet ensemble.",
+      "reported_controls": "2 028 cache hits, zéro nouvel appel et zéro coût API frais ; rapprochement de chaque signal et des conventions de confiance de K0. Bootstrap apparié contre la fusion.",
+      "consolidated_outcome": "Primaire F1 42,42 contre 50,00. Vote 3/4 : 49,13, encore inférieur. Aucun ensemble testé ne dépasse la fusion sur ce périmètre.",
+      "source_artifacts": [
+        "synthese-globale-2026-10-29/recapitulatif-actualise-2026-10-30.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "dfef547c86c9e514ce9a489ced98a493232bd638a2cf51356171750272827f73"
+    },
+    {
+      "index": 37,
+      "id": "5a28e40b-a7d0-445b-9ea2-7427f7764149",
+      "title": "K1 Luna per-pair decision, DEV10",
+      "branch": "orx/k1-luna-per-pair-decision-dev10",
+      "head_commit_at_snapshot": "4d091c044b76b554a0cc8e8c91d2c39279bec56a",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "591a2c21-7768-4201-b4db-23e6210ae362"
+      ],
+      "method": "Étendre K0 aux dix documents du round K : un booléen causal par paire non ordonnée, effort high. Pour les secondaires, convertir la confiance dans la réponse en score causal selon le booléen, puis tester une combinaison avec la fusion.",
+      "evaluation_scope": "Même DEV10, contrôle fusion 50,00. Ce run est désormais terminé ; les anciens rapports le donnant « encore en file » sont dépassés.",
+      "reported_controls": "Batch livré, clients par document et cache de la réparation KB ; lecture du JUDGE_RESULT final. Le booléen reste le primaire ; la confiance auto-déclarée n'est pas une probabilité calibrée.",
+      "consolidated_outcome": "F1 Luna par paire 40,41 ; combinaison figée avec fusion 42,55. Aucun avantage de cette formulation générique par paire.",
+      "source_artifacts": [
+        "synthese-globale-2026-10-29/recapitulatif-actualise-2026-10-30.md"
+      ],
+      "code_paths": [
+        "prompts/esl_luna_round_k.yaml"
+      ],
+      "description_sha256": "fb8e6e62e0f8b889d6273fb64d952f3faedd460167306e879e2c5681bccda91d"
+    },
+    {
+      "index": 38,
+      "id": "519ac1f5-34cf-40a7-9f6d-636adcfa070d",
+      "title": "H1 Haiku 5.5 xhigh x d1-ultra frozen fusion, ESC train233 + CTB183",
+      "branch": "orx/h1-haiku-5-5-xhigh-x-d1-ultra-frozen-fusion-esc",
+      "head_commit_at_snapshot": "36de1a08bc427fb8936a34dabbfeb0035ba47b8f",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC et CTB",
+      "run_ids": [
+        "a7f7bbd5-b115-4926-850a-af6eb7f44776",
+        "0fe86c46-fe57-4e60-bbb7-f797cf5df371"
+      ],
+      "method": "Remplacer Luna par Haiku 5.5 batch, xhigh ; conserver sept passages, une démonstration par passage et les prompts propres au corpus. Calculer aussi d1 Noul et appliquer la fusion 0,39 sans refit. Sur ESC, démonstration hors topic ; sur CTB, autre document.",
+      "evaluation_scope": "ESC train233, 122 130 paires ordonnées ; CTB183, 19 442 candidats dans le résumé FUSION_RESULT effectivement relu. Une synthèse antérieure indiquait 19 410 ; ce chiffre est corrigé ici au profit du journal source. Comparaisons fusion/d1/lecteur seul appariées à l’intérieur de chaque corpus ; toute équivalence avec une autre révision doit être vérifiée.",
+      "reported_controls": "Reprise après verrou SQLite ; sorties Haiku et CTB d1 réutilisées depuis le cache. Résumé effectif par corpus, modèle servi, TP/FP/FN et bootstrap documentaire relus. DeepSeek historique n'est qu'une référence non appariée, prédictions originales absentes.",
+      "consolidated_outcome": "ESC : fusion 43,27, Haiku seul 42,78, d1 35,31 ; gain fusion/Haiku incertain. CTB : Haiku seul 62,57, fusion 47,69 ; perte −14,88 [−18,60 ; −11,20]. La fusion ESC ne se transfère pas telle quelle à CTB.",
+      "source_artifacts": [
+        "jev-v1/rapport-global-projet/rapport-complet-2026-10-27.md",
+        "jev-v1/haiku-fusion-plan/h1-fusion-result.json"
+      ],
+      "code_paths": [
+        "experiments/jev/haiku/materialize.py"
+      ],
+      "description_sha256": "d041453aa07ba9ecf5b155c10d2fbe5a8d0b3d7713b66526501137fb66543be1"
+    },
+    {
+      "index": 39,
+      "id": "069fa421-bef4-497d-a48a-9510c476a316",
+      "title": "Qwen3.8-27B document vote baseline ESC train233 + CTB183, no decision model",
+      "branch": "orx/qwen3-8-27b-document-vote-baseline-esc-train233",
+      "head_commit_at_snapshot": "e0059db617bacb9ed3d4280947c01da495adfb1d",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC et CTB",
+      "run_ids": [
+        "d0ce6e2d-a39b-4770-891a-2394c17d596d",
+        "cf753794-588e-41d9-8129-1b6d0c22978f",
+        "8996f328-81a1-434c-8b72-e61fd9c86a33",
+        "adcf6397-6bd8-4b2c-a5b6-cbf8b3a95566"
+      ],
+      "method": "Exécuter Qwen3.8-27B sur le serveur local exposant une API compatible, avec les prompts documentaires ESC/CTB, sept lectures et vote historique. Pas de modèle de décision ni de fusion d1. Les versions ultérieures de la baseline doivent être distinguées de ce premier contrat.",
+      "evaluation_scope": "Objectif ESC233+CTB183 ; plusieurs essais d'installation, de transport ou de génération ont été interrompus. Un point de contrôle comporte neuf documents CTB entièrement terminés, sans résultat complet ESC.",
+      "reported_controls": "Manifeste des données, prompts, paramètres, contextes et checkpoints ; vérification de complétude avant calcul partiel. Les réponses tronquées ne sont pas des négatifs. Les runs échoués/annulés sont des incidents et pas des scores de modèle.",
+      "consolidated_outcome": "Pas de baseline complète de ce nœud. Les résultats CTB partiels sont conditionnés à la complétion et ne permettent pas de classer Qwen face à H1 sur CTB183.",
+      "source_artifacts": [
+        "jev-v1/qwen38-baseline/launch-protocol.md",
+        "jev-v1/qwen38-baseline/preliminary-d0ce6e2d/preliminary-report.md"
+      ],
+      "code_paths": [
+        "experiments/jev/qwen/run.py"
+      ],
+      "description_sha256": "e17014121d6c8cfea2563289297f5d955c03a555f6f6bd20f53f1f30235550f7"
+    },
+    {
+      "index": 40,
+      "id": "fe522ecd-a36a-46df-8ab9-f531b29c0fca",
+      "title": "Alias AR gate and smoke on frozen Luna DEV44",
+      "branch": "orx/alias-ar-gate-and-smoke-on-frozen-luna-dev44",
+      "head_commit_at_snapshot": "3d6120abad654eaf543ed055f364251be95a46cb",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "b81b023d-05a7-4146-8174-e4eed9b940ee",
+        "04704436-7ff7-4456-bc8c-44d306547de3"
+      ],
+      "method": "Comparer des handles auxiliaires d'alias au témoin apparié, sans changer les faits du document. Utiliser un nouveau schéma de sortie et un vote au moins 4/7 ; ce protocole ne reprend pas automatiquement la fusion historique 0,39.",
+      "evaluation_scope": "Smoke sur un document DEV44, sept réponses par bras. Gate de coût : différence d'usage de tokens au plus 1 %, aucune troncature. Première version plafonnée à 4 096 tokens, puis réparation bornée à 16 384 dans les deux bras avec messages inchangés.",
+      "reported_controls": "Kit initial : 37 tests reproduits, 25 régressions ajoutées, puis six régressions Luna rapportées. Contrôles des omissions de documents, types, cardinalités et coût non vide. Le premier score mécanique malgré gate échoué est rejeté ; le scorer est conditionné au gate PASS.",
+      "consolidated_outcome": "Version valide : 14 réponses complètes ; A F1 16,00 contre R 18,18, mêmes deux TP et trois FP nets de plus. Aucun handle utilisé dans les arêtes. Signal local défavorable, pas résultat sur DEV44 complet.",
+      "source_artifacts": [
+        "alias-followup-2026-10-27/rapport-resultats-smoke.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "50664024bce42beaf88e96d75cd34450b5357f7ee72ee0be77effd3a6859a498"
+    },
+    {
+      "index": 41,
+      "id": "927184b6-9039-4e7a-ba0f-2faa6fa56b39",
+      "title": "M0 couverture des paires: pilote O P M MP sur DEV consommé",
+      "branch": "orx/m0-couverture-des-paires-pilote-o-p-m-mp-sur-dev",
+      "head_commit_at_snapshot": "53f71274662e8ba0bfc948e2a1fb5acdf93d083f",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "19f7f9a9-4a9e-44b8-a151-dfe578971508"
+      ],
+      "method": "Construire quatre bras : O extraction ordinaire, P permutation bijective des IDs, M partition des candidats autorisés en sept blocs, MP combinaison. Conserver le texte et les candidats originaux ; inverser la permutation à la lecture des sorties et compter les expositions par paire.",
+      "evaluation_scope": "Pas de modèle dans ce nœud. Planification vérifiée sur les 61 065 paires non ordonnées d'ESC233 ; huit documents DEV44 prévus dans quatre strates de taille, soit 224 prompts rendus.",
+      "reported_controls": "15 tests rapportés et 150 graphes aléatoires : déterminisme, bijection, union exacte des masques et exposition unique des paires. Préflight des contextes par borne UTF-8+1 024, non par tokenizer exact. Un écart de taille de bloc jusqu'à deux est conservé et expliqué par les restes de strates.",
+      "consolidated_outcome": "Validation d'infrastructure et de couverture PASS ; zéro appel modèle et aucun F1. La qualité de M/P/MP est testée dans le smoke distinct.",
+      "source_artifacts": [
+        "couverture-sortie/m0-pilot/rapport-etape-m0-2026-10-27.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "e97f07a3b0297b7df8e4063e33cf425174359d513a10c9bc570a76b22d71eafa"
+    },
+    {
+      "index": 42,
+      "id": "3b57057e-71b0-4900-b8aa-2efd65d4f204",
+      "title": "P1 local causal proof transport A0 A1 A2 A3 DEV44 preparation",
+      "branch": "orx/p1-local-causal-proof-transport-a0-a1-a2-a3-dev4",
+      "head_commit_at_snapshot": "3663d645fb1e31e2dbb8246220ffb91ce08c62ae",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "ca2990dd-5338-418c-bfdb-abd220a32782",
+        "e390a333-f7da-4844-aaca-aac99607ac8f"
+      ],
+      "method": "Partir des positifs de la fusion gelée et extraire des certificats causaux textuels : source, preuve citée et liaison aux occurrences. Le plan compare ensuite identité locale A0, cadres A1, témoin transporté A2 et groupes historiques A3, avec vérification commune, sans récursion des ajouts.",
+      "evaluation_scope": "Extraction initiale sur DEV44 : 44 requêtes, plafond 8 192 tokens incluant raisonnement. Le gate de volume exige 50 possibilités exploratoires avant la comparaison finale des bras.",
+      "reported_controls": "Après échec, récupération GET-only des six lots déjà soumis, sans nouvelle génération. Contrôles des citations littérales, couverture des mentions, reçus et coût. 39 réponses complètes ; cinq troncatures ; 26 certificats structurels utilisables, sans certification sémantique indépendante.",
+      "consolidated_outcome": "Volume insuffisant, même en réparant les emplacements tronqués/invalides selon le diagnostic. Pas de registre final de candidats, pas de comparaison A0–A3, pas de F1. Le run de récupération terminé ne transforme pas l'essai scientifique en succès.",
+      "source_artifacts": [
+        "transport-preuve-locale/pilote-batch/echec-e390/collecte-finale/bilan-final-extraction.md"
+      ],
+      "code_paths": [
+        "experiments/jev/proof_transport_launch/controller.py",
+        "experiments/jev/proof_transport_launch/recover_only.py"
+      ],
+      "description_sha256": "0cda4d8d93273026413d22debf8d80130a9953c1070846afe891273847f9b7c8"
+    },
+    {
+      "index": 43,
+      "id": "2a1c6883-9130-4746-8064-2c19e131653f",
+      "title": "M0 smoke live O P M MP: 2 docs DEV, 56 requêtes",
+      "branch": "orx/m0-smoke-live-o-p-m-mp-2-docs-dev-56-requ-tes",
+      "head_commit_at_snapshot": "4811a1b9663e55e957d4587f6a59b90d2c678f76",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "08eaa19b-af21-400d-94c9-20e96d0dbb93"
+      ],
+      "method": "Exécuter sept lectures dans chaque bras. Pour chaque bras, ajouter à P0 uniquement les paires Z0, négatives sous P0 et à zéro vote Luna historique, proposées au moins une fois. Conserver les décisions P0 ; aucune fusion directe de V/E avec 0,39.",
+      "evaluation_scope": "Deux documents prédéfinis, 1 246 paires non ordonnées, 56 requêtes. Même calendrier de démonstrations hors topic ; contraste primaire M−O. Une paire voit sept sorties O/P et une seule exposition M/MP : les dénominateurs sont explicites.",
+      "reported_controls": "56 sorties complètes, dont quatre listes vides valides ; une paire hors masque filtrée. Reconstruction réponse→registre→ajouts avant gold ; couverture, permutation inverse et usage tokens contrôlés.",
+      "consolidated_outcome": "P0 F1 36,92 ; +O 44,12 ; +M 37,14 ; +MP 42,86 ; +P 34,29. Primaire M−O −6,97 points. Union O+MP à 49,32 est post hoc et consomme plus de calcul ; elle motive M1, sans promotion M0.",
+      "source_artifacts": [
+        "couverture-sortie/m0-pilot/rapport-resultats-m0-2026-10-27.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "8a07faf6eabe139c1ae5cb2927938551297de0764525a4dde24dee94dcf82020"
+    },
+    {
+      "index": 44,
+      "id": "4b3cd218-0007-4211-b414-4840b7175316",
+      "title": "Agent4 V0 auto-only placebo feasibility, cap 2 USD",
+      "branch": "orx/agent4-v0-auto-only-placebo-feasibility-cap-2-us",
+      "head_commit_at_snapshot": "e4f8086c031644ce0655a50601b9a1d383a847f8",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "fbd22a5d-8571-465a-8acf-f99e99eefd40",
+        "5100bfee-0c84-42d6-97ba-942d0218cc23"
+      ],
+      "method": "Pour une relation sélectionnée, demander une transformation cible et trois placebos comparables, en protégeant mentions et faits requis. Un auditeur automatique devait valider les éditions, puis l'extracteur mesurer la réponse sous transformation. Pas de nouvelle annotation humaine.",
+      "evaluation_scope": "Douze paires sélectionnées sans gold ; six disposent des snapshots requis, sur quatre documents. Six appels éditeur effectifs sous plafond 2 USD.",
+      "reported_controls": "Schéma, IDs et snapshots figés ; réponses stop et identifiants uniques. Premier échec au garde budgétaire avant POST, correction comptable sans modification des messages. Audit des hashes et des refus ; pas de changement opportuniste des cas après refus.",
+      "consolidated_outcome": "Six refus explicites de construire un ensemble valide ; zéro auditeur, zéro extraction transformée, zéro signature V0 et aucun F1. L'effet du contraste n'est pas mesuré : le générateur ne satisfait pas les contraintes de l'expérience.",
+      "source_artifacts": [
+        "empreinte-placebo-2026-10-27/auto-only-v0/rapport-final-pilote-automatique.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "8262b78b2e61fc40b8c930dae06d8c3ed1d54f566f159299c6c9e1f3c79123d8"
+    },
+    {
+      "index": 45,
+      "id": "6d8bda08-e1bf-49e3-9b4f-f4592a01cee9",
+      "title": "CTB cached attribution competition: F vs A offline, no annotation [root]",
+      "branch": "orx/ctb-cached-attribution-competition-f-vs-a-offlin",
+      "head_commit_at_snapshot": "167a1c2cd643acbdabfc91bb33b463ef82c4c1aa",
+      "archived_or_hidden": false,
+      "dataset_family": "CTB",
+      "run_ids": [
+        "e788ecb4-039e-40d4-89d3-9dcd230fdec0",
+        "9da90ea5-13b0-4bec-bc00-6433b4c42e9b"
+      ],
+      "method": "Réutiliser les votes Haiku H1 et construire des supports lexicaux déterministes. F ajoute selon les faits provisoires ; A ajoute une compétition tenant compte de la portée et des arguments. Garder mêmes candidats/supports et un témoin F ramené à la même couverture que A.",
+      "evaluation_scope": "Échantillons verrouillés de 20 unités de développement et 40 de test ; test à 370 paires. 32 seeds fixes pour l'égalisation de couverture ; ablation sans arêtes ; bootstrap par document. Calcul CPU hors ligne.",
+      "reported_controls": "Règles figées avant évaluation ; aucune nouvelle inférence, aucun label humain de vérité d'attribution. Une seule unité déclenche la concurrence. La première tentative a échoué sur le chemin de uv avant calcul, pas sur l'hypothèse.",
+      "consolidated_outcome": "Sur le test : référence 69,14 ; F 65,88 ; A 66,67. A et F à couverture égale donnent exactement les mêmes décisions sur les 32 seeds. Aucun apport propre de la concurrence montré.",
+      "source_artifacts": [
+        "agent3-auto-sans-annotation/rapport-pilote-automatique.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "d8045d5552c0583cceb674a29c5d1a3c4f05bdba29d5eff8c9538dbf6413c3dd"
+    },
+    {
+      "index": 46,
+      "id": "34b19e46-8794-48e4-b445-1f1402975a4e",
+      "title": "M1 diversité complémentaire C15 vs H7O+7MP DEV20 cap3USD",
+      "branch": "orx/m1-diversit-compl-mentaire-c15-vs-h7o-7mp-dev20",
+      "head_commit_at_snapshot": "4811a1b9663e55e957d4587f6a59b90d2c678f76",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [],
+      "method": "Annonce de C15 contre H7O+7MP à partir de M0. Le nœud reste sur le code M0, sans implémentation M1 effective.",
+      "evaluation_scope": "Aucun run attaché. L'expérience M1 exécutée est le nœud distinct de la fiche suivante.",
+      "reported_controls": "Comparaison des branches et du point d'entrée conservée dans le rapport M1 ; absence de duplication de génération.",
+      "consolidated_outcome": "Aucun score propre. Le titre d'une expérience ne démontre pas que son implémentation ou son exécution a eu lieu.",
+      "source_artifacts": [
+        "m1-diversity/m1-final-report.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "b7426648f6db1e56e31f33118251c48cb6a5e4d8311393eb30e2ab09b5fa2465"
+    },
+    {
+      "index": 47,
+      "id": "e06a915f-f97c-4f97-8310-bc3338d9b0e4",
+      "title": "M1 diversity C15 vs H7O7MP DEV20 execution a939 cap3USD",
+      "branch": "orx/m1-diversity-c15-vs-h7o7mp-dev20-execution-a939",
+      "head_commit_at_snapshot": "9cc4587780530f7061089867715de3e88d2e30cf",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "0be48b97-e191-455c-ad13-db1214fd22cd"
+      ],
+      "method": "C=15 lectures ordinaires ; H=7 lectures ordinaires communes +7 MP. Générer une seule fois les sept communes : 7+8+7=22 requêtes uniques/document. Ajouter uniquement à Z0 ; maintenir P0. Le nombre 15 du contrôle provient d'une allocation de coût préenregistrée, pas d'un réglage après résultats.",
+      "evaluation_scope": "20 documents de 20 topics, 4 347 paires non ordonnées ; 440 requêtes. Comparaison H−C, ajouts TP/FP, exposition valide par paire, 20 000 bootstrap topics et retraits de topics. Pas de sélection du meilleur passage.",
+      "reported_controls": "Gel/hashes avant évaluation ; inversion des permutations, déduplication, compteurs E_planned/submitted/delivered/valid. 18 troncatures au plafond 10 000, mises en quarantaine. Le ratio de coût pondéré H/C=0,8483 ne respecte pas ±5 % ; le protocole conserve INCONCLUSIF pour le test à coût égal.",
+      "consolidated_outcome": "F1 P0 42,50, C 42,39, H 41,09 ; H−C −1,302 [−3,646 ; 0,170]. H ajoute 17 TP et 97 FP. Pas de gain validé ; la complémentarité de certains TP n'assure pas leur utilité nette.",
+      "source_artifacts": [
+        "m1-diversity/m1-final-report.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "80b87d9def025d133ef1a73df86c5c0cf252b36180e95c969b9f1a97271f9fa4"
+    },
+    {
+      "index": 48,
+      "id": "b04d73c3-1dd9-42a9-a27b-d321278bb250",
+      "title": "Qwen3.8 xhigh temperature zero: resume ESC train233 and CTB183",
+      "branch": "orx/qwen3-8-xhigh-temperature-zero-resume-esc-train2",
+      "head_commit_at_snapshot": "38e222e3b926fe3ced3818fcddb6e3f64d963358",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC et CTB",
+      "run_ids": [
+        "a082a2f5-96b1-4c75-a89f-8bbed54d2ed2",
+        "6233eb3f-8d87-4e56-a769-70c6cea0ac5a"
+      ],
+      "method": "Déclarer le contrat local thinking xhigh et température 0, conserver prompts ESC/CTB, sept lectures, autres paramètres d'échantillonnage et checkpoints compatibles. Les namespaces de cache évitent de mélanger les configurations incompatibles.",
+      "evaluation_scope": "Objectif ESC233+CTB183 ; analyse préliminaire limitée aux documents entièrement terminés. Les changements demandés de température/thinking appartiennent à cette version, pas au premier Qwen.",
+      "reported_controls": "Vérification des corps de prompts avant reprise ; sources et paramètres effectifs dans le journal. Interruptions/annulations conservées. Les documents complets, les lectures isolées et les scores définitifs ne sont pas des unités interchangeables.",
+      "consolidated_outcome": "Exécution mixte ensuite arrêtée au profit de CTB seul. Pas de score final des deux corpus attribué à ce nœud ; consulter les bilans préliminaires et la continuation CTB.",
+      "source_artifacts": [
+        "jev-v1/qwen38-baseline/thinking-xhigh-relaunch.md",
+        "jev-v1/qwen38-baseline/preliminary-2026-10-31/comparison-report.md"
+      ],
+      "code_paths": [
+        "experiments/jev/qwen/run.py"
+      ],
+      "description_sha256": "035c9874a3bacfce3743e1d621c56f9e1901e839954d0c876bb407ae0c999f47"
+    },
+    {
+      "index": 49,
+      "id": "3b10f583-c944-4dfa-92ba-1a5ff8873bbd",
+      "title": "N1 automatic evidence and mention anchoring on M1 candidates",
+      "branch": "orx/n1-automatic-evidence-and-mention-anchoring-on-m",
+      "head_commit_at_snapshot": "c39ed37fca230d97427f90e1d9a11f89e870bbf8",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "82e1d497-7441-4115-b5a3-6cd499689b67"
+      ],
+      "method": "Reprendre 120 candidats distincts ordinaires/MP de M1 ; demander support causal et rattachement exact aux mentions. Les citations doivent être littérales et couvrir les occurrences requises. Comparer C filtré aux ajouts ordinaires communs +MP filtrés H, sans retirer P0.",
+      "evaluation_scope": "Même DEV20 que M1, donc exposé. 45 réponses de vérification ; critères gelés : gain au moins un point, utilité marginale positive et stabilité au retrait de chaque topic.",
+      "reported_controls": "Audit indépendant reconstruit décisions et métriques depuis les réponses, 45/45 complètes, aucune troncature. Contrôle du gel avant gold, des empreintes et du rapprochement coût batch. La validité d'une citation n'est pas une validation humaine du lien causal.",
+      "consolidated_outcome": "P0 F1 42,497 ; C 42,950 ; H 42,340. H−C −0,610, IC95 topic [−1,824 ; 0,463]. NO_GO opérationnel ; ajouts H 5 TP/22 FP, précision marginale 18,52 %.",
+      "source_artifacts": [
+        "campagne-sans-entrainement-2026-10-28/n1-ancrage/bilan-verifie.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "f2791dca96bb2f207198a93d60be57536ca908caa6ad1afdbd136a6bdd88d679"
+    },
+    {
+      "index": 50,
+      "id": "338d526f-2cd1-4e12-9783-10db01df8e32",
+      "title": "N2 automatic local proof transport v2 feasibility cap2USD",
+      "branch": "orx/n2-automatic-local-proof-transport-v2-feasibilit",
+      "head_commit_at_snapshot": "4d4a27c4d3e1c971fa974d789f0febde52eda9b1",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "e3d9885b-2297-48d0-84d7-fbffe8745723"
+      ],
+      "method": "Réemployer les 26 certificats structurels P1 ; vérifier séparément leur source. Générer lexicalement neuf substitutions et les soumettre aux quatre politiques : A0 identité d'occurrence, A1 compatibilité des cadres, A2 réutilisation du témoin causal, A3 groupes T2. Un vérificateur final commun décide l'admission ; pas de récursion.",
+      "evaluation_scope": "62 nouvelles réponses, neuf candidats sur cinq documents. Gate de rendement : au moins cinq ajouts sur trois topics. Le registre de candidats est gelé avant décision, et aucune lecture du gold n'est requise si les prédictions restent identiques à P0.",
+      "reported_controls": "62/62 réponses complètes ; audit indépendant des corps, IDs, citations, hashes et quatre bras. 24 sources sur 26 déclarées soutenues par le modèle ; cela n'est pas une précision sémantique certifiée. Les mêmes neuf candidats et le même vérificateur empêchent de confondre mécanisme et richesse du dossier.",
+      "consolidated_outcome": "Admissions pré-vérificateur 1/1/0/1 pour A0/A1/A2/A3 ; zéro ajout final partout. ΔF1 exactement nul par identité des prédictions ; précision des ajouts indéfinie. Mécanismes non départagés, pool lexical trop peu productif.",
+      "source_artifacts": [
+        "campagne-sans-entrainement-2026-10-28/n2-transport/bilan-verifie.md"
+      ],
+      "code_paths": [
+        "experiments/jev/n2_transport/n2.py",
+        "experiments/jev/n2_transport/test_n2.py"
+      ],
+      "description_sha256": "faa7c3bd55b1ea4caff2299e6056b715949be352758b2e280c738dde23eb2e7e"
+    },
+    {
+      "index": 51,
+      "id": "a44ecab3-6c74-4895-84e0-344510820848",
+      "title": "N5 cached Luna 1 3 7 pass fusion ablation",
+      "branch": "orx/n5-cached-luna-1-3-7-pass-fusion-ablation",
+      "head_commit_at_snapshot": "780c6eefff8556a1d277c8272cac010da4950839",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "ac747a2d-8ea7-4066-990c-f94539c3cc54"
+      ],
+      "method": "Rejouer les sept réponses Luna historiques de CONF40. Évaluer les sept singletons, les 35 triples et l'ensemble de sept ; ne choisir aucun meilleur sous-ensemble. Recalculer les votes et la fusion historique avec d1 identique et seuil 0,39.",
+      "evaluation_scope": "40 documents, 20 topics, déjà exposés. Rapporter séparément moyenne des F1 et F1 des comptes moyens, car ces opérations ne commutent pas. Bootstrap topics des différences fondées sur les comptes attendus.",
+      "reported_controls": "Probabilités reconstruites sur sept lectures identiques aux métadonnées, zéro écart. Entrées immuables, script sans client modèle, zéro appel frais. Le bootstrap utilise 2 000 tirages seed 20261028.",
+      "consolidated_outcome": "F1 moyen : 1 lecture 38,362 ; 3 lectures 40,779 ; 7 lectures 40,928. Perte moyenne à trois −0,149 point, économie de 57,14 % des appels Luna uniquement. Non-infériorité future non établie ; N8 la teste avec un vrai préfixe frais.",
+      "source_artifacts": [
+        "campagne-sans-entrainement-2026-10-28/n5-passes/rapport.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/n5.py"
+      ],
+      "description_sha256": "3aff211bb05e19f017769618540ee908139c32b72cc20e353769f3d23b7344ab"
+    },
+    {
+      "index": 52,
+      "id": "c007d4b4-6142-4b2d-a3a1-7da0e3c8716b",
+      "title": "N3 fresh paired ordinary versus contrastive demos DEV12",
+      "branch": "orx/n3-fresh-paired-ordinary-versus-contrastive-demo",
+      "head_commit_at_snapshot": "f2f58ed629268e44a20458a2e80174d12942c977",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "ff35cbc2-b157-4564-87c0-271081d105ff"
+      ],
+      "method": "Comparer trois lectures ordinaires, une démonstration positive hors topic par lecture, à trois lectures avec sélection structurelle et négatifs explicites. Même Luna high, sortie 32 768, d1 et fusion symétrique 0,39. Deux interventions restent empaquetées dans le bras contrastif.",
+      "evaluation_scope": "Douze documents de douze topics DEV exposés ; 72 requêtes, 4 656 candidats orientés. Primaire : delta F1 avec IC95 par topic ; gate ≥1 point et borne basse >0. Une seule réalisation par bras.",
+      "reported_controls": "72 sorties JSON strictes, aucune duplication/ID inconnu ; corps comparés aux hashes de préflight, exemples hors topic. Audit distinct reconstruit votes orientés, fusion, comptes, bootstrap et coût depuis les réponses brutes, sans appeler l'agrégateur du projet.",
+      "consolidated_outcome": "F1 45,473→49,513, +4,040 [−0,950 ; 10,428]. Gate non franchi malgré les retraits de topic favorables. Signal initial à répliquer, aucune promotion.",
+      "source_artifacts": [
+        "campagne-sans-entrainement-2026-10-28/n3-contrastes/bilan-verifie.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/n3.py"
+      ],
+      "description_sha256": "a414c8e07e62e7a8141841480e81b3048297e1d7f9199c46cb382a52d3efa494"
+    },
+    {
+      "index": 53,
+      "id": "3c1651c8-a305-44a9-a1ac-32096dc3359a",
+      "title": "N4 paired DeepSeek document reader versus Luna no training",
+      "branch": "orx/n4-paired-deepseek-document-reader-versus-luna-n",
+      "head_commit_at_snapshot": "f6f746a75a3e4088f2162fe03d01ac838de1cccf",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "c3a66705-3b67-4cde-869f-055cda7dab17",
+        "239d529e-1438-46bc-8417-7260f5c26fab"
+      ],
+      "method": "Donner les mêmes messages/démonstrations aux deux lecteurs, trois slots par document ; Luna batch et DeepSeek direct après rejet du transport batch DeepSeek. Effort high et plafond de complétion 32 768. Primaire lecteur seul, majorité 2/3 ; fusion secondaire déclarée séparément.",
+      "evaluation_scope": "Douze documents/12 topics, 72 réponses attendues. Exiger toutes les réponses complètes avant d'ouvrir le gold. Le secondaire utilise un vote non orienté par lecture, distinct de la fusion historique orientée.",
+      "reported_controls": "Audit brut : Luna 36/36 stop ; DeepSeek 12/36 stop et 24 length, sans contenu final. Raisonnement DeepSeek 99,788 % des tokens de complétion. Sorties gelées, metrics=null, aucun sous-ensemble complet scoré pour remplacer le primaire.",
+      "consolidated_outcome": "BLOCKED_VALIDITY ; aucun F1 comparatif. Le problème observé est le contrat de génération, pas une mauvaise qualité causale mesurée de DeepSeek.",
+      "source_artifacts": [
+        "campagne-sans-entrainement-2026-10-28/n4-lecteur/bilan-verifie.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "0c59b036f0a27f464965c91bba40ea09628ec5f353f7790876cf09699ee99bde"
+    },
+    {
+      "index": 54,
+      "id": "95286508-31f4-4318-9ea6-cb7fa3bb7392",
+      "title": "N6 CTB lexical anchoring question versus generic causal question",
+      "branch": "orx/n6-ctb-lexical-anchoring-question-versus-generic",
+      "head_commit_at_snapshot": "a98842f0fd399924e287e0963c82bb1eed42f909",
+      "archived_or_hidden": false,
+      "dataset_family": "CTB",
+      "run_ids": [
+        "9ad51ca1-9351-4428-bfe6-407ca4bd21be",
+        "80ac313f-82c7-4b4b-bc4e-015f1fdb71e7"
+      ],
+      "method": "Comparer avec d1 une question causale générique à une question exigeant un ancrage lexical CTB. Même contexte et une orientation canonique par paire ; seuil 0,5 dans les deux bras. Pas de transfert de la fusion ESC à 0,39.",
+      "evaluation_scope": "Sept documents CTB sélectionnés par métadonnées/hashes ; 73 paires, deux questions, 146 requêtes. Petit échantillon exposé, pas confirmation.",
+      "reported_controls": "Huit tests rapportés ; reçus durables avant POST, modèles et probabilités archivés. Premier incident avant POST, puis 60 réponses valides et 86 HTTP429. Les 86 coûts non retournés restent provisionnés. Inspection accidentelle de 12 labels après gel divulguée ; aucune sélection modifiée.",
+      "consolidated_outcome": "INCONCLUSIVE_INTEGRITY ; pas de score primaire. Les réponses manquantes ne sont ni négatives ni des erreurs de causalité.",
+      "source_artifacts": [
+        "campagne-sans-entrainement-2026-10-28/n6-ctb/rapport-n6.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "06ad971224c69691a3d987bee744de0e4f1cfd835e2a89d1b0f823a8043e2357"
+    },
+    {
+      "index": 55,
+      "id": "126ff578-40cb-4041-8f37-6b6aad85cf20",
+      "title": "N3 reproducibility audit of frozen paired guidance outputs",
+      "branch": "orx/n3-reproducibility-audit-of-frozen-paired-guidan",
+      "head_commit_at_snapshot": "3e72fdd554e12ff162e0e393fe07f71b9e7e8d4d",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "cbb76514-9cb5-4671-b334-ad18984bbb8a"
+      ],
+      "method": "Récupérer les sorties de N3 puis recalculer indépendamment son pipeline : parser les 72 réponses, reconstruire votes/fusion, comptes, bootstrap topics, retraits de topics et coûts. Ne pas modifier le nœud scientifique parent.",
+      "evaluation_scope": "Exactement les mêmes sorties que N3. Il s'agit d'un test de reproductibilité, pas d'une seconde réalisation stochastique ni d'une confirmation sur de nouveaux documents.",
+      "reported_controls": "324 morceaux d'export, SHA de l'archive et 99 fichiers du manifeste vérifiés. Le script d'audit n'appelle ni modèle ni agrégateur original ; l'inventaire du run de récupération indique zéro génération.",
+      "consolidated_outcome": "Résultat N3 reproduit exactement ; son statut reste inconclusif. Le nombre d'exécutions ne doit pas faire compter le +4,040 deux fois.",
+      "source_artifacts": [
+        "campagne-sans-entrainement-2026-10-28/n3-contrastes/bilan-verifie.md"
+      ],
+      "code_paths": [
+        "experiments/jev/n3/recover_audit.py"
+      ],
+      "description_sha256": "d2d91eb8509a3c5188e413ce0d673dea1dff90eacde64ea4c84ea9069765a3cc"
+    },
+    {
+      "index": 56,
+      "id": "2b118e89-feae-4028-8a5f-041b35fadc7a",
+      "title": "N7 two-schedule replication of packaged contrastive guidance DEV16",
+      "branch": "orx/n7-two-schedule-replication-of-packaged-contrast",
+      "head_commit_at_snapshot": "69b91eaa3b3028606086914b8f54bdaad18ee33b",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "350ed2fa-4dfa-4f8c-bed3-2edd259cb5ef"
+      ],
+      "method": "Conserver le paquet structure+négatifs N3 et le comparer au contrôle ordinaire sur deux calendriers frais, trois lectures par bras. Même d1 et fusion 0,39. Des prompts contrastifs identiques entre calendriers doivent tout de même produire des générations fraîches distinctes.",
+      "evaluation_scope": "Seize documents de seize topics, distincts des documents N3 ; 16×2 calendriers×2 bras×3 lectures=192 requêtes. Primaire : moyenne des deux écarts F1 ; gate ≥1 point, borne IC>0 et gain dans chacun des deux calendriers.",
+      "reported_controls": "Quatre tests ciblés et revue préflight rapportés ; 192 slots, 135 corps distincts, 64 lots terminés. Gate api_call=true/cache_hit=false, IDs de réponses distincts ; gel avant gold. Audit indépendant rejoue toutes les réponses ; bootstrap 20 000 topics.",
+      "consolidated_outcome": "Écarts −3,247 puis +4,329 ; moyenne +0,541 [−1,614 ; 3,372]. Aucun gain robuste. La variation ne peut pas être attribuée uniquement au décodage : calendrier et ordre de soumission font aussi partie des conditions.",
+      "source_artifacts": [
+        "campagne-suite-2026-10-28/n7-replication/bilan-verifie.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/n7.py",
+        "experiments/jev/n7/test_n7.py",
+        "experiments/jev/n7/audit_n7.py"
+      ],
+      "description_sha256": "d3b3774342237ab5fd992f5989236fcb841bcb1a5edef4fa72107d46ba1afe24"
+    },
+    {
+      "index": 57,
+      "id": "2483cd7a-30a8-4836-8f97-06386dd31d05",
+      "title": "N8 fresh nested three versus seven Luna reads",
+      "branch": "orx/n8-fresh-nested-three-versus-seven-luna-reads",
+      "head_commit_at_snapshot": "16092e10a4156f12078fc8b3d590f8bfea9524ec",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "fb701e7a-0619-4fbb-9e2a-fa5775588b83"
+      ],
+      "method": "Produire un seul calendrier frais de sept lectures ordinaires ; la variante à trois utilise exactement les trois premières réponses, pas un sous-ensemble choisi après les scores. Maintenir d1, fusion et seuil 0,39.",
+      "evaluation_scope": "Huit documents/topics ; 56 requêtes. Test de non-infériorité avec marge préfixée d'un point F1. Documents distincts de N7, mais topics pas nécessairement disjoints.",
+      "reported_controls": "Quatre tests ciblés et intégration synthétique 56 sorties rapportés ; 56/56 réponses réelles complètes. Audit brut des 21 fichiers du manifeste et vérification du partage exact du préfixe ; bootstrap par topic.",
+      "consolidated_outcome": "F1 3 lectures 35,685 contre 7 lectures 36,364 ; Δ −0,679 [−3,174 ; 0,292]. La borne basse dépasse la perte tolérée : non-infériorité non établie. Ce n'est pas une preuve d'infériorité universelle.",
+      "source_artifacts": [
+        "campagne-suite-2026-10-28/n8-passes/bilan-verifie.md"
+      ],
+      "code_paths": [
+        "experiments/jev/n8/n8.py",
+        "experiments/jev/n8/test_n8.py",
+        "experiments/jev/n8/audit_n8.py"
+      ],
+      "description_sha256": "dcee092cf563962ecec09e57dc8ec30a384e92794dec9937aee940cbb60c6afd"
+    },
+    {
+      "index": 58,
+      "id": "c2fc283c-e85d-40e6-b231-00aa5759a96a",
+      "title": "N9 factorial structural retrieval and explicit negatives two-schedule DEV10",
+      "branch": "orx/n9-factorial-structural-retrieval-and-explicit-n",
+      "head_commit_at_snapshot": "342709d8b29933db40c64af365f656dc4900ee17",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "d9b0820c-37fb-47a5-bfb9-cf18ef8c2e16"
+      ],
+      "method": "Croiser R0/R1 (exemples aléatoires ou récupération structurelle) et N0/N1 (positifs seuls ou négatifs explicites). Les exemples sont identiques entre N0 et N1 d'un même choix R. Garder Luna high, trois lectures, d1 et fusion 0,39 ; mélanger bras et calendriers dans les lots par document.",
+      "evaluation_scope": "Dix documents/topics, deux calendriers : 10×2×4×3=240 générations. Contrastes déclarés : effets principaux, interaction et trois variantes face à R0N0, avec correction de multiplicité.",
+      "reported_controls": "Huit tests et intégration synthétique à 240 sorties rapportés ; 240 vraies réponses complètes et IDs uniques. Audit autonome des réponses, requêtes, hashes, décisions et coûts. Les interruptions de suivi SSH n'ont entraîné ni nouvelle soumission ni nouvelle génération.",
+      "consolidated_outcome": "Face au témoin, négatifs seuls +0,503 ; structure seule −1,041 ; paquet complet −1,152 point en moyenne. Tous les IC corrigés incluent zéro. Aucun composant retenu ; les facteurs peuvent enfin être distingués, sans effet robuste démontré.",
+      "source_artifacts": [
+        "campagne-composantes-2026-10-28/n9-factoriel/bilan-verifie.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/n9.py",
+        "experiments/jev/n9/test_n9.py",
+        "experiments/jev/n9/audit_n9.py"
+      ],
+      "description_sha256": "263a2926bcbae200c0a4e17b8687b45022feae49f67cac798d3258166e061d7f"
+    },
+    {
+      "index": 59,
+      "id": "bfe65f5c-1775-4082-b398-94ba4b520a71",
+      "title": "N10 cached six-read stabilization versus all three-read subsets",
+      "branch": "orx/n10-cached-six-read-stabilization-versus-all-thr",
+      "head_commit_at_snapshot": "1010fcd3d0195181267d021f37f21ae9d0ab25e5",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "8354656e-4a7e-4019-8a4a-8b649fb9d257"
+      ],
+      "method": "Réutiliser les deux calendriers de N7 pour obtenir six lectures par bras/document. Comparer les six à la moyenne de chacun des 20 sous-ensembles de trois ; refaire cette moyenne à chaque bootstrap. Comparer aussi six contrastives à six ordinaires.",
+      "evaluation_scope": "Seize documents/topics ; 192 réponses déjà payées. Trois contrastes exploratoires, correction Bonferroni, IC 98,3333 %. Ne pas choisir le meilleur triple ni requalifier l'analyse en confirmation de N7.",
+      "reported_controls": "Six tests ciblés rapportés ; audit indépendant des 42 systèmes de prédictions (21 par bras), gel avant gold. Exécution sans client réseau ; les très petits écarts d'arrondi d'un Python ancien sont distingués des changements de décisions.",
+      "consolidated_outcome": "Six−moyenne des triples : ordinaire +0,161 [−1,539 ; 2,538], contrastif +0,544 [−0,246 ; 1,460]. Aucun candidat. Zéro appel frais ne signifie pas que six lectures seraient gratuites en production.",
+      "source_artifacts": [
+        "campagne-composantes-2026-10-28/n10-stabilite/bilan-verifie.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/n10.py",
+        "experiments/jev/n10/test_n10.py",
+        "experiments/jev/n10/audit_n10.py"
+      ],
+      "description_sha256": "eba2651d5fedc1ef8ec18dd26cbc06f45e3beadf92da5bc6e6f964fbc9518ce9"
+    },
+    {
+      "index": 60,
+      "id": "4254c7f2-ca34-437f-8f28-d61a016ca5ec",
+      "title": "N11 cached exact stopping and full-run readiness inventory",
+      "branch": "orx/n11-cached-exact-stopping-and-full-run-readiness",
+      "head_commit_at_snapshot": "b73126218ae6623db94eb45c805691ab11b5cf16",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "005dff89-b55e-42d8-b81f-63e160fb83ff"
+      ],
+      "method": "Après k lectures, borner le score final à sept en supposant les futurs votes tous nuls ou tous positifs. Dénominateur toujours sept ; arrêter un document seulement quand toutes ses paires sont irrévocablement classées. Aucun changement de prompt ou de seuil.",
+      "evaluation_scope": "Rejeu de deux cohortes compatibles séparées : CONF40 historique et DEV8 N8 frais. Mesures : appels économisés, tokens historiques évités et égalité exacte des décisions. Gate de poursuite : au moins 20 % d'appels économisés.",
+      "reported_controls": "Replay indépendant en arithmétique rationnelle, sans gold ; vérification des cas de frontière >=0,39 et de la reconstruction de toutes les décisions finales. Inventaire séparé de la disponibilité des caches pour un éventuel corpus complet.",
+      "consolidated_outcome": "CONF40 : 18/280 appels économisés, 6,43 % ; DEV8 : 9/56, 16,07 %. Zéro décision changée, gate de 20 % non atteint. Ce test mesure une économie exacte, pas un gain F1.",
+      "source_artifacts": [
+        "campagne-suite-2026-10-30/n11-arret-exact/bilan-verifie.md"
+      ],
+      "code_paths": [
+        "experiments/jev/n11/main.py",
+        "experiments/jev/n11/test_n11.py"
+      ],
+      "description_sha256": "a3bf6c1add9d249a1521fe1030f0b7d60ffbbb9b2267f834e8f0bdde43ca73e4"
+    },
+    {
+      "index": 61,
+      "id": "bdbab303-7898-4fb0-a9a9-676bda82b084",
+      "title": "N12 occurrence representation paired four-document smoke",
+      "branch": "orx/n12-occurrence-representation-paired-four-docume",
+      "head_commit_at_snapshot": "bdb987d3acf93a1cf681d093583baee2d574e6b8",
+      "archived_or_hidden": false,
+      "dataset_family": "ESC",
+      "run_ids": [
+        "f5f58d8c-d3ce-4c2f-b2bd-d6dcc8ca9578"
+      ],
+      "method": "Trois vues déterministes : original ; local, union des phrases de toutes les mentions et de leurs voisines ±1, avec marqueurs d'omission ; table, texte intégral suivi de ID/phrase/surface pour chaque occurrence. Aucun regroupement d'événements ni renumérotation. Garder les mêmes démonstrations dans les trois bras.",
+      "evaluation_scope": "Quatre documents ESC exposés, deux calendriers, trois lectures par vue : 72 requêtes, quatre lots mixtes de 18. Même fusion Luna×d1 à 0,39 ; smoke technique/exploratoire sans promotion.",
+      "reported_controls": "Quatre tests de contrat, dont intégration synthétique à 72 sorties. Assertions : conservation de toutes les mentions/candidats, texte marqué d'origine exact, exemples hors topic et préfixes partagés. 72 réponses réelles complètes et uniques ; audit brut indépendant des votes, F1 et coûts.",
+      "consolidated_outcome": "Local : +4,566 puis +1,094 points, moyenne +2,830 ; table : moyenne −0,514. Petit signal sur quatre documents, sans généralisation. C'est une vue documentaire globale réduite, pas un prompt distinct par paire.",
+      "source_artifacts": [
+        "campagne-suite-2026-10-30/n12-representations/bilan-verifie-2026-10-31.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/n12.py",
+        "experiments/jev/n12/test_n12.py"
+      ],
+      "description_sha256": "1ad6f6d06ec7dfa94ce15f478988d7620f17049dd3eee505b14fbfba357e28ef"
+    },
+    {
+      "index": 62,
+      "id": "0594a3dc-b551-4b9a-9005-82ed671be484",
+      "title": "N13 Qwen local occurrence representations DEV40 after existing baseline",
+      "branch": "orx/n13-qwen-local-occurrence-representations-dev40",
+      "head_commit_at_snapshot": "7c07872afbc1e511193d3b3dbbae61f8d4097b13",
+      "archived_or_hidden": false,
+      "dataset_family": "CTB50 ; ESC40 envisagé initialement",
+      "run_ids": [
+        "09873773-2908-459d-bced-dc436272fb32",
+        "2d6766a2-3d10-4a32-a19f-e8009e35efbc",
+        "e163b810-e9f7-419d-b769-168265cf4c49",
+        "d9abfff4-3ef2-4b8d-9b39-6d267a218614"
+      ],
+      "method": "Plan initial ESC : quatre documents smoke puis DEV40, trois vues N12, deux calendriers de trois lectures, majorité 2/3 non orientée, sans d1. Le protocole exécuté a ensuite été déplacé vers 50 documents CTB : candidats intra-phrase, démonstrations hors fold ; 900 requêtes prévues, dont 72 de contrôle sur quatre documents avant les 828 restantes. Dans la version CTB, la vue locale présente séparément chaque phrase contenant des mentions, dans son ordre et avec ses IDs originaux ; elle diffère donc de l'union ±1 phrase de N12 sur ESC. Ne pas fusionner ces plans malgré le titre historique du nœud.",
+      "evaluation_scope": "CTB50 : Qwen déclaré qwen3.8-27b, température 0. Premier smoke xhigh sortie 32 768 ; second xhigh sortie 65 536, contexte 81 920, entrée 16 384 et concurrence 4 ; puis relance high demandée, distincte. Chaque phase exige toutes ses réponses valides. Primaire : majorité par paire non orientée, une voix par lecture.",
+      "reported_controls": "Tests de contrat présents : refus de fournisseur externe, 900 corps/72+828, déduplication des sens, tokenizer exact bloquant avant génération, contexte déclaré, exclusions de folds/démonstrations, gel avant gold et IDs uniques. Audits hors réseau des sorties réelles : 63/72 puis 69/72 valides ; le document difficile reste inclus. Les 828 requêtes principales restent bloquées dans ces deux smokes xhigh.",
+      "consolidated_outcome": "Le plan ESC40 initial n’a pas généré de résultat : arrêt pendant l’attente de la baseline. Sur CTB50, trois smokes de quatre documents échouent au gate : xhigh/32k 63/72 valides, xhigh/65k 69/72, high/65k 68/72. Les 828 appels de la phase suivante n’ont pas été lancés. Aucun F1 primaire CTB50. Le diagnostic post hoc high, sur trois documents complets (54 réponses, 84 paires, deux positifs), donne TP=0, FP=0, FN=2 et F1 global 0 pour toutes les vues et les deux calendriers. Le run high est done techniquement et BLOCKED_VALIDITY scientifiquement ; il n’est plus actif. Ce diagnostic partiel ne répare pas le gate.",
+      "source_artifacts": [
+        "campagne-suite-2026-10-30/n13-qwen-local/bilan-lancement-2026-10-31.md",
+        "campagne-suite-2026-10-30/n13-ctb50-2026-11-02/relance-65k/bilan-final.md",
+        "campagne-suite-2026-10-30/n13-ctb50-2026-11-02/evaluation-partielle-2026-11-03/bilan.md",
+        "campagne-suite-2026-10-30/n13-ctb50-2026-11-02/relance-high-2026-11-03/bilan-final.md"
+      ],
+      "code_paths": [
+        "pipelines/jev/n13.py",
+        "experiments/jev/n13/test_n13.py",
+        "experiments/jev/n13/ctb50/protocol.json"
+      ],
+      "description_sha256": "5bee20a3842f6a2f63fdc86a7cd3f6c5fdb446962100c24e62bf6a0c242cffc1"
+    },
+    {
+      "index": 63,
+      "id": "03e141a3-c891-4cbc-95f1-eba83ea3685a",
+      "title": "Qwen CTB completion only, ESC held until CTB finishes",
+      "branch": "orx/qwen-ctb-completion-only-esc-held-until-ctb-fini",
+      "head_commit_at_snapshot": "f80a1a4678dde0105a329cb63e200ff6b1c2eed5",
+      "archived_or_hidden": false,
+      "dataset_family": "CTB",
+      "run_ids": [
+        "b41468ee-d81e-4d4c-9df7-1f51309dbde9",
+        "5ac5da92-f52d-448b-bfbc-cc25fb9f89ce",
+        "02a7955d-ff08-4b38-82fe-8813a18a1db2"
+      ],
+      "method": "Arrêter le contrôleur mixte et ne reprendre que r7_ctb, avec xhigh, température 0, sept lectures et paramètres de la baseline inchangés. Réutiliser uniquement checkpoints et passes dont les corps/paramètres concordent exactement. ESC reste suspendu.",
+      "evaluation_scope": "CTB183 uniquement, sans ESC ; sept passes documentaires, reprises de checkpoints et de passes valides sur correspondance exacte des prompts.",
+      "reported_controls": "28 tests rapportés et 1 182 prompts source vérifiés identiques. Le garde de reprise autorise un sous-ensemble des datasets sans changer l'identité du corpus, du modèle ou de l'échantillonnage. Annulations liées aux redémarrages de service documentées sans les compter comme nouveaux résultats.",
+      "consolidated_outcome": "Pause demandée par l’utilisateur. 179/183 documents réussis, quatre en échec ; 18 passes partielles conservées et 10 réponses valides manquantes. Le processus distant a quitté avec code 1, malgré le statut running périmé. Le résumé à 183 lignes est incomplet et son F1 60,22 % inclut les quatre échecs, pas les seuls documents réussis.",
+      "source_artifacts": [
+        "jev-v1/qwen38-baseline/ctb-only-continuation-2026-11-01.json",
+        "jev-v1/qwen38-baseline/publication-2026-11-03/ctb179-progress.json"
+      ],
+      "code_paths": [
+        "experiments/jev/qwen/run.py"
+      ],
+      "description_sha256": "4f57adda41594251e1ad618c6b5f10fc3af37c4913625c67f672e4a55461846e"
+    },
+    {
+      "index": 64,
+      "id": "91c2b8fe-5c86-4644-b1d9-ff6354054392",
+      "title": "N14 medium paired prompt and bounded execution CTB4 factorial",
+      "branch": "orx/n14-medium-paired-prompt-and-bounded-execution-c",
+      "head_commit_at_snapshot": "93b2a3357cfeda1d128538284205bf2f07fd57ed",
+      "archived_or_hidden": false,
+      "dataset_family": "CTB",
+      "run_ids": [
+        "208d3236-fa28-438c-be67-62e6552f1495"
+      ],
+      "method": "Quatre conditions appariées : ancien prompt/document entier (M00), prompt causal nettoyé/document entier (M10), anciennes règles/lots explicites de paires bornés (M01), les deux changements (M11). Trois représentations, deux calendriers et trois lectures. Paramètre medium envoyé dans la requête et le template ; différence medium/xhigh vérifiée dans le rendu du tokenizer. Les changements constituent des ensembles déclarés, sans attribution à un seul composant.",
+      "evaluation_scope": "Les mêmes quatre documents CTB de N13, dont WSJ910225-0066, 593 paires non orientées. Au maximum 72+72+594+594=1 332 appels, huit tâches simultanées. Entrée 16 384, sortie 65 536, contexte déclaré 81 920. Pas d’extension automatique à CTB50.",
+      "reported_controls": "Six tests hors ligne rapportés PASS dans les notes de lancement ; gate de couverture complète pour les lots explicites, aucun remplacement des réponses manquantes par norel, décisions figées avant lecture du gold. Aucun de ces tests n’a été réexécuté pour cette publication.",
+      "consolidated_outcome": "En cours dans l’instantané de suivi ; journal de configuration disponible, aucun résumé final N14_RESULT observé. Aucun F1 final attribué. Aucun lancement, arrêt ou changement de ce run dans cette publication.",
+      "source_artifacts": [
+        "campagne-suite-2026-10-30/n14-medium-factoriel-2026-11-03/protocole-et-lancement.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "ea816ab4909f76fd9efe43461d3cb8c77e0c05e93fd97e1fa6f0ca0b4980c4b9"
+    },
+    {
+      "index": 65,
+      "id": "42d6a6ad-3405-478a-9ce7-c892bae94e8e",
+      "title": "J1 DeepSeek high-precision event coreference by agreement, DEV44 [archived]",
+      "branch": null,
+      "head_commit_at_snapshot": null,
+      "archived_or_hidden": true,
+      "dataset_family": "ESC",
+      "run_ids": [],
+      "method": "Projet initial : intersection de trois groupements DeepSeek puis confirmation pairwise par DeepSeek, avec gate de précision 85 %. Ce n'est pas la variante Luna×DeepSeek finalement demandée.",
+      "evaluation_scope": "Nœud archivé, sans run. L'essai effectif est le nœud J1R.",
+      "reported_controls": "Vérification de l'archive et de l'absence de lancement. Le code préparé ne vaut pas observation expérimentale.",
+      "consolidated_outcome": "Aucune métrique propre ; ne pas compter comme une expérience négative supplémentaire.",
+      "source_artifacts": [
+        "jev-v1/new-signal-judges/j1-j2-results-report.md"
+      ],
+      "code_paths": [],
+      "description_sha256": "eb2ce07ecf406955bc79b5c662527b41af0d6d1cc8f995ed7835abd914c7728c"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "project_experiments": 65,
+  "project_runs": 105,
+  "statuses": {
+    "running": 2,
+    "done": 56,
+    "cancelled": 21,
+    "failed": 26
+  },
+  "persisted_logs_found": 104,
+  "preparations_without_runs": 3,
+  "all_run_ids_in_report": true,
+  "csv_json_ids_match": true,
+  "cross_references_valid": true,
+  "raw_j3_f1_marked_superseded": true,
+  "tests_rerun_for_scientific_methods": false,
+  "new_model_calls": 0,
+  "experiment_launches_or_cancellations": 0,
+  "h1_candidate_count_checked_against_log": 19442,
+  "public_log_contents_included": false,
+  "publication_safety_checks": [
+    "No raw log or generation content in evidence index",
+    "No host names, endpoint addresses, machine paths or credentials in evidence index",
+    "Run IDs/status/commits/methods and scientific summaries only in run inventory"
+  ]
+}

@@ -1,0 +1,323 @@
+{
+  "sources": [
+    {
+      "artifact_path": "agent3-auto-sans-annotation/rapport-pilote-automatique.md",
+      "available": true,
+      "sha256": "08a9178bea9f01699163a35bb2f06e32372b7d0522057ee0ef57381efba4fe1c",
+      "bytes": 14268
+    },
+    {
+      "artifact_path": "alias-followup-2026-10-27/rapport-resultats-smoke.md",
+      "available": true,
+      "sha256": "3a4962ee7cbba736e37cd618feff1f1296a118d41de7a8eddc010ba36a049118",
+      "bytes": 8391
+    },
+    {
+      "artifact_path": "campagne-composantes-2026-10-28/n10-stabilite/bilan-verifie.md",
+      "available": true,
+      "sha256": "3dfce266b761a897d4ffb0dad3262a51a26562d46d50220806a3017fd127cda9",
+      "bytes": 5032
+    },
+    {
+      "artifact_path": "campagne-composantes-2026-10-28/n9-factoriel/bilan-verifie.md",
+      "available": true,
+      "sha256": "073b4b1189640812e62eb222a96cb5ba3d5c7056d0098958543fcda4e13dd81e",
+      "bytes": 10037
+    },
+    {
+      "artifact_path": "campagne-sans-entrainement-2026-10-28/n1-ancrage/bilan-verifie.md",
+      "available": true,
+      "sha256": "d95b103ab42ff0e62bda06e09684a4e8ba9345ef689f351df120a19602f63fe0",
+      "bytes": 3997
+    },
+    {
+      "artifact_path": "campagne-sans-entrainement-2026-10-28/n2-transport/bilan-verifie.md",
+      "available": true,
+      "sha256": "f46e3e5eaac9f415d04332bdc990881dbbfad825fb49fd77553736b7c3ec96c2",
+      "bytes": 5039
+    },
+    {
+      "artifact_path": "campagne-sans-entrainement-2026-10-28/n3-contrastes/bilan-verifie.md",
+      "available": true,
+      "sha256": "afb330615fb89d18aba88906485f1838dee816eade012ad7085036ddad635ec7",
+      "bytes": 5235
+    },
+    {
+      "artifact_path": "campagne-sans-entrainement-2026-10-28/n4-lecteur/bilan-verifie.md",
+      "available": true,
+      "sha256": "d57f7ea27d5cd7ce6ad0af76bc7ef59c44017aa9d946f7c2899589634275015c",
+      "bytes": 4952
+    },
+    {
+      "artifact_path": "campagne-sans-entrainement-2026-10-28/n5-passes/rapport.md",
+      "available": true,
+      "sha256": "fed44638aacd57d799428268203d76bbecf4203eda0d631d622b63ca40520631",
+      "bytes": 3151
+    },
+    {
+      "artifact_path": "campagne-sans-entrainement-2026-10-28/n6-ctb/rapport-n6.md",
+      "available": true,
+      "sha256": "c4d4189c0c91c5099dadf3710a3525e7c70a1d682ca2e094ae1b859741559373",
+      "bytes": 863
+    },
+    {
+      "artifact_path": "campagne-suite-2026-10-28/n7-replication/bilan-verifie.md",
+      "available": true,
+      "sha256": "6cf38a61ac8f51c4b4c98d47310884c8e3a6c5e3299a282f044e91e128c0e2a3",
+      "bytes": 7188
+    },
+    {
+      "artifact_path": "campagne-suite-2026-10-28/n8-passes/bilan-verifie.md",
+      "available": true,
+      "sha256": "9ab6f913b8a04bc918ce82f38fc90a6fb638ee30b92387cb316aa887c29f9191",
+      "bytes": 5768
+    },
+    {
+      "artifact_path": "campagne-suite-2026-10-30/n11-arret-exact/bilan-verifie.md",
+      "available": true,
+      "sha256": "4bd6d376cf6769026abc2de222c52361171c7838d03b038c2f3de401dd0f4aa6",
+      "bytes": 2120
+    },
+    {
+      "artifact_path": "campagne-suite-2026-10-30/n12-representations/bilan-verifie-2026-10-31.md",
+      "available": true,
+      "sha256": "49f5d819672a0fc83f317b40e824363e6c171676614dfad93044b0a26c692d67",
+      "bytes": 1833
+    },
+    {
+      "artifact_path": "campagne-suite-2026-10-30/n13-ctb50-2026-11-02/evaluation-partielle-2026-11-03/bilan.md",
+      "available": true,
+      "sha256": "452956d72008cfa0f3f5ded7b0ad944fc2afd2b6c243bfa3f194f9629cd17eff",
+      "bytes": 3178
+    },
+    {
+      "artifact_path": "campagne-suite-2026-10-30/n13-ctb50-2026-11-02/relance-65k/bilan-final.md",
+      "available": true,
+      "sha256": "c7cec315e4bc2567f1302d05bcd6901ed0ec37de4f29eeb745bfe658cdbc7c06",
+      "bytes": 3194
+    },
+    {
+      "artifact_path": "campagne-suite-2026-10-30/n13-ctb50-2026-11-02/relance-high-2026-11-03/bilan-final.md",
+      "available": true,
+      "sha256": "74cfc58bc6171a8074213ba4da0ea6bf7717351479cdc43976d18a79e0a24dc9",
+      "bytes": 4761
+    },
+    {
+      "artifact_path": "campagne-suite-2026-10-30/n13-qwen-local/bilan-lancement-2026-10-31.md",
+      "available": true,
+      "sha256": "9a8c43a12e624be2f2224e11b0caf4a64c9fd2185f5f698587632c3e9b218ca5",
+      "bytes": 3525
+    },
+    {
+      "artifact_path": "campagne-suite-2026-10-30/n14-medium-factoriel-2026-11-03/protocole-et-lancement.md",
+      "available": true,
+      "sha256": "8632efec7732ce2a60cc506138538043d86a3b5b9b90c3ce9761aa974307fd92",
+      "bytes": 5614
+    },
+    {
+      "artifact_path": "couverture-sortie/m0-pilot/rapport-etape-m0-2026-10-27.md",
+      "available": true,
+      "sha256": "17f3124779e97b857ef566f6841762d58cedad129d50e4a9d41fe4aa2c8d2946",
+      "bytes": 18297
+    },
+    {
+      "artifact_path": "couverture-sortie/m0-pilot/rapport-resultats-m0-2026-10-27.md",
+      "available": true,
+      "sha256": "459053cf72a664f17467a085c2685879118ba46ced0fc6eeac176ab34bcfe48a",
+      "bytes": 16339
+    },
+    {
+      "artifact_path": "empreinte-placebo-2026-10-27/auto-only-v0/rapport-final-pilote-automatique.md",
+      "available": true,
+      "sha256": "a98fb67fc0624c7d62abe22ba80bebc60bf7b779d24657ceda790f5b33eda2d9",
+      "bytes": 10323
+    },
+    {
+      "artifact_path": "jev-v1/bilan-complet-experiences/rapport-complet.md",
+      "available": true,
+      "sha256": "af76467ae48e68cfab5305f78614e957921dca9939a3d8705fc2bcac2b4e7669",
+      "bytes": 29587
+    },
+    {
+      "artifact_path": "jev-v1/esc-improvement-plan/final-luna/report.md",
+      "available": true,
+      "sha256": "520440f167dbdbb4acc3efe05cb8c44127e2019c4f03e37e13f58bf0da4844b5",
+      "bytes": 3195
+    },
+    {
+      "artifact_path": "jev-v1/esc-improvement-plan/final-report.md",
+      "available": true,
+      "sha256": "598f32a4385dd930d16c9b3f6c38a34578ad917e9e6c6f30aa5d5a2a56f50c9b",
+      "bytes": 6978
+    },
+    {
+      "artifact_path": "jev-v1/esc-improvement-plan/luna-dev25/report.md",
+      "available": true,
+      "sha256": "d8e0fac3dc7df941cba475b0ee6475b7786e936a780d4633eca6298079555cf4",
+      "bytes": 3381
+    },
+    {
+      "artifact_path": "jev-v1/esc-improvement-plan/r0-baseline/report.md",
+      "available": true,
+      "sha256": "d7bef5f576e18444e5dc067c03f93a433b1543f8d0ac00ac5f916201751d50c3",
+      "bytes": 1919
+    },
+    {
+      "artifact_path": "jev-v1/esc-improvement-plan/r1a-screen/report.md",
+      "available": true,
+      "sha256": "b0d506c94ea426631fb7cc5601f3d2fd2d46e999b04a3e4950de2cbf75165cfb",
+      "bytes": 3451
+    },
+    {
+      "artifact_path": "jev-v1/esc-improvement-plan/r1b-screen/report.md",
+      "available": true,
+      "sha256": "9fd0e4e06007cbfd99fb0cafbf3eb14167934dcac4c4af567f01b635bbeac2ed",
+      "bytes": 3074
+    },
+    {
+      "artifact_path": "jev-v1/esc-improvement-plan/r1c-screen/report.md",
+      "available": true,
+      "sha256": "0b0d02efe4df1287e1e4c22e105b6ecd93fdba4d66af5eddb798e68c6ee34849",
+      "bytes": 3224
+    },
+    {
+      "artifact_path": "jev-v1/esc-improvement-plan/r1e-screen/report.md",
+      "available": true,
+      "sha256": "dda55663c20fcafa3acc2d8ee1303476d5feaaeffbac1eacd0e2e25d71725c65",
+      "bytes": 3636
+    },
+    {
+      "artifact_path": "jev-v1/esc-improvement-plan/r2a-symmetry/report.md",
+      "available": true,
+      "sha256": "7cea1f2e9325816dcb33abd02e466b415d4a014b6a4f296bbceb0a44e8e4e131",
+      "bytes": 1750
+    },
+    {
+      "artifact_path": "jev-v1/esc-improvement-plan/r2b-predicted-coreference/report.md",
+      "available": true,
+      "sha256": "9755e5c36e2509f414bd885c6dcf37448cc94ee4d8a1f37c5c0a76843fa36adb",
+      "bytes": 1575
+    },
+    {
+      "artifact_path": "jev-v1/haiku-fusion-plan/h1-fusion-result.json",
+      "available": true,
+      "sha256": "d3511925bce2ca733f89fb4ec976304cbb8cc44ba26a8ad7f771aa84294cf30a",
+      "bytes": 1658
+    },
+    {
+      "artifact_path": "jev-v1/harness2-pilots/harness2-pilots-report.md",
+      "available": true,
+      "sha256": "638e722a00dd529d5ee2ab1f5984594ca68485e8d934be77219bef8f823f9b03",
+      "bytes": 6593
+    },
+    {
+      "artifact_path": "jev-v1/historical-comparison/partial-evaluation-20261016T075639Z/partial-results-report.md",
+      "available": true,
+      "sha256": "cbc14f99b6d233f1c91038488822a879d7c1c0fa25d0013710190014a4943253",
+      "bytes": 4736
+    },
+    {
+      "artifact_path": "jev-v1/new-signal-judges/j1-coref-agreement-result.md",
+      "available": true,
+      "sha256": "6731704f1d65af5885482ada82cf33be5ec3a7826c57d951718f1454a2dcecc8",
+      "bytes": 2455
+    },
+    {
+      "artifact_path": "jev-v1/new-signal-judges/j1-j2-results-report.md",
+      "available": true,
+      "sha256": "51e93307f0cf453f42fb2dccf02bb9788c9e06847f0541d9a168ecd3d8d86c98",
+      "bytes": 5659
+    },
+    {
+      "artifact_path": "jev-v1/new-signal-judges/j4-offline-fusion/j4-offline-fusion-report.md",
+      "available": true,
+      "sha256": "863bffddeb4fb983746e382181d0ba9ee0cc962235bf3d40e60c770c3669da37",
+      "bytes": 7752
+    },
+    {
+      "artifact_path": "jev-v1/new-signal-judges/res30/res30-results-report.md",
+      "available": true,
+      "sha256": "4bd40774b1c415ec864c023b8808eadc2f4a52bcfc771cc6750186d3ea2fb35f",
+      "bytes": 6983
+    },
+    {
+      "artifact_path": "jev-v1/qwen38-baseline/ctb-only-continuation-2026-11-01.json",
+      "available": true,
+      "sha256": "86922bc94231f4f845d07637977b8fcd8c22bf6a7791a093ece2b65193c8bc31",
+      "bytes": 1593
+    },
+    {
+      "artifact_path": "jev-v1/qwen38-baseline/launch-protocol.md",
+      "available": true,
+      "sha256": "2e1b13920b8da7487a875727bfe616ef855f652f17da0be25b6f7b1676e090b2",
+      "bytes": 2483
+    },
+    {
+      "artifact_path": "jev-v1/qwen38-baseline/preliminary-2026-10-31/comparison-report.md",
+      "available": true,
+      "sha256": "08f0e6a4442879a9e3e21b75a4ee2b1ea47b64f90b42a095494a46efb5624389",
+      "bytes": 2763
+    },
+    {
+      "artifact_path": "jev-v1/qwen38-baseline/preliminary-d0ce6e2d/preliminary-report.md",
+      "available": true,
+      "sha256": "b11077d18749b05469d0ce5ca96cbc34438389865c0a0c18c1fab17f5c8e82b5",
+      "bytes": 4403
+    },
+    {
+      "artifact_path": "jev-v1/qwen38-baseline/publication-2026-11-03/ctb179-progress.json",
+      "available": true,
+      "sha256": "a2da2d787bb8833511f5d8046939bd264cab949cdfc6a2d2d425d71d3209c679",
+      "bytes": 5582
+    },
+    {
+      "artifact_path": "jev-v1/qwen38-baseline/thinking-xhigh-relaunch.md",
+      "available": true,
+      "sha256": "dcb322dedde3f60bb83b15e23486ce6833f56697cdd02b1159cc0016bb74567a",
+      "bytes": 3277
+    },
+    {
+      "artifact_path": "jev-v1/rapport-global-projet/rapport-complet-2026-10-27.md",
+      "available": true,
+      "sha256": "b3192eb627ccc818a5f935caa528798a50082a18c60cb31679cfdc81a65962c4",
+      "bytes": 19873
+    },
+    {
+      "artifact_path": "jev-v1/round3/round3-results-report.md",
+      "available": true,
+      "sha256": "86ef7fb8983bb1cf4b1258c2d4e9ae8929a69c8594ac25c6d2520d6b4b8ce83c",
+      "bytes": 6802
+    },
+    {
+      "artifact_path": "m1-diversity/m1-final-report.md",
+      "available": true,
+      "sha256": "a8dcff32e8564e60affbd8620dd2bc5729518b5303bb2deb1b87f09e0b5b5e4e",
+      "bytes": 17765
+    },
+    {
+      "artifact_path": "synthese-globale-2026-10-29/detail-technique-2026-11-03/fiches-editoriales.json",
+      "available": true,
+      "sha256": "b1cab534e0dc8689cc3b1c24818e856952cc6c5ecc827e7ee3bf500507c710dc",
+      "bytes": 78737
+    },
+    {
+      "artifact_path": "synthese-globale-2026-10-29/detail-technique-experiences-2026-11-03.md",
+      "available": true,
+      "sha256": "321187878872a1f6ea8d724ead9ead350638c3882d6252a1c76bc481a5d8707f",
+      "bytes": 123943
+    },
+    {
+      "artifact_path": "synthese-globale-2026-10-29/recapitulatif-actualise-2026-10-30.md",
+      "available": true,
+      "sha256": "c32403337b8e1ccd0e1033691fc647c6ee59f581d20a93158268685e3568f511",
+      "bytes": 27132
+    },
+    {
+      "artifact_path": "transport-preuve-locale/pilote-batch/echec-e390/collecte-finale/bilan-final-extraction.md",
+      "available": true,
+      "sha256": "73d399877830771f90a411d97c6ed065d45dfa57ada22039015329c3a992ca49",
+      "bytes": 6961
+    }
+  ],
+  "note": "Consolidated source reports fingerprinted, not re-executed or fully republished. The public evidence index contains only event names, source line references and fingerprints; log content is excluded."
+}

@@ -1,5 +1,7 @@
 # Baselines Qwen3.8-27B et référence Haiku — bilan au 3 novembre 2026
 
+**Extension du bilan :** [autres datasets, méthodes et historique des 105 runs](project-experiments.md), avec les essais incomplets, échoués et annulés. [Inventaire CSV](project-runs.csv).
+
 Ce document décrit les baselines exécutées dans cette session, leur protocole,
 les résultats disponibles et les conditions de reprise. La baseline Qwen reste
 **incomplète et en pause à la demande de l’utilisateur**. Cette publication

@@ -6,8 +6,8 @@
   "scientific_status": "Qwen incomplete and paused; no new model calls for publication",
   "files": {
     "README.md": {
-      "sha256": "ca98515c4d3eb5aa9b08b82efac6380ea2c828c5558c1b19e2d479dbb2c5e20c",
-      "bytes": 16031
+      "sha256": "a88f3e8bd5fd56e5256d08940a066b8955f7f53c071edf84d574091fc837e00a",
+      "bytes": 16225
     },
     "ctb179-progress.json": {
       "sha256": "a2da2d787bb8833511f5d8046939bd264cab949cdfc6a2d2d425d71d3209c679",
@@ -24,6 +24,34 @@
     "paired-ctb163.json": {
       "sha256": "ea95a5bbb76e1d811899c9fe8ea942450fb98de2e42e359418e73cf14069969d",
       "bytes": 487158
+    },
+    "project-experiments.json": {
+      "sha256": "731919773cf4e8b86f6a1cb346677d8d39fee247f602eb39ad73cdd4c82d425d",
+      "bytes": 112057
+    },
+    "project-experiments.md": {
+      "sha256": "610ca8aa0262512b8c2ef032a012539f47740b4959de87632aa7e059f8e5ad19",
+      "bytes": 130413
+    },
+    "project-inventory-validation.json": {
+      "sha256": "14da7b03082ff3cbbf71fa67e10064fb02a6e738b47bcc2cec397a7ba3ea2bc3",
+      "bytes": 844
+    },
+    "project-log-evidence.json": {
+      "sha256": "5b78ff5b97c20f4be4f851c3cbc8294462d97a55a641d064c41c40d345da75dd",
+      "bytes": 33378
+    },
+    "project-runs.csv": {
+      "sha256": "3dd0e9e1ccf87d483fb5fcbe2006ef793a83dce6959beec0b971e05cb4c0a9b1",
+      "bytes": 25809
+    },
+    "project-runs.json": {
+      "sha256": "9ee73bff503f176ca343d4dcbb8703607b8e07b10895b34f720e3001e501e6a9",
+      "bytes": 53082
+    },
+    "project-source-provenance.json": {
+      "sha256": "ed52d426c11555684bfcb4e1a7b0545d7472f5342530201972a1c8ffbaec6e94",
+      "bytes": 12379
     }
   },
   "checks": [
@@ -32,6 +60,12 @@
     "326 paired document-model CSV rows",
     "CTB179 checkpoint and remaining-pass arithmetic",
     "Exit code 1 and no active controller for latest baseline run",
-    "Relative report links resolved"
-  ]
+    "Relative report links resolved",
+    "Project inventory: 105 unique runs, 65 experiments, CSV/JSON/report coverage and links checked"
+  ],
+  "coverage_extension": {
+    "experiments": 65,
+    "runs": 105,
+    "scope": "All registered project runs at snapshot, including incomplete/failed/cancelled and three preparations without runs."
+  }
 }
