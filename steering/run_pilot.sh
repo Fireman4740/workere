@@ -15,13 +15,16 @@ ALPHAS=${ALPHAS:-0.1,0.05,0.2}
 FAMILIES=${FAMILIES:-hint,demo}
 DOC_IDS=${DOC_IDS:-$REPO/steering/data/docs10.txt}
 BATCH=${BATCH:-10}
+MAX_MODEL_LEN=${MAX_MODEL_LEN:-24576}
+MAX_TOKENS=${MAX_TOKENS:-20480}
+GPU_UTIL=${GPU_UTIL:-0.90}
 export PYTHONPATH=$REPO:$REPO/steering
 export VLLM_USE_FLASHINFER_SAMPLER=0 FLASHINFER_DISABLE_VERSION_CHECK=1
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:False
 mkdir -p "$RUN_OUT" "$DIRS"
 cd "$REPO/steering"
 
-echo "== config: layer=$LAYER alphas=$ALPHAS families=$FAMILIES batch=$BATCH docs=$(wc -l < "$DOC_IDS") commit=${ORX_COMMIT:-?}"
+echo "== config: layer=$LAYER alphas=$ALPHAS families=$FAMILIES batch=$BATCH max_model_len=$MAX_MODEL_LEN max_tokens=$MAX_TOKENS gpu_util=$GPU_UTIL docs=$(wc -l < "$DOC_IDS") commit=${ORX_COMMIT:-?}"
 echo "== output: $RUN_OUT"
 
 if [ -f "$STEER_DATA/extract_all.sh" ] && [ ! -f "$STEER_DATA/out/extract.done" ]; then
@@ -61,5 +64,6 @@ $PY sweep_conditions.py --direction-dir "$DIRS" --layer "$LAYER" --alphas "$ALPH
   --families "$FAMILIES" --out "$RUN_OUT/conditions.json"
 SCORE="$PY score.py --reference data/reference.json --predictions $RUN_OUT/gen.jsonl --out $RUN_OUT/scores.json --csv $RUN_OUT/scores.csv | grep -E '^[a-z]|run_docs'; $PY compare.py --csv $RUN_OUT/scores.csv --subset run_docs --draws 5000"
 $PY run_vllm.py --prompts "$PROMPTS" --conditions "$RUN_OUT/conditions.json" \
-  --doc-ids "$DOC_IDS" --batch "$BATCH" --out "$RUN_OUT/gen.jsonl" --after-condition "$SCORE"
+  --doc-ids "$DOC_IDS" --batch "$BATCH" --max-model-len "$MAX_MODEL_LEN" --max-tokens "$MAX_TOKENS" \
+  --gpu-memory-utilization "$GPU_UTIL" --out "$RUN_OUT/gen.jsonl" --after-condition "$SCORE"
 echo "== done: $RUN_OUT"
