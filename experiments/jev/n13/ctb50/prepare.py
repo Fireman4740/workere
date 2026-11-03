@@ -54,7 +54,7 @@ for d in pub:
    prefix=[{'role':'system','content':prompt['system']},{'role':'user','content':prompt['user_template'].format(doc_text=demo['text'])},{'role':'assistant','content':json.dumps(demo['answer'])}]
    for arm in ('original','local','table'):
     body={'model':'qwen3.8-27b','messages':prefix+[{'role':'user','content':prompt['user_template'].format(doc_text=texts[arm])}],
-      'reasoning_effort':'xhigh','temperature':0.,'top_p':.95,'top_k':20,'min_p':0.,'presence_penalty':0.,'repetition_penalty':1.,'chat_template_kwargs':{'enable_thinking':True,'preserve_thinking':True},'max_tokens':65536,'stream':False}
+      'reasoning_effort':'high','temperature':0.,'top_p':.95,'top_k':20,'min_p':0.,'presence_penalty':0.,'repetition_penalty':1.,'chat_template_kwargs':{'enable_thinking':True,'preserve_thinking':True},'max_tokens':65536,'stream':False}
     logical=f'ctb50:s{schedule}:{arm}:{d["id"]}:{slot}'
     rows.append({'logical_id':logical,'custom_id':'n13ctb_'+hashlib.sha256(logical.encode()).hexdigest(),'stage':'smoke' if d['id'] in smokeids else 'main','schedule':schedule,'seed':seed,'slot':slot,'arm':arm,'doc':d['id'],'demo':demo['id'],'body':body,'body_sha256':hashlib.sha256(json.dumps(body,sort_keys=True,ensure_ascii=False,separators=(',',':'),allow_nan=False).encode()).hexdigest()})
 assert len(rows)==900 and len({r['logical_id'] for r in rows})==900
@@ -70,7 +70,7 @@ for stage in ['smoke','main','ctb50']:
    if a<b:gold.append({'doc':d['id'],'a':a,'b':b,'gold':(a,b) in pos})
  save(stage+'-gold.json',gold)
 save('view-statistics.json',viewinfo)
-protocol={'study':'N13-CTB50','user_authorization':'2026-11-02 explicit relaunch after user restarted batch: input16384 output65536 context81920;64server admissions;single remains stopped','model':'qwen3.8-27b','base_url':'http://127.0.0.1:18020/v1','credential_file':'~/qwen38-27b-rtx3090/.env','credential_name':'VLLM_API_KEY',
+protocol={'study':'N13-CTB50','user_authorization':'2026-11-03 user: Passe le model en raisonnement high; evaluate valid documents from prior run','reasoning_effort':'high','model':'qwen3.8-27b','base_url':'http://127.0.0.1:18020/v1','credential_file':'~/qwen38-27b-rtx3090/.env','credential_name':'VLLM_API_KEY',
  'wait_for_run':None,'dataset':'CausalTimeBank-standard-eci-workere','revision':'1bba25094d1dda15f172c1f17bb88c26fb3d767d','documents':50,'folds':10,'candidates':'original CTB intra-sentence pair_list only','stages':['smoke','main'],'request_counts':{'smoke':72,'main':828},'maximum_generation_calls':900,
  'max_input_tokens':16384,'max_tokens':65536,'max_context_tokens':81920,'concurrency':4,'request_timeout_seconds':86400,'api_ready_timeout_seconds':1800,'readiness_poll_seconds':15,'state_root':'~/.local/share/openresearch/workere-n13-ctb50',
  'local_view':'CTB-specific sentence-isolated presentation: each original sentence containing mentions is a separate delimited block, original order/IDs and all mentions retained; no invented semantic links',
@@ -83,7 +83,7 @@ protocol={'study':'N13-CTB50','user_authorization':'2026-11-02 explicit relaunch
  'training':False,'human_annotations':0,'external_API_cost_usd':0,'electricity_and_hardware_cost':'not metered','no_external_fallback':True,'generation_retries':0,'input_sha256':hashlib.sha256((P/'requests.jsonl').read_bytes()).hexdigest(),'source_suite_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
  'model_identity_limit':'declared served model and limits only; no proof immutable weights or independent stochastic reads; temp0 retained',
  'exposure':'existing exposed dataset, not blind confirmation; all gold confined to frozen examples and evaluation exports',
- 'relaunch_policy':'fresh900slots, do not mix prior72responses; only completion ceiling changes in requests, symmetric across all3arms; previous run BLOCKED_VALIDITY, no gold evaluated',
- 'previous_run':'e163b810-e9f7-419d-b769-168265cf4c49','server_admissions_user_reported':64}
+ 'relaunch_policy':'fresh900slots, do not mix prior xhigh responses; only reasoning_effort changes xhigh to high in requests, symmetrically across all3arms; previous run BLOCKED_VALIDITY',
+ 'previous_run':'2d6766a2-3d10-4a32-a19f-e8009e35efbc','server_admissions_user_reported':64}
 save('protocol.json',protocol)
 print(json.dumps({'requests':len(rows),'stage_counts':collections.Counter(r['stage'] for r in rows),'target_documents':len(pub),'ordered_candidates':sum(len(d['pair_list']) for d in pub),'views_local_same_as_original':sum(v['local_equals_original'] for v in viewinfo)}))

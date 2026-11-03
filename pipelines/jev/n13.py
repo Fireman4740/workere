@@ -50,7 +50,7 @@ def preflight():
         docs={d['id']:d for d in read(P/(stage+'-public.json'))}
         for r in rs:
             b=r['body'];assert b['model']==spec['model'] and b['max_tokens']==spec['max_tokens']
-            assert b['reasoning_effort']=='xhigh' and b['temperature']==0.
+            assert b['reasoning_effort']==spec['reasoning_effort']=='high' and b['temperature']==0.
             assert b['chat_template_kwargs']=={'enable_thinking':True,'preserve_thinking':True}
             assert sha(canonical(b))==r['body_sha256']
             assert r['demo']!=r['doc'] and demo_folds[r['demo']]!=int(all_docs[r['doc']]['idx'])%10
@@ -203,7 +203,8 @@ def main():
         http=LocalHTTP(credential(spec));row=ready_model(http,spec,state)
         save(state/'tokenizer-probe.json',tokenize(http,spec,rows[0]))
         print('N13_LOCAL_MODEL_READY '+json.dumps({'model':row['id'],'reported_max_model_len':row.get('max_model_len'),'external_API_calls':0,
-            'max_input_tokens':spec['max_input_tokens'],'max_completion_tokens':spec['max_tokens'],'max_context_tokens':spec['max_context_tokens'],'concurrency':spec['concurrency']}),flush=True)
+            'max_input_tokens':spec['max_input_tokens'],'max_completion_tokens':spec['max_tokens'],'max_context_tokens':spec['max_context_tokens'],'concurrency':spec['concurrency'],
+            'requested_reasoning_effort':spec['reasoning_effort']}),flush=True)
         for stage in spec['stages']:
             good=stage_run(spec,[r for r in rows if r['stage']==stage],state,http)
             export(state,stage.upper())
