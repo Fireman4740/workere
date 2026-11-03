@@ -1,0 +1,103 @@
+{
+  "source": "/Users/mathiscarlesso/.local/share/openresearch/files/workere/jev-v1/qwen38-baseline/publication-2026-11-03/paired-ctb163-per-document.csv",
+  "sha256": "2a7e5bb7f4650d74d305410df4bd38941f9b232f5a6b5df1f4eadfcbbc9d6a5a",
+  "rows": [
+    {
+      "document": "ABC19980304.1830.1636",
+      "model": "Qwen3.8-27B",
+      "precision": "1.0",
+      "recall": "1.0",
+      "f1": "1.0",
+      "support_pos": "4"
+    },
+    {
+      "document": "wsj_0006",
+      "model": "Qwen3.8-27B",
+      "precision": "0.0",
+      "recall": "0.0",
+      "f1": "0.0",
+      "support_pos": "0"
+    },
+    {
+      "document": "wsj_0313",
+      "model": "Qwen3.8-27B",
+      "precision": "0.0",
+      "recall": "0.0",
+      "f1": "0.0",
+      "support_pos": "6"
+    },
+    {
+      "document": "wsj_1035",
+      "model": "Qwen3.8-27B",
+      "precision": "1.0",
+      "recall": "1.0",
+      "f1": "1.0",
+      "support_pos": "4"
+    },
+    {
+      "document": "wsj_0533",
+      "model": "Qwen3.8-27B",
+      "precision": "1.0",
+      "recall": "0.3333333333333333",
+      "f1": "0.5",
+      "support_pos": "6"
+    },
+    {
+      "document": "wsj_0344",
+      "model": "Qwen3.8-27B",
+      "precision": "0.3333333333333333",
+      "recall": "0.5",
+      "f1": "0.4",
+      "support_pos": "4"
+    },
+    {
+      "document": "ABC19980304.1830.1636",
+      "model": "Haiku 5.5",
+      "precision": "1.0",
+      "recall": "1.0",
+      "f1": "1.0",
+      "support_pos": "4"
+    },
+    {
+      "document": "wsj_0006",
+      "model": "Haiku 5.5",
+      "precision": "0.0",
+      "recall": "0.0",
+      "f1": "0.0",
+      "support_pos": "0"
+    },
+    {
+      "document": "wsj_0313",
+      "model": "Haiku 5.5",
+      "precision": "0.0",
+      "recall": "0.0",
+      "f1": "0.0",
+      "support_pos": "6"
+    },
+    {
+      "document": "wsj_1035",
+      "model": "Haiku 5.5",
+      "precision": "0.6666666666666666",
+      "recall": "1.0",
+      "f1": "0.8",
+      "support_pos": "4"
+    },
+    {
+      "document": "wsj_0533",
+      "model": "Haiku 5.5",
+      "precision": "0.5",
+      "recall": "0.3333333333333333",
+      "f1": "0.4",
+      "support_pos": "6"
+    },
+    {
+      "document": "wsj_0344",
+      "model": "Haiku 5.5",
+      "precision": "0.3333333333333333",
+      "recall": "0.5",
+      "f1": "0.4",
+      "support_pos": "4"
+    }
+  ],
+  "warning": "Historical 7-pass results, not paired controls; historical support is oriented. New pilot uses canonical unordered pairs."
+}

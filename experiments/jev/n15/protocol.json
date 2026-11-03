@@ -1,0 +1,37 @@
+{
+  "model": "qwen3.8-27b",
+  "base_url": "http://127.0.0.1:18020/v1",
+  "credential_file": "~/qwen38-27b-rtx3090/.env",
+  "credential_name": "VLLM_API_KEY",
+  "dataset": "CausalTimeBank-standard-eci-workere",
+  "revision": "1bba25094d1dda15f172c1f17bb88c26fb3d767d",
+  "study": "N15-CTB6-generation-contract",
+  "max_input_tokens": 16384,
+  "max_tokens": 8192,
+  "max_context_tokens": 24576,
+  "concurrency": 1,
+  "request_timeout_seconds": 600,
+  "api_ready_timeout_seconds": 60,
+  "readiness_poll_seconds": 10,
+  "state_root": "~/.local/share/openresearch/workere-n15",
+  "maximum_generation_calls": 36,
+  "wall_seconds": 3600,
+  "input_sha256": "f633bf086a263890520dffee552a84764e5b7efcea1f1e220f6b08729c87680d",
+  "generation_retries": 0,
+  "conditions": [
+    "medium",
+    "no_thinking"
+  ],
+  "documents": [
+    "wsj_0313",
+    "wsj_0344",
+    "wsj_1035",
+    "wsj_0533",
+    "ABC19980304.1830.1636",
+    "wsj_0006"
+  ],
+  "primary": "micro F1 unordered majority 2/3 all six docs; no F1 if incomplete",
+  "exposure": "purposive diagnostic selection by known historical outcomes and short input length; no generalization claim",
+  "stop_policy": "stop entire pilot on first invalid generation, time budget or remote service error; never substitute negative",
+  "future": "fact-card representation round separately, after quality/runtime comparison; no automatic extension"
+}
