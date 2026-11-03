@@ -34,8 +34,9 @@ if ! flock -n 9; then
   echo "== another steering run holds the GPU; queued ($(date +%T))"
   flock 9
 fi
-until $PY -c "import sys, torch; free, _ = torch.cuda.mem_get_info(); print(f'== GPU free memory {free / 2**30:.1f} GiB'); sys.exit(free < 20 * 2**30)"; do
-  echo "== waiting for another process to release the GPU ($(date +%T))"
+# Under WSL, torch.cuda.mem_get_info does not see memory held by Windows processes.
+until used=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | head -1) && [ "$used" -lt "${GPU_BUSY_MIB:-2048}" ]; do
+  echo "== GPU busy: ${used} MiB used by another process; waiting ($(date +%T))"
   sleep 120
 done
 echo "== GPU acquired ($(date +%T))"
