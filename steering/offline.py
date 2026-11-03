@@ -174,6 +174,10 @@ class Steerer:
 
 def _query_start_loc():
     """Per-request token offsets of the current vLLM batch, or None outside a vLLM forward."""
+    import torch
+
+    if torch.cuda.is_available() and torch.cuda.is_current_stream_capturing():
+        return None, True
     try:
         from vllm.config import CUDAGraphMode
         from vllm.forward_context import get_forward_context, is_forward_context_available
