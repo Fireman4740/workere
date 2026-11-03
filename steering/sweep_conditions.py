@@ -7,6 +7,12 @@ import json
 from pathlib import Path
 
 
+def direction_file(family: str, layer: int) -> str:
+    """hint -> hint_L32_down_proj.npz; hint_neg -> hint_L32_down_proj_neg.npz (make_controls naming)."""
+    base, _, control = family.partition("_")
+    return f"{base}_L{layer}_down_proj" + (f"_{control}" if control else "") + ".npz"
+
+
 def build_sweep(direction_dir: str, layer: int, alphas: list[float], families: list[str]) -> list[dict]:
     conditions = [{"name": "control", "direction": None, "alpha": 0.0, "layer": layer,
                    "module": "down_proj", "positions": "last"}]
@@ -14,7 +20,7 @@ def build_sweep(direction_dir: str, layer: int, alphas: list[float], families: l
         for family in families:
             conditions.append({
                 "name": f"{family}_L{layer}_a{alpha:g}",
-                "direction": str(Path(direction_dir) / f"{family}_L{layer}_down_proj.npz"),
+                "direction": str(Path(direction_dir) / direction_file(family, layer)),
                 "alpha": alpha,
                 "layer": layer,
                 "module": "down_proj",
