@@ -76,8 +76,10 @@ def main():
             verified.append([name,doc])
     ordinary = {k:v for k,v in systems.items() if k.endswith(":majority")}
     diagnostic = diagnose(ordinary,gold,candidates)
+    raw_diagnostic = diagnose({":".join(map(str,k)):v for k,v in hypotheses.items()},gold,candidates)
     result = dict(status="COMPLETE_RETROSPECTIVE_DIAGNOSTIC",documents=sorted(common),
         excluded=sorted(set(docs)-common),candidate_pairs=len(candidates),systems=scores,diagnostic=diagnostic,
+        raw_reading_diagnostic=raw_diagnostic,
         source_run=bank["source_run"],new_generation_calls=0,promotion=False,
         exact_historical_control_checks=len(verified),
         scope="paired intersection only; exposed development; MBR is transductive; not external validation",
