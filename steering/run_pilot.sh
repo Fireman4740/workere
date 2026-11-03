@@ -78,7 +78,7 @@ EOF
 
 echo "== stage 2: alpha sweep"
 $PY sweep_conditions.py --direction-dir "$DIRS" --layer "$LAYER" --alphas "$ALPHAS" \
-  --families "$FAMILIES" --out "$RUN_OUT/conditions.json"
+  --families "$FAMILIES" --pairs "${PAIRS:-}" --out "$RUN_OUT/conditions.json"
 SCORE="$PY score.py --reference data/reference.json --predictions $RUN_OUT/gen.jsonl --out $RUN_OUT/scores.json --csv $RUN_OUT/scores.csv | grep -E '^[a-z]|run_docs'; $PY compare.py --csv $RUN_OUT/scores.csv --subset run_docs --draws 5000"
 $PY run_vllm.py --prompts "$PROMPTS" --conditions "$RUN_OUT/conditions.json" \
   --doc-ids "$DOC_IDS" --batch "$BATCH" --max-model-len "$MAX_MODEL_LEN" --max-tokens "$MAX_TOKENS" \

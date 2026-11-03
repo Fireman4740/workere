@@ -35,10 +35,17 @@ def main() -> None:
     parser.add_argument("--layer", type=int, required=True)
     parser.add_argument("--alphas", default="0.1,0.05,0.2")
     parser.add_argument("--families", default="hint,demo")
+    parser.add_argument("--pairs", default="", help="explicit family:alpha list; replaces the alphas x families grid")
     parser.add_argument("--out", required=True)
     args = parser.parse_args()
     alphas = [float(a) for a in args.alphas.split(",")]
-    conditions = build_sweep(args.direction_dir, args.layer, alphas, args.families.split(","))
+    if args.pairs:
+        conditions = build_sweep(args.direction_dir, args.layer, [], [])
+        for item in args.pairs.split(","):
+            family, alpha = item.split(":")
+            conditions += build_sweep(args.direction_dir, args.layer, [float(alpha)], [family])[1:]
+    else:
+        conditions = build_sweep(args.direction_dir, args.layer, alphas, args.families.split(","))
     Path(args.out).write_text(json.dumps(conditions, indent=1) + "\n")
     print("conditions:", ", ".join(c["name"] for c in conditions), flush=True)
 
