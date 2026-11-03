@@ -1,0 +1,3560 @@
+[
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei30",
+  "b": "ei32",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei14",
+  "b": "ei17",
+  "gold": true
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei28",
+  "b": "ei29",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei1",
+  "b": "ei3",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei1",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei25",
+  "b": "ei26",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei31",
+  "b": "ei32",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei23",
+  "b": "ei25",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei7",
+  "b": "ei8",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei1",
+  "b": "ei7",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei21",
+  "b": "ei22",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei1",
+  "b": "ei5",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei30",
+  "b": "ei33",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei15",
+  "b": "ei16",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei5",
+  "b": "ei8",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei24",
+  "b": "ei26",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei3",
+  "b": "ei8",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei3",
+  "b": "ei7",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei30",
+  "b": "ei34",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei12",
+  "b": "ei13",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei19",
+  "b": "ei20",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei31",
+  "b": "ei34",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei14",
+  "b": "ei15",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei5",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei36",
+  "b": "ei37",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei14",
+  "b": "ei18",
+  "gold": true
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei11",
+  "b": "ei12",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei32",
+  "b": "ei33",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei3",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei24",
+  "b": "ei27",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei8",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei23",
+  "b": "ei24",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei25",
+  "b": "ei27",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei14",
+  "b": "ei16",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei16",
+  "b": "ei18",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei32",
+  "b": "ei34",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei15",
+  "b": "ei17",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei7",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei31",
+  "b": "ei33",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei26",
+  "b": "ei27",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei5",
+  "b": "ei7",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei23",
+  "b": "ei26",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei1",
+  "b": "ei8",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei24",
+  "b": "ei25",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei16",
+  "b": "ei17",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei17",
+  "b": "ei18",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei30",
+  "b": "ei31",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei3",
+  "b": "ei5",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei33",
+  "b": "ei34",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei11",
+  "b": "ei13",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei23",
+  "b": "ei27",
+  "gold": false
+ },
+ {
+  "doc": "NYT19980424.0421",
+  "a": "ei15",
+  "b": "ei18",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei6",
+  "b": "ei7",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei7",
+  "b": "ei8",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei4",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei5",
+  "b": "ei6",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei1",
+  "b": "ei3",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei6",
+  "b": "ei8",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei7",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei4",
+  "b": "ei5",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei5",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei6",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei1",
+  "b": "ei2",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei2",
+  "b": "ei3",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei4",
+  "b": "ei7",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei5",
+  "b": "ei8",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei4",
+  "b": "ei6",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei4",
+  "b": "ei8",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei5",
+  "b": "ei7",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0006",
+  "a": "ei8",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei5",
+  "b": "ei6",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei6",
+  "b": "ei7",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei10",
+  "b": "ei8",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei3",
+  "b": "ei6",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei3",
+  "b": "ei5",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei4",
+  "b": "ei6",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei3",
+  "b": "ei7",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei4",
+  "b": "ei5",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei4",
+  "b": "ei7",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei14",
+  "b": "ei15",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei11",
+  "b": "ei13",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei1",
+  "b": "ei2",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei3",
+  "b": "ei4",
+  "gold": false
+ },
+ {
+  "doc": "wsj_0329",
+  "a": "ei5",
+  "b": "ei7",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei256",
+  "b": "ei258",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei58",
+  "b": "ei59",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei114",
+  "b": "ei115",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei70",
+  "b": "ei71",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei44",
+  "b": "ei45",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei130",
+  "b": "ei131",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei51",
+  "b": "ei53",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei10",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei153",
+  "b": "ei154",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei59",
+  "b": "ei64",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei251",
+  "b": "ei254",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei253",
+  "b": "ei254",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei165",
+  "b": "ei167",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei58",
+  "b": "ei64",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei98",
+  "b": "ei99",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei135",
+  "b": "ei137",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei154",
+  "b": "ei155",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei104",
+  "b": "ei105",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei191",
+  "b": "ei193",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei101",
+  "b": "ei103",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei280",
+  "b": "ei281",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei201",
+  "b": "ei203",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei203",
+  "b": "ei206",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei285",
+  "b": "ei289",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei283",
+  "b": "ei284",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei170",
+  "b": "ei172",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei264",
+  "b": "ei266",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei220",
+  "b": "ei221",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei79",
+  "b": "ei81",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei184",
+  "b": "ei189",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei74",
+  "b": "ei75",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei209",
+  "b": "ei215",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei201",
+  "b": "ei206",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei125",
+  "b": "ei126",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei285",
+  "b": "ei288",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei69",
+  "b": "ei71",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei293",
+  "b": "ei295",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei141",
+  "b": "ei143",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei196",
+  "b": "ei199",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei128",
+  "b": "ei134",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei166",
+  "b": "ei168",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei174",
+  "b": "ei181",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei121",
+  "b": "ei126",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei274",
+  "b": "ei275",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei224",
+  "b": "ei225",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei151",
+  "b": "ei152",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei209",
+  "b": "ei212",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei241",
+  "b": "ei242",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei102",
+  "b": "ei105",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei172",
+  "b": "ei173",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei121",
+  "b": "ei122",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei242",
+  "b": "ei243",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei250",
+  "b": "ei252",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei174",
+  "b": "ei177",
+  "gold": true
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei74",
+  "b": "ei76",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei269",
+  "b": "ei270",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei47",
+  "b": "ei49",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei75",
+  "b": "ei78",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei12",
+  "b": "ei14",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei226",
+  "b": "ei229",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei124",
+  "b": "ei126",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei207",
+  "b": "ei214",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei101",
+  "b": "ei104",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei124",
+  "b": "ei125",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei14",
+  "b": "ei17",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei236",
+  "b": "ei237",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei8",
+  "b": "ei9",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei51",
+  "b": "ei56",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei174",
+  "b": "ei179",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei122",
+  "b": "ei125",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei175",
+  "b": "ei178",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei118",
+  "b": "ei119",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei159",
+  "b": "ei162",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei58",
+  "b": "ei63",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei29",
+  "b": "ei30",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei135",
+  "b": "ei136",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei60",
+  "b": "ei63",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei59",
+  "b": "ei62",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei73",
+  "b": "ei75",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei60",
+  "b": "ei65",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei240",
+  "b": "ei243",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei13",
+  "b": "ei16",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei34",
+  "b": "ei37",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei155",
+  "b": "ei157",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei111",
+  "b": "ei112",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei130",
+  "b": "ei132",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei101",
+  "b": "ei106",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei97",
+  "b": "ei98",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei269",
+  "b": "ei272",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei237",
+  "b": "ei238",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei116",
+  "b": "ei120",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei286",
+  "b": "ei287",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei130",
+  "b": "ei134",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei84",
+  "b": "ei87",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei100",
+  "b": "ei98",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei153",
+  "b": "ei155",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei107",
+  "b": "ei109",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei68",
+  "b": "ei69",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei47",
+  "b": "ei48",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei209",
+  "b": "ei214",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei165",
+  "b": "ei166",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei73",
+  "b": "ei77",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei190",
+  "b": "ei191",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei196",
+  "b": "ei203",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei208",
+  "b": "ei214",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei30",
+  "b": "ei31",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei264",
+  "b": "ei265",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei208",
+  "b": "ei211",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei259",
+  "b": "ei260",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei250",
+  "b": "ei254",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei251",
+  "b": "ei252",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei48",
+  "b": "ei49",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei252",
+  "b": "ei253",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei128",
+  "b": "ei132",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei184",
+  "b": "ei186",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei240",
+  "b": "ei242",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei165",
+  "b": "ei168",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei18",
+  "b": "ei20",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei75",
+  "b": "ei76",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei139",
+  "b": "ei140",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei199",
+  "b": "ei205",
+  "gold": true
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei100",
+  "b": "ei97",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei211",
+  "b": "ei214",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei35",
+  "b": "ei36",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei207",
+  "b": "ei212",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei227",
+  "b": "ei229",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei233",
+  "b": "ei237",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei110",
+  "b": "ei112",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei105",
+  "b": "ei106",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei62",
+  "b": "ei63",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei24",
+  "b": "ei26",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei169",
+  "b": "ei171",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei205",
+  "b": "ei206",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei207",
+  "b": "ei209",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei18",
+  "b": "ei21",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei276",
+  "b": "ei277",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei261",
+  "b": "ei262",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei21",
+  "b": "ei22",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei198",
+  "b": "ei206",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei271",
+  "b": "ei272",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei34",
+  "b": "ei36",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei212",
+  "b": "ei215",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei16",
+  "b": "ei17",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei161",
+  "b": "ei162",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei233",
+  "b": "ei236",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei223",
+  "b": "ei225",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei248",
+  "b": "ei251",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei128",
+  "b": "ei131",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei169",
+  "b": "ei170",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei234",
+  "b": "ei237",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei236",
+  "b": "ei238",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei132",
+  "b": "ei134",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei234",
+  "b": "ei236",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei207",
+  "b": "ei213",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei187",
+  "b": "ei189",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei250",
+  "b": "ei251",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei83",
+  "b": "ei85",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei270",
+  "b": "ei271",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei11",
+  "b": "ei14",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei141",
+  "b": "ei142",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei266",
+  "b": "ei267",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei167",
+  "b": "ei168",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei129",
+  "b": "ei134",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei209",
+  "b": "ei213",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei177",
+  "b": "ei181",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei208",
+  "b": "ei215",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei122",
+  "b": "ei123",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei79",
+  "b": "ei82",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei77",
+  "b": "ei78",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei199",
+  "b": "ei206",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei163",
+  "b": "ei164",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei84",
+  "b": "ei89",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei276",
+  "b": "ei278",
+  "gold": true
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei122",
+  "b": "ei124",
+  "gold": true
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei45",
+  "b": "ei46",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei92",
+  "b": "ei93",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei196",
+  "b": "ei198",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei12",
+  "b": "ei15",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei177",
+  "b": "ei179",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei175",
+  "b": "ei181",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei53",
+  "b": "ei55",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei197",
+  "b": "ei203",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei123",
+  "b": "ei124",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei294",
+  "b": "ei295",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei196",
+  "b": "ei201",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei199",
+  "b": "ei201",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei174",
+  "b": "ei178",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei190",
+  "b": "ei193",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei80",
+  "b": "ei82",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei256",
+  "b": "ei259",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei19",
+  "b": "ei22",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei290",
+  "b": "ei291",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei198",
+  "b": "ei203",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei184",
+  "b": "ei185",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei18",
+  "b": "ei19",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei198",
+  "b": "ei199",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei43",
+  "b": "ei45",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei281",
+  "b": "ei282",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei13",
+  "b": "ei14",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei247",
+  "b": "ei251",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei43",
+  "b": "ei44",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei248",
+  "b": "ei252",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei97",
+  "b": "ei99",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei217",
+  "b": "ei219",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei107",
+  "b": "ei108",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei15",
+  "b": "ei16",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei113",
+  "b": "ei115",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei287",
+  "b": "ei289",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei240",
+  "b": "ei241",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei142",
+  "b": "ei143",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei187",
+  "b": "ei188",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei83",
+  "b": "ei84",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei129",
+  "b": "ei131",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei288",
+  "b": "ei289",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei265",
+  "b": "ei267",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei197",
+  "b": "ei205",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei103",
+  "b": "ei106",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei63",
+  "b": "ei64",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei239",
+  "b": "ei243",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei256",
+  "b": "ei260",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei149",
+  "b": "ei152",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei258",
+  "b": "ei260",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei279",
+  "b": "ei282",
+  "gold": true
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei64",
+  "b": "ei65",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei51",
+  "b": "ei55",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei121",
+  "b": "ei123",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei216",
+  "b": "ei217",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei226",
+  "b": "ei230",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei102",
+  "b": "ei104",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei121",
+  "b": "ei124",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei191",
+  "b": "ei192",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei25",
+  "b": "ei26",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei247",
+  "b": "ei252",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei53",
+  "b": "ei54",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei198",
+  "b": "ei201",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei128",
+  "b": "ei129",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei95",
+  "b": "ei96",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei166",
+  "b": "ei167",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei66",
+  "b": "ei67",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei234",
+  "b": "ei238",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei285",
+  "b": "ei287",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei177",
+  "b": "ei178",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei216",
+  "b": "ei220",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei135",
+  "b": "ei138",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei117",
+  "b": "ei118",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei218",
+  "b": "ei221",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei264",
+  "b": "ei267",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei219",
+  "b": "ei220",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei6",
+  "b": "ei7",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei239",
+  "b": "ei242",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei218",
+  "b": "ei219",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei190",
+  "b": "ei192",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei33",
+  "b": "ei36",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei159",
+  "b": "ei161",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei286",
+  "b": "ei288",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei169",
+  "b": "ei173",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei248",
+  "b": "ei253",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei186",
+  "b": "ei188",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei239",
+  "b": "ei240",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei293",
+  "b": "ei294",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei213",
+  "b": "ei214",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei58",
+  "b": "ei65",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei29",
+  "b": "ei31",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei62",
+  "b": "ei64",
+  "gold": true
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei76",
+  "b": "ei78",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei38",
+  "b": "ei40",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei84",
+  "b": "ei85",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei59",
+  "b": "ei60",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei196",
+  "b": "ei197",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei209",
+  "b": "ei211",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei227",
+  "b": "ei228",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei36",
+  "b": "ei37",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei51",
+  "b": "ei54",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei193",
+  "b": "ei194",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei192",
+  "b": "ei194",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei175",
+  "b": "ei179",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei216",
+  "b": "ei221",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei145",
+  "b": "ei148",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei129",
+  "b": "ei130",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei100",
+  "b": "ei99",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei11",
+  "b": "ei12",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei146",
+  "b": "ei147",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei60",
+  "b": "ei62",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei73",
+  "b": "ei78",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei87",
+  "b": "ei89",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei102",
+  "b": "ei106",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei256",
+  "b": "ei257",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei18",
+  "b": "ei22",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei129",
+  "b": "ei132",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei252",
+  "b": "ei254",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei188",
+  "b": "ei189",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei131",
+  "b": "ei133",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei13",
+  "b": "ei17",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei80",
+  "b": "ei81",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei116",
+  "b": "ei117",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei223",
+  "b": "ei224",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei255",
+  "b": "ei256",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei117",
+  "b": "ei120",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei169",
+  "b": "ei172",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei29",
+  "b": "ei32",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei31",
+  "b": "ei32",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei186",
+  "b": "ei189",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei262",
+  "b": "ei263",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei228",
+  "b": "ei230",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei185",
+  "b": "ei187",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei71",
+  "b": "ei72",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei58",
+  "b": "ei60",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei79",
+  "b": "ei80",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei197",
+  "b": "ei198",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei255",
+  "b": "ei258",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei103",
+  "b": "ei104",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei155",
+  "b": "ei156",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei216",
+  "b": "ei218",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei211",
+  "b": "ei213",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei184",
+  "b": "ei187",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei91",
+  "b": "ei93",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei247",
+  "b": "ei253",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei199",
+  "b": "ei203",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei208",
+  "b": "ei213",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei63",
+  "b": "ei65",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei178",
+  "b": "ei179",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei59",
+  "b": "ei63",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei257",
+  "b": "ei259",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei104",
+  "b": "ei106",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei74",
+  "b": "ei78",
+  "gold": true
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei214",
+  "b": "ei215",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei144",
+  "b": "ei148",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei153",
+  "b": "ei156",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei170",
+  "b": "ei171",
+  "gold": true
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei41",
+  "b": "ei42",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei75",
+  "b": "ei77",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei128",
+  "b": "ei130",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei258",
+  "b": "ei259",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei48",
+  "b": "ei50",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei85",
+  "b": "ei88",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei24",
+  "b": "ei25",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei83",
+  "b": "ei89",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei76",
+  "b": "ei77",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei277",
+  "b": "ei278",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei81",
+  "b": "ei82",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei130",
+  "b": "ei133",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei156",
+  "b": "ei157",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei211",
+  "b": "ei215",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei123",
+  "b": "ei125",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei247",
+  "b": "ei250",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei144",
+  "b": "ei147",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei211",
+  "b": "ei212",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei241",
+  "b": "ei243",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei198",
+  "b": "ei205",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei207",
+  "b": "ei208",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei43",
+  "b": "ei46",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei39",
+  "b": "ei40",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei58",
+  "b": "ei62",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei83",
+  "b": "ei88",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei171",
+  "b": "ei173",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei121",
+  "b": "ei125",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei147",
+  "b": "ei148",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei113",
+  "b": "ei114",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei34",
+  "b": "ei35",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei13",
+  "b": "ei15",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei244",
+  "b": "ei245",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei14",
+  "b": "ei15",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei54",
+  "b": "ei55",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei10",
+  "b": "ei8",
+  "gold": true
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei265",
+  "b": "ei266",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei136",
+  "b": "ei138",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei116",
+  "b": "ei119",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei228",
+  "b": "ei229",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei11",
+  "b": "ei13",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei15",
+  "b": "ei17",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei69",
+  "b": "ei70",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei91",
+  "b": "ei92",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei73",
+  "b": "ei76",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei285",
+  "b": "ei286",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei280",
+  "b": "ei282",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei218",
+  "b": "ei220",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei129",
+  "b": "ei133",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei47",
+  "b": "ei50",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei19",
+  "b": "ei20",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei94",
+  "b": "ei96",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei190",
+  "b": "ei194",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei11",
+  "b": "ei15",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei270",
+  "b": "ei272",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei11",
+  "b": "ei16",
+  "gold": true
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei233",
+  "b": "ei234",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei226",
+  "b": "ei228",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei287",
+  "b": "ei288",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei175",
+  "b": "ei177",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei94",
+  "b": "ei95",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei102",
+  "b": "ei103",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei255",
+  "b": "ei257",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei217",
+  "b": "ei218",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei144",
+  "b": "ei146",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei38",
+  "b": "ei39",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei192",
+  "b": "ei193",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei153",
+  "b": "ei157",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei174",
+  "b": "ei175",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei144",
+  "b": "ei145",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei20",
+  "b": "ei22",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei255",
+  "b": "ei260",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei185",
+  "b": "ei189",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei11",
+  "b": "ei17",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei286",
+  "b": "ei289",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei145",
+  "b": "ei146",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei191",
+  "b": "ei194",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei233",
+  "b": "ei238",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei19",
+  "b": "ei21",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei68",
+  "b": "ei71",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei255",
+  "b": "ei259",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei207",
+  "b": "ei211",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei110",
+  "b": "ei111",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei132",
+  "b": "ei133",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei136",
+  "b": "ei137",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei250",
+  "b": "ei253",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei88",
+  "b": "ei89",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei208",
+  "b": "ei212",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei103",
+  "b": "ei105",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei33",
+  "b": "ei37",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei229",
+  "b": "ei230",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei33",
+  "b": "ei35",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei101",
+  "b": "ei105",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei273",
+  "b": "ei275",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei197",
+  "b": "ei206",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei212",
+  "b": "ei213",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei49",
+  "b": "ei50",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei44",
+  "b": "ei46",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei83",
+  "b": "ei87",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei54",
+  "b": "ei56",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei219",
+  "b": "ei221",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei30",
+  "b": "ei32",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei179",
+  "b": "ei181",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei68",
+  "b": "ei72",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei117",
+  "b": "ei119",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei73",
+  "b": "ei74",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei20",
+  "b": "ei21",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei247",
+  "b": "ei254",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei178",
+  "b": "ei181",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei185",
+  "b": "ei188",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei185",
+  "b": "ei186",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei257",
+  "b": "ei258",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei269",
+  "b": "ei271",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei74",
+  "b": "ei77",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei279",
+  "b": "ei281",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei212",
+  "b": "ei214",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei119",
+  "b": "ei120",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei123",
+  "b": "ei126",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei154",
+  "b": "ei156",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei201",
+  "b": "ei205",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei279",
+  "b": "ei280",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei131",
+  "b": "ei134",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei55",
+  "b": "ei56",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei196",
+  "b": "ei206",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei197",
+  "b": "ei201",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei184",
+  "b": "ei188",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei1",
+  "b": "ei2",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei217",
+  "b": "ei221",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei197",
+  "b": "ei199",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei196",
+  "b": "ei205",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei146",
+  "b": "ei148",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei122",
+  "b": "ei126",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei149",
+  "b": "ei151",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei118",
+  "b": "ei120",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei14",
+  "b": "ei16",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei116",
+  "b": "ei118",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei261",
+  "b": "ei263",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei131",
+  "b": "ei132",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei247",
+  "b": "ei248",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei273",
+  "b": "ei274",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei217",
+  "b": "ei220",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei62",
+  "b": "ei65",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei137",
+  "b": "ei138",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei69",
+  "b": "ei72",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei186",
+  "b": "ei187",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei207",
+  "b": "ei215",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei68",
+  "b": "ei70",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei60",
+  "b": "ei64",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei248",
+  "b": "ei254",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei227",
+  "b": "ei230",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei85",
+  "b": "ei89",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei133",
+  "b": "ei134",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei257",
+  "b": "ei260",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei12",
+  "b": "ei16",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei84",
+  "b": "ei88",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei59",
+  "b": "ei65",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei145",
+  "b": "ei147",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei12",
+  "b": "ei17",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei87",
+  "b": "ei88",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei251",
+  "b": "ei253",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei213",
+  "b": "ei215",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei248",
+  "b": "ei250",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei12",
+  "b": "ei13",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei226",
+  "b": "ei227",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei101",
+  "b": "ei102",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei208",
+  "b": "ei209",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei171",
+  "b": "ei172",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei170",
+  "b": "ei173",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei128",
+  "b": "ei133",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei3",
+  "b": "ei5",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei85",
+  "b": "ei87",
+  "gold": true
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei108",
+  "b": "ei109",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei33",
+  "b": "ei34",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei53",
+  "b": "ei56",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei70",
+  "b": "ei72",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei154",
+  "b": "ei157",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei35",
+  "b": "ei37",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei231",
+  "b": "ei232",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei216",
+  "b": "ei219",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei239",
+  "b": "ei241",
+  "gold": false
+ },
+ {
+  "doc": "WSJ910225-0066",
+  "a": "ei203",
+  "b": "ei205",
+  "gold": false
+ }
+]

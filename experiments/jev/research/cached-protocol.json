@@ -1,0 +1,10 @@
+{
+  "study": "D0-E6-N14-paired-caches",
+  "readings_sha256": "2c30d0d992e93735f19a9ff42d591691d51f0a2faef600ac46e9787eca05932c",
+  "state_root": "~/.local/share/openresearch/workere-d0-e6",
+  "maximum_generation_calls": 0,
+  "primary": "diagnostic only; exact MBR vs fixed majority, no gold-tuned thresholds on S0",
+  "selection": "intersection valid all 12 families, 2 calendars, 3 slots; candidates fixed by N14",
+  "promotion": false,
+  "validation": "retrospective exposed development; no confirmatory claims"
+}
