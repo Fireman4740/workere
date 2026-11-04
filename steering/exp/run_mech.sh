@@ -111,8 +111,12 @@ E3)
   generate "$OUT/conditions.json" "$OUT/gen.jsonl" "$DATA/prompts.jsonl" "$EVAL_DOCS" "$MAX_TOKENS" live
   ;;
 E4)
-  gpu $PY probe.py --stage features --variant A --eval-prompts "$DATA/prompts.jsonl" --out-dir "$OUT" --max-model-len "$MAX_MODEL_LEN"
-  $PY probe.py --stage fit --variant A --out-dir "$OUT"
+  if [ -f "$OUT/result_A.json" ]; then
+    echo "== variant A already fitted: $OUT/result_A.json"
+  else
+    gpu $PY probe.py --stage features --variant A --eval-prompts "$DATA/prompts.jsonl" --out-dir "$OUT" --max-model-len "$MAX_MODEL_LEN"
+    $PY probe.py --stage fit --variant A --out-dir "$OUT"
+  fi
   until [ -f "$WORK/out/T0/DONE" ]; do echo "== waiting for T0 traces ($(date +%T))"; sleep 300; done
   gpu $PY probe.py --stage features --variant B --eval-prompts "$DATA/prompts.jsonl" --out-dir "$OUT" \
     --train-traces "$WORK/out/T0/train_traces.jsonl" --eval-traces "$WORK/out/T0/eval_traces.jsonl" --max-model-len "$MAX_MODEL_LEN"
