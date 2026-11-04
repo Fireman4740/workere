@@ -272,11 +272,12 @@ def span_mean_hook(store: dict[str, Any], key: str, start: int, stop: int):
     return hook
 
 
-def sampling_params(max_tokens: int):
+def sampling_params(max_tokens: int, temperature: float = 0.0, seed: int | None = None):
     from vllm import SamplingParams
 
     return SamplingParams(
-        temperature=0.0,
+        temperature=temperature,
+        seed=seed,
         top_p=0.95,
         top_k=20,
         min_p=0.0,
