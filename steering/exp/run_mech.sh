@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Reasoning-mechanism experiments on Qwen3.8-27B W4A16 (same checkpoint as the 3090), one
-# L40S per experiment, inside the HyperQwen image (Apptainer). Usage: run_mech.sh T0|E1|...|E5
+# L40S per experiment, inside the HyperQwen image (Apptainer). Usage: run_mech.sh S0|T0|E1|...|E5
+#   S0  smoke: hooks, decode graphs and batched steering on this GPU and image
 #   T0  greedy traces on the 133 CTB training documents and the 47 evaluation documents
 #   E1  decoding: greedy control vs temperature 0.6 vs 8k thinking budget + free answer
 #   E2  early exit by agreeing free continuations (BAEE-style), paired with its own control
@@ -48,6 +49,10 @@ conditions() {  # python literal list -> json file
 }
 
 case "$EXP" in
+S0)
+  $PY smoke.py --layer 32 --batch 4
+  touch "$OUT/OK"
+  ;;
 T0)
   $PY ctb.py --out "$OUT/train_prompts.jsonl"
   conditions "$OUT/greedy.json" '[{"name": "control", "direction": None, "alpha": 0.0, "layer": 40, "module": "down_proj"}]'
