@@ -4,6 +4,10 @@
 # Directions and generations persist on the box under $STEER_DATA/out, outside the run dir.
 set -euo pipefail
 REPO=$(cd "$(dirname "$0")/.." && pwd)
+# Per-experiment settings live in steering/config.env on each experiment branch; a MECH entry
+# routes the run to the reasoning-mechanism driver (E1-E5) instead of the steering sweep.
+if [ -f "$REPO/steering/config.env" ]; then set -a; . "$REPO/steering/config.env"; set +a; fi
+if [ -n "${MECH:-}" ]; then exec bash "$REPO/steering/exp/run_mech.sh" "$MECH"; fi
 PY=${PY:-/app/venv/bin/python}
 STEER_DATA=${STEER_DATA:-/app/local_extensions/steering}
 PROMPTS=${PROMPTS:-$STEER_DATA/prompts.jsonl}
