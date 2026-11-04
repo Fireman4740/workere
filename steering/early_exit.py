@@ -75,6 +75,17 @@ def main() -> None:
                            "previous": None, "checkpoints": 0} for r in rows}
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
+    if out.exists():
+        for row in read_jsonl(out):
+            s = state.get(row["doc_id"])
+            if s is None:
+                continue
+            if row["condition"] == "control":
+                s["ended"] = True
+            elif row["condition"] == "early_exit":
+                s["decided"] = True
+        print(f"resume: {sum(s['ended'] for s in state.values())} traces already ended, "
+              f"{sum(s['decided'] for s in state.values())} decisions already written", flush=True)
     started = time.time()
     with out.open("a") as sink:
         while any(not s["ended"] for s in state.values()):
