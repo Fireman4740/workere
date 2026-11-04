@@ -39,7 +39,7 @@ generate() {  # conditions.json out.jsonl [prompts] [doc-ids] [max-tokens]
   local after="$PY score.py --reference data/reference.json --predictions $2 --out ${2%.jsonl}.scores.json --csv ${2%.jsonl}.scores.csv | grep -E '^[a-z_]|run_docs'; $PY compare.py --csv ${2%.jsonl}.scores.csv --subset run_docs --draws 10000"
   local docs_arg=()
   [ -n "${4:-}" ] && docs_arg=(--doc-ids "$4")
-  $PY run_vllm.py --prompts "${3:-$DATA/prompts.jsonl}" --conditions "$1" "${docs_arg[@]}" \
+  gpu $PY run_vllm.py --prompts "${3:-$DATA/prompts.jsonl}" --conditions "$1" "${docs_arg[@]}" \
     --batch "$BATCH" --max-model-len "$MAX_MODEL_LEN" --max-tokens "${5:-$MAX_TOKENS}" \
     --gpu-memory-utilization "$GPU_UTIL" --out "$2" ${6:+--after-condition "$after"}
 }
@@ -48,9 +48,26 @@ conditions() {  # python literal list -> json file
   $PY -c "import json,sys; json.dump($2, open(sys.argv[1], 'w'), indent=1)" "$1"
 }
 
+# On a shared GPU (the 3090) set LOCK: each GPU step then holds the lock only while it runs,
+# so a job waiting for T0 never blocks the GPU, and memory held by other processes (Windows
+# side under WSL, invisible to torch) is waited out first.
+gpu() {
+  if [ -z "${LOCK:-}" ]; then "$@"; return; fi
+  (
+    flock 9
+    until used=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | head -1) \
+        && [ "$used" -lt "${GPU_BUSY_MIB:-2048}" ]; do
+      echo "== GPU busy: ${used} MiB used by another process; waiting ($(date +%T))"
+      sleep 120
+    done
+    echo "== GPU acquired ($(date +%T))"
+    "$@"
+  ) 9>"$LOCK"
+}
+
 case "$EXP" in
 S0)
-  $PY smoke.py --layer 32 --batch 4
+  gpu $PY smoke.py --layer 32 --batch 4
   touch "$OUT/OK"
   ;;
 T0)
@@ -68,8 +85,8 @@ E1)
   generate "$OUT/conditions.json" "$OUT/gen.jsonl" "$DATA/prompts.jsonl" "$EVAL_DOCS" "$MAX_TOKENS" live
   ;;
 E2)
-  $PY early_exit.py --prompts "$DATA/prompts.jsonl" --doc-ids "$EVAL_DOCS" --out "$OUT/gen.jsonl" \
-    --max-tokens 26000 --batch "$BATCH" --max-model-len "$MAX_MODEL_LEN" --gpu-memory-utilization "$GPU_UTIL"
+  gpu $PY early_exit.py --prompts "$DATA/prompts.jsonl" --doc-ids "$EVAL_DOCS" --out "$OUT/gen.jsonl" \
+    --max-tokens "${EXIT_TOKENS:-26000}" --batch "$BATCH" --max-model-len "$MAX_MODEL_LEN" --gpu-memory-utilization "$GPU_UTIL"
   score "$OUT/gen.jsonl"
   $PY - "$OUT/gen.jsonl" <<'EOF'
 import json, sys, statistics as st
@@ -81,8 +98,9 @@ print(f"early decisions by agreement: {len(saved)}/{len(early)}; median serial t
 EOF
   ;;
 E3)
+  if [ "${RUN_T0_FIRST:-0}" = 1 ] && [ ! -f "$WORK/out/T0/DONE" ]; then bash "$0" T0; fi
   until [ -f "$WORK/out/T0/DONE" ]; do echo "== waiting for T0 traces ($(date +%T))"; sleep 300; done
-  $PY reflection.py --stage e3 --prompts "$WORK/out/T0/train_prompts.jsonl" --traces "$WORK/out/T0/train_traces.jsonl" \
+  gpu $PY reflection.py --stage e3 --prompts "$WORK/out/T0/train_prompts.jsonl" --traces "$WORK/out/T0/train_traces.jsonl" \
     --out-dir "$OUT/dirs" --max-model-len "$MAX_MODEL_LEN"
   L=$(cat "$OUT/dirs/e3_best_layer.txt")
   conditions "$OUT/conditions.json" "[
@@ -93,16 +111,16 @@ E3)
   generate "$OUT/conditions.json" "$OUT/gen.jsonl" "$DATA/prompts.jsonl" "$EVAL_DOCS" "$MAX_TOKENS" live
   ;;
 E4)
-  $PY probe.py --stage features --variant A --eval-prompts "$DATA/prompts.jsonl" --out-dir "$OUT" --max-model-len "$MAX_MODEL_LEN"
+  gpu $PY probe.py --stage features --variant A --eval-prompts "$DATA/prompts.jsonl" --out-dir "$OUT" --max-model-len "$MAX_MODEL_LEN"
   $PY probe.py --stage fit --variant A --out-dir "$OUT"
   until [ -f "$WORK/out/T0/DONE" ]; do echo "== waiting for T0 traces ($(date +%T))"; sleep 300; done
-  $PY probe.py --stage features --variant B --eval-prompts "$DATA/prompts.jsonl" --out-dir "$OUT" \
+  gpu $PY probe.py --stage features --variant B --eval-prompts "$DATA/prompts.jsonl" --out-dir "$OUT" \
     --train-traces "$WORK/out/T0/train_traces.jsonl" --eval-traces "$WORK/out/T0/eval_traces.jsonl" --max-model-len "$MAX_MODEL_LEN"
   $PY probe.py --stage fit --variant B --out-dir "$OUT"
   ;;
 E5)
   until [ -f "$WORK/out/T0/DONE" ]; do echo "== waiting for T0 traces ($(date +%T))"; sleep 300; done
-  $PY reflection.py --stage e5 --prompts "$WORK/out/T0/train_prompts.jsonl" --traces "$WORK/out/T0/train_traces.jsonl" \
+  gpu $PY reflection.py --stage e5 --prompts "$WORK/out/T0/train_prompts.jsonl" --traces "$WORK/out/T0/train_traces.jsonl" \
     --out-dir "$OUT/dirs" --max-model-len "$MAX_MODEL_LEN"
   conditions "$OUT/conditions.json" "[
     {'name': 'control', 'direction': None, 'alpha': 0.0, 'layer': 40, 'module': 'down_proj'},
