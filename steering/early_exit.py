@@ -79,13 +79,18 @@ def main() -> None:
     with out.open("a") as sink:
         while any(not s["ended"] for s in state.values()):
             growing = [d for d, s in state.items() if not s["ended"]]
+            room = {d: args.max_model_len - 8 - len(tokenizer(prompts[d] + state[d]["trace"],
+                                                                add_special_tokens=False)["input_ids"])
+                    for d in growing}
             outputs = llm.generate([prompts[d] + state[d]["trace"] for d in growing],
-                                   sampling_params(args.chunk), use_tqdm=False)
+                                   [sampling_params(max(1, min(args.chunk, room[d]))) for d in growing],
+                                   use_tqdm=False)
             for doc_id, output in zip(growing, outputs):
                 s, completion = state[doc_id], output.outputs[0]
                 s["trace"] += completion.text
                 s["tokens"] += len(completion.token_ids)
-                if completion.finish_reason == "stop" or s["tokens"] >= args.max_tokens:
+                full = room[doc_id] - len(completion.token_ids) < args.chunk
+                if completion.finish_reason == "stop" or s["tokens"] >= args.max_tokens or full:
                     s["ended"] = True
                     write(sink, s["row"], "control", s["trace"], s["tokens"],
                           {"truncated": completion.finish_reason != "stop"})
@@ -93,7 +98,8 @@ def main() -> None:
                         s["decided"] = True
                         write(sink, s["row"], "early_exit", s["trace"], s["tokens"],
                               {"exit": "natural_end", "checkpoints": s["checkpoints"]})
-            probing = [d for d, s in state.items() if not s["decided"] and not s["ended"]]
+            probing = [d for d, s in state.items() if not s["decided"] and not s["ended"]
+                       and room[d] - args.chunk > args.probe_tokens]
             if probing:
                 params = []
                 for d in probing:
