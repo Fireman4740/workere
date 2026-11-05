@@ -144,6 +144,13 @@ R2)
     --gpu-memory-utilization "$GPU_UTIL" --out "$OUT/gen.jsonl"
   $PY esc.py score --gen "$OUT/gen.jsonl" --out "$OUT/result.json"
   ;;
+R3)
+  $PY guideline.py prompts --src "$DATA/prompts.jsonl" --out "$OUT/prompts.jsonl"
+  conditions "$OUT/conditions.json" '[{"name": f"s{i}", "temperature": 0.6, "seed": i, "budget": 8192, "answer_tokens": 4096, "direction": None, "alpha": 0.0, "layer": 40, "module": "down_proj"} for i in range(1, 4)]'
+  generate "$OUT/conditions.json" "$OUT/gen.jsonl" "$OUT/prompts.jsonl" "$EVAL_DOCS" "$MAX_TOKENS" live
+  $PY guideline.py vote --gen "$OUT/gen.jsonl" --k 3 --out "$OUT/vote.json"
+  [ -f "$WORK/out/R1/gen.jsonl" ] && $PY guideline.py vote --gen "$WORK/out/R1/gen.jsonl" --k 3 --out "$OUT/r1_vote3.json" || true
+  ;;
 *) echo "unknown experiment $EXP" >&2; exit 2 ;;
 esac
 echo "== $EXP done $(date -Is)"
