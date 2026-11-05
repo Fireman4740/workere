@@ -128,6 +128,22 @@ E5)
     {'name': 'heads_random', 'heads': {'edit': '$OUT/dirs/heads_edit_random.npz', 'strength': 1.0}, 'direction': None, 'alpha': 0.0, 'layer': 40, 'module': 'down_proj'}]"
   generate "$OUT/conditions.json" "$OUT/gen.jsonl" "$DATA/prompts.jsonl" "$EVAL_DOCS" "$MAX_TOKENS" live
   ;;
+N1)
+  conditions "$OUT/conditions.json" '[{"name": "greedy_b8k", "budget": 8192, "answer_tokens": 4096, "direction": None, "alpha": 0.0, "layer": 40, "module": "down_proj"}]'
+  gpu $PY run_vllm.py --prompts "$DATA/prompts.jsonl" --passes 0,1,2,3,4 --doc-ids "$EVAL_DOCS" \
+    --conditions "$OUT/conditions.json" --batch "$BATCH" --max-model-len "$MAX_MODEL_LEN" --max-tokens "$MAX_TOKENS" \
+    --gpu-memory-utilization "$GPU_UTIL" --out "$OUT/gen.jsonl"
+  $PY usc.py vote --gen "$OUT/gen.jsonl" --out "$OUT/vote.json"
+  if [ -f "$WORK/out/R1/gen.jsonl" ]; then $PY usc.py vote --gen "$WORK/out/R1/gen.jsonl" "$OUT/gen.jsonl" --out "$OUT/vote_r1_plus_n1.json"; fi
+  ;;
+N2)
+  until [ "$(wc -l < "$WORK/out/R1/gen.jsonl" 2>/dev/null || echo 0)" -ge 235 ]; do echo "== waiting for R1's 5 readings ($(date +%T))"; sleep 300; done
+  $PY usc.py prompts --src "$DATA/prompts.jsonl" --gen "$WORK/out/R1/gen.jsonl" --doc-ids "$EVAL_DOCS" --out "$OUT/prompts.jsonl"
+  conditions "$OUT/conditions.json" '[{"name": "verify_b8k", "budget": 8192, "answer_tokens": 4096, "direction": None, "alpha": 0.0, "layer": 40, "module": "down_proj"}]'
+  generate "$OUT/conditions.json" "$OUT/gen.jsonl" "$OUT/prompts.jsonl" "$EVAL_DOCS" "$MAX_TOKENS" live
+  $PY usc.py vote --gen "$OUT/gen.jsonl" --out "$OUT/verify.json"
+  $PY usc.py vote --gen "$WORK/out/R1/gen.jsonl" --out "$OUT/r1_vote.json"
+  ;;
 *) echo "unknown experiment $EXP" >&2; exit 2 ;;
 esac
 echo "== $EXP done $(date -Is)"
