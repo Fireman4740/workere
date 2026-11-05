@@ -128,6 +128,22 @@ E5)
     {'name': 'heads_random', 'heads': {'edit': '$OUT/dirs/heads_edit_random.npz', 'strength': 1.0}, 'direction': None, 'alpha': 0.0, 'layer': 40, 'module': 'down_proj'}]"
   generate "$OUT/conditions.json" "$OUT/gen.jsonl" "$DATA/prompts.jsonl" "$EVAL_DOCS" "$MAX_TOKENS" live
   ;;
+R1)
+  conditions "$OUT/conditions.json" '[{"name": f"s{i}", "temperature": 0.6, "seed": i, "budget": 8192, "answer_tokens": 4096, "direction": None, "alpha": 0.0, "layer": 40, "module": "down_proj"} for i in range(1, 6)]'
+  generate "$OUT/conditions.json" "$OUT/gen.jsonl" "$DATA/prompts.jsonl" "$EVAL_DOCS" "$MAX_TOKENS" live
+  until [ -f "$WORK/out/T0/DONE" ]; do echo "== waiting for T0 traces ($(date +%T))"; sleep 300; done
+  [ -f "$OUT/features.npz" ] || gpu $PY combo.py --stage features --gen "$OUT/gen.jsonl" \
+    --train-traces "$WORK/out/T0/train_traces.jsonl" --out-dir "$OUT" --max-model-len "$MAX_MODEL_LEN"
+  $PY combo.py --stage fit --gen "$OUT/gen.jsonl" --out-dir "$OUT"
+  ;;
+R2)
+  $PY esc.py prompts --passes "${ESC_PASSES:-3}" --out "$OUT/prompts.jsonl"
+  conditions "$OUT/conditions.json" '[{"name": "esc_b10k_t06", "temperature": 0.6, "seed": 1, "budget": 10240, "answer_tokens": 6144, "direction": None, "alpha": 0.0, "layer": 40, "module": "down_proj"}]'
+  gpu $PY run_vllm.py --prompts "$OUT/prompts.jsonl" --passes "$(seq -s, 0 $(( ${ESC_PASSES:-3} - 1 )))" \
+    --conditions "$OUT/conditions.json" --batch "$BATCH" --max-model-len "$MAX_MODEL_LEN" --max-tokens 16384 \
+    --gpu-memory-utilization "$GPU_UTIL" --out "$OUT/gen.jsonl"
+  $PY esc.py score --gen "$OUT/gen.jsonl" --out "$OUT/result.json"
+  ;;
 *) echo "unknown experiment $EXP" >&2; exit 2 ;;
 esac
 echo "== $EXP done $(date -Is)"
