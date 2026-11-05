@@ -145,7 +145,7 @@ def o_proj_u(module, direction: np.ndarray) -> np.ndarray:
     import torch
 
     with torch.inference_mode():
-        eye = torch.eye(module.input_size, dtype=torch.get_default_dtype(), device="cuda")
+        eye = torch.eye(module.input_size, dtype=torch.bfloat16, device="cuda")
         out = module(eye)
         out = out[0] if isinstance(out, tuple) else out
         d = torch.from_numpy(direction).to(out)
@@ -230,8 +230,15 @@ def main() -> None:
         summary["sentences"] = {"hesitant": int((labels == "h").sum()), "decisive": int((labels == "d").sum())}
         (out_dir / "e3_summary.json").write_text(json.dumps(summary, indent=1))
     else:
-        taps = {f"oout{layer}": (layer, "o_proj", "out") for layer in ATTN_LAYERS}
-        out_vectors, labels, _ = collect(llm, tokenizer, model, items, taps, args.per_class, limit)
+        cache = out_dir / "e5_oproj_outputs.npz"
+        if cache.exists():
+            data = np.load(cache)
+            out_vectors = {k: data[k] for k in data.files if k.startswith("oout")}
+            labels = data["labels"]
+        else:
+            taps = {f"oout{layer}": (layer, "o_proj", "out") for layer in ATTN_LAYERS}
+            out_vectors, labels, _ = collect(llm, tokenizer, model, items, taps, args.per_class, limit)
+            np.savez(cache, labels=labels, **out_vectors)
         subset = random.Random("e5-subset").sample(items, min(args.e5_docs, len(items)))
         summary = e5_edit(llm, tokenizer, model, subset, out_vectors, labels, out_dir, args.per_class,
                           limit, args.head_fraction)
