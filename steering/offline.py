@@ -55,6 +55,7 @@ def build_llm(
     eager: bool = False,
     steer_layer: int | None = None,
     steer_positions: str = "last",
+    chunked_prefill: bool = False,
 ):
     """In-process engine with no chunked prefill.
 
