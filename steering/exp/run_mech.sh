@@ -41,7 +41,7 @@ generate() {  # conditions.json out.jsonl [prompts] [doc-ids] [max-tokens]
   [ -n "${4:-}" ] && docs_arg=(--doc-ids "$4")
   gpu $PY run_vllm.py --prompts "${3:-$DATA/prompts.jsonl}" --conditions "$1" "${docs_arg[@]}" \
     --batch "$BATCH" --max-model-len "$MAX_MODEL_LEN" --max-tokens "${5:-$MAX_TOKENS}" \
-    --gpu-memory-utilization "$GPU_UTIL" --out "$2" ${6:+--after-condition "$after"}
+    --gpu-memory-utilization "$GPU_UTIL" --out "$2" ${CHUNKED:+--chunked-prefill} ${6:+--after-condition "$after"}
 }
 
 conditions() {  # python literal list -> json file
@@ -143,6 +143,13 @@ N2)
   generate "$OUT/conditions.json" "$OUT/gen.jsonl" "$OUT/prompts.jsonl" "$EVAL_DOCS" "$MAX_TOKENS" live
   $PY usc.py vote --gen "$OUT/gen.jsonl" --out "$OUT/verify.json"
   $PY usc.py vote --gen "$WORK/out/R1/gen.jsonl" --out "$OUT/r1_vote.json"
+  ;;
+P4)
+  until [ "$(wc -l < "$WORK/out/P3/gen.jsonl" 2>/dev/null || echo 0)" -ge 235 ]; do echo "== waiting for P3 readings ($(date +%T))"; sleep 300; done
+  $PY usc.py prompts --src "$DATA/prompts.jsonl" --gen "$WORK/out/P3/gen.jsonl" --doc-ids "$EVAL_DOCS" --out "$OUT/prompts.jsonl"
+  conditions "$OUT/conditions.json" '[{"name": "verify_b20k", "budget": 20480, "answer_tokens": 4096, "direction": None, "alpha": 0.0, "layer": 40, "module": "down_proj"}]'
+  generate "$OUT/conditions.json" "$OUT/gen.jsonl" "$OUT/prompts.jsonl" "$EVAL_DOCS" "$MAX_TOKENS" live
+  $PY usc.py vote --gen "$OUT/gen.jsonl" --out "$OUT/verify.json"
   ;;
 *) echo "unknown experiment $EXP" >&2; exit 2 ;;
 esac
