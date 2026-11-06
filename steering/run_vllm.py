@@ -162,6 +162,7 @@ def main() -> None:
     parser.add_argument("--doc-ids", help="file with one doc id per line; only these documents run")
     parser.add_argument("--eager", action="store_true", help="disable CUDA graphs (slower decode)")
     parser.add_argument("--after-condition", help="shell command run after each condition (live scoring)")
+    parser.add_argument("--chunked-prefill", action="store_true", help="allow contexts beyond the unchunked-prefill memory limit (no steering)")
     parser.add_argument("--batch", type=int, default=10, help="documents decoded concurrently")
     parser.add_argument("--max-tokens", type=int, default=32768)
     parser.add_argument("--max-model-len", type=int, default=49152)
@@ -185,7 +186,7 @@ def main() -> None:
     layer, positions = install_sites(conditions)
     llm, _, tokenizer = build_llm(
         args.model, args.max_model_len, args.gpu_memory_utilization, max_num_seqs=args.batch,
-        eager=args.eager, steer_layer=layer, steer_positions=positions,
+        eager=args.eager, steer_layer=layer, steer_positions=positions, chunked_prefill=args.chunked_prefill,
     )
     steerer = installed_steerer()
     out_path = Path(args.out)

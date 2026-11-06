@@ -41,7 +41,7 @@ generate() {  # conditions.json out.jsonl [prompts] [doc-ids] [max-tokens]
   [ -n "${4:-}" ] && docs_arg=(--doc-ids "$4")
   gpu $PY run_vllm.py --prompts "${3:-$DATA/prompts.jsonl}" --conditions "$1" "${docs_arg[@]}" \
     --batch "$BATCH" --max-model-len "$MAX_MODEL_LEN" --max-tokens "${5:-$MAX_TOKENS}" \
-    --gpu-memory-utilization "$GPU_UTIL" --out "$2" ${6:+--after-condition "$after"}
+    --gpu-memory-utilization "$GPU_UTIL" --out "$2" ${CHUNKED:+--chunked-prefill} ${6:+--after-condition "$after"}
 }
 
 conditions() {  # python literal list -> json file
@@ -142,6 +142,14 @@ R2)
   gpu $PY run_vllm.py --prompts "$OUT/prompts.jsonl" --passes "$(seq -s, 0 $(( ${ESC_PASSES:-3} - 1 )))" \
     --conditions "$OUT/conditions.json" --batch "$BATCH" --max-model-len "$MAX_MODEL_LEN" --max-tokens 16384 \
     --gpu-memory-utilization "$GPU_UTIL" --out "$OUT/gen.jsonl"
+  $PY esc.py score --gen "$OUT/gen.jsonl" --out "$OUT/result.json"
+  ;;
+P2)
+  $PY esc.py prompts --passes 3 --out "$OUT/prompts.jsonl"
+  conditions "$OUT/conditions.json" '[{"name": "esc_b24k_t06", "temperature": 0.6, "seed": 1, "budget": 24576, "answer_tokens": 8192, "direction": None, "alpha": 0.0, "layer": 40, "module": "down_proj"}]'
+  gpu $PY run_vllm.py --prompts "$OUT/prompts.jsonl" --passes 0,1,2 \
+    --conditions "$OUT/conditions.json" --batch "$BATCH" --max-model-len "$MAX_MODEL_LEN" --max-tokens 33000 \
+    --gpu-memory-utilization "$GPU_UTIL" --out "$OUT/gen.jsonl" ${CHUNKED:+--chunked-prefill}
   $PY esc.py score --gen "$OUT/gen.jsonl" --out "$OUT/result.json"
   ;;
 *) echo "unknown experiment $EXP" >&2; exit 2 ;;
