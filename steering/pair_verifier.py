@@ -14,6 +14,7 @@ import json
 import math
 from pathlib import Path
 import re
+import shutil
 import time
 
 from ctb import load_suite, load_prompt, unordered_pairs, causal_pairs, eval_ids
@@ -98,7 +99,7 @@ def make_messages(rules, context, pair, surfaces, demos, reverse=False, null=Fal
     return messages
 
 
-def prepare(out, variant):
+def prepare(out, variant, resume_from=None):
     suite, prompt = load_suite(), load_prompt()
     excluded = set(eval_ids())
     bank_ids = {d["id"] for d in prompt["demos"]}
@@ -139,6 +140,15 @@ def prepare(out, variant):
                     rows=rows, commit=__import__("os").environ.get("ORX_COMMIT"))
     dump(out / "manifest.json", manifest)
     (out / "requests.jsonl").write_text("".join(json.dumps(r) + "\n" for r in requests))
+    if resume_from is not None:
+        assert (resume_from / "requests.jsonl").read_bytes() == (out / "requests.jsonl").read_bytes(), "resume request mismatch"
+        source_manifest = json.loads((resume_from / "manifest.json").read_text())
+        assert {k:v for k,v in source_manifest.items() if k != "commit"} == {k:v for k,v in manifest.items() if k != "commit"}, "resume manifest mismatch"
+        for name in ("scores.jsonl", "smoke.json"):
+            if (resume_from / name).exists():
+                shutil.copy2(resume_from / name, out / name)
+        dump(out / "resume.json", dict(source=str(resume_from), request_identity_verified=True))
+        print("RESUME verified identical requests and split; copied existing scores", flush=True)
     print("PREPARED", json.dumps(dict(variant=variant, bank_documents=len(bank_ids),
           calibration_documents=len(cal_ids), evaluation_documents=len(evaluation),
           pairs=len(rows), requests=len(requests), splits=dict(Counter(r["split"] for r in rows)))), flush=True)
@@ -254,9 +264,39 @@ def cached_votes(paths, suite, ids):
     return result
 
 
+def ranking_metrics(labels, scores):
+    """Exact binary AUROC (half credit for ties) and non-interpolated AP."""
+    groups = defaultdict(lambda: [0, 0])
+    for y, s in zip(labels, scores):
+        groups[s][int(bool(y))] += 1
+    positives = sum(labels)
+    negatives = len(labels) - positives
+    assert positives and negatives, "ranking metrics require both classes"
+    below = auc = 0.0
+    for s in sorted(groups):
+        n, p = groups[s]
+        auc += p * (below + n/2)
+        below += n
+    tp = fp = ap = 0.0
+    for s in sorted(groups, reverse=True):
+        n, p = groups[s]
+        tp += p
+        fp += n
+        ap += (p/positives) * tp/(tp+fp)
+    return auc/(positives*negatives), ap
+
+
+def complete(out):
+    if not (out / "scores.jsonl").exists():
+        return False
+    rows = jsonl(out / "scores.jsonl")
+    keys = {r["key"] for r in rows}
+    assert len(keys) == len(rows), "duplicate cached scores"
+    return keys == {r["key"] for r in jsonl(out / "requests.jsonl")}
+
+
 def score(out, work):
     from compare import paired_delta
-    from sklearn.metrics import average_precision_score, roc_auc_score
     m = json.loads((out / "manifest.json").read_text())
     raw = {r["key"]: r for r in jsonl(out / "scores.jsonl")}
     rows = m["rows"]
@@ -314,9 +354,8 @@ def score(out, work):
             all_preds[name] = {d: sorted(pred[d]) for d in ids}
             print("RESULT", name, json.dumps({k:v for k,v in report["systems"][name].items()
                                               if k != "document_counts"}), flush=True)
-        report["systems"][method].update(
-            auroc=roc_auc_score([r["label"] for r in eval_rows],eval_scores),
-            average_precision=average_precision_score([r["label"] for r in eval_rows],eval_scores))
+        auc, ap = ranking_metrics([r["label"] for r in eval_rows], eval_scores)
+        report["systems"][method].update(auroc=auc, average_precision=ap)
     report["primary"] = primary
     report["mean_label_permutation_margin_gap"] = sum(values(r)["permutation_gap"] for r in eval_rows)/len(eval_rows)
     report["scope"] = "CTB47 reused development set; binary presence, not direction; all candidates scored"
@@ -329,14 +368,16 @@ def score(out, work):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("stage", choices=("prepare", "infer", "score"))
+    p.add_argument("stage", choices=("prepare", "infer", "score", "complete"))
     p.add_argument("--variant", choices=("V1", "V2"), required=True)
     p.add_argument("--out", type=Path, required=True)
     p.add_argument("--work", type=Path, default=Path("/app/local_extensions/steering/mech"))
+    p.add_argument("--resume-from", type=Path)
     args = p.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)
-    if args.stage == "prepare": prepare(args.out, args.variant)
+    if args.stage == "prepare": prepare(args.out, args.variant, args.resume_from)
     elif args.stage == "infer": infer(args.out)
+    elif args.stage == "complete": raise SystemExit(0 if complete(args.out) else 1)
     else: score(args.out, args.work)
 
 

@@ -5,10 +5,17 @@ import tempfile
 import unittest
 
 from ctb import load_suite, unordered_pairs
-from pair_verifier import best_threshold, cached_votes, make_messages
+from pair_verifier import best_threshold, cached_votes, make_messages, ranking_metrics
 
 
 class PairVerifierTest(unittest.TestCase):
+    def test_ranking_metrics_ties_and_order(self):
+        self.assertEqual(ranking_metrics([0,1],[0,1]), (1.,1.))
+        self.assertEqual(ranking_metrics([0,1],[1,0]), (0.,.5))
+        self.assertEqual(ranking_metrics([0,1],[0,0]), (.5,.5))
+        auc, ap = ranking_metrics([0,0,1,1],[.1,.4,.35,.8])
+        self.assertAlmostEqual(auc,.75)
+        self.assertAlmostEqual(ap,5/6)
     def test_exact_threshold_includes_lower_positive_when_f1_improves(self):
         rows = [{"label":1}, {"label":0}, {"label":1}]
         self.assertEqual(best_threshold(rows, [3,2,1]), (1, .8))
@@ -20,7 +27,7 @@ class PairVerifierTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp)/"gen.jsonl"
             path.write_text("".join(json.dumps(dict(doc_id=doc, condition="x", **{"pass":i},
-                finish_reason="stop", text=f'<think>[["{a}","causes","{b}"]]</think>[]'))+"\n"
+                finish_reason="stop", text='<think>'+json.dumps([{"pair":f"{a},{b}","label":"causes"}])+'</think>[]'))+"\n"
                 for i in range(5)))
             self.assertTrue(all(v==0 for v in cached_votes([path],suite,[doc])[doc].values()))
 
