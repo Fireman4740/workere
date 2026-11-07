@@ -143,7 +143,8 @@ def prepare(out, variant, resume_from=None):
     if resume_from is not None:
         assert (resume_from / "requests.jsonl").read_bytes() == (out / "requests.jsonl").read_bytes(), "resume request mismatch"
         source_manifest = json.loads((resume_from / "manifest.json").read_text())
-        assert {k:v for k,v in source_manifest.items() if k != "commit"} == {k:v for k,v in manifest.items() if k != "commit"}, "resume manifest mismatch"
+        canonical_manifest = json.loads(json.dumps(manifest))
+        assert {k:v for k,v in source_manifest.items() if k != "commit"} == {k:v for k,v in canonical_manifest.items() if k != "commit"}, "resume manifest mismatch"
         for name in ("scores.jsonl", "smoke.json"):
             if (resume_from / name).exists():
                 shutil.copy2(resume_from / name, out / name)
