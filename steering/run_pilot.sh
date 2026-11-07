@@ -7,6 +7,7 @@ REPO=$(cd "$(dirname "$0")/.." && pwd)
 # Per-experiment settings live in steering/config.env on each experiment branch; a MECH entry
 # routes the run to the reasoning-mechanism driver (E1-E5) instead of the steering sweep.
 if [ -f "$REPO/steering/config.env" ]; then set -a; . "$REPO/steering/config.env"; set +a; fi
+if [ "${CAMPAIGN:-}" = "C2" ]; then exec bash "$REPO/steering/exp/run_campaign2.sh"; fi
 if [ "${CAMPAIGN:-}" = "C1" ]; then exec bash "$REPO/steering/exp/run_campaign.sh"; fi
 if [ -n "${PAIR_VARIANT:-}" ]; then exec bash "$REPO/steering/exp/run_pairs.sh"; fi
 if [ -n "${MECH:-}" ]; then exec bash "$REPO/steering/exp/run_mech.sh" "$MECH"; fi

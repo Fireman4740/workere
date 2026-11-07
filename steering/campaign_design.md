@@ -57,3 +57,38 @@ signal complémentaire. C4 exige d'abord une borne de sélection calculée sur d
 graphes de calibration disponibles ; C5 est un diagnostic mécaniste indépendant
 préalable à toute édition de poids. Ces étapes n'ont pas encore de vainqueur ni
 de résultat et ne sont pas lancées par avance sur la base des labels du pilote.
+
+## C2 : fiches d'événements et budget par bloc
+
+Les résultats C1 orientent cette suite : en contexte local, 117/168 blocs CTB
+et 531/546 blocs ESC ont atteint le plafond de 2 048 tokens. Les paires, textes,
+ordres et résultats C1 de ce contexte sont réutilisés après vérification des
+empreintes ; aucune génération C1 n'est refaite. Le contexte local a été retenu
+pour son coût plus faible et ses résultats de développement, sans conclure à
+une supériorité générale sur le document entier.
+
+Quatre conditions : fiches à 2 048 tokens ; mêmes fiches permutées entre
+événements du document à 2 048 ; sans fiche à 4 096 ; fiches à 4 096. Le
+contrôle direct sans fiche à 2 048 vient de C1. La comparaison fiches réelles
+contre fiches permutées maintient le modèle, les blocs, les ordres et le budget.
+Le dépassement de budget, les réponses invalides et tous les documents restent
+dans le dénominateur. Les intervalles appariés sont calculés par document ; les
+12 documents ESC proviennent de 12 sujets distincts.
+
+Le même Qwen extrait une seule fiche par événement depuis le texte, sans label
+causal ou coréférence gold : acteur, participant affecté, citation de preuve et
+statut de l'événement. Les champs textuels non retrouvés littéralement dans le
+document sont écartés ; sans citation retrouvée, le statut devient inconnu. La
+présence de la citation ne prouve pas sa bonne attribution à l'événement. Les
+fiches et leur qualité sont sauvegardées ; si plus de 10 % des lots de fiches
+échouent à produire un objet valide, l'inférence par paire s'arrête.
+
+Le coût des fiches est mesuré par corpus et partagé entre les trois conditions
+qui les utilisent. Les sorties partielles et les identités des entrées, du
+moteur et du checkpoint sont vérifiées à la reprise. Ce sont des expériences
+exploratoires sur des documents déjà utilisés pour sélectionner les méthodes.
+
+Quatre règles de combinaison fixées avant la génération sont également évaluées
+sur CPU : accord entre les deux ordres ; ajout de cet accord au vote Qwen ;
+filtrage des seuls liens rejetés par les deux ordres ; et majorité entre le vote
+Qwen et les deux ordres. Ces nombreuses comparaisons restent exploratoires.
