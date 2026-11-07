@@ -5,10 +5,24 @@ import tempfile
 import unittest
 
 from ctb import load_suite, unordered_pairs
-from pair_verifier import best_threshold, cached_votes, make_messages, ranking_metrics
+from pair_verifier import best_threshold, cached_votes, make_messages, ranking_metrics, prepare
 
 
 class PairVerifierTest(unittest.TestCase):
+    def test_prepare_resumes_serialized_manifest(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            first, second = Path(tmp)/"first", Path(tmp)/"second"
+            first.mkdir(); second.mkdir()
+            prepare(first,"V1")
+            (first/"scores.jsonl").write_text('{"key":"test"}\n')
+            prepare(second,"V1",first)
+            self.assertEqual((first/"scores.jsonl").read_bytes(),(second/"scores.jsonl").read_bytes())
+            manifest=json.loads((first/"manifest.json").read_text())
+            manifest["rows"][0]["label"] = not manifest["rows"][0]["label"]
+            (first/"manifest.json").write_text(json.dumps(manifest))
+            with self.assertRaisesRegex(AssertionError,"manifest mismatch"):
+                prepare(second,"V1",first)
+
     def test_ranking_metrics_ties_and_order(self):
         self.assertEqual(ranking_metrics([0,1],[0,1]), (1.,1.))
         self.assertEqual(ranking_metrics([0,1],[1,0]), (0.,.5))
