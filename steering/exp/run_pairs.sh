@@ -10,7 +10,12 @@ OUT="$WORK/out/$PAIR_VARIANT/${ORX_RUN_ID:?}"
 mkdir -p "$OUT"
 echo "== $PAIR_VARIANT commit=${ORX_COMMIT:-unknown} output=$OUT"
 cd "$REPO"
-$PY -u steering/pair_verifier.py prepare --variant "$PAIR_VARIANT" --out "$OUT"
+resume_args=()
+if [ -n "${RESUME_RUN:-}" ]; then resume_args=(--resume-from "$WORK/out/$PAIR_VARIANT/$RESUME_RUN"); fi
+$PY -u steering/pair_verifier.py prepare --variant "$PAIR_VARIANT" --out "$OUT" "${resume_args[@]}"
+if $PY steering/pair_verifier.py complete --variant "$PAIR_VARIANT" --out "$OUT"; then
+  echo "== All native scores cached; GPU stage skipped"
+else
 (
   flock 9
   while true; do
@@ -22,5 +27,6 @@ $PY -u steering/pair_verifier.py prepare --variant "$PAIR_VARIANT" --out "$OUT"
   echo "== GPU acquired $(date -Is)"
   $PY -u steering/pair_verifier.py infer --variant "$PAIR_VARIANT" --out "$OUT"
 ) 9>"${LOCK:-/app/local_extensions/steering/out/gpu.lock}"
+fi
 $PY -u steering/pair_verifier.py score --variant "$PAIR_VARIANT" --out "$OUT" --work "$WORK"
 echo "== $PAIR_VARIANT complete $(date -Is)"
