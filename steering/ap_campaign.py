@@ -375,6 +375,7 @@ def ap3(root, source, deadline):
     # Freeze choices before stability generation or any enlarged-set evaluation.
     freeze(out/'policy.json',dict(repair=policy,coverage=choices,winner=winner,
         coverage_enabled={ds:ap2_state['status']=='complete' and coverage_report['metrics'][ds]['exploratory_gate'] for ds in selected}))
+    print('AP3_POLICY',api.canonical(read(out/'policy.json')),flush=True)
     for name,pred in systems.items(): dump_predictions(out/f'{name}.json',pred)
     # Technical reproducibility check: fresh nonce, rotated batch composition, fixed source and labels hidden.
     stability={};engine=Engine(root,deadline,namespace='fresh-rebatch-v1')
