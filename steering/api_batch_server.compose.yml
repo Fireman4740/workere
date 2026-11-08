@@ -1,0 +1,24 @@
+# Overlay for the user's existing Docker Desktop batch service. The image,
+# model mount, authentication and published port come from its existing files.
+services:
+  batch:
+    volumes:
+      - "F:/IA/Qwen3.8/models:/app/models"
+    environment:
+      MODEL: /app/models/Qwen3.8-27B-W4A16-AutoRound
+      PREPARE: "0"
+      MAX_LEN: "32768"
+      MAX_SEQS: "32"
+      GPU_UTIL: "0.90"
+      KV: fp8
+      KV_MEM: "3221225472"
+      PREFIX_CACHE: "1"
+      INT8_ACT: ""
+      INT8_LAYERS: ""
+      VISION: "0"
+      TOOLS: "0"
+      # The pinned launcher adds speculative-only metrics with this switch.
+      # Batch has no speculative decoder; record usage and timings in the client.
+      REQ_METRICS: "0"
+      QWEN_MAX_INPUT_TOKENS: "16384"
+      EXTRA_ARGS: "--middleware qwen_input_limit.InputTokenLimitMiddleware"

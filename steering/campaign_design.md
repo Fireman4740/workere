@@ -135,3 +135,36 @@ ou faux, coût incrémental incluant les deux présentations. Le coût de déplo
 inclut aussi les générations amont N1/P3/P2 et les deux ordres C2. Aucun
 entraînement, pas de réglage du seuil sur ce pilote déjà exposé. Une promotion
 exige un gain face au vote et une confirmation élargie figée ensuite.
+
+## C3 API batch : migration demandée vers le serveur persistant
+
+Le run natif C3 est interrompu à la demande de l'utilisateur après 912 réponses
+sauvegardées. Ses sorties restent dans son répertoire, sans être mélangées à
+celles de l'API. Ce n'est pas un échec scientifique du protocole.
+
+Le nœud C3 API, frère de C3 sous C2, conserve exactement les requêtes,
+baselines, schémas et budgets 1024 + 512. Un tokenizer CPU construit les mêmes
+préfixes ; deux appels HTTP bruts `/v1/completions` conservent l'arrêt sur
+`</think>` puis la réponse JSON contrainte. Deux lots de seize requêtes sont
+servis simultanément. La concordance des identifiants, indices de réponses,
+empreintes des entrées et du checkpoint est contrôlée. Les erreurs HTTP font
+échouer le run plutôt que de devenir des labels négatifs. Les réponses HTTP
+complètes sont mises en cache, y compris entre les deux étapes de génération.
+
+Le conteneur `qwen38-27b-rtx3090-batch-1` est le seul moteur propriétaire de la
+GPU. W4A16 conservé, W4A8 désactivé, cache KV FP8, état récurrent FP16, cache de
+préfixes activé, scheduling asynchrone, 32 séquences actives et contexte 32768.
+Ces choix de calcul et de scheduling constituent une variante numérique et de
+service ; l'API n'est pas supposée reproduire bit à bit le moteur natif dont le
+cache KV était BF16. Aucun poids n'est entraîné ou édité. La configuration du
+serveur et les identités des poids/tokenizers sont archivées avec le run.
+
+La mesure principale reste evidence moins direct avec consensus des deux
+orientations, puis comparaison au vote de départ. Toutes les sorties finales
+et tous les documents entrent dans le scoring. Le temps de chargement du serveur
+est séparé du temps de la campagne. Le score oracle n'est jamais une prédiction.
+
+Suite prioritaire : analyser C3 API, comparer Terra 6.1 low sur les mêmes entrées
+avec des crédits API Pro activés, puis tester l'arbitrage Qwen/Terra uniquement
+si le modèle apporte un signal utile. Toute combinaison sera figée avant une
+extension CTB47/ESC40 et une confirmation indépendante par document/sujet.
