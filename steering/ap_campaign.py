@@ -317,6 +317,7 @@ def ap1_choice(root, source):
         pred={m:p.apply(base,p.consensus(c.jsonl(root/f'AP1_{m}/judgments.jsonl'))) for m in reports}
         save(root/'ap1-comparison.json',dict(primary='decomposed minus direct, matched maximum output budget',
              comparison=p.metrics(pred['decomposed'],pred['direct'],docs)))
+        print('AP1_COMPARISON',api.canonical(read(root/'ap1-comparison.json')),flush=True)
     choices={};repair={}
     for ds in selected:
         eligible=[m for m,r in reports.items() if r['metrics'][ds]['exploratory_gate']]
@@ -332,6 +333,10 @@ def ap2(root, source, c2_source, deadline):
     _,_,views=a.bundle(c2_source)
     routes=p.coverage_routes(selected,docs,base,views)
     freeze(out/'routes.json',routes);freeze(out/'choices.json',choices)
+    print('AP2_PLAN',api.canonical(dict(choices=choices,repair_methods=repair,
+        routes_by_dataset=dict(Counter(r['dataset'] for r in routes)),
+        selection='frozen unanimous negatives; lexical reservation then uniform; no gold',
+        additions_only=True)),flush=True)
     engine=Engine(root,deadline);results=[]
     for ds in selected:
         subset=[r for r in routes if r['dataset']==ds]
