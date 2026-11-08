@@ -414,6 +414,7 @@ def ap4(root,source,c2_source,work,deadline):
     policy=ap3_report['policy'];ctb,reference,esc,_=c.inputs()
     if all(name=='reference' for name in policy['winner'].values()):
         complete(out,dict(skipped=True,reason='No useful candidate; preserve reference, no expansion inference.'));return
+    active_datasets={ds for ds,mode in policy['winner'].items() if mode!='reference'}
     # Conservative forecast uses actual AP throughput, includes screening and both orientations.
     elapsed=max(1,sum(read(path)['seconds'] for method in ('direct','decomposed')
                       for path in (root/f'AP1_{method}').glob('wall-*.json')))
@@ -422,7 +423,7 @@ def ap4(root,source,c2_source,work,deadline):
                  for m in ('direct','decomposed') if (root/f'AP1_{m}/report.json').exists())
     rate=max(1,ap1_cost/elapsed)
     full=p.extension_selection(initial,ctb,reference,esc,True)
-    new_full={ds:[d for d in ids if d not in initial[ds]] for ds,ids in full.items()}
+    new_full={ds:[d for d in ids if d not in initial[ds]] for ds,ids in full.items() if ds in active_datasets}
     n_pairs=sum(len(c.pairs(docs[ds][d])) for ds,ids in new_full.items() for d in ids)
     # Worst-case all pairs routed + coverage; account for screen, orientation and a 1.5 safety factor.
     expected=1.5*(sum(2*((len(c.pairs(docs[ds][d]))+11)//12)*4608 for ds,ids in new_full.items() for d in ids)+
@@ -433,12 +434,15 @@ def ap4(root,source,c2_source,work,deadline):
     else:
         selected=full if expected < deadline-time.time()-900 else p.extension_selection(initial,ctb,reference,esc,False)
         freeze(selection_file,dict(selected=selected,full_forecast_seconds=expected,observed_tokens_per_second=rate,
-                                  independent_confirmation=False))
+                                  active_inference_datasets=sorted(active_datasets),independent_confirmation=False))
     additions={ds:[d for d in ids if d not in initial[ds]] for ds,ids in selected.items()}
+    active_additions={ds:ids for ds,ids in additions.items() if ds in active_datasets}
+    print('AP4_PLAN',api.canonical(dict(policy=policy,selected=selected,new_documents=additions,
+        active_inference_datasets=sorted(active_datasets),selection=read(selection_file))),flush=True)
     _,predictions=f.historical_baselines(selected,ctb,reference,esc,work)
     base={ds:{d:a.unordered(predictions[ds]['n1_p3' if ds=='CTB' else 'qwen_p2_sym'][d]) for d in ids} for ds,ids in selected.items()}
     engine=Engine(root,deadline)
-    jobs=screen_jobs(additions,docs,rules);outputs=engine.execute(jobs,out/'screen')
+    jobs=screen_jobs(active_additions,docs,rules);outputs=engine.execute(jobs,out/'screen')
     _,_,views=a.bundle(c2_source)
     for j in jobs:
         r=outputs[j['key']];meta=j['meta']

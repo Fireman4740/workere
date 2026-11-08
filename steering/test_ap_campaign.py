@@ -173,5 +173,37 @@ class APTests(unittest.TestCase):
             self.assertIn('comparison',run.read(root/'ap1-comparison.json'))
             self.assertEqual(run.read(root/'AP4/report.json')['metrics']['CTB']['documents'],4)
 
+    def test_ap4_reference_corpus_keeps_full_score_without_inference(self):
+        selected,docs,rules,base=fixture()
+        reference={'qwen_ids':list(docs['CTB'])}
+        policy=dict(winner={'CTB':'reference','ESC':'repair'},repair={'CTB':None,'ESC':'direct'},
+                    coverage={'CTB':'c3_direct','ESC':'direct'},coverage_enabled={'CTB':False,'ESC':False})
+        screen_datasets=set()
+        class RecordingEngine(FakeEngine):
+            def execute(self,jobs,out):
+                if out.name=='screen':screen_datasets.update(j['meta']['dataset'] for j in jobs)
+                return super().execute(jobs,out)
+        def historical(selection,*args):
+            return {},{ds:{'n1_p3' if ds=='CTB' else 'qwen_p2_sym':{d:set() for d in ids}}
+                       for ds,ids in selection.items()}
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);source=root/'source';source.mkdir()
+            run.save(root/'AP3/report.json',dict(status='complete',policy=policy))
+            run.dump_predictions(root/'AP3/reference.json',base)
+            repaired=copy.deepcopy(base)
+            for pairs in repaired['ESC'].values():pairs.add(('a','b'))
+            run.dump_predictions(root/'AP3/repair.json',repaired)
+            with patch.object(run,'Engine',RecordingEngine),patch.object(run,'source_data',return_value=(selected,docs,rules,base)),\
+                 patch.object(run.c,'inputs',return_value=(docs['CTB'],reference,docs['ESC'],rules)),\
+                 patch.object(run.a,'bundle',return_value=({}, {}, {})),patch.object(run.f,'historical_baselines',side_effect=historical):
+                run.ap4(root,source,root/'c2',root,time.time()+1000)
+            self.assertEqual(screen_datasets,{'ESC'})
+            result=run.read(root/'AP4/report.json')
+            self.assertEqual(result['metrics']['CTB']['documents'],4)
+            self.assertEqual(result['new_documents_only']['CTB']['documents'],1)
+            self.assertEqual(result['metrics']['CTB']['delta'],[0,0,0])
+            self.assertTrue(all(not pairs for pairs in run.read(root/'AP4/predictions.json')['CTB'].values()))
+            self.assertEqual(run.read(root/'AP4/selection.json')['active_inference_datasets'],['ESC'])
+
 
 if __name__=='__main__':unittest.main()
