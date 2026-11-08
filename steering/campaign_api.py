@@ -7,10 +7,12 @@ from __future__ import annotations
 
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import fcntl
 import hashlib
 import json
 import os
 from pathlib import Path
+import tempfile
 import time
 import urllib.error
 import urllib.request
@@ -57,6 +59,19 @@ class Client:
     def call(self, path, body=None, cache=False):
         key = digest(dict(base=self.base, path=path, body=body, identity=self.identity))
         target = self.cache / (key + ".json")
+        if cache:
+            # Different final schemas can share an identical thinking request.
+            # Serialize only that request across threads/processes, then recheck
+            # its cache. This also avoids paying for duplicate API generations.
+            with target.with_suffix('.lock').open('a') as handle:
+                fcntl.flock(handle, fcntl.LOCK_EX)
+                try:
+                    return self._call(path, body, cache, key, target)
+                finally:
+                    fcntl.flock(handle, fcntl.LOCK_UN)
+        return self._call(path, body, cache, key, target)
+
+    def _call(self, path, body, cache, key, target):
         if cache and target.exists():
             stored = json.loads(target.read_text())
             assert stored["request_hash"] == key
@@ -78,9 +93,14 @@ class Client:
         elapsed = time.monotonic() - tick
         if cache:
             record = dict(request_hash=key, request=body, response=obj, elapsed_seconds=elapsed)
-            temporary = target.with_suffix(".tmp")
-            temporary.write_text(canonical(record) + "\n")
-            temporary.replace(target)
+            with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8',
+                    dir=self.cache, prefix=key+'.', suffix='.tmp', delete=False) as sink:
+                temporary = Path(sink.name)
+                sink.write(canonical(record) + "\n")
+            try:
+                temporary.replace(target)
+            finally:
+                temporary.unlink(missing_ok=True)
         return obj, False, elapsed
 
 

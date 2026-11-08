@@ -1,7 +1,9 @@
 """CPU-only protocol and failure checks for the API transport."""
 import json
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import tempfile
+import threading
 import unittest
 from unittest.mock import patch
 
@@ -17,6 +19,46 @@ class Tokenizer:
 
 
 class ApiTests(unittest.TestCase):
+    def test_identical_concurrent_requests_share_one_complete_response(self):
+        both_attempting = threading.Event()
+        count_lock = threading.Lock()
+        attempts = 0
+        original_flock = api.fcntl.flock
+
+        def flock(handle, operation):
+            nonlocal attempts
+            if operation == api.fcntl.LOCK_EX:
+                with count_lock:
+                    attempts += 1
+                    if attempts == 2: both_attempting.set()
+            return original_flock(handle, operation)
+
+        class Response:
+            def __enter__(self): return self
+            def __exit__(self, *args): pass
+            def read(self):
+                if not both_attempting.wait(5):
+                    raise AssertionError('second request did not reach the cache lock')
+                return b'{"choices":[{"index":0,"text":"first response"}]}'
+
+        with tempfile.TemporaryDirectory() as tmp, \
+             patch.object(api.fcntl, 'flock', side_effect=flock), \
+             patch('urllib.request.urlopen', return_value=Response()) as openurl:
+            clients = [api.Client('http://localhost:18020/v1','SECRET',Path(tmp),'server-a')
+                       for _ in range(2)]
+            body = {'prompt': [[1]], 'max_tokens': 1}
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                futures = [pool.submit(client.call, '/completions', body, cache=True)
+                           for client in clients]
+                results = [future.result(timeout=10) for future in futures]
+            self.assertEqual(openurl.call_count, 1)
+            self.assertEqual(sorted(result[1] for result in results), [False, True])
+            self.assertEqual(results[0][0], results[1][0])
+            cached = list(Path(tmp).glob('*.json'))
+            self.assertEqual(len(cached), 1)
+            self.assertEqual(json.loads(cached[0].read_text())['response'], results[0][0])
+            self.assertEqual(list(Path(tmp).glob('*.tmp')), [])
+
     def test_choice_order_and_incomplete_batch(self):
         result={'choices':[{'index':1,'text':'B'},{'index':0,'text':'A'}]}
         self.assertEqual([x['text'] for x in api.ordered_choices(result,2)],['A','B'])
