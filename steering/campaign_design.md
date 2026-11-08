@@ -92,3 +92,46 @@ Quatre règles de combinaison fixées avant la génération sont également éva
 sur CPU : accord entre les deux ordres ; ajout de cet accord au vote Qwen ;
 filtrage des seuls liens rejetés par les deux ordres ; et majorité entre le vote
 Qwen et les deux ordres. Ces nombreuses comparaisons restent exploratoires.
+
+## C3 : arbitrage ciblé, une paire à la fois
+
+Les premières conditions complètes de C2 à 4096 tokens récupèrent davantage de
+liens, mais leur précision CTB reste sous celle du vote N1+P3. C3 conserve ce
+vote CTB et Qwen P2 sur ESC comme points de départ. Il réutilise les deux ordres
+`plain_4096` de C2 pour sélectionner uniquement les paires en désaccord avec
+le vote. Une sortie C2 invalide ne constitue pas un rejet. Aucune annotation
+gold, fiche C2 ou fréquence de vote n'est transmise au modèle d'arbitrage.
+
+Deux conditions appariées : `direct`, une classification de la paire avec
+réflexion ; `evidence`, le même jugement avec extraits citant les événements,
+passage soutenant le lien et explication concurrente. Les règles d'annotation
+restent celles de chaque corpus. Chaque condition utilise deux présentations
+de la même paire, A/B puis B/A, 1024 tokens de réflexion et 512 de réponse.
+Le contexte est la fenêtre locale de la seule paire. Cela teste aussi une
+allocation plus concentrée du calcul que les blocs C2 à douze paires ; seule
+la comparaison evidence/direct isole l'effet de la consigne de preuve.
+
+Contraste principal fixé : F1 du système `evidence/consensus_repair` moins celui
+de `direct/consensus_repair`. Comparaison supplémentaire au vote de départ.
+Une décision change seulement si les deux présentations produisent le même
+label après normalisation de l'orientation. Des sorties invalides, citations
+non ancrées ou orientations contradictoires font conserver le vote. Les
+citations des deux événements doivent contenir leurs balises complètes dans
+une sous-chaîne exacte du contexte. Pour un lien positif, le passage soutenant
+le lien doit aussi être présent. Ce contrôle établit une provenance textuelle,
+pas la validité sémantique du lien. Une ablation sans contrôle des citations et
+une règle d'ajouts seuls sont secondaires, sans sélection du meilleur seuil.
+
+Le routage et les prompts sont construits avant de lire les labels pour les
+diagnostics. Un plafond oracle est publié seulement pour mesurer la marge
+maximale de réparation dans les paires routées. Il ne pilote ni les requêtes
+ni la sélection d'une règle. Les paires hors du routage restent inchangées :
+C3 ne peut pas retrouver un lien rejeté par le vote et les deux ordres C2.
+
+Tous les 20 documents CTB et 12 ESC restent dans les métriques, y compris les
+documents sans désaccord ou avec erreurs de format. Bootstrap apparié par
+document (12 sujets ESC distincts), comptage des ajouts et suppressions vrais
+ou faux, coût incrémental incluant les deux présentations. Le coût de déploiement
+inclut aussi les générations amont N1/P3/P2 et les deux ordres C2. Aucun
+entraînement, pas de réglage du seuil sur ce pilote déjà exposé. Une promotion
+exige un gain face au vote et une confirmation élargie figée ensuite.
