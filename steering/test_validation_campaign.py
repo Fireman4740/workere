@@ -15,6 +15,25 @@ from steering.test_campaign_api import Tokenizer
 
 
 class ValidationTests(unittest.TestCase):
+    def test_decimal_event_surface_uses_verbatim_context_and_missing_tag_still_fails(self):
+        text = 'A <23 - 6 . 0> <10 quake> happened. A <24 - 6 . 1> <9 temblor> followed.'
+        self.assertEqual(v.source_window(text, {'23', '24'}), text)
+        with self.assertRaises(ValueError): v.source_window(text, {'23', 'absent'})
+        docs = {'ESC': {'x': dict(id='x', text=text, pair_list=[['23', '24'], ['24', '23']])}}
+        routes = [dict(dataset='ESC', doc_id='x', pair=['23', '24'], baseline=False)]
+        rows, _ = run.repair_jobs(routes, docs, {'ESC': 'Rules'})
+        self.assertTrue(all(row['context'] == text for row in rows))
+
+    def test_repaired_budget_preserves_old_attempts_and_excludes_idle(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            ap.save(out/'budget.json', dict(start=0, max_hours=12))
+            ap.save(out/'wall-old.json', dict(start=0, end=900, seconds=900))
+            with patch.dict('os.environ', {'ORX_RUN_ID': 'new'}), patch.object(run.time, 'time', return_value=100000):
+                self.assertEqual(run.attempt_deadline(out, 'MAVEN'), 100000+12*3600-900)
+                self.assertEqual(run.attempt_deadline(out, 'MAVEN'), 100000+12*3600-900)
+            self.assertEqual(ap.read(out/'wall-old.json')['seconds'], 900)
+
     def test_filter_requires_two_valid_negatives(self):
         base = {'CTB': {'d': {('a', 'b')}}}
         for labels, removed in [((False, False), True), ((False, None), False),

@@ -14,6 +14,17 @@ SEED = 20261109
 POLICIES = ('A_vote', 'B_filter', 'C_repair', 'D_filter_add')
 
 
+def source_window(text, ids):
+    """Preserve inline event tags when punctuation splits a decimal surface."""
+    try:
+        return c.windows(text, ids)
+    except ValueError:
+        if not ids <= {m.group(1) for m in c.TAG.finditer(text)}:
+            raise
+        # Source is kept verbatim. Preflight still enforces the context limit.
+        return text
+
+
 def public_docs(docs):
     return {ds: {d: {k: row[k] for k in ('id', 'text', 'pair_list')}
                  for d, row in values.items()} for ds, values in docs.items()}
@@ -27,7 +38,7 @@ def screen_jobs(selected, docs, rules):
             pairs = c.pairs(docs[ds][doc_id])
             for block_index, start in enumerate(range(0, len(pairs), 12)):
                 block = pairs[start:start+12]
-                context = c.windows(docs[ds][doc_id]['text'], {e for pair in block for e in pair})
+                context = source_window(docs[ds][doc_id]['text'], {e for pair in block for e in pair})
                 for order in (0, 1):
                     indices = list(range(len(block)))
                     if order:
