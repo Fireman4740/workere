@@ -253,6 +253,20 @@ def run_cached(dataset, root, old, c2, work, out, deadline):
 
 class DocumentEngine(ap.Engine):
     """Same two-stage transport as AP, with strict array validation for document outputs."""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Long document thoughts exceeded the old 900s timeout with 32 sequences.
+        # Reuse completed reads, then process at most 8 remaining sequences.
+        self.size, self.workers = 4, 2
+        print('VC_DOCUMENT_TRANSPORT', api.canonical(dict(batch_size=self.size, workers=self.workers,
+            max_concurrent_sequences=8, timeout_ceiling_seconds=3600,
+            note='completed reads retained; pending reads use smaller batches after the first timeout')), flush=True)
+
+    def call(self, body):
+        ap.check_budget(self.deadline)
+        self.client.timeout = max(1, min(3600, self.deadline-time.time()-5))
+        return self.client.call('/completions', body, cache=True)
+
     def batch(self, jobs):
         spec, thinking, answer = (jobs[0][k] for k in ('schema', 'thinking', 'answer_tokens'))
         assert all((j['schema'], j['thinking'], j['answer_tokens']) == (spec, thinking, answer) for j in jobs)

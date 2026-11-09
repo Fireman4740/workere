@@ -157,6 +157,17 @@ class ValidationTests(unittest.TestCase):
         self.assertIn('\n</think>\n\n', bytes(seen[1]['prompt'][0]).decode())
         self.assertEqual(seen[1]['structured_outputs']['json'], v.document_schema())
 
+    def test_long_document_transport_uses_smaller_batches_and_bounded_timeout(self):
+        with patch.object(ap.Engine, '__init__', return_value=None):
+            engine = run.DocumentEngine()
+        self.assertEqual((engine.size, engine.workers), (4, 2))
+        from unittest.mock import Mock
+        engine.client = Mock(); engine.deadline = 20000
+        with patch.object(run.time, 'time', return_value=10000):
+            engine.call({'max_tokens': 8192})
+            self.assertEqual(engine.client.timeout, 3600)
+        engine.client.call.assert_called_once_with('/completions', {'max_tokens': 8192}, cache=True)
+
     def test_maven_preparation_uses_disjoint_train_demos_and_is_eval_gold_blind(self):
         import pyarrow.parquet as parquet
         def row(i, train=False):
