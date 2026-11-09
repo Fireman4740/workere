@@ -141,7 +141,15 @@ def preflight(engine, jobs):
 
 
 def repair_jobs(routes, docs, rules):
-    rows = p.judgment_rows(routes, 'direct', v.public_docs(docs), rules)
+    rows = []
+    for route in routes:
+        for reverse in (False, True):
+            row = dict(dataset=route['dataset'], doc_id=route['doc_id'], pair=route['pair'],
+                baseline=route['baseline'], method='direct', reverse=reverse,
+                context=v.source_window(docs[route['dataset']][route['doc_id']]['text'], set(route['pair'])), nonce='')
+            row['key'] = api.digest(row)
+            rows.append(row)
+    rows.sort(key=lambda row: api.digest([p.SEED, row['key']]))
     jobs = [ap.job(p.prompt(row, 'direct', rules[row['dataset']]), p.schema('direct'),
                    2560, 512, dict(judgment=row['key'], task='direct')) for row in rows]
     return rows, jobs
@@ -375,6 +383,30 @@ def run_maven(root, old, out, deadline):
         manifest_sha256=c.sha(out/'manifest.json'), scope='new local-Qwen MAVEN12 pilot; no claim against unmatched historical external-model baselines'))
 
 
+def attempt_deadline(out, dataset):
+    """Charge actual attempts, preserving the ceiling across repaired runs.
+
+    A terminal failure followed by hours without an active process consumes no
+    extra execution budget. All previous attempt wall records remain immutable.
+    """
+    path = out/'budget.json'
+    now = time.time()
+    state = ap.read(path) if path.exists() else dict(start=now, max_hours=HOURS[dataset])
+    run = os.environ.get('ORX_RUN_ID', 'test')
+    attempts = state.setdefault('attempts', {})
+    spent = sum(ap.read(p)['seconds'] for p in out.glob('wall-*.json') if p.name != f'wall-{run}.json')
+    for key, value in attempts.items():
+        if key != run and not (out/f'wall-{key}.json').exists():
+            spent += max(0, min(now, value['deadline'])-value['start'])
+    if run not in attempts:
+        attempts[run] = dict(start=now, deadline=now+max(0, HOURS[dataset]*3600-spent),
+                             previous_active_seconds=spent)
+    state['accounting'] = 'sum active attempt wall times; excludes idle time after terminal failure and queue waits'
+    ap.save(path, state)
+    print('VC_ATTEMPT_BUDGET', api.canonical(attempts[run]), flush=True)
+    return attempts[run]['deadline']
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', choices=tuple(HOURS), required=True)
@@ -395,11 +427,11 @@ def main():
     predecessor = {'ESC': 'CTB', 'MAVEN': 'ESC'}.get(dataset)
     if predecessor:
         # Wait outside API lease. Failure does not silently cancel another corpus.
-        ap.wait_for(root/predecessor/'terminal.json', hours=48)
+        ap.wait_for(root/predecessor/'terminal.json',
+                    lambda r: r.get('status') in ('complete', 'failed', 'budget_exhausted'), hours=48)
     with ap.lock(work/'ap-api.lock'):
-        state = out/'budget.json'
-        if not state.exists(): ap.save(state, dict(start=time.time(), max_hours=HOURS[dataset]))
-        deadline = ap.read(state)['start']+HOURS[dataset]*3600
+        deadline = attempt_deadline(out, dataset)
+        ap.save(out/'terminal.json', dict(status='running', run_id=os.environ.get('ORX_RUN_ID')))
         started = time.time()
         try:
             ap.check_budget(deadline)
