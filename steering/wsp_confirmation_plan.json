@@ -1,0 +1,188 @@
+{
+  "protocol": "wsp-confirmation-v1",
+  "source_experiment": "80aaa57e-9c8d-4546-96a6-d30a2034dc84",
+  "source_run": "7540caf0-4116-4cb7-bf1e-bf1c2c0ef625",
+  "source_commit": "3fcf18fbcda68c2dc06c4b4593760cef595e3784",
+  "source_manifest_id": "8e2dc2f41fd87c97db11a1b9df13ec126aa5f03ce01f0cb35caac43ce7390e25",
+  "source_files_sha256": {
+    "manifest.json": "5ff15b489b6c85aa9adf6d9479b38d37564ebe65869e8a495b7ccebc9a1784e7",
+    "directions.json": "ab13074a4f11890fe32a0133c98c70cca8c0820d56b0151827fb165433d77207",
+    "directions.npz": "3c45c25bc4b2cd3e9b1a91d90c51544d7009292289a5adb92ad22b394cadf8d6",
+    "screen_scores.json": "6c8bde565da903822c10b55c74ae9af65bfd60f4a1530e223356a9f4b6079f65",
+    "screen_decision.json": "30e822feaf4ecd5c2fd30650a5bd903e070e8b8992d37c1c031ab784af38e187"
+  },
+  "selected_condition": "cc_0.10",
+  "conditions": [
+    {
+      "name": "base",
+      "family": null,
+      "alpha": 0.0,
+      "budget": 8192,
+      "answer_tokens": 4096,
+      "temperature": 0.0,
+      "layers": [
+        32,
+        34,
+        36,
+        38,
+        40,
+        42,
+        44,
+        46,
+        48
+      ]
+    },
+    {
+      "name": "cc_0.10",
+      "family": "cc",
+      "alpha": 0.1,
+      "budget": 8192,
+      "answer_tokens": 4096,
+      "temperature": 0.0,
+      "layers": [
+        32,
+        34,
+        36,
+        38,
+        40,
+        42,
+        44,
+        46,
+        48
+      ]
+    },
+    {
+      "name": "cc_random0_0.10",
+      "family": "cc",
+      "random_seed": 0,
+      "alpha": 0.1,
+      "budget": 8192,
+      "answer_tokens": 4096,
+      "temperature": 0.0,
+      "layers": [
+        32,
+        34,
+        36,
+        38,
+        40,
+        42,
+        44,
+        46,
+        48
+      ]
+    },
+    {
+      "name": "cc_random1_0.10",
+      "family": "cc",
+      "random_seed": 1,
+      "alpha": 0.1,
+      "budget": 8192,
+      "answer_tokens": 4096,
+      "temperature": 0.0,
+      "layers": [
+        32,
+        34,
+        36,
+        38,
+        40,
+        42,
+        44,
+        46,
+        48
+      ]
+    },
+    {
+      "name": "recall_random0_0.10",
+      "family": "recall",
+      "random_seed": 0,
+      "alpha": 0.1,
+      "budget": 8192,
+      "answer_tokens": 4096,
+      "temperature": 0.0,
+      "layers": [
+        32,
+        34,
+        36,
+        38,
+        40,
+        42,
+        44,
+        46,
+        48
+      ]
+    },
+    {
+      "name": "recall_random1_0.10",
+      "family": "recall",
+      "random_seed": 1,
+      "alpha": 0.1,
+      "budget": 8192,
+      "answer_tokens": 4096,
+      "temperature": 0.0,
+      "layers": [
+        32,
+        34,
+        36,
+        38,
+        40,
+        42,
+        44,
+        46,
+        48
+      ]
+    }
+  ],
+  "confirmation_documents": [
+    "ABC19980108.1830.0711",
+    "APW19980418.0210",
+    "CNN19980213.2130.0155",
+    "CNN19980223.1130.0960",
+    "NYT19980212.0019",
+    "VOA19980305.1800.2603",
+    "wsj_0161",
+    "wsj_0167",
+    "wsj_0175",
+    "wsj_0184",
+    "wsj_0189",
+    "wsj_0325",
+    "wsj_0534",
+    "wsj_0667",
+    "wsj_0670",
+    "wsj_0674",
+    "wsj_0736",
+    "wsj_0924",
+    "wsj_0973",
+    "wsj_1073"
+  ],
+  "frozen_generation": {
+    "model": "/app/models/Qwen3.8-27B-W4A16-AutoRound",
+    "max_model_len": 24576,
+    "batch": 4,
+    "gpu_memory_utilization": 0.9
+  },
+  "bootstrap": {
+    "draws": 20000,
+    "seed": 20261110,
+    "unit": "document",
+    "primary_quantiles": [
+      0.025,
+      0.975
+    ],
+    "familywise_quantiles": [
+      0.005,
+      0.995
+    ],
+    "familywise_comparisons": 5,
+    "familywise_method": "two-sided 99% percentile bootstrap intervals; Bonferroni over five comparisons"
+  },
+  "decision": {
+    "primary": "cc_0.10 minus base micro F1: paired 95% lower bound > 0",
+    "precision_floor_delta_pp": -2.0,
+    "invalid_answers": "no increase over base",
+    "direction_specific": "guardrails plus all five Bonferroni bootstrap lower bounds > 0",
+    "token_savings": "secondary; no efficiency-only promotion",
+    "failure_policy": "Stop this series if primary gain does not confirm; no holdout tuning."
+  },
+  "scope": "Reserved split within an already studied CTB training corpus; no claim on CTB47, ESC, independent external replication, or faithful reasoning.",
+  "changes_after_screen": "Retain all four frozen random controls, including the cross-family screen winner; only cc at .10 is a candidate. No directions refitted and no dose or prompt changes."
+}

@@ -12,8 +12,16 @@ mkdir -p "$OUT" "$(dirname "$LOCK")"
 cd "$REPO"
 ARGS=(--out "$OUT" --max-model-len "$MAX_MODEL_LEN" --batch "$BATCH"
       --gpu-memory-utilization "$GPU_UTIL")
+MODULE=steering.wsp_pilot
+if [ "${WSP_MODE:-screen}" = confirmation ]; then
+  MODULE=steering.wsp_confirmation
+  ARGS+=(--source-dir "${WSP_SOURCE:?}")
+elif [ "${WSP_MODE:-screen}" != screen ]; then
+  echo "Unknown WSP_MODE: $WSP_MODE" >&2
+  exit 2
+fi
 echo "WSP_RUN run=${ORX_RUN_ID:?} commit=${ORX_COMMIT:?} output=$OUT"
-"$PY" -u -m steering.wsp_pilot prepare "${ARGS[@]}"
+"$PY" -u -m "$MODULE" prepare "${ARGS[@]}"
 
 # Busy server on the Windows side can be invisible in this container's process list.
 # Wait for memory to be free AND take the existing shared lock. Never hold the lock
@@ -43,7 +51,9 @@ while true; do
   sleep 30
 done
 echo "WSP_GPU_ACQUIRED elapsed_seconds=$((SECONDS-START))"
-"$PY" -u -m steering.wsp_pilot extract "${ARGS[@]}"
-"$PY" -u -m steering.wsp_pilot generate "${ARGS[@]}"
-"$PY" -u -m steering.wsp_pilot score "${ARGS[@]}"
+if [ "$MODULE" = steering.wsp_pilot ]; then
+  "$PY" -u -m "$MODULE" extract "${ARGS[@]}"
+fi
+"$PY" -u -m "$MODULE" generate "${ARGS[@]}"
+"$PY" -u -m "$MODULE" score "${ARGS[@]}"
 echo "WSP_DONE output=$OUT"
