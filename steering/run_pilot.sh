@@ -7,6 +7,7 @@ REPO=$(cd "$(dirname "$0")/.." && pwd)
 # Per-experiment settings live in steering/config.env on each experiment branch; a MECH entry
 # routes the run to the reasoning-mechanism driver (E1-E5) instead of the steering sweep.
 if [ -f "$REPO/steering/config.env" ]; then set -a; . "$REPO/steering/config.env"; set +a; fi
+if [ "${CAMPAIGN:-}" = "MV" ]; then exec bash "$REPO/steering/exp/run_method_vote.sh"; fi
 if [ "${CAMPAIGN:-}" = "VC" ]; then exec bash "$REPO/steering/exp/run_validation.sh"; fi
 if [ "${CAMPAIGN:-}" = "AP" ]; then exec bash "$REPO/steering/exp/run_ap.sh"; fi
 if [ "${CAMPAIGN:-}" = "C3_API" ]; then exec bash "$REPO/steering/exp/run_campaign_api.sh"; fi
