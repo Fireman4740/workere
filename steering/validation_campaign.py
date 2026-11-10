@@ -361,6 +361,10 @@ def prepare_maven(root, old, out):
         scope='MAVEN test pilot; exposure to prior project runs unaudited, not claimed held out',
         no_training=True, no_weight_edit=True, local_only=True)
     ap.freeze(out/'manifest.json', manifest)
+    # JSON round trips turn pair tuples into lists. Compare the canonical data
+    # model so an identical resumed dataset does not fail Python type equality.
+    # A changed source, pair, annotation or sentence index still fails freeze.
+    docs = json.loads(api.canonical(docs))
     ap.freeze(out/'documents.json', docs)
     ap.freeze(root/'AP0/api_contract.json', ap.read(old/'AP0/api_contract.json'))
     print('VC_MAVEN_PLAN', api.canonical(manifest), flush=True)

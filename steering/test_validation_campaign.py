@@ -191,6 +191,19 @@ class ValidationTests(unittest.TestCase):
             with patch('huggingface_hub.hf_hub_download', side_effect=download), patch.object(parquet, 'read_table', side_effect=read_table):
                 out = root/'one'; out.mkdir()
                 selected, docs, rules, jobs = run.prepare_maven(root, old, out)
+                frozen = (out/'documents.json').read_bytes()
+                resumed_selected, resumed_docs, _, resumed_jobs = run.prepare_maven(root, old, out)
+                self.assertEqual(resumed_selected, selected)
+                self.assertEqual(resumed_docs, docs)
+                self.assertEqual(resumed_jobs, jobs)
+                self.assertEqual((out/'documents.json').read_bytes(), frozen)
+                # A real content change must still be rejected; no guard bypass.
+                stored = ap.read(out/'documents.json')
+                first = selected['MAVEN'][0]
+                stored['MAVEN'][first]['text'] += ' altered'
+                ap.save(out/'documents.json', stored)
+                with self.assertRaisesRegex(AssertionError, 'documents.json'):
+                    run.prepare_maven(root, old, out)
                 for r in test_rows: r['annots'] = ''
                 second = root/'two'; second.mkdir()
                 new_selected, _, _, new_jobs = run.prepare_maven(root, old, second)
