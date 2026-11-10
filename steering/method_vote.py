@@ -128,7 +128,7 @@ def main():
     for ds in ('CTB', 'ESC', 'MAVEN'):
         if ds == 'MAVEN':
             expected = os.environ['MV_MAVEN_RUN']
-            deadline = time.time()+13*3600
+            deadline = time.time()+25*3600
             while True:
                 terminal = source/ds/'terminal.json'
                 state = ap.read(terminal) if terminal.exists() else {}
