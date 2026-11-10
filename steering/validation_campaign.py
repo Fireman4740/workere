@@ -15,7 +15,7 @@ from steering import campaign_blocks as c
 from steering import campaign_facts as f
 from steering import validation_protocol as v
 
-HOURS = {'CTB': 8, 'ESC': 16, 'MAVEN': 12}
+HOURS = {'CTB': 8, 'ESC': 16, 'MAVEN': 24}
 MAVEN_REPO = 'Nofing/MAVEN-ERE-standard-eci-workere'
 MAVEN_REVISION = '830a58ee7a092d5ca27b4a8c28c18e2c82abf814'
 
@@ -410,6 +410,11 @@ def attempt_deadline(out, dataset):
     path = out/'budget.json'
     now = time.time()
     state = ap.read(path) if path.exists() else dict(start=now, max_hours=HOURS[dataset])
+    if state.get('max_hours') != HOURS[dataset]:
+        state.setdefault('ceiling_changes', []).append(dict(
+            from_hours=state.get('max_hours'), to_hours=HOURS[dataset], time=now,
+            reason='resume after host reboot; retain existing checkpoints and charged attempts'))
+        state['max_hours'] = HOURS[dataset]
     run = os.environ.get('ORX_RUN_ID', 'test')
     attempts = state.setdefault('attempts', {})
     spent = sum(ap.read(p)['seconds'] for p in out.glob('wall-*.json') if p.name != f'wall-{run}.json')

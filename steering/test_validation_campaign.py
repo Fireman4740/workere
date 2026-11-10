@@ -30,8 +30,12 @@ class ValidationTests(unittest.TestCase):
             ap.save(out/'budget.json', dict(start=0, max_hours=12))
             ap.save(out/'wall-old.json', dict(start=0, end=900, seconds=900))
             with patch.dict('os.environ', {'ORX_RUN_ID': 'new'}), patch.object(run.time, 'time', return_value=100000):
-                self.assertEqual(run.attempt_deadline(out, 'MAVEN'), 100000+12*3600-900)
-                self.assertEqual(run.attempt_deadline(out, 'MAVEN'), 100000+12*3600-900)
+                self.assertEqual(run.attempt_deadline(out, 'MAVEN'), 100000+24*3600-900)
+                self.assertEqual(run.attempt_deadline(out, 'MAVEN'), 100000+24*3600-900)
+            state = ap.read(out/'budget.json')
+            self.assertEqual(state['max_hours'], 24)
+            self.assertEqual((state['ceiling_changes'][0]['from_hours'], state['ceiling_changes'][0]['to_hours']), (12, 24))
+            self.assertEqual(len(state['ceiling_changes']), 1)
             self.assertEqual(ap.read(out/'wall-old.json')['seconds'], 900)
 
     def test_filter_requires_two_valid_negatives(self):
