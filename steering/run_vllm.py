@@ -75,6 +75,18 @@ def generate_condition(llm, tokenizer, todo, condition, max_tokens, sink) -> Non
             first = state["phase1"]
             text = completion.text if first is None else first.text + FORCE_CLOSE + completion.text
             num_tokens = len(completion.token_ids) + (len(first.token_ids) if first is not None else 0)
+            # Count emitted thinking tokens separately from final-answer tokens and
+            # from the forced-closing instruction, which is injected into a prompt.
+            if first is not None:
+                thinking_tokens = len(first.token_ids)
+                answer_generated_tokens = len(completion.token_ids)
+            else:
+                emitted_ids = list(completion.token_ids)
+                close_ids = tokenizer('</think>', add_special_tokens=False)['input_ids']
+                close_at = next((i for i in range(len(emitted_ids) - len(close_ids) + 1)
+                                 if emitted_ids[i:i + len(close_ids)] == close_ids), None)
+                thinking_tokens = close_at if close_at is not None else len(emitted_ids)
+                answer_generated_tokens = len(emitted_ids) - close_at - len(close_ids) if close_at is not None else 0
             seconds = time.time() - started
             row = state["row"]
             record = {
@@ -85,6 +97,8 @@ def generate_condition(llm, tokenizer, todo, condition, max_tokens, sink) -> Non
                                                  "temperature", "budget", "projector", "heads")},
                 "prompt_tokens": state["prompt_tokens"],
                 "num_tokens": num_tokens,
+                "thinking_tokens": thinking_tokens,
+                "answer_generated_tokens": answer_generated_tokens,
                 "budget_forced": first is not None,
                 "finish_reason": completion.finish_reason,
                 "seconds": round(seconds, 3),
