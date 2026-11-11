@@ -1,0 +1,91 @@
+{
+  "protocol": "wsp-diversity-audit-v1",
+  "conditions": [
+    "base",
+    "cc_0.10",
+    "cc_random0_0.10",
+    "cc_random1_0.10",
+    "recall_random0_0.10",
+    "recall_random1_0.10"
+  ],
+  "sources": {
+    "W1": {
+      "run_id": "7540caf0-4116-4cb7-bf1e-bf1c2c0ef625",
+      "manifest_id": "8e2dc2f41fd87c97db11a1b9df13ec126aa5f03ce01f0cb35caac43ce7390e25",
+      "file_hashes": {
+        "manifest.json": "5ff15b489b6c85aa9adf6d9479b38d37564ebe65869e8a495b7ccebc9a1784e7",
+        "screen.jsonl": "92fd660778c37d68d5dc46996c24ffcfcc42759a818758a7cf36df37266ba58b",
+        "screen_scores.json": "6c8bde565da903822c10b55c74ae9af65bfd60f4a1530e223356a9f4b6079f65",
+        "directions.json": "ab13074a4f11890fe32a0133c98c70cca8c0820d56b0151827fb165433d77207",
+        "directions.npz": "3c45c25bc4b2cd3e9b1a91d90c51544d7009292289a5adb92ad22b394cadf8d6"
+      },
+      "records": "screen.jsonl",
+      "scores": "screen_scores.json",
+      "split": "screen"
+    },
+    "W2": {
+      "run_id": "9b4089c0-2a09-4e70-83f3-95164fb121dc",
+      "manifest_id": "143d7416fdda5f52d5f10b00844e2e93a675d19731dee0778dd0fd98d12ed3c5",
+      "file_hashes": {
+        "manifest.json": "2664f709084c92da8da77d7cbc4148c8f435d34be6a7674b1eca2115b96ccff8",
+        "confirmation.jsonl": "6266d73a998a4a6c9ea1ceb092084932254499f6d38a2ed854b312f1f4e42f0b",
+        "confirmation_scores.json": "6e3ecf63cc2c136c323cc61f3828e85471834c1c09a4de6b0d80d9c816fe2803",
+        "directions.json": "ab13074a4f11890fe32a0133c98c70cca8c0820d56b0151827fb165433d77207",
+        "directions.npz": "3c45c25bc4b2cd3e9b1a91d90c51544d7009292289a5adb92ad22b394cadf8d6"
+      },
+      "records": "confirmation.jsonl",
+      "scores": "confirmation_scores.json",
+      "split": "confirmation"
+    }
+  },
+  "votes": [
+    {
+      "name": "vote_all6",
+      "members": [
+        "base",
+        "cc_0.10",
+        "cc_random0_0.10",
+        "cc_random1_0.10",
+        "recall_random0_0.10",
+        "recall_random1_0.10"
+      ],
+      "minimum_votes": 4
+    },
+    {
+      "name": "vote_base_randoms5",
+      "members": [
+        "base",
+        "cc_random0_0.10",
+        "cc_random1_0.10",
+        "recall_random0_0.10",
+        "recall_random1_0.10"
+      ],
+      "minimum_votes": 3
+    },
+    {
+      "name": "vote_randoms4",
+      "members": [
+        "cc_random0_0.10",
+        "cc_random1_0.10",
+        "recall_random0_0.10",
+        "recall_random1_0.10"
+      ],
+      "minimum_votes": 3
+    }
+  ],
+  "oracle": {
+    "members": [
+      "base",
+      "cc_0.10",
+      "cc_random0_0.10",
+      "cc_random1_0.10",
+      "recall_random0_0.10",
+      "recall_random1_0.10"
+    ],
+    "meaning": "Gold coverage of union only; requires labels to identify correct pairs, not a deployable oracle."
+  },
+  "scope": "Post-hoc cached diagnostic on already observed W1 and W2 cohorts separately; no independent confirmation, no pooled significance test, no threshold search.",
+  "missing_control": "No matched six-reading unsteered demonstration-diverse vote exists in these caches. Comparisons against a single reading have different compute budgets.",
+  "cost": "Sum emitted tokens over distinct member readings; exclude extraction, prefill and model-load costs. Not wall time.",
+  "next": "No automatic promotion or GPU launch from this audit; use it to assess whether a prospectively fixed matched-vote test is justified."
+}

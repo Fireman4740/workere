@@ -10,6 +10,11 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:False
 export OMP_NUM_THREADS=4
 mkdir -p "$OUT" "$(dirname "$LOCK")"
 cd "$REPO"
+if [ "${WSP_MODE:-screen}" = diversity ]; then
+  echo "WSP_DIVERSITY_RUN run=${ORX_RUN_ID:?} commit=${ORX_COMMIT:?} output=$OUT cpu_only=true"
+  exec "$PY" -u -m steering.wsp_diversity --source-screen "${WSP_SOURCE:?}" \
+    --source-confirmation "${WSP_CONFIRM_SOURCE:?}" --out "$OUT"
+fi
 ARGS=(--out "$OUT" --max-model-len "$MAX_MODEL_LEN" --batch "$BATCH"
       --gpu-memory-utilization "$GPU_UTIL")
 MODULE=steering.wsp_pilot
