@@ -1,5 +1,5 @@
 {
-  "validated_utc": "2026-11-12T14:53:15.590015+00:00",
+  "validated_utc": "2026-11-12T15:08:30.994749+00:00",
   "snapshot_utc": "2026-11-12T12:31:54.103224+00:00",
   "coverage": {
     "experiments": 117,
@@ -89,6 +89,20 @@
       "standalone_artifact_browser_checked": true,
       "complete_method_json_export_verified": true,
       "visual_preview_checked": true
+    },
+    "identifier_revision": {
+      "titles_and_graph_labels_checked": 18,
+      "corpora": [
+        "CTB",
+        "ESC",
+        "MAVEN"
+      ],
+      "viewports": [
+        390,
+        1440
+      ],
+      "offline": true,
+      "browser_errors": []
     }
   },
   "file_sha256": {
@@ -97,8 +111,8 @@
     "web/build_site.py": "13e1409a61436b81bc336796f45cfe7f986e67ae4642ecc1b5062d3fd3401721",
     "web/data.json": "1c6ec5b0174c4ae5e5508fc12f7cff885a27fe3bd21cb13aef33b4f4eb31f900",
     "web/explanations.json": "363deaf9fb3411279615355cc9174c18cd302d1257af8809488b18154658fd0a",
-    "web/index.html": "4b717139cb1e20c28a6b1ec063689ffa6e6111ef173b6c367eccb2c87e660f4d",
-    "web/method-guides.json": "18c556706e60955b4f39a2e68e0bdeab10f363420fb33c4089a511f5f4ad8443",
+    "web/index.html": "fe3a7dd0d32aa6544128c2a480bafc8ae518161fc20b8fe3accf6387741af236",
+    "web/method-guides.json": "4b14267d77eff7e1c9b18cefa71d546f83519fad7e5fb3424f6d633bea824473",
     "web/prepare_data.py": "a0772ed4ef6a6286ad34c36bbe0d39f0f69ca900499483aaa845e8a35fe91b31",
     "web/prepare_prompts.py": "4d52a2d370ca6d0e1a0a70da5f6f0c23c2f129b2165ab904ca67a38fa3b968e7",
     "web/qa_browser.js": "2a16efdb56130a96b2d4842df6e894e622a5de057f1d3281433d76cd3eaa775f",

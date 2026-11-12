@@ -1,7 +1,7 @@
 {
   "CTB": {
     "85|N1 + P3": {
-      "title": "Faire voter des lectures courtes et longues",
+      "title": "N1 + P3 — Faire voter des lectures courtes et longues",
       "summary": "Le même modèle relit chaque article dix fois. Cinq lectures disposent d’un budget de réflexion court, cinq d’un budget plus long. On rassemble leurs propositions pour décider quels liens garder.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -42,7 +42,7 @@
       "resources": "Dix générations documentaires par article. Les séries courte et longue cumulent leurs ressources ; le classement ne fournit pas de coût total ou de temps de réponse comparable."
     },
     "102|B_filter": {
-      "title": "Retirer un lien si deux vérifications le rejettent",
+      "title": "VC1 — Retirer un lien si deux vérifications le rejettent",
       "summary": "On part des relations déjà proposées par une bonne référence. On les présente de deux façons au modèle. Un lien est retiré seulement si les deux vérifications répondent qu’il n’est pas causal.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -81,7 +81,7 @@
       "resources": "Les dix lectures initiales, puis les appels de vérification par blocs. Le replay réutilise des réponses enregistrées quand elles sont compatibles ; les avoir produites a aussi un coût."
     },
     "83|N2/verify_b8k": {
-      "title": "Faire relire les liens proposés par cinq lectures",
+      "title": "N2 — Faire relire les liens proposés par cinq lectures",
       "summary": "Après cinq lectures, on montre au modèle les relations proposées et le nombre de lectures qui les soutiennent. Il relit l’article et produit une liste finale vérifiée.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -118,7 +118,7 @@
       "resources": "Cinq premières générations, puis une sixième génération de vérification par article. Le vérificateur est le même modèle que le lecteur."
     },
     "82|N1/vote5": {
-      "title": "Varier les exemples avant de faire voter le modèle",
+      "title": "N1 — Varier les exemples avant de faire voter le modèle",
       "summary": "On fait cinq lectures du même article, chacune avec une démonstration différente. L’objectif est de donner au modèle plusieurs points d’appui au lieu de répéter le même exemple.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -157,7 +157,7 @@
       "resources": "Cinq générations documentaires par article. Les cinq exemples diffèrent, mais les cinq avis viennent du même modèle."
     },
     "113|historical__base_filter": {
-      "title": "Filtrer les liens d’une référence déjà forte",
+      "title": "W4 — Filtrer les liens d’une référence déjà forte",
       "summary": "Dix lectures du même article construisent une liste de relations par vote. Le même modèle vérifie ensuite certaines paires dans les deux orientations ; la variante classée ne fait que retirer les liens doublement rejetés.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -197,7 +197,7 @@
       "resources": "Le calcul final réutilise le vote historique. La sélection des paires dépend aussi de nouvelles lectures de la campagne, et la vérification ajoute des appels : il faut tenir compte de toute cette chaîne, pas seulement de son filtre final."
     },
     "109|strict_add_majority_remove": {
-      "title": "Exiger un accord fort pour ajouter un nouveau lien",
+      "title": "MV2 — Exiger un accord fort pour ajouter un nouveau lien",
       "summary": "On combine une décision initiale et quatre vérifications déjà enregistrées. La règle est plus exigeante pour ajouter un lien que pour le conserver.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -239,7 +239,7 @@
       "resources": "Dix lectures pour la liste initiale, plus la production des quatre vues sur les paires concernées. Le calcul final ne demande aucune nouvelle génération ; les réponses réutilisées restent des ressources consommées en amont."
     },
     "87|P4": {
-      "title": "Vérifier une seconde fois les lectures longues",
+      "title": "P4 — Vérifier une seconde fois les lectures longues",
       "summary": "Le même modèle lit l’article cinq fois avec un budget de réflexion long et des exemples variés. Une sixième lecture reprend toutes les propositions et décide lesquelles garder, retirer ou compléter.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -276,7 +276,7 @@
       "resources": "Cinq lectures longues, puis une sixième génération de vérification longue par article."
     },
     "84|P1/verify_b8k": {
-      "title": "Vérifier les lectures aux exemples variés",
+      "title": "P1 — Vérifier les lectures aux exemples variés",
       "summary": "Cinq lectures de l’article avec cinq exemples différents proposent des relations. Une sixième lecture voit ces propositions et leurs soutiens, puis rend une liste finale après vérification du texte.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -314,7 +314,7 @@
       "resources": "Cinq lectures à exemples variés, puis une sixième génération de vérification par article."
     },
     "79|R1/vote5": {
-      "title": "Obtenir cinq réponses variées, puis voter",
+      "title": "R1 — Obtenir cinq réponses variées, puis voter",
       "summary": "On fait lire cinq fois le même article avec le même exemple, en laissant varier les réponses produites par le modèle. On combine ensuite leurs propositions.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -348,7 +348,7 @@
       "resources": "Cinq générations documentaires par article. Varier les réponses d’un modèle ne donne pas cinq avis indépendants."
     },
     "74|E1/budget8k": {
-      "title": "Arrêter la réflexion pour obtenir une réponse",
+      "title": "E1 — Arrêter la réflexion pour obtenir une réponse",
       "summary": "On limite la phase de réflexion du modèle, puis on lui réserve une phase pour produire sa réponse finale. L’objectif est d’éviter qu’il utilise tout son budget sans répondre.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -390,7 +390,7 @@
   },
   "ESC": {
     "18|Fusion Luna × d1": {
-      "title": "Combiner une lecture globale et un jugement par paire",
+      "title": "R3-T0 — Combiner une lecture globale et un jugement par paire",
       "summary": "Deux systèmes examinent le même article différemment : Luna produit une liste de relations pour le document entier ; d1 donne un score pour chaque paire de mentions. On combine leurs signaux.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -433,7 +433,7 @@
       "resources": "Les sept lectures de Luna et tous les jugements par paire de d1 sont nécessaires à la fusion. Recombiner leurs sorties enregistrées ne demande pas de nouvel appel, mais leur coût initial se cumule."
     },
     "109|five_view_majority": {
-      "title": "Combiner cinq avis déjà disponibles",
+      "title": "MV2 — Combiner cinq avis déjà disponibles",
       "summary": "On réunit le vote initial, deux présentations des paires et deux jugements directs. Lorsqu’ils sont tous disponibles, trois avis favorables sur cinq suffisent pour retenir une relation.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -479,7 +479,7 @@
       "resources": "Trois lectures documentaires à budget long, puis la production des quatre vues sur les paires concernées. Aucun appel supplémentaire pour recombiner le cache ; les quatre vues ne couvrent pas toutes les paires."
     },
     "103|C_repair": {
-      "title": "Corriger les liens après deux jugements concordants",
+      "title": "VC2 — Corriger les liens après deux jugements concordants",
       "summary": "On fait réexaminer des paires sélectionnées par un juge, dans les deux orientations. Si les deux réponses concordent, elles peuvent corriger la liste initiale.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -519,7 +519,7 @@
       "resources": "Trois lectures pour la liste initiale, des vérifications par blocs pour le routage, puis deux jugements pour chaque paire arbitrée. Les réponses compatibles déjà présentes sont réutilisées."
     },
     "19|Rationales": {
-      "title": "Ajouter des explications aux exemples",
+      "title": "R3-T1 — Ajouter des explications aux exemples",
       "summary": "Avant d’analyser un nouvel article, Luna voit des exemples annotés. On ajoute une explication à leurs réponses pour voir si cela aide le modèle à mieux décider ensuite.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -556,7 +556,7 @@
       "resources": "Une préparation des explications des exemples, puis sept lectures par article. Ajouter du texte aux démonstrations augmente aussi la longueur des demandes."
     },
     "86|Vote P2 3": {
-      "title": "Laisser plus de place à la réflexion",
+      "title": "P2 — Laisser plus de place à la réflexion",
       "summary": "Qwen analyse chaque article trois fois avec des exemples provenant d’autres sujets. On augmente la place de réflexion et de réponse de chaque lecture, puis on fait voter leurs listes de relations.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -591,7 +591,7 @@
       "resources": "Trois lectures par article, soit 120 lectures prévues sur le panel. Chaque lecture peut utiliser plus de ressources que le contrôle ; le score ne fournit pas une mesure du coût total."
     },
     "80|Vote Qwen 3": {
-      "title": "Faire voter trois lectures Qwen de l’article",
+      "title": "R2 — Faire voter trois lectures Qwen de l’article",
       "summary": "Qwen lit chaque article trois fois avec les exemples autorisés, puis on combine les relations proposées. C’est une référence documentaire pour les expériences ESC suivantes.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -632,7 +632,7 @@
   },
   "MAVEN": {
     "104|B_filter": {
-      "title": "Tester un filtre prudent sur un nouveau corpus",
+      "title": "VC3 — Tester un filtre prudent sur un nouveau corpus",
       "summary": "On construit un vote à cinq lectures sur douze articles MAVEN, puis on retire seulement les relations rejetées dans les deux présentations de vérification.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
@@ -669,7 +669,7 @@
       "resources": "Cinq lectures documentaires par article, puis les deux séries de vérifications par blocs. Le panel comporte 60 lectures prévues pour les douze articles."
     },
     "109|four_view_consensus": {
-      "title": "Exiger l’accord des quatre vérifications",
+      "title": "MV2 — Exiger l’accord des quatre vérifications",
       "summary": "On réutilise quatre avis déjà enregistrés en complément du vote initial. Les ajouts exigent l’accord de tous les avis, et les retraits exigent leur rejet unanime.",
       "steps": [
         "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",

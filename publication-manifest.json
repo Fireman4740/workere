@@ -51,7 +51,7 @@
   "code_references_converted": 231,
   "run_references_converted": 160,
   "local_annexes_not_published": 100,
-  "updated_utc": "2026-11-12T14:54:48.211629+00:00",
+  "updated_utc": "2026-11-12T15:08:30.994749+00:00",
   "web_files": [
     {
       "path": "web/README.md",
@@ -80,13 +80,13 @@
     },
     {
       "path": "web/index.html",
-      "sha256": "4b717139cb1e20c28a6b1ec063689ffa6e6111ef173b6c367eccb2c87e660f4d",
-      "bytes": 1876527
+      "sha256": "fe3a7dd0d32aa6544128c2a480bafc8ae518161fc20b8fe3accf6387741af236",
+      "bytes": 1876670
     },
     {
       "path": "web/method-guides.json",
-      "sha256": "18c556706e60955b4f39a2e68e0bdeab10f363420fb33c4089a511f5f4ad8443",
-      "bytes": 73246
+      "sha256": "4b14267d77eff7e1c9b18cefa71d546f83519fad7e5fb3424f6d633bea824473",
+      "bytes": 73389
     },
     {
       "path": "web/prepare_data.py",
@@ -125,8 +125,8 @@
     },
     {
       "path": "web/validation.json",
-      "sha256": "d675232e93f94a8e2698220622222c794125c960d6af43731c673a67a7fd2a31",
-      "bytes": 3802
+      "sha256": "bfbed71ed761a48c0ea0c38ecf1428e695405c5ad45fc52545159efc54eaba32",
+      "bytes": 4063
     }
   ],
   "scientific_amendments": [
