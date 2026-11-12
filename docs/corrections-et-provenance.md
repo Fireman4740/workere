@@ -55,3 +55,9 @@ J3/RES30 emploie le gold symétrisé corrigé, conformément au [rapport de corr
 Les anciens88 documents qualifiés de réserve ont été inclus dans H1 ; la [trace d’exposition](../SOURCES.md#annexes-locales) empêche de les annoncer comme une réserve encore intacte à l’échelle du projet.
 
 Les chiffres DeepSeek des corpus complets restent historiques et descriptifs, avec prédictions sources non disponibles pour la nouvelle comparaison. Ils ne reçoivent pas de test apparié construit à partir de seuls scores finaux.
+
+## 6. P1-Qwen : correction appliquée lors de l’export web
+
+Le même audit structuré contient `systems/P1/verify_b8k` : TP74/FP48/FN66, F1 **56,49** sur CTB47. Son champ `legacy_full_text` conserve TP74/FP50/FN66, F1 **56,06**, repris dans l’ancien paragraphe du catalogue. Le site et la fiche 84 retiennent désormais le replay strict. Le delta arithmétique contre N1 59,70 est −3,21 points ; aucun nouvel intervalle apparié contre N1 n’a été calculé. L’IC historique contre N1 reste associé au score historique et n’est pas transféré au score corrigé. Cette correction ne change pas la conclusion d’absence de gain confirmé.
+
+Source locale : `qwen-mecanismes-raisonnement-2026-11-05/data/audit-scores-2026-11-06.json`, clés `systems/P1/verify_b8k` et `legacy_full_text`. L’export JSON du site contient les comptes, le chemin exact et l’empreinte SHA-256 de ce fichier.

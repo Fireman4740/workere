@@ -1,0 +1,74 @@
+{
+  "validated_utc": "2026-11-12T14:21:56.751969+00:00",
+  "snapshot_utc": "2026-11-12T12:31:54.103224+00:00",
+  "coverage": {
+    "experiments": 117,
+    "runs": 190,
+    "logs": 187,
+    "score_rows": 828,
+    "experiments_with_scores": 89,
+    "prompt_source_experiments": 104,
+    "prompt_templates_and_builders": 161
+  },
+  "checks": {
+    "unit_tests": {
+      "passed": 13,
+      "failed": 0
+    },
+    "javascript_syntax": "node --check passed",
+    "browser": {
+      "experiments": 117,
+      "detail_tabs_checked": 585,
+      "distinct_diagrams": 117,
+      "rankings": [
+        "CTB47 top 10",
+        "ESC40",
+        "MAVEN12"
+      ],
+      "w4_variants": 96,
+      "exports": [
+        "CSV",
+        "graph SVG",
+        "method SVG",
+        "prompt text"
+      ],
+      "viewports": [
+        390,
+        768,
+        1440
+      ],
+      "offline": true,
+      "external_requests": 0,
+      "browser_errors": []
+    },
+    "additional_mobile_checks": {
+      "top_10_overflow": false,
+      "prompts_overflow": false,
+      "schema_overflow": false
+    },
+    "downloaded_exports": {
+      "csv_variants_recomputed": 96,
+      "svg_files_parsed": 2,
+      "prompt_text_matches_frozen_source": true
+    }
+  },
+  "file_sha256": {
+    "web/index.html": "bf20bd8b1f2632930896a962286204fe58c21a9a1c0b04f588ae24d42f43a717",
+    "web/data.json": "8c87eb813bc5242c6e36f20ac5a44e42d037a0ebbbb83db135734f65f6570a12",
+    "web/app.js": "d21b0c2279faab2408976ea49db822ce58447cee6b1b78d0914cc925837bd1b1",
+    "web/style.css": "3156d84d6ca1bf84a432635cf807c4ac184aadf7da41a7e2586e6826f8e467e3",
+    "web/template.html": "b8c024597dc2a8038d4bdfe25c5fadcd40800b25cf4b21ffa218839fd69f7033",
+    "web/prepare_data.py": "96f4276d09fbf41d076469efc9d8e2d32b72b3c908f7aa5608a041766deb660a",
+    "web/prepare_prompts.py": "578583bb7668e08d3c37a2aea897f87f7af20b89761476a5d1b22a20a21b4af9",
+    "web/explanations.json": "0534d889c751fe9f02dc01b3270e80cfd2bc3112a3fefe01162722e04f4f6143",
+    "web/build_site.py": "7aa606e01ba6e5d8272f12808c6693228b93fe5b9367c839a79bb1ffc391a68f",
+    "web/test_site.py": "49cd77030118298532049b4a1954acd90638188ecffdfc7f47fd35a251483d3f",
+    "web/qa_browser.js": "2a16efdb56130a96b2d4842df6e894e622a5de057f1d3281433d76cd3eaa775f"
+  },
+  "delivery": "Local standalone HTML and local documentation branch; no hosting or git push.",
+  "limits": [
+    "Snapshot only; no new experiment was run.",
+    "Top 10 selects best observed variants within declared panels; no independent confirmation.",
+    "Prompt templates/builders at reference commits; dynamic requests and every retry version are not reconstructed."
+  ]
+}

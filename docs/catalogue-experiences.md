@@ -2124,7 +2124,7 @@ Expérience `f250f017-471a-4e0b-a9ea-cd6f9ddbdca4`.
 
 **Panel et comparaison.** CTB47 ; comparaison au vote N1 59,70.
 
-**Résultat et portée.** F1 56,06, TP74/FP50/FN66 ; −3,64 [−12,36 ; +2,36] contre N1. Le gain ponctuel de N2 ne se reproduit pas.
+**Résultat et portée.** Le replay strict structuré donne F1 56,49, TP74/FP48/FN66, soit −3,21 points contre N1 59,70. Le score historique 56,06 (TP74/FP50/FN66) lisait le texte complet. Son intervalle −3,64 [−12,36 ; +2,36] contre N1 n’est pas transposé au recomptage strict. Le gain ponctuel de N2 ne se reproduit pas.
 
 **Contrôles et limites.** 14/47 réflexions fermées au budget. La différence entre sources et vérification ne suffit pas à attribuer une cause unique au changement.
 

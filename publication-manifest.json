@@ -3,7 +3,7 @@
   "user_request": "msg_b91ddfea: push ces fichier dans un banche avec que les résultat et ces docs",
   "repository": "https://github.com/Fireman4740/workere",
   "branch": "results/project-summary-2026-11-12",
-  "scope": "Only the two requested updated reports, their two result inventories, corrections and documentary verification; no historical annex bulk export.",
+  "scope": "Documents, result inventories and requested offline research website, including normalized aggregate data, explanatory prompt excerpts, generator and validation. No research runtime, raw logs, corpora or models.",
   "files": [
     {
       "source": "synthese-globale-2026-10-29/recapitulatif-pistes-resultats-et-suite.md",
@@ -16,22 +16,22 @@
       "source": "synthese-globale-2026-10-29/detail-technique-experiences.md",
       "published": "docs/catalogue-experiences.md",
       "source_sha256": "9f4450e02fe7a6c8cf95400407cddc7509c6e608865d5e9408474b8f3aff9f46",
-      "published_sha256": "d5d9245f585d48515375a7cb6a65ca38e68b1f5654f1d4e89905d93daa2eb8a8",
-      "bytes": 230474
+      "published_sha256": "d0e1be2f9660f0286b57b5d7f3f3615b99df922181d6ca8316b6a4b7eff16638",
+      "bytes": 230671
     },
     {
       "source": "synthese-globale-2026-10-29/mise-a-jour-2026-11-12/ecarts-de-sources.md",
       "published": "docs/corrections-et-provenance.md",
       "source_sha256": "b03aaf38964ebae635587c87371e4b8e49a1ba038b644588cd8adb87c0678288",
-      "published_sha256": "8f3c29c4e12a25bd1f9182604e443d5e6b9ac620a0433396aa30528c47ac41ac",
-      "bytes": 6114
+      "published_sha256": "2701777981aab5d89505644c8851782bd50beb60f20985259f64657b4716e069",
+      "bytes": 7016
     },
     {
       "source": "synthese-globale-2026-10-29/mise-a-jour-2026-11-12/inventaire-experiences.csv",
       "published": "results/inventaire-experiences.csv",
       "source_sha256": "38bfe79437123fc52d03a91052d20f358b271b199d8811e39e17fe6680aadb14",
-      "published_sha256": "2b7390aa25a924cde99d1d549dfacb20399829aa0451ed6c754cacbf343d5d72",
-      "bytes": 49682
+      "published_sha256": "8f07e26b9489b14982a91c52b561cc95df2461f16ef53455e13bf73c16e2abdd",
+      "bytes": 49838
     },
     {
       "source": "synthese-globale-2026-10-29/mise-a-jour-2026-11-12/inventaire-executions.csv",
@@ -50,5 +50,77 @@
   ],
   "code_references_converted": 231,
   "run_references_converted": 160,
-  "local_annexes_not_published": 100
+  "local_annexes_not_published": 100,
+  "updated_utc": "2026-11-12T14:21:56.751969+00:00",
+  "web_files": [
+    {
+      "path": "web/README.md",
+      "sha256": "b8943055c24c3cc7843668749578b31311f48c4db49c0a78107ede7fb1b627fd",
+      "bytes": 5400
+    },
+    {
+      "path": "web/app.js",
+      "sha256": "d21b0c2279faab2408976ea49db822ce58447cee6b1b78d0914cc925837bd1b1",
+      "bytes": 59595
+    },
+    {
+      "path": "web/build_site.py",
+      "sha256": "7aa606e01ba6e5d8272f12808c6693228b93fe5b9367c839a79bb1ffc391a68f",
+      "bytes": 1330
+    },
+    {
+      "path": "web/data.json",
+      "sha256": "8c87eb813bc5242c6e36f20ac5a44e42d037a0ebbbb83db135734f65f6570a12",
+      "bytes": 2267221
+    },
+    {
+      "path": "web/explanations.json",
+      "sha256": "0534d889c751fe9f02dc01b3270e80cfd2bc3112a3fefe01162722e04f4f6143",
+      "bytes": 15041
+    },
+    {
+      "path": "web/index.html",
+      "sha256": "bf20bd8b1f2632930896a962286204fe58c21a9a1c0b04f588ae24d42f43a717",
+      "bytes": 1780169
+    },
+    {
+      "path": "web/prepare_data.py",
+      "sha256": "96f4276d09fbf41d076469efc9d8e2d32b72b3c908f7aa5608a041766deb660a",
+      "bytes": 36561
+    },
+    {
+      "path": "web/prepare_prompts.py",
+      "sha256": "578583bb7668e08d3c37a2aea897f87f7af20b89761476a5d1b22a20a21b4af9",
+      "bytes": 11471
+    },
+    {
+      "path": "web/qa_browser.js",
+      "sha256": "2a16efdb56130a96b2d4842df6e894e622a5de057f1d3281433d76cd3eaa775f",
+      "bytes": 7385
+    },
+    {
+      "path": "web/style.css",
+      "sha256": "3156d84d6ca1bf84a432635cf807c4ac184aadf7da41a7e2586e6826f8e467e3",
+      "bytes": 21022
+    },
+    {
+      "path": "web/template.html",
+      "sha256": "b8c024597dc2a8038d4bdfe25c5fadcd40800b25cf4b21ffa218839fd69f7033",
+      "bytes": 2682
+    },
+    {
+      "path": "web/test_site.py",
+      "sha256": "49cd77030118298532049b4a1954acd90638188ecffdfc7f47fd35a251483d3f",
+      "bytes": 6244
+    },
+    {
+      "path": "web/validation.json",
+      "sha256": "087a367f3a82086c565abb8eac2312bb76ffa6b044cf82adcbe91f6f18aebd5a",
+      "bytes": 2648
+    }
+  ],
+  "scientific_amendments": [
+    "P1-Qwen strict replay correction 56.49 vs legacy full-text 56.06, documented in corrections registry and experiment 84."
+  ],
+  "publication_status": "Prepared and committed locally; push awaits explicit destination confirmation after earlier automatic approval rejection."
 }

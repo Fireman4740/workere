@@ -1,6 +1,8 @@
 # Sources et périmètre de publication
 
-Les deux documents principaux sont les synthèses actualisées demandées. Les adaptations de publication concernent les liens, les marqueurs de provenance et les chemins des tableaux ; les conclusions et valeurs scientifiques sont conservées. Les références au code pointent vers des commits déjà publiés, sans embarquer le code dans cette branche. Les références aux runs renvoient à l’inventaire avec leur identifiant complet.
+Les deux documents principaux sont les synthèses actualisées demandées. Les adaptations de publication concernent les liens, les marqueurs de provenance et les chemins des tableaux. La correction complémentaire P1-Qwen est enregistrée explicitement dans le registre et dans la fiche 84. Les références au code pointent vers les commits de référence, sans ajouter le pipeline de recherche à cette branche. Les références aux runs renvoient à l’inventaire avec leur identifiant complet.
+
+Le dossier `web/` ajoute le site autonome demandé, ses données normalisées, ses outils de génération et ses vérifications. Les extraits de gabarits et de fonctions de construction des prompts font partie de la documentation affichée. Ils sont relus au commit de référence et associés à des empreintes ; les corps dynamiques des documents et exemples ne sont pas réexportés. Les chemins d’archives identifient les sources locales, sans prétendre que ces archives sont publiées. Voir `web/README.md` pour le contrat du Top 10 et des prompts.
 
 Le contrôle documentaire d’origine vérifie les artefacts locaux et conserve ses empreintes historiques. Le contrôle de cette publication figure dans `publication-validation.json`. Les empreintes source et publiées sont consignées dans `publication-manifest.json`.
 
