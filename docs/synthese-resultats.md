@@ -209,7 +209,7 @@ Les versions avec propagation par chaînes ECB+ gold restent **oracles**, donc h
 
 ### 6.3 MAVEN12 : le vote simple reste le témoin
 
-Le pilote termine avec vote 29,47 ; filtre29,79 ; réparation26,54 ; filtre+ajouts26,92. Le filtre retire un seul faux lien. MV2 obtient24,78 avec cinq vues,28,06 par consensus et27,64 avec la règle asymétrique. Les intervalles restent larges ; aucun gain de combinaison n’est établi. Les vues ne sont complètes que pour339/2 530 paires, les autres utilisant le repli prévu. Une lecture sur 60 est invalide. [run 71e9dace](../results/inventaire-executions.csv) (`71e9dace-b52a-4774-8332-a429a640a587`) [run 35ecb7c3](../results/inventaire-executions.csv) (`35ecb7c3-ac28-45fe-a470-122bb84e3913`).
+Le pilote termine avec vote 29,47 ; filtre29,79 ; réparation26,54 ; filtre+ajouts26,92. Le filtre retire deux faux liens non ordonnés. MV2 obtient24,78 avec cinq vues,28,06 par consensus et27,64 avec la règle asymétrique. Les intervalles restent larges ; aucun gain de combinaison n’est établi. Les vues ne sont complètes que pour339/2 530 paires, les autres utilisant le repli prévu. Une lecture sur 60 est invalide. [run 71e9dace](../results/inventaire-executions.csv) (`71e9dace-b52a-4774-8332-a429a640a587`) [run 35ecb7c3](../results/inventaire-executions.csv) (`35ecb7c3-ac28-45fe-a470-122bb84e3913`).
 
 <a id="verification-et-decomposition"></a>
 ## 7. Vérification, fiches, décomposition et graphes

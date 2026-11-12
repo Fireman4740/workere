@@ -1,5 +1,5 @@
 {
-  "verified_utc": "2026-11-12T14:22:41.702408+00:00",
+  "verified_utc": "2026-11-12T14:54:48.211629+00:00",
   "previous_document_only_validation": {
     "verified_utc": "2026-11-12T13:14:19.490180+00:00",
     "files": 10,
@@ -15,7 +15,7 @@
     "all_checks_pass": true
   },
   "scope": "Requested reports, inventories and offline research website with prompt documentation and local generators.",
-  "files": 24,
+  "files": 26,
   "local_links_checked": 606,
   "broken_local_links": 0,
   "credential_pattern_matches": 0,
@@ -26,5 +26,6 @@
   "experiment_rows": 117,
   "run_rows": 190,
   "web_validation": "web/validation.json",
-  "all_checks_pass": true
+  "all_checks_pass": true,
+  "complete_ranked_method_guides": 18
 }

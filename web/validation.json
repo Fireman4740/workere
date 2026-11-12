@@ -1,5 +1,5 @@
 {
-  "validated_utc": "2026-11-12T14:21:56.751969+00:00",
+  "validated_utc": "2026-11-12T14:53:15.590015+00:00",
   "snapshot_utc": "2026-11-12T12:31:54.103224+00:00",
   "coverage": {
     "experiments": 117,
@@ -8,14 +8,15 @@
     "score_rows": 828,
     "experiments_with_scores": 89,
     "prompt_source_experiments": 104,
-    "prompt_templates_and_builders": 161
+    "prompt_templates_and_builders": 168,
+    "complete_ranked_method_guides": 18
   },
   "checks": {
     "unit_tests": {
-      "passed": 13,
+      "passed": 15,
       "failed": 0
     },
-    "javascript_syntax": "node --check passed",
+    "javascript_syntax": "node --check passed for app.js and qa_methods.js",
     "browser": {
       "experiments": 117,
       "detail_tabs_checked": 585,
@@ -50,20 +51,61 @@
       "csv_variants_recomputed": 96,
       "svg_files_parsed": 2,
       "prompt_text_matches_frozen_source": true
+    },
+    "complete_methods": {
+      "guides_checked": [
+        "CTB/85",
+        "CTB/102",
+        "CTB/83",
+        "CTB/82",
+        "CTB/113",
+        "CTB/109",
+        "CTB/87",
+        "CTB/84",
+        "CTB/79",
+        "CTB/74",
+        "ESC/18",
+        "ESC/109",
+        "ESC/103",
+        "ESC/19",
+        "ESC/86",
+        "ESC/80",
+        "MAVEN/104",
+        "MAVEN/109"
+      ],
+      "viewports": [
+        390,
+        768,
+        1440
+      ],
+      "detail_tabs": 8,
+      "inline_prompts": true,
+      "ranking_and_prompt_exports": true,
+      "offline": true,
+      "external_requests": 0,
+      "errors": []
+    },
+    "delivery": {
+      "standalone_artifact_browser_checked": true,
+      "complete_method_json_export_verified": true,
+      "visual_preview_checked": true
     }
   },
   "file_sha256": {
-    "web/index.html": "bf20bd8b1f2632930896a962286204fe58c21a9a1c0b04f588ae24d42f43a717",
-    "web/data.json": "8c87eb813bc5242c6e36f20ac5a44e42d037a0ebbbb83db135734f65f6570a12",
-    "web/app.js": "d21b0c2279faab2408976ea49db822ce58447cee6b1b78d0914cc925837bd1b1",
-    "web/style.css": "3156d84d6ca1bf84a432635cf807c4ac184aadf7da41a7e2586e6826f8e467e3",
+    "web/README.md": "a066ec64ed9042274e79602371325ea8bcd364ba9d1c43e1a658a43dfa6df3f5",
+    "web/app.js": "c5843ec07b851c2d0688f7186c83819c978abd7f5ccca4c8c1a4d5bd1aec45fd",
+    "web/build_site.py": "13e1409a61436b81bc336796f45cfe7f986e67ae4642ecc1b5062d3fd3401721",
+    "web/data.json": "1c6ec5b0174c4ae5e5508fc12f7cff885a27fe3bd21cb13aef33b4f4eb31f900",
+    "web/explanations.json": "363deaf9fb3411279615355cc9174c18cd302d1257af8809488b18154658fd0a",
+    "web/index.html": "4b717139cb1e20c28a6b1ec063689ffa6e6111ef173b6c367eccb2c87e660f4d",
+    "web/method-guides.json": "18c556706e60955b4f39a2e68e0bdeab10f363420fb33c4089a511f5f4ad8443",
+    "web/prepare_data.py": "a0772ed4ef6a6286ad34c36bbe0d39f0f69ca900499483aaa845e8a35fe91b31",
+    "web/prepare_prompts.py": "4d52a2d370ca6d0e1a0a70da5f6f0c23c2f129b2165ab904ca67a38fa3b968e7",
+    "web/qa_browser.js": "2a16efdb56130a96b2d4842df6e894e622a5de057f1d3281433d76cd3eaa775f",
+    "web/qa_methods.js": "32966c0c84bc512e036cc912a6e0b3acf928638196cdd6fa983f1c5d778572b2",
+    "web/style.css": "b534f2e27a17cc04cf5f70bca45350c94b5c2f5af6a2a7a63cd2d508d5870c88",
     "web/template.html": "b8c024597dc2a8038d4bdfe25c5fadcd40800b25cf4b21ffa218839fd69f7033",
-    "web/prepare_data.py": "96f4276d09fbf41d076469efc9d8e2d32b72b3c908f7aa5608a041766deb660a",
-    "web/prepare_prompts.py": "578583bb7668e08d3c37a2aea897f87f7af20b89761476a5d1b22a20a21b4af9",
-    "web/explanations.json": "0534d889c751fe9f02dc01b3270e80cfd2bc3112a3fefe01162722e04f4f6143",
-    "web/build_site.py": "7aa606e01ba6e5d8272f12808c6693228b93fe5b9367c839a79bb1ffc391a68f",
-    "web/test_site.py": "49cd77030118298532049b4a1954acd90638188ecffdfc7f47fd35a251483d3f",
-    "web/qa_browser.js": "2a16efdb56130a96b2d4842df6e894e622a5de057f1d3281433d76cd3eaa775f"
+    "web/test_site.py": "e251baae9834894753b3e978958c57379141ca3a0d3bfad23b98da67fab6aa83"
   },
   "delivery": "Local standalone HTML and local documentation branch; no hosting or git push.",
   "limits": [

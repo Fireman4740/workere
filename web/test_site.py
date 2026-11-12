@@ -16,6 +16,7 @@ class SiteTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.data=json.loads((HERE/"data.json").read_text())
+        cls.data['method_guides']=json.loads((HERE/'method-guides.json').read_text())
         cls.ex=cls.data["experiments"]
         cls.by_n={e["number"]:e for e in cls.ex}
 
@@ -105,6 +106,38 @@ class SiteTests(unittest.TestCase):
     def test_h1_unpaired_history_separate(self):
         self.assertFalse(any(r["variant"]=="historical_unpaired_reference" for r in self.by_n[39]["rows"]))
         self.assertEqual(len(self.by_n[39]["rows"]),6)
+
+    def test_complete_method_guides_and_comparators(self):
+        guides=self.data['method_guides']
+        self.assertEqual({k:len(v) for k,v in guides.items()},{'CTB':10,'ESC':6,'MAVEN':2})
+        for corpus,entries in guides.items():
+            for key,g in entries.items():
+                n,variant=key.split('|',1)
+                self.assertTrue(any(r['variant']==variant and r['context'].startswith(corpus)
+                                    for r in self.by_n[int(n)]['rows']),key)
+                for field in ['inputs','output','evaluation','resources','summary','value','observed','limits']:
+                    self.assertTrue(g[field],(key,field))
+                self.assertGreaterEqual(len(g['steps']),4,key)
+                self.assertTrue(g['prompt_sources'],key)
+                for n in g['prompt_sources']:
+                    self.assertTrue(self.by_n[n]['prompt_refs'],(key,n))
+                for ref in g['references']:
+                    matches=[r for r in self.by_n[ref['experiment']]['rows']
+                             if r['variant']==ref['variant'] and r['context'].startswith(corpus)]
+                    self.assertEqual(len(matches),1,(key,ref))
+        w4=guides['CTB']['113|historical__base_filter']['references'][0]
+        self.assertEqual(w4['delta'],'vs_historical')
+        self.assertEqual(w4['variant'],'historical')
+
+    def test_esc_three_pass_vote_counts(self):
+        for n,variant,counts in [(80,'Vote Qwen 3',[704,722,1238]),(86,'Vote P2 3',[726,758,1216])]:
+            row=self.by_n[n]['rows'][0]
+            self.assertEqual(row['variant'],variant)
+            self.assertEqual([row[k] for k in ['tp','fp','fn']],counts)
+            self.assertEqual(row['documents'],40)
+            self.assertTrue(row['source']['line'])
+        delta=self.by_n[86]['rows'][0]['f1']-self.by_n[80]['rows'][0]['f1']
+        self.assertAlmostEqual(delta,.5765606866,places=6)
 
     def test_zero_and_absence_are_distinct(self):
         self.assertEqual(self.by_n[1]["rows"][0]["f1"],0)

@@ -433,6 +433,7 @@ def import_snapshot(root: Path):
         for key in keys: add(by_n[n],key,audit["systems"][key],"CTB47 · développement réutilisé",source(auditpath,"systems/"+key),docs=47)
         by_n[n]["notes"].append("Les valeurs suivent le recomptage strict structuré, y compris P1 = 56,49 ; les anciens résumés peuvent différer.")
     by_n[84]["outcome"]="Le replay strict donne F1 56,49 (TP74/FP48/FN66), soit −3,21 points contre N1 59,70. Le score historique 56,06 incluait deux faux positifs supplémentaires issus du texte complet. Aucun gain confirmé ; l’IC historique n’est pas transposé au score corrigé."
+    by_n[104]['outcome']=by_n[104]['outcome'].replace('un seul faux lien','deux faux liens non ordonnés')
     by_n[84]["sources"].append(auditpath)
     p1row=next(r for r in by_n[84]["rows"] if r["variant"]=="P1/verify_b8k")
     p1row.update(delta=audit["systems"]["P1/verify_b8k"]["f1"]-audit["systems"]["N1/vote5"]["f1"],reference="N1/vote5")
@@ -450,10 +451,10 @@ def import_snapshot(root: Path):
       20:("ESC · TEST-S40 · diagnostic",[("Fusion référence",48.64),("Fusion + groupes",48.88)]),
       29:("ESC · RES30 · gold symétrisé corrigé",[("Fusion référence",36.07),("J3-A corrigé",36.35)]),
       30:("ESC · RES30 · gold symétrisé corrigé",[("Fusion référence",36.07),("J3-B corrigé",35.99)]),
-      80:("ESC40 · R2 · 10k",[("Vote Qwen 5",41.81)]),
+      80:("ESC40 · R2 · 10k",[("Vote Qwen 3",41.81)]),
       81:("CTB47 · R3 · une lecture terminée",[("Première lecture purpose/enablement",29.46)]),
       85:("CTB47 · P3 · 20k",[("Vote P3 5",57.14),("N1 + P3",61.1940298507)]),
-      86:("ESC40 · P2 · 24k",[("Vote P2 5",42.3817863398)]),
+      86:("ESC40 · P2 · 24k",[("Vote P2 3",42.3817863398)]),
       87:("CTB47 · vérification P3",[("P3",57.14),("P4",57.14)]),
     }
     # These fallbacks preserve published aggregate precision and do not pretend
@@ -462,6 +463,15 @@ def import_snapshot(root: Path):
         if by_n[n]["rows"]: continue
         for label,value in values:
             add(by_n[n],label,{"f1":value},context,{"file":"docs/catalogue-experiences.md","pointer":f"fiche-{n:02d}","run":by_n[n]["runs"][0]["id"] if by_n[n]["runs"] else None,"line":None},note="Valeur agrégée du catalogue revu ; comptes non disponibles dans cette table.")
+    # Final vote counts reread in the persisted R2/P2 logs. The campaign has
+    # three passes (40 documents x 3), not five as an old export label implied.
+    for n,tp,fp,fn,line in [(80,704,722,1238,715),(86,726,758,1216,797)]:
+        row=by_n[n]["rows"][0]
+        row.update(tp=tp,fp=fp,fn=fn,f1=200*tp/(2*tp+fp+fn),
+                   precision=100*tp/(tp+fp),recall=100*tp/(tp+fn),documents=40,
+                   source={"file":"journaux/"+by_n[n]["runs"][0]["id"]+".log",
+                           "pointer":"final-vote/TP-FP-FN","run":by_n[n]["runs"][0]["id"],"line":line},
+                   note="Trois lectures prévues par article ; comptes finaux relus dans le journal, pas les scores des lectures individuelles.")
     for n,label,delta,ci,reference in [(8,"Luna",11.59,[7.51,15.65],"d1 R0"),(18,"Fusion Luna × d1",10.05,[6.66,13.65],"d1"),(19,"Rationales",-1.67,[-3.85,.85],"Luna référence"),(20,"Fusion + groupes",.24,[-1.25,1.58],"Fusion référence")]:
         row=next(r for r in by_n[n]["rows"] if r["variant"]==label)
         row.update(delta=delta,ci=ci,ci_level=95,reference=reference,resampling="voir protocole source")

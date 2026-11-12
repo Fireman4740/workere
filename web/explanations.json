@@ -78,7 +78,7 @@
 "On entraîne une petite sonde à lire les représentations internes avant ou après la réflexion, puis on compare ses prédictions sur les mêmes documents valides.",
 "On modifie des têtes ciblées du modèle et on compare à des têtes aléatoires pour vérifier la spécificité de l’intervention.",
 "On fait cinq lectures échantillonnées de CTB et on vote, au lieu d’utiliser uniquement la génération déterministe.",
-"On teste sur ESC cinq lectures avec une enveloppe de raisonnement de 10k tokens.",
+"On fait analyser chaque article ESC trois fois par Qwen, avec des exemples d’autres sujets et un budget de réflexion de 10k tokens, puis on fait voter les listes de relations.",
 "On ajoute une consigne sur les relations de but et de facilitation. Une seule lecture est terminée avant l’arrêt de l’essai.",
 "On diversifie les démonstrations des cinq lectures pour essayer d’obtenir des erreurs moins corrélées.",
 "On fait relire au modèle les propositions issues des cinq lectures R1 pour vérifier les liens avant de les conserver.",

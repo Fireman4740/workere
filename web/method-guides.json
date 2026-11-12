@@ -1,0 +1,712 @@
+{
+  "CTB": {
+    "85|N1 + P3": {
+      "title": "Faire voter des lectures courtes et longues",
+      "summary": "Le même modèle relit chaque article dix fois. Cinq lectures disposent d’un budget de réflexion court, cinq d’un budget plus long. On rassemble leurs propositions pour décider quels liens garder.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire lire l’article cinq fois au même modèle Qwen, avec cinq exemples différents. Chaque lecture choisit les sorties les plus probables et dispose de 8 192 tokens de réflexion puis 4 096 pour sa réponse. Un token est un petit morceau de texte ; ce budget est une limite, pas une durée garantie.",
+        "Produire aussi cinq lectures longues avec les mêmes cinq exemples, chacune avec 20 480 tokens de réflexion et 4 096 de réponse. On obtient dix lectures du même article, sans changer de modèle.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Réunir les dix listes valides et retenir les liens soutenus par au moins la moitié d’entre elles. Avec dix listes valides, cinq soutiens suffisent. Les noms N1 et P3 désignent respectivement les séries courte et longue."
+      ],
+      "example": "Un lien proposé dans plusieurs lectures peut être retenu, tandis qu’une proposition isolée peut être écartée. On ne demande pas au modèle de réécrire une réponse commune : on combine ses sorties.",
+      "value": "Des lectures différentes peuvent se compléter : certaines trouvent des liens que les autres manquent. Le vote cherche aussi à éviter de retenir chaque proposition isolée.",
+      "observed": "La combinaison dépasse ici chacune des deux séries prise seule. Le résultat classé est bien N1 + P3 ; les lectures longues P3 seules n’atteignent pas ce score.",
+      "limits": [
+        "Dix lectures demandent davantage de générations que cinq. Aucun gain de temps ou de coût total n’est établi par ce classement.",
+        "Le modèle reste le même et ses erreurs peuvent se répéter. L’avantage sur la référence historique à sept lectures n’est pas confirmé.",
+        "Le budget et la configuration d’exécution changent ensemble : on ne peut pas attribuer le résultat au seul fait de réfléchir plus longtemps."
+      ],
+      "takeaway": "L’intérêt observé vient de la combinaison de deux séries, avec un bénéfice qui reste à confirmer sur d’autres données.",
+      "status": "Gain à confirmer",
+      "references": [
+        {
+          "experiment": 82,
+          "variant": "N1/vote5",
+          "label": "Cinq lectures courtes seules (N1)"
+        },
+        {
+          "experiment": 85,
+          "variant": "Vote P3 5",
+          "label": "Cinq lectures longues seules (P3)"
+        }
+      ],
+      "inputs": "Un article CTB avec les mentions d’événements déjà marquées et les paires autorisées dans une même phrase. Le système cherche les liens causaux entre ces mentions ; il n’apprend pas à repérer les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer la liste finale aux annotations cachées des mêmes 47 articles CTB. Le micro-F1 rassemble les relations de tous les articles : il pénalise à la fois les liens inventés et les liens oubliés. Les variantes sont comparées sur ce panel déjà utilisé pendant le développement, sans prétendre à une confirmation sur de nouveaux articles.",
+      "prompt_sources": [
+        82,
+        85
+      ],
+      "resources": "Dix générations documentaires par article. Les séries courte et longue cumulent leurs ressources ; le classement ne fournit pas de coût total ou de temps de réponse comparable."
+    },
+    "102|B_filter": {
+      "title": "Retirer un lien si deux vérifications le rejettent",
+      "summary": "On part des relations déjà proposées par une bonne référence. On les présente de deux façons au modèle. Un lien est retiré seulement si les deux vérifications répondent qu’il n’est pas causal.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire lire l’article cinq fois au même modèle Qwen, avec cinq exemples différents. Chaque lecture choisit les sorties les plus probables et dispose de 8 192 tokens de réflexion puis 4 096 pour sa réponse. Un token est un petit morceau de texte ; ce budget est une limite, pas une durée garantie.",
+        "Produire aussi cinq lectures longues avec les mêmes cinq exemples, chacune avec 20 480 tokens de réflexion et 4 096 de réponse. On obtient dix lectures du même article, sans changer de modèle.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Réunir les dix listes valides et retenir les liens soutenus par au moins la moitié d’entre elles. Avec dix listes valides, cinq soutiens suffisent. Les noms N1 et P3 désignent respectivement les séries courte et longue.",
+        "Présenter les paires par blocs de douze avec des passages du texte autour des événements. Faire deux vérifications par le même modèle, en changeant l’ordre des questions. Pour chaque paire, il répond A cause B, B cause A, ou aucun lien ; ces deux présentations ne sont pas deux modèles indépendants.",
+        "Partir des liens retenus par le vote à dix lectures. Supprimer un lien uniquement si les deux vérifications le rejettent ; sinon le conserver. Le filtre ne peut ajouter aucun lien."
+      ],
+      "example": "Si les deux vérifications rejettent un lien entre « pluie » et « route fermée », le filtre le supprime. Si elles se contredisent, il conserve la proposition de départ.",
+      "value": "Réduire les fausses alertes avec une règle prudente, plutôt que demander au modèle de refaire toute la liste.",
+      "observed": "Le filtre retire un lien erroné, mais aussi un lien correct. Le compromis final est légèrement moins bon que celui de la référence, malgré sa deuxième place dans ce classement.",
+      "limits": [
+        "Un filtre peut enlever une bonne relation ; il ne sait pas récupérer une relation oubliée.",
+        "Les deux avis proviennent du même modèle, pas de deux experts indépendants.",
+        "L’effet favorable du petit pilote ne se maintient pas sur l’ensemble des 47 documents."
+      ],
+      "takeaway": "Une règle de nettoyage compréhensible, mais aucun gain global de qualité observé sur ce panel.",
+      "status": "Pas de gain observé",
+      "references": [
+        {
+          "experiment": 102,
+          "variant": "Référence historique",
+          "label": "Vote initial N1 + P3",
+          "delta": "published"
+        }
+      ],
+      "inputs": "Un article CTB avec les mentions d’événements déjà marquées et les paires autorisées dans une même phrase. Le système cherche les liens causaux entre ces mentions ; il n’apprend pas à repérer les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer la liste finale aux annotations cachées des mêmes 47 articles CTB. Le micro-F1 rassemble les relations de tous les articles : il pénalise à la fois les liens inventés et les liens oubliés. Les variantes sont comparées sur ce panel déjà utilisé pendant le développement, sans prétendre à une confirmation sur de nouveaux articles.",
+      "prompt_sources": [
+        85,
+        102
+      ],
+      "resources": "Les dix lectures initiales, puis les appels de vérification par blocs. Le replay réutilise des réponses enregistrées quand elles sont compatibles ; les avoir produites a aussi un coût."
+    },
+    "83|N2/verify_b8k": {
+      "title": "Faire relire les liens proposés par cinq lectures",
+      "summary": "Après cinq lectures, on montre au modèle les relations proposées et le nombre de lectures qui les soutiennent. Il relit l’article et produit une liste finale vérifiée.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire lire l’article cinq fois au même modèle Qwen avec le même exemple. L’échantillonnage à température 0,6 permet de produire des réponses différentes ; chaque lecture dispose de 8 192 tokens de réflexion puis 4 096 de réponse.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Pour chaque paire, compter les listes valides qui proposent un lien. Le vote retient un lien soutenu par au moins la moitié de ces listes ; une lecture sans réponse valide s’abstient. Avec cinq listes valides, il faut donc trois soutiens.",
+        "Montrer à Qwen l’article, toutes les relations proposées par ces cinq lectures et le nombre de soutiens de chacune. Lui demander de relire le texte avec un budget de réflexion de 8 192 tokens.",
+        "Le vérificateur rend une nouvelle liste : il peut garder un lien, le retirer ou en ajouter un s’il trouve un appui dans le texte. C’est cette réponse finale vérifiée qui est évaluée."
+      ],
+      "example": "Le modèle peut voir « cette relation a été proposée par 2 lectures sur 5 », puis vérifier si le texte la justifie réellement.",
+      "value": "Passer d’une simple fréquence de vote à une nouvelle vérification du texte : une proposition fréquente peut être fausse, une proposition rare peut être correcte.",
+      "observed": "Cette relecture améliore le score de son vote de départ R1. C’est un signal favorable, mais les variantes P1 et P4 ne retrouvent pas un bénéfice stable.",
+      "limits": [
+        "Le même modèle vérifie ses propres propositions : il peut rester influencé par elles.",
+        "Une génération supplémentaire est nécessaire pour chaque document.",
+        "L’incertitude du résultat et les essais de suivi empêchent d’en faire une amélioration acquise."
+      ],
+      "takeaway": "La vérification aide dans cet essai précis ; son intérêt doit être vérifié pour chaque recette de départ.",
+      "status": "Gain à confirmer",
+      "references": [
+        {
+          "experiment": 83,
+          "variant": "R1/vote5",
+          "label": "Vote des cinq premières lectures"
+        }
+      ],
+      "inputs": "Un article CTB avec les mentions d’événements déjà marquées et les paires autorisées dans une même phrase. Le système cherche les liens causaux entre ces mentions ; il n’apprend pas à repérer les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer la liste finale aux annotations cachées des mêmes 47 articles CTB. Le micro-F1 rassemble les relations de tous les articles : il pénalise à la fois les liens inventés et les liens oubliés. Les variantes sont comparées sur ce panel déjà utilisé pendant le développement, sans prétendre à une confirmation sur de nouveaux articles.",
+      "prompt_sources": [
+        79,
+        83
+      ],
+      "resources": "Cinq premières générations, puis une sixième génération de vérification par article. Le vérificateur est le même modèle que le lecteur."
+    },
+    "82|N1/vote5": {
+      "title": "Varier les exemples avant de faire voter le modèle",
+      "summary": "On fait cinq lectures du même article, chacune avec une démonstration différente. L’objectif est de donner au modèle plusieurs points d’appui au lieu de répéter le même exemple.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire lire l’article cinq fois au même modèle Qwen, avec cinq exemples différents. Chaque lecture choisit les sorties les plus probables et dispose de 8 192 tokens de réflexion puis 4 096 pour sa réponse. Un token est un petit morceau de texte ; ce budget est une limite, pas une durée garantie.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Pour chaque paire, compter les listes valides qui proposent un lien. Le vote retient un lien soutenu par au moins la moitié de ces listes ; une lecture sans réponse valide s’abstient. Avec cinq listes valides, il faut donc trois soutiens."
+      ],
+      "example": "Une lecture peut voir un exemple de causalité explicite, une autre un exemple montrant quand refuser un lien. Le document à analyser reste le même.",
+      "value": "Chercher des erreurs moins répétitives entre lectures, afin que le vote soit plus utile.",
+      "observed": "Le score dépasse celui des cinq lectures R1. Il reste très proche de la référence historique à sept lectures, sans supériorité démontrée.",
+      "limits": [
+        "Changer d’exemple ne transforme pas le modèle en cinq experts indépendants.",
+        "La manière de générer les réponses change aussi par rapport à R1 : on n’isole pas parfaitement l’effet des seuls exemples.",
+        "Les mêmes documents ont déjà servi au développement."
+      ],
+      "takeaway": "Une piste pour diversifier les lectures, avec un gain central favorable qui demande confirmation.",
+      "status": "Gain à confirmer",
+      "references": [
+        {
+          "experiment": 79,
+          "variant": "R1/vote5",
+          "label": "Cinq lectures R1 avec le même exemple"
+        },
+        {
+          "experiment": 79,
+          "variant": "Qwen7",
+          "label": "Référence historique à sept lectures"
+        }
+      ],
+      "inputs": "Un article CTB avec les mentions d’événements déjà marquées et les paires autorisées dans une même phrase. Le système cherche les liens causaux entre ces mentions ; il n’apprend pas à repérer les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer la liste finale aux annotations cachées des mêmes 47 articles CTB. Le micro-F1 rassemble les relations de tous les articles : il pénalise à la fois les liens inventés et les liens oubliés. Les variantes sont comparées sur ce panel déjà utilisé pendant le développement, sans prétendre à une confirmation sur de nouveaux articles.",
+      "prompt_sources": [
+        82
+      ],
+      "resources": "Cinq générations documentaires par article. Les cinq exemples diffèrent, mais les cinq avis viennent du même modèle."
+    },
+    "113|historical__base_filter": {
+      "title": "Filtrer les liens d’une référence déjà forte",
+      "summary": "Dix lectures du même article construisent une liste de relations par vote. Le même modèle vérifie ensuite certaines paires dans les deux orientations ; la variante classée ne fait que retirer les liens doublement rejetés.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire lire l’article cinq fois au même modèle Qwen, avec cinq exemples différents. Chaque lecture choisit les sorties les plus probables et dispose de 8 192 tokens de réflexion puis 4 096 pour sa réponse. Un token est un petit morceau de texte ; ce budget est une limite, pas une durée garantie.",
+        "Produire aussi cinq lectures longues avec les mêmes cinq exemples, chacune avec 20 480 tokens de réflexion et 4 096 de réponse. On obtient dix lectures du même article, sans changer de modèle.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Réunir les dix listes valides et retenir les liens soutenus par au moins la moitié d’entre elles. Avec dix listes valides, cinq soutiens suffisent. Les noms N1 et P3 désignent respectivement les séries courte et longue.",
+        "Dans la campagne, produire aussi cinq nouvelles lectures sans modification des poids et cinq avec une modification expérimentale. Leurs désaccords et leurs votes servent à sélectionner les paires à examiner ; les annotations du test ne servent pas à cette sélection.",
+        "Faire juger les paires sélectionnées par le lecteur de base, sans modification de ses poids, dans les deux orientations A/B. Un accord sur « aucun lien » autorise la suppression.",
+        "Appliquer seulement ces suppressions au vote historique à dix lectures. Garder les autres liens et ne rien ajouter. La variante classée utilise les jugements sans édition des poids ; son rang ne démontre aucun intérêt des poids modifiés."
+      ],
+      "example": "Un ancien lien est conservé si le vérificateur hésite. Il est supprimé si les deux présentations concluent à l’absence de causalité.",
+      "value": "Chercher à réduire les fausses alertes d’un vote déjà fort par une vérification prudente. La réutilisation des prédictions historiques évite de les recalculer, mais n’efface pas les autres lectures de la campagne.",
+      "observed": "Cette variante est la meilleure nouveauté parmi les combinaisons W4, mais elle reste sous N1 + P3 avant filtrage. Son score ne démontre donc aucun bénéfice d’une modification des poids.",
+      "limits": [
+        "Les suppressions sont décidées sans édition des poids. Des lectures éditées participent au routage de la campagne : ce score n’isole donc aucun bénéfice de l’édition.",
+        "Le filtre peut retirer de vrais liens et ne peut pas compléter la liste initiale.",
+        "La meilleure nouveauté est choisie après exploration de nombreuses variantes sur le même panel."
+      ],
+      "takeaway": "Le bon rang masque une baisse face au point de départ : aucun progrès montré par cette variante.",
+      "status": "Pas de gain observé",
+      "references": [
+        {
+          "experiment": 113,
+          "variant": "historical",
+          "label": "N1 + P3 avant le filtre",
+          "delta": "vs_historical"
+        }
+      ],
+      "inputs": "Un article CTB avec les mentions d’événements déjà marquées et les paires autorisées dans une même phrase. Le système cherche les liens causaux entre ces mentions ; il n’apprend pas à repérer les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer la liste finale aux annotations cachées des mêmes 47 articles CTB. Le micro-F1 rassemble les relations de tous les articles : il pénalise à la fois les liens inventés et les liens oubliés. Les variantes sont comparées sur ce panel déjà utilisé pendant le développement, sans prétendre à une confirmation sur de nouveaux articles.",
+      "prompt_sources": [
+        85,
+        113
+      ],
+      "resources": "Le calcul final réutilise le vote historique. La sélection des paires dépend aussi de nouvelles lectures de la campagne, et la vérification ajoute des appels : il faut tenir compte de toute cette chaîne, pas seulement de son filtre final."
+    },
+    "109|strict_add_majority_remove": {
+      "title": "Exiger un accord fort pour ajouter un nouveau lien",
+      "summary": "On combine une décision initiale et quatre vérifications déjà enregistrées. La règle est plus exigeante pour ajouter un lien que pour le conserver.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire lire l’article cinq fois au même modèle Qwen, avec cinq exemples différents. Chaque lecture choisit les sorties les plus probables et dispose de 8 192 tokens de réflexion puis 4 096 pour sa réponse. Un token est un petit morceau de texte ; ce budget est une limite, pas une durée garantie.",
+        "Produire aussi cinq lectures longues avec les mêmes cinq exemples, chacune avec 20 480 tokens de réflexion et 4 096 de réponse. On obtient dix lectures du même article, sans changer de modèle.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Réunir les dix listes valides et retenir les liens soutenus par au moins la moitié d’entre elles. Avec dix listes valides, cinq soutiens suffisent. Les noms N1 et P3 désignent respectivement les séries courte et longue.",
+        "Présenter les paires par blocs de douze avec des passages du texte autour des événements. Faire deux vérifications par le même modèle, en changeant l’ordre des questions. Pour chaque paire, il répond A cause B, B cause A, ou aucun lien ; ces deux présentations ne sont pas deux modèles indépendants.",
+        "Pour les paires sélectionnées par la règle de routage, demander un jugement direct avec le passage source : une fois avec les événements présentés comme A/B, une fois en inversant leur présentation. Ramener les deux réponses à la même orientation avant de vérifier leur accord.",
+        "Pour chaque paire, réunir la décision du vote initial et les quatre vérifications. Ajouter un lien absent seulement si les quatre vérifications l’approuvent. Retirer un lien déjà présent si au moins trois vérifications le rejettent.",
+        "Si l’une des quatre vérifications manque ou n’est pas exploitable, conserver la décision initiale. La recombinaison utilise les réponses enregistrées et ne relance pas le modèle."
+      ],
+      "example": "Quatre avis favorables peuvent faire entrer un lien oublié. Un avis manquant suffit à empêcher cette modification : on garde alors la décision de départ.",
+      "value": "Réutiliser plusieurs points de vue avec une règle d’ajout prudente, sans demander de nouvelles générations pour ce calcul de combinaison.",
+      "observed": "La règle retrouve certains liens, mais ajoute aussi des erreurs. Son score final est inférieur au vote initial.",
+      "limits": [
+        "Les quatre vérifications complètes ne couvrent que 81 des 2 375 paires candidates ; ailleurs, la référence est conservée.",
+        "Les avis viennent du même modèle et peuvent partager les mêmes erreurs.",
+        "Le calcul sur les réponses existantes est peu coûteux, mais produire ces réponses en amont garde un coût."
+      ],
+      "takeaway": "Une façon de réutiliser les réponses, sans gain de qualité observé sur CTB47.",
+      "status": "Pas de gain observé",
+      "references": [
+        {
+          "experiment": 109,
+          "variant": "Référence historique",
+          "label": "Vote initial N1 + P3",
+          "delta": "published"
+        }
+      ],
+      "inputs": "Un article CTB avec les mentions d’événements déjà marquées et les paires autorisées dans une même phrase. Le système cherche les liens causaux entre ces mentions ; il n’apprend pas à repérer les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer la liste finale aux annotations cachées des mêmes 47 articles CTB. Le micro-F1 rassemble les relations de tous les articles : il pénalise à la fois les liens inventés et les liens oubliés. Les variantes sont comparées sur ce panel déjà utilisé pendant le développement, sans prétendre à une confirmation sur de nouveaux articles.",
+      "prompt_sources": [
+        85,
+        102,
+        109
+      ],
+      "resources": "Dix lectures pour la liste initiale, plus la production des quatre vues sur les paires concernées. Le calcul final ne demande aucune nouvelle génération ; les réponses réutilisées restent des ressources consommées en amont."
+    },
+    "87|P4": {
+      "title": "Vérifier une seconde fois les lectures longues",
+      "summary": "Le même modèle lit l’article cinq fois avec un budget de réflexion long et des exemples variés. Une sixième lecture reprend toutes les propositions et décide lesquelles garder, retirer ou compléter.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire lire l’article cinq fois au même modèle Qwen, avec cinq exemples différents. Chaque lecture dispose de 20 480 tokens de réflexion puis 4 096 pour sa réponse ; le moteur est configuré pour accueillir ce contexte plus long.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Pour chaque paire, compter les listes valides qui proposent un lien. Le vote retient un lien soutenu par au moins la moitié de ces listes ; une lecture sans réponse valide s’abstient. Avec cinq listes valides, il faut donc trois soutiens.",
+        "Présenter à Qwen le même article, toutes les propositions des cinq lectures longues et leurs soutiens. Lui demander une relecture avec 20 480 tokens de réflexion.",
+        "Lire sa nouvelle liste finale : elle peut garder, supprimer ou compléter les relations. Comparer cette liste vérifiée au vote des cinq lectures longues, sans inclure la série courte à dix lectures dans cette variante."
+      ],
+      "example": "Le modèle reçoit une liste provisoire et doit la corriger à partir du texte, plutôt que voter seulement sur les réponses anciennes.",
+      "value": "Éliminer des erreurs qui auraient résisté au vote des lectures longues.",
+      "observed": "Le score et les nombres totaux de liens corrects, erronés et manqués restent identiques à ceux de P3.",
+      "limits": [
+        "Une relecture supplémentaire est ajoutée sans gain de score observé.",
+        "Un document ne fournit pas de réponse finale ; trois réflexions sont fermées au budget.",
+        "Les mêmes comptes totaux ne prouvent pas que toutes les décisions individuelles sont identiques."
+      ],
+      "takeaway": "Ici, faire vérifier une fois de plus n’améliore pas le résultat agrégé.",
+      "status": "Résultat inchangé",
+      "references": [
+        {
+          "experiment": 85,
+          "variant": "Vote P3 5",
+          "label": "Vote des cinq lectures longues"
+        }
+      ],
+      "inputs": "Un article CTB avec les mentions d’événements déjà marquées et les paires autorisées dans une même phrase. Le système cherche les liens causaux entre ces mentions ; il n’apprend pas à repérer les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer la liste finale aux annotations cachées des mêmes 47 articles CTB. Le micro-F1 rassemble les relations de tous les articles : il pénalise à la fois les liens inventés et les liens oubliés. Les variantes sont comparées sur ce panel déjà utilisé pendant le développement, sans prétendre à une confirmation sur de nouveaux articles.",
+      "prompt_sources": [
+        85,
+        87
+      ],
+      "resources": "Cinq lectures longues, puis une sixième génération de vérification longue par article."
+    },
+    "84|P1/verify_b8k": {
+      "title": "Vérifier les lectures aux exemples variés",
+      "summary": "Cinq lectures de l’article avec cinq exemples différents proposent des relations. Une sixième lecture voit ces propositions et leurs soutiens, puis rend une liste finale après vérification du texte.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire lire l’article cinq fois au même modèle Qwen, avec cinq exemples différents. Chaque lecture choisit les sorties les plus probables et dispose de 8 192 tokens de réflexion puis 4 096 pour sa réponse. Un token est un petit morceau de texte ; ce budget est une limite, pas une durée garantie.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Pour chaque paire, compter les listes valides qui proposent un lien. Le vote retient un lien soutenu par au moins la moitié de ces listes ; une lecture sans réponse valide s’abstient. Avec cinq listes valides, il faut donc trois soutiens.",
+        "Présenter à Qwen l’article, les propositions issues des cinq lectures à exemples variés et leurs nombres de soutiens. Demander une relecture avec 8 192 tokens de réflexion.",
+        "Utiliser la nouvelle liste rendue par le vérificateur, qui peut garder, retirer ou ajouter des liens. Le recomptage strict ne lit que sa réponse finale, après la réflexion."
+      ],
+      "example": "Une relation soutenue par plusieurs lectures peut être supprimée après la vérification. Cette suppression peut être une correction, mais aussi une nouvelle erreur.",
+      "value": "Vérifier si le bénéfice aperçu avec N2 se retrouve lorsque les propositions initiales sont meilleures et plus variées.",
+      "observed": "La nouvelle liste est moins bonne que le vote N1 d’origine. Le bénéfice de N2 ne se reproduit pas ici.",
+      "limits": [
+        "Le vérificateur peut effacer une bonne proposition : se relire n’est pas une garantie de correction.",
+        "Quatorze réflexions atteignent la limite de budget ; cela ne suffit pas à expliquer à lui seul la baisse du score.",
+        "Le score corrigé exclut les fragments de réponse présents dans la réflexion ; les anciens intervalles ne lui sont pas transférés."
+      ],
+      "takeaway": "La vérification n’est pas une amélioration automatique : dans cet essai, conserver le vote N1 est meilleur.",
+      "status": "Pas de gain observé",
+      "references": [
+        {
+          "experiment": 84,
+          "variant": "N1/vote5",
+          "label": "Vote des cinq lectures à exemples variés",
+          "delta": "published"
+        }
+      ],
+      "inputs": "Un article CTB avec les mentions d’événements déjà marquées et les paires autorisées dans une même phrase. Le système cherche les liens causaux entre ces mentions ; il n’apprend pas à repérer les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer la liste finale aux annotations cachées des mêmes 47 articles CTB. Le micro-F1 rassemble les relations de tous les articles : il pénalise à la fois les liens inventés et les liens oubliés. Les variantes sont comparées sur ce panel déjà utilisé pendant le développement, sans prétendre à une confirmation sur de nouveaux articles.",
+      "prompt_sources": [
+        82,
+        84
+      ],
+      "resources": "Cinq lectures à exemples variés, puis une sixième génération de vérification par article."
+    },
+    "79|R1/vote5": {
+      "title": "Obtenir cinq réponses variées, puis voter",
+      "summary": "On fait lire cinq fois le même article avec le même exemple, en laissant varier les réponses produites par le modèle. On combine ensuite leurs propositions.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire lire l’article cinq fois au même modèle Qwen avec le même exemple. L’échantillonnage à température 0,6 permet de produire des réponses différentes ; chaque lecture dispose de 8 192 tokens de réflexion puis 4 096 de réponse.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Pour chaque paire, compter les listes valides qui proposent un lien. Le vote retient un lien soutenu par au moins la moitié de ces listes ; une lecture sans réponse valide s’abstient. Avec cinq listes valides, il faut donc trois soutiens."
+      ],
+      "example": "Si un lien apparaît dans trois lectures sur cinq, il passe le seuil de vote. Une proposition présente dans une seule lecture n’est pas retenue par ce vote.",
+      "value": "Tester si de la variété dans les réponses suffit à rendre cinq lectures utiles, sans changer les démonstrations.",
+      "observed": "Les cinq lectures donnent un score inférieur à la référence historique à sept lectures. Elles servent surtout de point de départ aux expériences N1 et N2.",
+      "limits": [
+        "Un même modèle avec un même exemple peut répéter la même erreur malgré les variations de réponse.",
+        "La comparaison à sept lectures change aussi la recette : elle ne mesure pas uniquement l’effet de passer de sept à cinq.",
+        "Moins de lectures demandées ne prouve pas une économie de temps ou de coût dans la même proportion."
+      ],
+      "takeaway": "Une base de comparaison, sans avantage de qualité observé sur la référence historique.",
+      "status": "Pas de gain observé",
+      "references": [
+        {
+          "experiment": 79,
+          "variant": "Qwen7",
+          "label": "Référence historique à sept lectures"
+        }
+      ],
+      "inputs": "Un article CTB avec les mentions d’événements déjà marquées et les paires autorisées dans une même phrase. Le système cherche les liens causaux entre ces mentions ; il n’apprend pas à repérer les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer la liste finale aux annotations cachées des mêmes 47 articles CTB. Le micro-F1 rassemble les relations de tous les articles : il pénalise à la fois les liens inventés et les liens oubliés. Les variantes sont comparées sur ce panel déjà utilisé pendant le développement, sans prétendre à une confirmation sur de nouveaux articles.",
+      "prompt_sources": [
+        79
+      ],
+      "resources": "Cinq générations documentaires par article. Varier les réponses d’un modèle ne donne pas cinq avis indépendants."
+    },
+    "74|E1/budget8k": {
+      "title": "Arrêter la réflexion pour obtenir une réponse",
+      "summary": "On limite la phase de réflexion du modèle, puis on lui réserve une phase pour produire sa réponse finale. L’objectif est d’éviter qu’il utilise tout son budget sans répondre.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire une seule lecture documentaire par Qwen. Le modèle commence par une phase de réflexion, puis doit rendre les relations entre les mentions de l’article.",
+        "Si la réflexion atteint 8 192 tokens, fermer explicitement cette phase et laisser une phase de génération pour la réponse finale. Cette règle empêche le brouillon de consommer à lui seul toute la génération.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Prendre directement cette unique liste finale : cette variante ne fait pas voter plusieurs lectures. La comparer à une lecture de contrôle, puis à la référence historique à sept lectures."
+      ],
+      "example": "Un modèle peut longuement hésiter sur une relation et arriver à sa limite sans rendre de liste. Cette règle lui impose de conclure et de livrer une réponse exploitable.",
+      "value": "Améliorer la complétude des sorties : obtenir une réponse pour tous les documents, plutôt que perdre des relations à cause d’une génération inachevée.",
+      "observed": "Tous les documents reçoivent une réponse finale et le score dépasse le contrôle à une lecture. Il reste inférieur à la référence à sept lectures.",
+      "limits": [
+        "Forcer une réponse ne la rend pas nécessairement correcte : le modèle peut aussi proposer trop de liens.",
+        "Le gain de qualité face au contrôle à une lecture n’est pas confirmé statistiquement.",
+        "Le calcul corrigé utilise les réponses finales, pas les fragments de réponse dans la réflexion."
+      ],
+      "takeaway": "Un intérêt technique pour obtenir des sorties complètes, sans preuve que cette contrainte donne les meilleures relations.",
+      "status": "Sorties plus complètes",
+      "references": [
+        {
+          "experiment": 74,
+          "variant": "E1/control",
+          "label": "Contrôle E1 à une lecture"
+        },
+        {
+          "experiment": 79,
+          "variant": "Qwen7",
+          "label": "Référence historique à sept lectures"
+        }
+      ],
+      "inputs": "Un article CTB avec les mentions d’événements déjà marquées et les paires autorisées dans une même phrase. Le système cherche les liens causaux entre ces mentions ; il n’apprend pas à repérer les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer la liste finale aux annotations cachées des mêmes 47 articles CTB. Le micro-F1 rassemble les relations de tous les articles : il pénalise à la fois les liens inventés et les liens oubliés. Les variantes sont comparées sur ce panel déjà utilisé pendant le développement, sans prétendre à une confirmation sur de nouveaux articles.",
+      "prompt_sources": [
+        74
+      ],
+      "resources": "Une génération par article, en deux phases. La limite porte sur la réflexion ; elle n’est pas une mesure de temps et ne constitue pas à elle seule un budget total comparable aux votes."
+    }
+  },
+  "ESC": {
+    "18|Fusion Luna × d1": {
+      "title": "Combiner une lecture globale et un jugement par paire",
+      "summary": "Deux systèmes examinent le même article différemment : Luna produit une liste de relations pour le document entier ; d1 donne un score pour chaque paire de mentions. On combine leurs signaux.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire analyser l’article entier par Luna en sept lectures. Chaque lecture produit une liste de relations. Pour chaque paire orientée, la fraction de lectures qui propose le lien donne le signal Luna.",
+        "Interroger séparément d1 sur chaque paire d’événements dans son contexte : ce lecteur évalue une paire à la fois et produit un score pour chacune de ses deux orientations.",
+        "Pour une paire, moyenner quatre valeurs : le signal Luna dans les deux orientations et le score d1 dans les deux orientations. Cette moyenne combine une lecture globale et des jugements par paire.",
+        "Retenir le lien si la moyenne atteint 0,39. La règle et ce seuil sont choisis sur 80 autres documents, avec mise à l’écart de sujets lors du choix, puis figés avant les 40 articles de test. Aucune réponse de ces 40 articles ne règle le seuil."
+      ],
+      "example": "Une relation peu soutenue par un lecteur peut être soutenue par l’autre. La décision finale dépend du score combiné, et non d’un accord obligatoire entre les deux.",
+      "value": "Profiter de deux façons différentes d’examiner le texte, en espérant qu’elles ne fassent pas exactement les mêmes erreurs.",
+      "observed": "La fusion améliore nettement d1. Son avantage sur Luna seule est plus petit et reste incertain.",
+      "limits": [
+        "Il faut disposer des sorties des deux systèmes et tenir compte de leur coût cumulé.",
+        "Le seuil dépend d’une étape de calibration sur d’autres documents.",
+        "Le résultat ne prouve pas que la fusion soit supérieure à chacun de ses composants dans tous les cas."
+      ],
+      "takeaway": "Un bénéfice observé face à d1 ; l’apport supplémentaire face à Luna demande confirmation.",
+      "status": "Gain face à d1",
+      "references": [
+        {
+          "experiment": 18,
+          "variant": "d1",
+          "label": "d1 seul",
+          "delta": "published"
+        },
+        {
+          "experiment": 18,
+          "variant": "Luna",
+          "label": "Luna seule"
+        }
+      ],
+      "inputs": "Un article ESC avec les mentions d’événements déjà marquées et la liste des paires candidates du protocole. Le système cherche les liens causaux entre ces mentions ; il n’extrait pas lui-même les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer les relations finales aux annotations cachées des mêmes 40 articles TEST-S40. Le micro-F1 rassemble toutes les décisions : il pénalise les liens inventés et les liens oubliés. La fusion historique a été figée avant ce test ; les essais ultérieurs réutilisent ce panel et restent exploratoires.",
+      "prompt_sources": [
+        7,
+        8,
+        18
+      ],
+      "resources": "Les sept lectures de Luna et tous les jugements par paire de d1 sont nécessaires à la fusion. Recombiner leurs sorties enregistrées ne demande pas de nouvel appel, mais leur coût initial se cumule."
+    },
+    "109|five_view_majority": {
+      "title": "Combiner cinq avis déjà disponibles",
+      "summary": "On réunit le vote initial, deux présentations des paires et deux jugements directs. Lorsqu’ils sont tous disponibles, trois avis favorables sur cinq suffisent pour retenir une relation.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire trois lectures documentaires de l’article par Qwen avec des exemples d’autres sujets. Chaque lecture dispose de 24 576 tokens de réflexion et de 8 192 de réponse finale : c’est la recette de départ de ce vote.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Combiner les listes avec le vote prévu par le lecteur. Avec trois réponses valides, un lien présent dans deux listes est retenu. La sortie de départ est la liste des liens qui passent ce vote.",
+        "Présenter les paires par blocs de douze avec des passages du texte autour des événements. Faire deux vérifications par le même modèle, en changeant l’ordre des questions. Pour chaque paire, il répond A cause B, B cause A, ou aucun lien ; ces deux présentations ne sont pas deux modèles indépendants.",
+        "Pour les paires sélectionnées par la règle de routage, demander un jugement direct avec le passage source : une fois avec les événements présentés comme A/B, une fois en inversant leur présentation. Ramener les deux réponses à la même orientation avant de vérifier leur accord.",
+        "Réunir cinq décisions : celle du vote documentaire et les quatre vérifications. Avec un groupe complet, retenir un lien si au moins trois de ces cinq décisions sont favorables.",
+        "S’il manque une vérification, garder la décision du vote documentaire. Le calcul final réutilise les réponses enregistrées, sans nouvel appel au modèle."
+      ],
+      "example": "Une relation rejetée par le vote initial peut être ajoutée si trois des quatre autres avis la soutiennent.",
+      "value": "Exploiter des réponses déjà obtenues sous différentes présentations, sans nouvelle génération pour cette recombinaison.",
+      "observed": "Le score progresse face au vote initial Qwen. Il reste inférieur à celui de la fusion historique Luna × d1 sur ce panel.",
+      "limits": [
+        "Les cinq avis ne sont complets que pour 1 142 des 8 979 paires ; ailleurs, le vote initial est conservé.",
+        "Plusieurs avis du même modèle ne sont pas des vérifications indépendantes.",
+        "L’incertitude du gain inclut l’absence de progrès ; les documents ont déjà été utilisés pour le développement."
+      ],
+      "takeaway": "Un candidat de combinaison favorable sur ESC, sans nouveau record ni gain confirmé.",
+      "status": "Gain à confirmer",
+      "references": [
+        {
+          "experiment": 109,
+          "variant": "Référence historique",
+          "label": "Vote Qwen initial",
+          "delta": "published"
+        },
+        {
+          "experiment": 18,
+          "variant": "Fusion Luna × d1",
+          "label": "Fusion historique Luna × d1"
+        }
+      ],
+      "inputs": "Un article ESC avec les mentions d’événements déjà marquées et la liste des paires candidates du protocole. Le système cherche les liens causaux entre ces mentions ; il n’extrait pas lui-même les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer les relations finales aux annotations cachées des mêmes 40 articles TEST-S40. Le micro-F1 rassemble toutes les décisions : il pénalise les liens inventés et les liens oubliés. La fusion historique a été figée avant ce test ; les essais ultérieurs réutilisent ce panel et restent exploratoires.",
+      "prompt_sources": [
+        86,
+        103,
+        109
+      ],
+      "resources": "Trois lectures documentaires à budget long, puis la production des quatre vues sur les paires concernées. Aucun appel supplémentaire pour recombiner le cache ; les quatre vues ne couvrent pas toutes les paires."
+    },
+    "103|C_repair": {
+      "title": "Corriger les liens après deux jugements concordants",
+      "summary": "On fait réexaminer des paires sélectionnées par un juge, dans les deux orientations. Si les deux réponses concordent, elles peuvent corriger la liste initiale.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire trois lectures documentaires par Qwen, avec des exemples d’autres sujets, 24 576 tokens de réflexion et 8 192 de réponse par lecture.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Combiner les listes avec le vote prévu par le lecteur. Avec trois réponses valides, un lien présent dans deux listes est retenu. La sortie de départ est la liste des liens qui passent ce vote.",
+        "Présenter les paires par blocs de douze avec des passages du texte autour des événements. Faire deux vérifications par le même modèle, en changeant l’ordre des questions. Pour chaque paire, il répond A cause B, B cause A, ou aucun lien ; ces deux présentations ne sont pas deux modèles indépendants.",
+        "Sélectionner les paires à arbitrer selon les désaccords entre le vote documentaire et les deux présentations, avec la règle de couverture prévue. La sélection n’utilise pas les annotations cachées du test.",
+        "Pour les paires sélectionnées par la règle de routage, demander un jugement direct avec le passage source : une fois avec les événements présentés comme A/B, une fois en inversant leur présentation. Ramener les deux réponses à la même orientation avant de vérifier leur accord.",
+        "Si les deux jugements concordent après remise dans la même orientation, ajouter le lien en cas de réponse causale ou le retirer en cas de double rejet. Garder la décision initiale en cas de désaccord, de réponse invalide ou de paire non arbitrée."
+      ],
+      "example": "Deux jugements causaux concordants peuvent ajouter une relation oubliée. Deux rejets concordants peuvent supprimer une relation proposée à tort.",
+      "value": "Pouvoir corriger dans les deux sens : enlever des fausses alertes et retrouver des liens manqués.",
+      "observed": "La réparation améliore le vote de départ en valeur centrale, mais l’intervalle d’incertitude inclut l’absence de gain.",
+      "limits": [
+        "Deux jugements concordants peuvent partager la même erreur, puisqu’ils viennent du même modèle.",
+        "Le juge ajoute un coût aux lectures qui ont construit la liste initiale.",
+        "Le panel est déjà exposé ; une confirmation sur de nouveaux documents reste nécessaire."
+      ],
+      "takeaway": "Une piste de réparation à confirmer, plutôt qu’une correction fiable dans tous les cas.",
+      "status": "Gain à confirmer",
+      "references": [
+        {
+          "experiment": 103,
+          "variant": "Référence historique",
+          "label": "Vote Qwen avant réparation",
+          "delta": "published"
+        }
+      ],
+      "inputs": "Un article ESC avec les mentions d’événements déjà marquées et la liste des paires candidates du protocole. Le système cherche les liens causaux entre ces mentions ; il n’extrait pas lui-même les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer les relations finales aux annotations cachées des mêmes 40 articles TEST-S40. Le micro-F1 rassemble toutes les décisions : il pénalise les liens inventés et les liens oubliés. La fusion historique a été figée avant ce test ; les essais ultérieurs réutilisent ce panel et restent exploratoires.",
+      "prompt_sources": [
+        86,
+        103
+      ],
+      "resources": "Trois lectures pour la liste initiale, des vérifications par blocs pour le routage, puis deux jugements pour chaque paire arbitrée. Les réponses compatibles déjà présentes sont réutilisées."
+    },
+    "19|Rationales": {
+      "title": "Ajouter des explications aux exemples",
+      "summary": "Avant d’analyser un nouvel article, Luna voit des exemples annotés. On ajoute une explication à leurs réponses pour voir si cela aide le modèle à mieux décider ensuite.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Prendre les mêmes exemples annotés que le lecteur Luna de contrôle. Faire produire une fois par Luna une explication de chaque réponse d’exemple, puis joindre cette explication à la démonstration.",
+        "Faire lire chacun des 40 articles sept fois par Luna avec ces exemples enrichis. Le modèle reçoit les explications des exemples, jamais les annotations de l’article à prédire.",
+        "Extraire les relations finales de chaque lecture, puis faire voter les sept listes pour décider de la présence des liens. Il n’y a pas de fusion avec d1 dans cette variante.",
+        "Comparer ce vote à celui des sept lectures Luna utilisant les mêmes exemples sans explication ajoutée. Cette comparaison teste le contenu des démonstrations."
+      ],
+      "example": "L’exemple ne donne plus seulement « A cause B » : il ajoute pourquoi le passage soutient ce lien. La réponse du document à tester reste cachée.",
+      "value": "Montrer le raisonnement attendu, au lieu de fournir seulement des exemples de réponses finales.",
+      "observed": "Les explications ajoutées ne donnent pas de gain : le score observé est inférieur à celui de Luna avec les réponses d’exemple seules.",
+      "limits": [
+        "Une explication produite par le modèle peut être imparfaite, même si la réponse d’exemple est annotée.",
+        "Plus de texte d’exemple ne garantit pas de meilleures décisions.",
+        "La baisse observée ne prouve pas que toutes les formes d’explications échoueraient."
+      ],
+      "takeaway": "Dans cet essai, enrichir les exemples avec des explications n’apporte pas de bénéfice démontré.",
+      "status": "Pas de gain observé",
+      "references": [
+        {
+          "experiment": 19,
+          "variant": "Luna référence",
+          "label": "Luna sans explications ajoutées",
+          "delta": "published"
+        }
+      ],
+      "inputs": "Un article ESC avec les mentions d’événements déjà marquées et la liste des paires candidates du protocole. Le système cherche les liens causaux entre ces mentions ; il n’extrait pas lui-même les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer les relations finales aux annotations cachées des mêmes 40 articles TEST-S40. Le micro-F1 rassemble toutes les décisions : il pénalise les liens inventés et les liens oubliés. La fusion historique a été figée avant ce test ; les essais ultérieurs réutilisent ce panel et restent exploratoires.",
+      "prompt_sources": [
+        8,
+        19
+      ],
+      "resources": "Une préparation des explications des exemples, puis sept lectures par article. Ajouter du texte aux démonstrations augmente aussi la longueur des demandes."
+    },
+    "86|Vote P2 3": {
+      "title": "Laisser plus de place à la réflexion",
+      "summary": "Qwen analyse chaque article trois fois avec des exemples provenant d’autres sujets. On augmente la place de réflexion et de réponse de chaque lecture, puis on fait voter leurs listes de relations.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire trois lectures échantillonnées de chaque article par le même modèle Qwen, avec les démonstrations autorisées d’autres sujets. Réserver 24 576 tokens de réflexion et 8 192 de réponse finale par lecture, dans un contexte porté à 40k.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Combiner les listes avec le vote prévu par le lecteur. Avec trois réponses valides, un lien présent dans deux listes est retenu. La sortie de départ est la liste des liens qui passent ce vote.",
+        "Comparer le vote à la recette à trois lectures plus courte : 10 240 tokens de réflexion et 5 120 de réponse par lecture. Le nombre de lectures reste trois ; l’intervention augmente l’enveloppe de génération."
+      ],
+      "example": "Le modèle dispose d’un brouillon interne plus long avant de rendre sa liste. Cette place supplémentaire ne lui fournit aucune nouvelle information sur l’article.",
+      "value": "Réduire les réflexions interrompues et vérifier si davantage de calcul améliore les décisions.",
+      "observed": "Moins de réflexions atteignent leur limite, mais le score ne progresse que légèrement. Aucun gain de qualité n’est démontré.",
+      "limits": [
+        "Une réflexion plus longue peut augmenter les ressources nécessaires sans résoudre les erreurs d’interprétation.",
+        "Quatre réponses finales manquent encore ; la complétude n’est pas entièrement réglée.",
+        "Le résultat reste inférieur à la fusion historique sur les mêmes documents."
+      ],
+      "takeaway": "Davantage de budget ne suffit pas, dans cet essai, à améliorer clairement les relations détectées.",
+      "status": "Gain non démontré",
+      "references": [
+        {
+          "experiment": 80,
+          "variant": "Vote Qwen 3",
+          "label": "Trois lectures, budget de réflexion 10k"
+        }
+      ],
+      "inputs": "Un article ESC avec les mentions d’événements déjà marquées et la liste des paires candidates du protocole. Le système cherche les liens causaux entre ces mentions ; il n’extrait pas lui-même les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer les relations finales aux annotations cachées des mêmes 40 articles TEST-S40. Le micro-F1 rassemble toutes les décisions : il pénalise les liens inventés et les liens oubliés. La fusion historique a été figée avant ce test ; les essais ultérieurs réutilisent ce panel et restent exploratoires.",
+      "prompt_sources": [
+        86
+      ],
+      "resources": "Trois lectures par article, soit 120 lectures prévues sur le panel. Chaque lecture peut utiliser plus de ressources que le contrôle ; le score ne fournit pas une mesure du coût total."
+    },
+    "80|Vote Qwen 3": {
+      "title": "Faire voter trois lectures Qwen de l’article",
+      "summary": "Qwen lit chaque article trois fois avec les exemples autorisés, puis on combine les relations proposées. C’est une référence documentaire pour les expériences ESC suivantes.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire lire chaque article trois fois au même modèle Qwen, avec des démonstrations d’autres sujets. Les réponses sont échantillonnées ; la recette initiale réserve 10 240 tokens de réflexion et 5 120 pour la réponse.",
+        "Lire les listes de relations dans les réponses finales, vérifier les identifiants et conserver les candidats autorisés. La réflexion interne n’est pas prise comme une liste de prédictions.",
+        "Combiner les listes avec le vote prévu par le lecteur. Avec trois réponses valides, un lien présent dans deux listes est retenu. La sortie de départ est la liste des liens qui passent ce vote."
+      ],
+      "example": "Une relation présente dans deux listes sur trois est retenue par le vote. Une relation inventée dans une seule lecture peut être écartée.",
+      "value": "Disposer d’une recette Qwen simple et mesurable sur le même panel que les systèmes historiques.",
+      "observed": "Ce vote reste sous Luna et sous la fusion Luna × d1. Il apporte un point de comparaison pour tester ensuite d’autres budgets et réparations.",
+      "limits": [
+        "92 des 120 réflexions atteignent la limite prévue ; une réponse finale manque.",
+        "Cette limite de génération est une explication possible, pas une cause démontrée de l’écart de qualité.",
+        "Les variantes aidées par des annotations indisponibles en usage normal sont exclues de ce score."
+      ],
+      "takeaway": "Une référence de travail pour Qwen sur ESC, sans amélioration du meilleur système historique.",
+      "status": "Référence de comparaison",
+      "references": [
+        {
+          "experiment": 18,
+          "variant": "Luna",
+          "label": "Luna seule"
+        },
+        {
+          "experiment": 18,
+          "variant": "Fusion Luna × d1",
+          "label": "Fusion Luna × d1"
+        }
+      ],
+      "inputs": "Un article ESC avec les mentions d’événements déjà marquées et la liste des paires candidates du protocole. Le système cherche les liens causaux entre ces mentions ; il n’extrait pas lui-même les événements.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer les relations finales aux annotations cachées des mêmes 40 articles TEST-S40. Le micro-F1 rassemble toutes les décisions : il pénalise les liens inventés et les liens oubliés. La fusion historique a été figée avant ce test ; les essais ultérieurs réutilisent ce panel et restent exploratoires.",
+      "prompt_sources": [
+        80
+      ],
+      "resources": "Trois lectures par article, soit 120 lectures prévues sur les 40 articles. Elles ne correspondent pas à cinq lectures, contrairement à un ancien libellé de l’export."
+    }
+  },
+  "MAVEN": {
+    "104|B_filter": {
+      "title": "Tester un filtre prudent sur un nouveau corpus",
+      "summary": "On construit un vote à cinq lectures sur douze articles MAVEN, puis on retire seulement les relations rejetées dans les deux présentations de vérification.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire cinq lectures du même article par Qwen, chacune avec un exemple différent issu de l’entraînement et absent des documents à évaluer. Chaque appel réserve 8 192 tokens de réflexion et 2 048 pour une réponse JSON structurée.",
+        "Lire les listes finales, vérifier les identifiants et retirer les propositions hors de la liste des candidats. Une lecture invalide compte comme une liste vide, sans diminuer le nombre de lectures prévues.",
+        "Retenir un lien présent dans au moins trois des cinq listes prévues. La décision est évaluée comme présence ou absence d’un lien entre les deux mentions.",
+        "Présenter les paires par blocs de douze avec des passages du texte autour des événements. Faire deux vérifications par le même modèle, en changeant l’ordre des questions. Pour chaque paire, il répond A cause B, B cause A, ou aucun lien ; ces deux présentations ne sont pas deux modèles indépendants.",
+        "Partir de la liste retenue par le vote à cinq lectures. Retirer un lien uniquement si les deux présentations le rejettent ; conserver tous les autres. Le filtre ne crée aucun nouveau lien."
+      ],
+      "example": "Le filtre peut supprimer une fausse alerte déjà présente. Une relation que toutes les lectures ont oubliée reste hors de sa portée.",
+      "value": "Tester si la règle de nettoyage se transfère à un autre corpus sans modifier son principe.",
+      "observed": "Le score ne gagne que légèrement après le retrait de quelques faux liens. Ce petit changement ne constitue pas une amélioration majeure.",
+      "limits": [
+        "Douze documents ne représentent pas une évaluation des 710 documents du corpus complet.",
+        "Le filtre ne peut pas retrouver les liens manqués.",
+        "Un changement aussi limité doit être confirmé avant d’en déduire une capacité générale de transfert."
+      ],
+      "takeaway": "Un premier test de transfert, avec une amélioration observée très modeste.",
+      "status": "Effet limité au pilote",
+      "references": [
+        {
+          "experiment": 104,
+          "variant": "Référence historique",
+          "label": "Vote MAVEN avant filtrage",
+          "delta": "published"
+        }
+      ],
+      "inputs": "Un article MAVEN-ERE avec les mentions d’événements déjà marquées et toutes les paires candidates conservées par le protocole. Le système cherche les liens causaux entre ces mentions ; le repérage des événements est fourni.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer les relations finales aux annotations cachées de douze articles MAVEN-ERE. Le micro-F1 rassemble les relations de tous ces articles et pénalise liens inventés et liens oubliés. Ce petit panel ne constitue pas une évaluation des 710 articles du corpus complet.",
+      "prompt_sources": [
+        104
+      ],
+      "resources": "Cinq lectures documentaires par article, puis les deux séries de vérifications par blocs. Le panel comporte 60 lectures prévues pour les douze articles."
+    },
+    "109|four_view_consensus": {
+      "title": "Exiger l’accord des quatre vérifications",
+      "summary": "On réutilise quatre avis déjà enregistrés en complément du vote initial. Les ajouts exigent l’accord de tous les avis, et les retraits exigent leur rejet unanime.",
+      "steps": [
+        "Construire la demande avec la consigne causale, un exemple annoté autorisé provenant d’un autre document, puis l’article à analyser. Les réponses annotées de cet article restent cachées jusqu’à l’évaluation.",
+        "Faire cinq lectures du même article par Qwen, chacune avec un exemple différent issu de l’entraînement et absent des documents à évaluer. Chaque appel réserve 8 192 tokens de réflexion et 2 048 pour une réponse JSON structurée.",
+        "Lire les listes finales, vérifier les identifiants et retirer les propositions hors de la liste des candidats. Une lecture invalide compte comme une liste vide, sans diminuer le nombre de lectures prévues.",
+        "Retenir un lien présent dans au moins trois des cinq listes prévues. La décision est évaluée comme présence ou absence d’un lien entre les deux mentions.",
+        "Présenter les paires par blocs de douze avec des passages du texte autour des événements. Faire deux vérifications par le même modèle, en changeant l’ordre des questions. Pour chaque paire, il répond A cause B, B cause A, ou aucun lien ; ces deux présentations ne sont pas deux modèles indépendants.",
+        "Pour les paires sélectionnées par la règle de routage, demander un jugement direct avec le passage source : une fois avec les événements présentés comme A/B, une fois en inversant leur présentation. Ramener les deux réponses à la même orientation avant de vérifier leur accord.",
+        "Pour chaque paire ayant ses quatre vérifications disponibles, ajouter un lien absent seulement si les quatre approuvent. Retirer un lien déjà présent seulement si les quatre rejettent.",
+        "Pour toute autre configuration, conserver la décision initiale. La recombinaison lit les réponses déjà enregistrées, sans nouvel appel au modèle."
+      ],
+      "example": "Pour ajouter une relation oubliée, quatre réponses favorables sont nécessaires. Mais ces quatre réponses peuvent quand même partager la même erreur.",
+      "value": "Rendre les modifications prudentes en exigeant un accord fort, tout en réutilisant des réponses disponibles.",
+      "observed": "Malgré cette unanimité exigée, les nouveaux faux liens font baisser le score par rapport au vote initial.",
+      "limits": [
+        "Les quatre vérifications sont complètes pour 339 des 2 530 paires candidates seulement.",
+        "Les avis du même modèle peuvent se tromper ensemble : unanimité ne veut pas dire vérité.",
+        "Ce résultat reste celui d’un pilote de douze documents et dépend des réponses produites en amont."
+      ],
+      "takeaway": "Un accord très strict ne garantit pas une bonne correction ; aucune plus-value de qualité observée ici.",
+      "status": "Pas de gain observé",
+      "references": [
+        {
+          "experiment": 109,
+          "variant": "Référence historique",
+          "label": "Vote MAVEN initial",
+          "delta": "published"
+        }
+      ],
+      "inputs": "Un article MAVEN-ERE avec les mentions d’événements déjà marquées et toutes les paires candidates conservées par le protocole. Le système cherche les liens causaux entre ces mentions ; le repérage des événements est fourni.",
+      "output": "Une liste finale de relations entre les mentions fournies. Le score du classement mesure la présence d’un lien causal, en réunissant les deux sens de la paire ; il ne valide pas séparément la bonne direction de la causalité.",
+      "evaluation": "Comparer les relations finales aux annotations cachées de douze articles MAVEN-ERE. Le micro-F1 rassemble les relations de tous ces articles et pénalise liens inventés et liens oubliés. Ce petit panel ne constitue pas une évaluation des 710 articles du corpus complet.",
+      "prompt_sources": [
+        104,
+        109
+      ],
+      "resources": "Cinq lectures pour la liste initiale, les vérifications par blocs et les jugements directs disponibles sur les paires sélectionnées. Seule la recombinaison finale évite de nouveaux appels."
+    }
+  }
+}

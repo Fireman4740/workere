@@ -58,6 +58,9 @@ def enrich(data):
             e['prompt_status']='Aucune exécution propre à ce plan : aucun prompt ne peut être présenté comme effectivement envoyé. Les sources de préparation disponibles sont indiquées ci-dessous.'
         if n<=17 and n!=8: paths+=['pipelines/jev/state_builder.py']
         paths+=MODULES.get(n,[])
+        if n in [102,103,104,109]:
+            paths+=['steering/validation_protocol.py','steering/campaign_blocks.py',
+                    'steering/campaign_adjudicate.py','steering/ap_protocol.py']
         if n in [20,28]: paths += [p for p in e['code']['changed_files'] if p.endswith('.py') and re.search('round3|coref',p) and not p.startswith('tests/')]
         if n in [8,17,18,19,20,21,22,23,24,25,28,39,40,49,64]:paths+=['pipelines/jev/llm.py']
         # Resolve declared prompt files from active and per-document configs.
@@ -131,7 +134,7 @@ def enrich(data):
                             if isinstance(val,str) and len(val)>35:snippets.append((name,val,item.lineno,item.end_lineno,'template'))
                     if isinstance(item,(ast.FunctionDef,ast.AsyncFunctionDef)):
                         segment='\n'.join(lines[item.lineno-1:item.end_lineno])
-                        if (re.search(r'prompt|messages|question|build_state|make_reading_jobs|verification_jobs',item.name,re.I) or (re.search(r"\b(?:system|user_template|messages|instructions)\b",segment) and re.search(r"content|template|messages|criteria",segment))) and len(segment)<24000:
+                        if (re.search(r'prompt|messages|question|build_state|make_reading_jobs|verification_jobs|screen_jobs|repair_jobs',item.name,re.I) or (re.search(r"\b(?:system|user_template|messages|instructions)\b",segment) and re.search(r"content|template|messages|criteria",segment))) and len(segment)<24000:
                             snippets.append((item.name+'(…) · assemblage exact',segment,item.lineno,item.end_lineno,'builder'))
             for label,text,start,end,kind in snippets:
                 digest=hashlib.sha256((path+'\n'+label+'\n'+text).encode()).hexdigest()[:20]

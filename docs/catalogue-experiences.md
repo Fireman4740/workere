@@ -2614,7 +2614,7 @@ Expérience `e3fc6f2a-4a11-444b-a667-6bbb4fef334d`.
 
 **Panel et comparaison.** Douze documents MAVEN-ERE test ; 60 lectures attendues.
 
-**Résultat et portée.** Vote29,47 ; filtre29,79 ; réparation26,54 ; filtre+ajouts26,92. Le filtre retire un seul faux lien ; une lecture invalide sur soixante.
+**Résultat et portée.** Vote29,47 ; filtre29,79 ; réparation26,54 ; filtre+ajouts26,92. Le filtre retire deux faux liens non ordonnés ; une lecture invalide sur soixante.
 
 **Contrôles et limites.** Douze documents ne valent pas une évaluation des 710. Choix du vote simple pour la suite, sans comparaison appariée au score historique DeepSeek710.
 

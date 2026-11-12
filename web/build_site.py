@@ -10,6 +10,7 @@ HERE = Path(__file__).resolve().parent
 
 def build(output: Path):
     data = json.loads((HERE / "data.json").read_text())
+    data["method_guides"] = json.loads((HERE / "method-guides.json").read_text())
     assert len(data["experiments"]) == data["counts"]["experiments"] == 117
     assert len({e["id"] for e in data["experiments"]}) == 117
     template = (HERE / "template.html").read_text()
