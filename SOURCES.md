@@ -1,0 +1,110 @@
+# Sources et périmètre de publication
+
+Les deux documents principaux sont les synthèses actualisées demandées. Les adaptations de publication concernent les liens, les marqueurs de provenance et les chemins des tableaux ; les conclusions et valeurs scientifiques sont conservées. Les références au code pointent vers des commits déjà publiés, sans embarquer le code dans cette branche. Les références aux runs renvoient à l’inventaire avec leur identifiant complet.
+
+Le contrôle documentaire d’origine vérifie les artefacts locaux et conserve ses empreintes historiques. Le contrôle de cette publication figure dans `publication-validation.json`. Les empreintes source et publiées sont consignées dans `publication-manifest.json`.
+
+## Annexes locales
+
+Pour limiter la publication aux fichiers demandés, les rapports historiques liés et les archives de preuves restent dans les artefacts du projet. Les liens locaux correspondants aboutissent ici plutôt qu’à une cible absente sur GitHub. Leur identification est conservée ci-dessous ; ils ne sont ni supprimés ni présentés comme inclus dans cette branche.
+
+- `agent3-auto-sans-annotation/rapport-pilote-automatique.md`
+- `agent3-concurrence/verdict-valeur-propre-concurrence.md`
+- `alias-followup-2026-10-27/rapport-resultats-smoke.md`
+- `attribution-concurrente/rapport-attribution-concurrente.md`
+- `benchmark-migration/migration-report.md`
+- `campagne-composantes-2026-10-28/n10-stabilite/bilan-verifie.md`
+- `campagne-composantes-2026-10-28/n9-factoriel/bilan-verifie.md`
+- `campagne-composantes-2026-10-28/n9-factoriel/independent-audit.json`
+- `campagne-composantes-2026-10-28/plan-experiences.md`
+- `campagne-composantes-2026-10-28/registre-composantes.json`
+- `campagne-sans-entrainement-2026-10-28/bilan-final-et-suite.md`
+- `campagne-sans-entrainement-2026-10-28/n1-ancrage/bilan-verifie.md`
+- `campagne-sans-entrainement-2026-10-28/n2-transport/bilan-verifie.md`
+- `campagne-sans-entrainement-2026-10-28/n3-contrastes/bilan-verifie.md`
+- `campagne-sans-entrainement-2026-10-28/n4-lecteur/bilan-verifie.md`
+- `campagne-sans-entrainement-2026-10-28/n5-passes/rapport.md`
+- `campagne-sans-entrainement-2026-10-28/n6-ctb/rapport-n6.md`
+- `campagne-suite-2026-10-28/bilan-final-suite.md`
+- `campagne-suite-2026-10-28/n7-replication/bilan-verifie.md`
+- `campagne-suite-2026-10-28/n8-passes/bilan-verifie.md`
+- `campagne-suite-2026-10-30/n11-arret-exact/bilan-verifie.md`
+- `campagne-suite-2026-10-30/n12-representations/bilan-verifie-2026-10-31.md`
+- `campagne-suite-2026-10-30/n13-ctb50-2026-11-02/evaluation-partielle-2026-11-03/bilan.md`
+- `campagne-suite-2026-10-30/n13-ctb50-2026-11-02/relance-65k/bilan-final.md`
+- `campagne-suite-2026-10-30/n13-qwen-local/bilan-lancement-2026-10-31.md`
+- `campagne-suite-2026-10-30/n14-medium-factoriel-2026-11-03/bilan-final-2026-11-03/bilan-final.md`
+- `couverture-sortie/m0-pilot/rapport-etape-m0-2026-10-27.md`
+- `couverture-sortie/m0-pilot/rapport-resultats-m0-2026-10-27.md`
+- `empreinte-placebo-2026-10-27/auto-only-v0/rapport-final-pilote-automatique.md`
+- `empreinte-placebo-2026-10-27/v0-final/reserve-audit.json`
+- `jev-v1/bilan-complet-experiences/rapport-complet.md`
+- `jev-v1/esc-improvement-plan/final-luna/report.md`
+- `jev-v1/esc-improvement-plan/final-report.md`
+- `jev-v1/esc-improvement-plan/luna-dev25/report.md`
+- `jev-v1/esc-improvement-plan/r0-baseline/report.md`
+- `jev-v1/esc-improvement-plan/r1a-screen/report.md`
+- `jev-v1/esc-improvement-plan/r1b-screen/report.md`
+- `jev-v1/esc-improvement-plan/r1c-screen/report.md`
+- `jev-v1/esc-improvement-plan/r1e-screen/report.md`
+- `jev-v1/esc-improvement-plan/r2a-symmetry/report.md`
+- `jev-v1/esc-improvement-plan/r2b-predicted-coreference/report.md`
+- `jev-v1/finetuning-qwen38-plan/plan-finetuning-relations-evenements.md`
+- `jev-v1/haiku-fusion-plan/h1-fusion-result.json`
+- `jev-v1/harness2-pilots/harness2-pilots-report.md`
+- `jev-v1/historical-comparison/partial-evaluation-20261016T075639Z/partial-results-report.md`
+- `jev-v1/mercury-error-analysis-13docs/mercury-error-report.md`
+- `jev-v1/new-signal-judges/j1-coref-agreement-result.md`
+- `jev-v1/new-signal-judges/j1-j2-results-report.md`
+- `jev-v1/new-signal-judges/j4-offline-fusion/j4-offline-fusion-report.md`
+- `jev-v1/new-signal-judges/res30/res30-results-report.md`
+- `jev-v1/qwen38-baseline/ctb-only-continuation-2026-11-01.json`
+- `jev-v1/qwen38-baseline/launch-protocol.md`
+- `jev-v1/qwen38-baseline/preliminary-2026-10-31/comparison-report.md`
+- `jev-v1/qwen38-baseline/preliminary-d0ce6e2d/preliminary-report.md`
+- `jev-v1/qwen38-baseline/thinking-xhigh-relaunch.md`
+- `jev-v1/rapport-global-projet/rapport-complet-2026-10-27.md`
+- `jev-v1/round3/round3-results-report.md`
+- `m1-diversity/m1-final-report.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/ap1-comparaison-resultats-2026-11-08.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/ap2-resultats-2026-11-08.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/ap3-stabilite-ap4-2026-11-08.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/ap4-bilan-campagne-2026-11-08.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/c1-resultats-2026-11-07.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/c2-resultats-2026-11-08.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/c3-api-resultats-2026-11-08.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/campagne-complete-deepseek-plan-2026-11-10.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/data/audit-scores-2026-11-06.json`
+- `qwen-mecanismes-raisonnement-2026-11-05/plan-execution-qwen-api-terra-low-2026-11-08.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/qg1-resultats-2026-11-09.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/qg2-bilan-serie-2026-11-09.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/revue-2026-11-06.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/suite-verificateurs-2026-11-06.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/vc1-resultats-et-reprises-2026-11-09.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/vote-combinaisons-plan-2026-11-10.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/weight-space-programming-2026-11-10/audit-w3-diversite.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/weight-space-programming-2026-11-10/bilan-w4-ctb47-combinaisons.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/weight-space-programming-2026-11-10/bilan-w6-maven4-pilote-court.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/weight-space-programming-2026-11-10/pilotes-courts-esc4-maven4.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/weight-space-programming-2026-11-10/protocole-et-audit.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/weight-space-programming-2026-11-10/protocole-w7-w8-50-documents.md`
+- `qwen-mecanismes-raisonnement-2026-11-05/weight-space-programming-2026-11-10/resultats-w1-et-confirmation-w2.md`
+- `structure-copy/phase2/rapport-decision-preuve-transportable.md`
+- `structure-copy/rapport-copies-structurelles-2026-10-27.md`
+- `synthese-globale-2026-10-29/detail-technique-2026-11-03/arbre-snapshot.txt`
+- `synthese-globale-2026-10-29/detail-technique-2026-11-03/executions-snapshot.txt`
+- `synthese-globale-2026-10-29/detail-technique-2026-11-03/index-code-et-tests.md`
+- `synthese-globale-2026-10-29/detail-technique-2026-11-03/index-journaux.json`
+- `synthese-globale-2026-10-29/detail-technique-2026-11-03/inventaire-code-et-tests.json`
+- `synthese-globale-2026-10-29/detail-technique-2026-11-03/inventaire-experiences.json`
+- `synthese-globale-2026-10-29/detail-technique-2026-11-03/verification-documentaire.json`
+- `synthese-globale-2026-10-29/index-journaux-verifies-2026-10-30.json`
+- `synthese-globale-2026-10-29/mise-a-jour-2026-11-12/index-journaux.json`
+- `synthese-globale-2026-10-29/mise-a-jour-2026-11-12/inventaire-experiences.json`
+- `synthese-globale-2026-10-29/pistes-transversales-2026-11-03/implementation/bilan-implementation-et-pilotes.md`
+- `synthese-globale-2026-10-29/programme-tests-et-corpus-complet-2026-10-30.md`
+- `synthese-globale-2026-10-29/recapitulatif-actualise-2026-10-30.md`
+- `synthese-globale-2026-10-29/recapitulatif-archive-2026-10-29.md`
+- `synthese-sans-entrainement-2026-10-28/preuves-verifiees.json`
+- `synthese-sans-entrainement-2026-10-28/rapport-pistes-sans-entrainement.md`
+- `transport-preuve-locale/pilote-batch/echec-e390/collecte-finale/bilan-final-extraction.md`

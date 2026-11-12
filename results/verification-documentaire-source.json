@@ -1,0 +1,191 @@
+{
+  "verified_utc": "2026-11-12T12:53:40.109842+00:00",
+  "source_snapshot_utc": "2026-11-12T12:31:54.103224+00:00",
+  "experiment_count": 117,
+  "run_count": 190,
+  "complete_fiche_coverage": true,
+  "available_logs": 187,
+  "missing_logs": [
+    "7d071a42-c810-4e3b-8ba7-a74534a35b01",
+    "e8d91d5c-4c3d-4f9c-a78a-9f13898b138f",
+    "9c35861e-10df-4bc9-8a72-fd993498e768"
+  ],
+  "run_status_counts": {
+    "running": 2,
+    "done": 101,
+    "Cancelled · couldn't confirm": 2,
+    "lost": 10,
+    "failed": 49,
+    "Cancelled": 25,
+    "Cancelling…": 1
+  },
+  "markdown_links_checked": 557,
+  "run_citations_checked": 160,
+  "corrected_system_matrices_recomputed": 19,
+  "structured_score_checks": 285,
+  "all_checks_pass": true,
+  "new_model_calls": 0,
+  "new_experiments": 0,
+  "new_training": false,
+  "validation_scope": "Document coverage, local links/anchors, identity mapping and structured-count recomputation; no new model inference and no full raw-output or bootstrap rerun.",
+  "source_audit_sha256": "52981e96f7fcf3e0974665cc79704c297142b3eadb2dd8d7a71d66e25c644250",
+  "recomputed_metrics": [
+    {
+      "system": "Qwen7",
+      "tp": 76,
+      "fp": 42,
+      "fn": 64,
+      "f1": 58.91472868217054,
+      "documents": 47
+    },
+    {
+      "system": "E1/budget8k",
+      "tp": 68,
+      "fp": 64,
+      "fn": 72,
+      "f1": 50.0,
+      "documents": 47
+    },
+    {
+      "system": "E1/control",
+      "tp": 42,
+      "fp": 26,
+      "fn": 98,
+      "f1": 40.38461538461539,
+      "documents": 47
+    },
+    {
+      "system": "E1/temp0.6",
+      "tp": 48,
+      "fp": 30,
+      "fn": 92,
+      "f1": 44.03669724770642,
+      "documents": 47
+    },
+    {
+      "system": "E2/control",
+      "tp": 34,
+      "fp": 30,
+      "fn": 106,
+      "f1": 33.333333333333336,
+      "documents": 47
+    },
+    {
+      "system": "E2/early_exit",
+      "tp": 34,
+      "fp": 34,
+      "fn": 106,
+      "f1": 32.69230769230769,
+      "documents": 47
+    },
+    {
+      "system": "E3/control",
+      "tp": 36,
+      "fp": 28,
+      "fn": 104,
+      "f1": 35.294117647058826,
+      "documents": 47
+    },
+    {
+      "system": "E3/rand_s1.0",
+      "tp": 32,
+      "fp": 22,
+      "fn": 108,
+      "f1": 32.98969072164948,
+      "documents": 47
+    },
+    {
+      "system": "E3/refl_s0.5",
+      "tp": 34,
+      "fp": 28,
+      "fn": 106,
+      "f1": 33.663366336633665,
+      "documents": 47
+    },
+    {
+      "system": "E3/refl_s1.0",
+      "tp": 24,
+      "fp": 26,
+      "fn": 116,
+      "f1": 25.263157894736842,
+      "documents": 47
+    },
+    {
+      "system": "E5/control",
+      "tp": 24,
+      "fp": 24,
+      "fn": 116,
+      "f1": 25.53191489361702,
+      "documents": 47
+    },
+    {
+      "system": "E5/heads_edit",
+      "tp": 34,
+      "fp": 30,
+      "fn": 106,
+      "f1": 33.333333333333336,
+      "documents": 47
+    },
+    {
+      "system": "E5/heads_random",
+      "tp": 36,
+      "fp": 26,
+      "fn": 104,
+      "f1": 35.64356435643565,
+      "documents": 47
+    },
+    {
+      "system": "T0/control",
+      "tp": 24,
+      "fp": 26,
+      "fn": 116,
+      "f1": 25.263157894736842,
+      "documents": 47
+    },
+    {
+      "system": "R1/vote5",
+      "tp": 74,
+      "fp": 52,
+      "fn": 66,
+      "f1": 55.6390977443609,
+      "documents": 47
+    },
+    {
+      "system": "N1/vote5",
+      "tp": 80,
+      "fp": 48,
+      "fn": 60,
+      "f1": 59.701492537313435,
+      "documents": 47
+    },
+    {
+      "system": "N2/verify_b8k",
+      "tp": 80,
+      "fp": 46,
+      "fn": 60,
+      "f1": 60.150375939849624,
+      "documents": 47
+    },
+    {
+      "system": "P1/verify_b8k",
+      "tp": 74,
+      "fp": 48,
+      "fn": 66,
+      "f1": 56.48854961832061,
+      "documents": 47
+    },
+    {
+      "system": "R1+N1/vote10",
+      "tp": 76,
+      "fp": 48,
+      "fn": 64,
+      "f1": 57.57575757575758,
+      "documents": 47
+    }
+  ],
+  "document_sha256": {
+    "synthese-globale-2026-10-29/recapitulatif-pistes-resultats-et-suite.md": "4a8eaad62679608c0f1acdd11a1133d45ea03c1ed908a863c67eed2797065624",
+    "synthese-globale-2026-10-29/detail-technique-experiences.md": "9f4450e02fe7a6c8cf95400407cddc7509c6e608865d5e9408474b8f3aff9f46",
+    "synthese-globale-2026-10-29/mise-a-jour-2026-11-12/ecarts-de-sources.md": "b03aaf38964ebae635587c87371e4b8e49a1ba038b644588cd8adb87c0678288"
+  }
+}

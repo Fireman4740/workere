@@ -1,0 +1,54 @@
+{
+  "created_utc": "2026-11-12T13:13:58.992793+00:00",
+  "user_request": "msg_b91ddfea: push ces fichier dans un banche avec que les résultat et ces docs",
+  "repository": "https://github.com/Fireman4740/workere",
+  "branch": "results/project-summary-2026-11-12",
+  "scope": "Only the two requested updated reports, their two result inventories, corrections and documentary verification; no historical annex bulk export.",
+  "files": [
+    {
+      "source": "synthese-globale-2026-10-29/recapitulatif-pistes-resultats-et-suite.md",
+      "published": "docs/synthese-resultats.md",
+      "source_sha256": "4a8eaad62679608c0f1acdd11a1133d45ea03c1ed908a863c67eed2797065624",
+      "published_sha256": "4de83b7c47f408ef6238c462f547b6ad83a4ad778bbb6e2cca362eed1b3427fc",
+      "bytes": 44867
+    },
+    {
+      "source": "synthese-globale-2026-10-29/detail-technique-experiences.md",
+      "published": "docs/catalogue-experiences.md",
+      "source_sha256": "9f4450e02fe7a6c8cf95400407cddc7509c6e608865d5e9408474b8f3aff9f46",
+      "published_sha256": "d5d9245f585d48515375a7cb6a65ca38e68b1f5654f1d4e89905d93daa2eb8a8",
+      "bytes": 230474
+    },
+    {
+      "source": "synthese-globale-2026-10-29/mise-a-jour-2026-11-12/ecarts-de-sources.md",
+      "published": "docs/corrections-et-provenance.md",
+      "source_sha256": "b03aaf38964ebae635587c87371e4b8e49a1ba038b644588cd8adb87c0678288",
+      "published_sha256": "8f3c29c4e12a25bd1f9182604e443d5e6b9ac620a0433396aa30528c47ac41ac",
+      "bytes": 6114
+    },
+    {
+      "source": "synthese-globale-2026-10-29/mise-a-jour-2026-11-12/inventaire-experiences.csv",
+      "published": "results/inventaire-experiences.csv",
+      "source_sha256": "38bfe79437123fc52d03a91052d20f358b271b199d8811e39e17fe6680aadb14",
+      "published_sha256": "2b7390aa25a924cde99d1d549dfacb20399829aa0451ed6c754cacbf343d5d72",
+      "bytes": 49682
+    },
+    {
+      "source": "synthese-globale-2026-10-29/mise-a-jour-2026-11-12/inventaire-executions.csv",
+      "published": "results/inventaire-executions.csv",
+      "source_sha256": "8a59e46e2a6e2ca77a036ec8fc4ecdf809f6fe79ef236a37b279aff476a447ee",
+      "published_sha256": "b4b624556fb768b193486faa3291bb4d48980ac957c55b1f49b8d67b9c977e72",
+      "bytes": 45375
+    },
+    {
+      "source": "synthese-globale-2026-10-29/mise-a-jour-2026-11-12/verification-documentaire.json",
+      "published": "results/verification-documentaire-source.json",
+      "source_sha256": "bf622fba01034515d5b2a13af5a75dde88f9020e76a3e7b80702bffac6ee13fd",
+      "published_sha256": "bf622fba01034515d5b2a13af5a75dde88f9020e76a3e7b80702bffac6ee13fd",
+      "bytes": 4328
+    }
+  ],
+  "code_references_converted": 231,
+  "run_references_converted": 160,
+  "local_annexes_not_published": 100
+}
