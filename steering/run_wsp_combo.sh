@@ -2,6 +2,7 @@
 set -euo pipefail
 REPO=$(cd "$(dirname "$0")/.." && pwd)
 PY=${PY:-/app/venv/bin/python}
+MODULE=${WSP_MODULE:-steering.wsp_combo}
 OUT=${WORK:?}/out/${WSP_GROUP:?}/${WSP_DATASET:?}
 export PYTHONPATH="$REPO:$REPO/steering"
 export VLLM_USE_FLASHINFER_SAMPLER=0 FLASHINFER_DISABLE_VERSION_CHECK=1
@@ -12,7 +13,7 @@ ARGS=(--dataset "$WSP_DATASET" --out "$OUT" --source "$WSP_SOURCE"
       --history "$WORK/out" --max-model-len "$MAX_MODEL_LEN" --batch "$BATCH"
       --gpu-memory-utilization "$GPU_UTIL" --max-hours "$WSP_MAX_HOURS")
 echo "WSP_COMBO_RUN run=${ORX_RUN_ID:?} commit=${ORX_COMMIT:?} dataset=$WSP_DATASET output=$OUT"
-"$PY" -u -m steering.wsp_combo preflight "${ARGS[@]}"
+"$PY" -u -m "$MODULE" preflight "${ARGS[@]}"
 START=$SECONDS
 # Explicit corpus order. A failed predecessor also releases the next corpus;
 # no decision uses its F1 and no incomplete run is scored as complete.
@@ -40,7 +41,7 @@ while true; do
 done
 echo "WSP_COMBO_GPU_ACQUIRED dataset=$WSP_DATASET"
 set +e
-"$PY" -u -m steering.wsp_combo generate "${ARGS[@]}"
+"$PY" -u -m "$MODULE" generate "${ARGS[@]}"
 STATUS=$?
 set -e
 # Python/vLLM has exited before releasing the queue; the next job also checks memory.
