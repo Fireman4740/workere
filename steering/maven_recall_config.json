@@ -1,7 +1,7 @@
 {
   "protocol": "maven-recall-20261113-v1",
-  "arm": "COREF",
-  "experiment_id": "1e3c4d99-d066-4d14-beb4-3d4db9d94353",
+  "arm": "SEARCH",
+  "experiment_id": "77d7ad4d-216b-4d44-b48e-fc7822b586d6",
   "thinking_tokens": 20480,
   "answer_tokens": 4096,
   "source_arm": null,
@@ -34,7 +34,7 @@
   "primary_threshold": 3,
   "bootstrap_draws": 5000,
   "seed": 20261112,
-  "kind": "coref",
+  "kind": "search",
   "candidate_cap": 24,
   "block_size": 12
 }
