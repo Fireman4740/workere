@@ -226,6 +226,30 @@ def prepare(cfg):
 
 
 class Reader(mb.Reader):
+    def smoke(self):
+        super().smoke()
+        probes = [
+            (graph_schema(['e1','e2'],'coref'), 'Return {"clusters":[],"edges":[]}.',
+             lambda value: parse_graph(value,['e1','e2'],'coref')),
+            (graph_schema(['e1','e2'],'singleton'), 'Return {"clusters":[],"edges":[]}.',
+             lambda value: parse_graph(value,['e1','e2'],'singleton')),
+            (obj_schema(dict(labels=obj_schema({'0':enum('NAB')}))), 'Return {"labels":{"0":"N"}}.',
+             lambda value: value['labels']['0'] in ('N','A','B')),
+            (obj_schema(dict(frames=dict(type='array',items=obj_schema(dict(id=enum(['e1']),
+                 participant=dict(type='string'),quote=dict(type='string')))))),
+             'Return {"frames":[]}.', lambda value: grounded_frames(value,'',{'e1'}))]
+        for schema,instruction,validate in probes:
+            text=self.tok.apply_chat_template([dict(role='user',content=instruction)],tokenize=False,
+                                              add_generation_prompt=True,enable_thinking=False)
+            ids=self.tok.encode(text,add_special_tokens=False)
+            body=api.payload(self.cfg['model'],[ids],128,'direct')
+            body['structured_outputs']['json']=schema
+            response,_,_=self.client.call('/completions',body)
+            choice=api.ordered_choices(response,1)[0]
+            if choice['finish_reason']!='stop':raise ValueError('custom schema smoke truncated')
+            validate(json.loads(choice['text']))
+        print('MR_SCHEMA_SMOKE',api.canonical(dict(schemas=len(probes),status='passed')),flush=True)
+
     def stage(self, job, name, messages, schema, thinking, answer):
         identity = api.digest(dict(protocol=VERSION, engine=self.manifest['engine_sha256'],
             job=job['key'], name=name, messages=messages, schema=schema, thinking=thinking, answer=answer))
