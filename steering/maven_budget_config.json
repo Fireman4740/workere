@@ -1,8 +1,8 @@
 {
   "protocol": "maven-budget-20261113-v1",
-  "arm": "A",
-  "experiment_id": "edc58a52-310a-456c-8dd0-ff93ea264816",
-  "thinking_tokens": 20480,
+  "arm": "C",
+  "experiment_id": "79f493a7-a02d-4a3a-b6ef-3777e459c83f",
+  "thinking_tokens": 40960,
   "answer_tokens": 2048,
   "source_arm": null,
   "source_experiment_id": null,
