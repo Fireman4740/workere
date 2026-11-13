@@ -15,6 +15,9 @@ for k,v in {'ARM':c['arm'], 'ROOT':c['campaign_root'], 'SIF':c['container'],
 PY
 )"
 : "${ORX_RUN_ID:?tracked run required}" "${ORX_COMMIT:?committed snapshot required}"
+# Use a private ephemeral key shared by this server and client; override the
+# container's unrelated api_key.txt without ever printing either key.
+export MB_API_KEY=${MB_API_KEY:-$("$PY_HOST" -c 'import secrets; print(secrets.token_hex(32))')}
 OUT=$ROOT/$ARM
 ATTEMPT=$OUT/logs/$ORX_RUN_ID
 mkdir -p "$ATTEMPT" "$ROOT/hf-home" "$ROOT/apptainer-cache"
@@ -106,11 +109,12 @@ nvidia-smi -i "$CUDA_VISIBLE_DEVICES" --query-gpu=timestamp,uuid,memory.used,uti
   --format=csv,noheader,nounits -l 10 > "$ATTEMPT/gpu.csv" 2>/dev/null & SMI=$!
 setsid apptainer exec --nv "${BIND[@]}" \
   --env MAX_SEQS="$CONC",MAX_LEN="$MAX_LEN",PORT="$PORT",HOST=127.0.0.1,BIND_HOST=127.0.0.1,PREPARE=0,VERIFY=0 \
+  --env VLLM_API_KEY="$MB_API_KEY" \
   --env KV=fp8,GPU_UTIL=0.94,INT8_ACT="$INT8_ACT",INT8_LAYERS="$INT8_LAYERS",VLLM_OFFLOAD_KEEP_SHM=1 \
   --env VLLM_USE_FLASHINFER_SAMPLER=0,FLASHINFER_DISABLE_VERSION_CHECK=1,"$CACHE_ENV" \
   "$SIF" bash -c 'cd /app && exec bash batch/start_qwen.sh' > "$ATTEMPT/server.log" 2>&1 & SRV=$!
 start=$(date +%s)
-until curl -sf "http://127.0.0.1:$PORT/v1/models" > "$ATTEMPT/models.json"; do
+until curl -sf -H "Authorization: Bearer $MB_API_KEY" "http://127.0.0.1:$PORT/v1/models" > "$ATTEMPT/models.json"; do
   kill -0 "$SRV" 2>/dev/null || { tail -50 "$ATTEMPT/server.log"; exit 4; }
   [ $(( $(date +%s)-start )) -lt 3600 ] || { echo 'server startup timeout'; exit 5; }
   sleep 10
