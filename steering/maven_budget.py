@@ -191,7 +191,7 @@ class Reader:
         self.cfg, self.manifest, self.out = cfg, manifest, output_dir(cfg)
         self.source = source_bundle(cfg, manifest, jobs)[0] if cfg['source_arm'] else self.out
         self.tok = AutoTokenizer.from_pretrained(cfg['model_path'], trust_remote_code=True)
-        self.client = api.Client(url, '', self.out / 'http-cache',
+        self.client = api.Client(url, os.environ.get('MB_API_KEY', ''), self.out / 'http-cache',
                                  api.digest(manifest), timeout=21600)
         models, _, _ = self.client.call('/models')
         entry = next(m for m in models['data'] if m['id'] == cfg['model'])
