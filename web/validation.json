@@ -121,7 +121,7 @@
     "web/template.html": "b8c024597dc2a8038d4bdfe25c5fadcd40800b25cf4b21ffa218839fd69f7033",
     "web/test_site.py": "e251baae9834894753b3e978958c57379141ca3a0d3bfad23b98da67fab6aa83"
   },
-  "delivery": "Local standalone HTML and local documentation branch; no hosting or git push.",
+  "delivery": "Standalone offline HTML and documentation branch published to github.com/Fireman4740/workere; no website hosting.",
   "limits": [
     "Snapshot only; no new experiment was run.",
     "Top 10 selects best observed variants within declared panels; no independent confirmation.",

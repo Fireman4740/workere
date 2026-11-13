@@ -51,7 +51,7 @@
   "code_references_converted": 231,
   "run_references_converted": 160,
   "local_annexes_not_published": 100,
-  "updated_utc": "2026-11-12T15:08:30.994749+00:00",
+  "updated_utc": "2026-11-13T10:54:22.177222+00:00",
   "web_files": [
     {
       "path": "web/README.md",
@@ -125,8 +125,8 @@
     },
     {
       "path": "web/validation.json",
-      "sha256": "bfbed71ed761a48c0ea0c38ecf1428e695405c5ad45fc52545159efc54eaba32",
-      "bytes": 4063
+      "sha256": "7739e4aaa1858a2dc1814fbbe418ae30d071a3590ae51e39b19d3a1fd4ac33cb",
+      "bytes": 4099
     }
   ],
   "scientific_amendments": [
@@ -135,5 +135,5 @@
     "MAVEN VC3 filter removes two unordered false links (four ordered FP), not one; aggregate F1 unchanged.",
     "Self-contained W4 guide compares historical__base_filter against historical (vs_historical), not base5."
   ],
-  "publication_status": "Prepared and committed locally; push awaits explicit destination confirmation after earlier automatic approval rejection."
+  "publication_status": "Branch results/project-summary-2026-11-12 published to github.com/Fireman4740/workere after explicit user confirmation."
 }
