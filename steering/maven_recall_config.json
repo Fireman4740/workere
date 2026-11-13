@@ -1,0 +1,40 @@
+{
+  "protocol": "maven-recall-20261113-v1",
+  "arm": "COREF",
+  "experiment_id": "1e3c4d99-d066-4d14-beb4-3d4db9d94353",
+  "thinking_tokens": 20480,
+  "answer_tokens": 4096,
+  "source_arm": null,
+  "source_experiment_id": null,
+  "source_completion_sha256": null,
+  "campaign_root": "/sps/liris/mcarlesso/maven-recall-20261113",
+  "historical_root": "/sps/liris/mcarlesso/maven-pool/out",
+  "historical_sha256": {
+    "manifest.json": "6cce38c8ac0981582b6859fe8890dd75fc963af36f70b548486e1dcfaf6b3230",
+    "jobs.jsonl": "320b53778b41ac0ede19c5bbc170ef77bde2aaf0a28388abf50463fe34759bb9",
+    "documents.json": "2468cf8bbb2a57de2c05e815be967e5babbe2ddfed95dfb2c3aafdc26fdf3c64",
+    "doc_structure.json": "ae6f461dfadd17ba33ee4c908c6be0c6db50322ba3d9371da58d653665b108a3",
+    "reads_compact.json": "93198f49fa48423faad38d5567336a356ba7132a09470b44b2874029eee75e3e"
+  },
+  "model": "qwen3.8-27b",
+  "model_path": "/pbs/throng/liris/mcarlesso/steer/models/Qwen3.8-27B-W4A16-AutoRound",
+  "container": "/pbs/throng/liris/mcarlesso/steer/hyperqwen.sif",
+  "engine": {
+    "max_model_len": 65536,
+    "concurrency": 32,
+    "kv_cache_dtype": "fp8",
+    "mode": "batch",
+    "int8_act": "int8",
+    "int8_layers": "mlp",
+    "gpu_memory_utilization": 0.94,
+    "max_num_batched_tokens": 2048
+  },
+  "documents": 200,
+  "passes": 5,
+  "primary_threshold": 3,
+  "bootstrap_draws": 5000,
+  "seed": 20261112,
+  "kind": "coref",
+  "candidate_cap": 24,
+  "block_size": 12
+}
