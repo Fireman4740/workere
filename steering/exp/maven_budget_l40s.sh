@@ -19,8 +19,9 @@ OUT=$ROOT/$ARM
 ATTEMPT=$OUT/logs/$ORX_RUN_ID
 mkdir -p "$ATTEMPT" "$ROOT/hf-home" "$ROOT/apptainer-cache"
 export APPTAINER_CACHEDIR=$ROOT/apptainer-cache
-BIND=(-B "$REPO:ro" -B "$ROOT" -B /sps/liris/mcarlesso/maven-pool/out:ro
-      -B "$W4:ro" -B "$W4:/app/models/Qwen3.8-27B-W4A16-AutoRound:ro")
+BIND=(-B "$REPO:$REPO:ro" -B "$ROOT"
+      -B /sps/liris/mcarlesso/maven-pool/out:/sps/liris/mcarlesso/maven-pool/out:ro
+      -B "$W4:$W4:ro" -B "$W4:/app/models/Qwen3.8-27B-W4A16-AutoRound:ro")
 
 if [ "${1:-}" != _gpu ]; then
   echo "MB_CONTROLLER arm=$ARM run=$ORX_RUN_ID commit=$ORX_COMMIT host=$(hostname)"
