@@ -1,7 +1,7 @@
 {
   "protocol": "maven-replay-20261115-v1",
-  "arm": "N1",
-  "experiment_id": "801cf0fb-536c-42ea-9732-29faacba223f",
+  "arm": "MV2",
+  "experiment_id": "ad29fc44-b32a-4c62-a4d6-8967cb809245",
   "campaign_root": "/sps/liris/mcarlesso/maven-compare-20261115",
   "historical_root": "/sps/liris/mcarlesso/maven-pool/out",
   "historical_sha256": {
