@@ -5,6 +5,17 @@ import io
 from pathlib import Path
 
 
+def gpu_resources(cfg):
+    kind = cfg.get('gpu_kind', 'L40S')
+    if kind == 'L40S':
+        return dict(GPU_KIND=kind, GPU_PARTITION='gpu_l40s_interactive',
+                    GPU_CPUS=8, GPU_MEM='96G')
+    if kind == 'H100':
+        return dict(GPU_KIND=kind, GPU_PARTITION='gpu_h100_interactive',
+                    GPU_CPUS=4, GPU_MEM='64G')
+    raise ValueError('GPU kind has not passed the site runtime preflight')
+
+
 def allocation_state(accounting, job_id):
     for row in csv.DictReader(io.StringIO(accounting), delimiter='|'):
         if row.get('JobID') == str(job_id):
