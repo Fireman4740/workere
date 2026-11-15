@@ -12,6 +12,7 @@ for k,v in {'ARM':c['arm'], 'ROOT':c['campaign_root'], 'SIF':c['container'],
             'W4':c['model_path'], 'CONC':c['engine']['concurrency'],
             'MAX_LEN':c['engine']['max_model_len'], 'INT8_ACT':c['engine']['int8_act'],
             'INT8_LAYERS':c['engine']['int8_layers'], 'MAX_LEASES':c['max_gpu_leases'],
+            'ALLOCATION_SECONDS':c.get('allocation_seconds',86400),
             'ALLOCATION_TIME':f"{c.get('allocation_seconds',86400)//3600:02d}:"
               f"{c.get('allocation_seconds',86400)%3600//60:02d}:"
               f"{c.get('allocation_seconds',86400)%60:02d}", **gpu_resources(c)}.items():
@@ -38,7 +39,7 @@ if [ "${1:-}" != _gpu ]; then
   exec 9>"$OUT/allocation.lock"
   flock -n 9 || { echo 'another job owns this arm'; exit 2; }
   apptainer exec "${BIND[@]}" --env PYTHONPATH="$REPO" "$SIF" \
-    /app/venv/bin/python -m unittest steering.test_maven_replay steering.test_maven_budget steering.test_maven_pool
+    /app/venv/bin/python -m unittest steering.test_maven_replay steering.test_maven_budget steering.test_maven_pool steering.test_maven_max_context
   apptainer exec "${BIND[@]}" --env PYTHONPATH="$REPO" "$SIF" \
     /app/venv/bin/python -u -m steering.maven_replay wait-source
   apptainer exec "${BIND[@]}" --env PYTHONPATH="$REPO",HF_HOME="$ROOT/hf-home" "$SIF" \
@@ -100,6 +101,7 @@ printf '%s\n' "$SLURM_JOB_ID" > "$ATTEMPT/gpu_job_id"
 ATTEMPT=$ATTEMPT/$SLURM_JOB_ID
 mkdir -p "$ATTEMPT"
 scontrol show job "$SLURM_JOB_ID" > "$ATTEMPT/allocation.txt"
+export REPLAY_ALLOCATION_END_UNIX=${SLURM_JOB_END_TIME:-$(( $(date +%s)+ALLOCATION_SECONDS ))}
 CACHE=$(mktemp -d "${TMPDIR:-/tmp}/mb-$ORX_RUN_ID.XXXXXX")
 BIND+=(-B "$CACHE")
 CACHE_ENV="XDG_CACHE_HOME=$CACHE,VLLM_CACHE_ROOT=$CACHE/vllm,TRITON_CACHE_DIR=$CACHE/triton"
@@ -157,4 +159,5 @@ until curl -sf -H "Authorization: Bearer $MB_API_KEY" "http://127.0.0.1:$PORT/v1
 done
 echo "MC_SERVER_READY arm=$ARM port=$PORT host=$(hostname) max_len=$MAX_LEN concurrency=$CONC"
 apptainer exec --nv "${BIND[@]}" --env PYTHONPATH="$REPO",HF_HOME="$ROOT/hf-home","$CACHE_ENV" \
+  --env REPLAY_ALLOCATION_END_UNIX="$REPLAY_ALLOCATION_END_UNIX" \
   "$SIF" /app/venv/bin/python -u -m steering.maven_replay run --url "http://127.0.0.1:$PORT/v1"

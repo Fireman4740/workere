@@ -1,8 +1,8 @@
 {
-  "protocol": "maven-replay-20261115-v1",
-  "arm": "MV2",
-  "experiment_id": "ad29fc44-b32a-4c62-a4d6-8967cb809245",
-  "campaign_root": "/sps/liris/mcarlesso/maven-compare-20261115-h10012h",
+  "protocol": "maven-maxctx-20261115-v1",
+  "arm": "MAXCTX",
+  "experiment_id": "8ccbf4e5-3d2d-467b-ab77-aeb1bf70ec27",
+  "campaign_root": "/sps/liris/mcarlesso/maven-maxctx-20261115",
   "historical_root": "/sps/liris/mcarlesso/maven-pool/out",
   "historical_sha256": {
     "manifest.json": "6cce38c8ac0981582b6859fe8890dd75fc963af36f70b548486e1dcfaf6b3230",
@@ -15,8 +15,8 @@
   "model_path": "/pbs/throng/liris/mcarlesso/steer/models/Qwen3.8-27B-W4A16-AutoRound",
   "container": "/pbs/throng/liris/mcarlesso/steer/hyperqwen.sif",
   "engine": {
-    "max_model_len": 65536,
-    "concurrency": 32,
+    "max_model_len": 262144,
+    "concurrency": 4,
     "kv_cache_dtype": "fp8",
     "mode": "batch",
     "int8_act": "int8",
@@ -31,17 +31,20 @@
   "seed": 20261112,
   "reference_root": "/sps/liris/mcarlesso/maven-budget-20261113/D",
   "reference_completion_sha256": "9098b43d14473cc4f6f44cedd43351f590aeb6e21e87aaa1abb88ef0f6b89366",
-  "lease_seconds": 36000,
-  "max_gpu_leases": 12,
+  "lease_seconds": 18000,
+  "max_gpu_leases": 24,
   "source_commits": {
-    "N1": "d5060c5dff21e83987b523fbaa124773a58269da",
-    "N2": "80649a7db8a3c38ea459d3ef73781d8d09601a8c",
-    "VC1": "f6fca6c31dd520c01ac3ee24e314a49ce70ee0bf",
-    "W4": "8c0d8261320e03cd2e1a5891deaa1df3c0373ea4",
-    "MV2": "c28119b6c4038d707698b675daefec4d22358cd5"
+    "reference_D": "3515dc35bd5e4804a34a04869393a848f92656fa",
+    "H100_harness": "391e4d09a2a617b3d6bf38d1fe588217dcdcbfc1"
   },
   "backend": "slurm",
   "allocation_seconds": 43200,
   "request_timeout_seconds": 1200,
-  "gpu_kind": "H100"
+  "gpu_kind": "H100",
+  "thinking_tokens": 253952,
+  "answer_tokens": 4096,
+  "thinking_request_timeout_seconds": 18000,
+  "context_smoke_timeout_seconds": 1800,
+  "drain_seconds": 19500,
+  "analysis_scope": "Native-context ceiling versus cached D on previously exposed MAVEN200. Paired nominal document bootstrap; hardware and concurrency differ, so this does not isolate the causal effect of reasoning budget."
 }

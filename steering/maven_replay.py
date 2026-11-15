@@ -25,7 +25,9 @@ from steering import validation_protocol as vp
 from steering.compare import paired_delta
 
 VERSION = 'maven-replay-20261115-v1'
-ARMS = ('N1', 'N2', 'VC1', 'W4', 'MV2')
+MAXCTX_VERSION = 'maven-maxctx-20261115-v1'
+ARMS = ('N1', 'N2', 'VC1', 'W4', 'MV2', 'MAXCTX')
+PHASES = dict(N1='diverse',N2='sampled',VC1='screen',W4='filter',MV2='direct',MAXCTX='maxctx')
 SOURCE_HASH = '9098b43d14473cc4f6f44cedd43351f590aeb6e21e87aaa1abb88ef0f6b89366'
 VC1_ID = '08c1351e-6ac9-4471-aca9-1d608aeb7527'
 
@@ -42,17 +44,58 @@ def freeze(path, value):
 
 def config(path):
     cfg = mb.read(path)
-    if (cfg['protocol'] != VERSION or cfg['arm'] not in ARMS
+    maximum = cfg['arm']=='MAXCTX'
+    if (cfg['protocol'] != (MAXCTX_VERSION if maximum else VERSION) or cfg['arm'] not in ARMS
             or cfg['documents'] != 200 or cfg['passes'] != 5
-            or cfg['engine']['max_model_len'] != 65536
+            or cfg['engine']['max_model_len'] != (262144 if maximum else 65536)
             or cfg['reference_completion_sha256'] != SOURCE_HASH):
         raise ValueError('frozen transfer contract changed')
+    if maximum and (cfg['thinking_tokens']!=253952 or cfg['answer_tokens']!=4096
+            or cfg['engine']['concurrency']!=4 or cfg.get('gpu_kind')!='H100'
+            or cfg['thinking_request_timeout_seconds']!=18000
+            or cfg['drain_seconds']<19500 or cfg['lease_seconds']>18000):
+        raise ValueError('native-context budget or safe drain contract changed')
     if cfg.get('allocation_seconds') is not None:
         if not (0 < cfg['lease_seconds'] <= cfg['allocation_seconds'] - 7200):
             raise ValueError('GPU work budget must leave two hours for startup and checkpoint drain')
         if not (0 < cfg.get('request_timeout_seconds', 1200) <= 1200):
             raise ValueError('bounded transport timeout required for planned GPU rollover')
     return cfg
+
+
+def maximum_context_jobs(bases, tokenizer, cfg):
+    result=[]
+    for req in document_jobs(bases):
+        req=copy.deepcopy(req)
+        _,ids=mp.prompt_tokens(tokenizer,req['messages'])
+        req.update(phase='maxctx',thinking=cfg['thinking_tokens'],answer_tokens=cfg['answer_tokens'],
+                   prompt_tokens=len(ids))
+        if len(ids)+req['thinking']+req['answer_tokens']+32>cfg['engine']['max_model_len']:
+            raise ValueError('native-context prompt exceeds reserved budget; no exclusions allowed')
+        req.pop('key')
+        req['key']=api.digest(req)
+        result.append(req)
+    return result
+
+
+def check_maximum_engine(cfg, reference, current):
+    expected=copy.deepcopy(reference)
+    expected['engine'].update(max_model_len=262144,concurrency=4)
+    if current!=expected:
+        raise ValueError('maximum-context engine changed more than context/concurrency')
+    model=mb.read(Path(cfg['model_path'])/'config.json')
+    native=model.get('text_config',model)['max_position_embeddings']
+    if native!=cfg['engine']['max_model_len']:
+        raise ValueError('context must equal checkpoint native maximum without extension')
+
+
+def work_deadline(cfg, tick, now_unix, allocation_end):
+    deadline=tick+cfg['lease_seconds']
+    if cfg['arm']=='MAXCTX':
+        if allocation_end is None:
+            raise ValueError('absolute GPU allocation deadline required for long requests')
+        deadline=min(deadline,tick+float(allocation_end)-now_unix-cfg['drain_seconds'])
+    return deadline
 
 
 def job(phase, doc, messages, schema, thinking, answer_tokens, **meta):
@@ -293,7 +336,11 @@ def prepare(cfg, hash_engine=True):
         raise ValueError('document set changed')
     rules = bases[0]['messages'][0]['content'].split('\n\nReturn only a JSON object')[0]
     arm, routes, upstream = cfg['arm'], None, None
-    if arm in ('N1', 'N2'):
+    if arm=='MAXCTX':
+        from transformers import AutoTokenizer
+        tokenizer=AutoTokenizer.from_pretrained(cfg['model_path'],trust_remote_code=True)
+        jobs=maximum_context_jobs(bases,tokenizer,cfg)
+    elif arm in ('N1', 'N2'):
         jobs = document_jobs(bases, sampled=arm == 'N2')
     elif arm == 'VC1':
         jobs = screen_jobs(public, rules)
@@ -303,15 +350,21 @@ def prepare(cfg, hash_engine=True):
         source_jobs, source_rows, upstream = producer(cfg)
         jobs, routes = direct_jobs(public, rules, baseline, views(source_jobs, source_rows))
     engine = (ssh_engine(cfg) if cfg.get('backend')=='ssh3090' else mb.freeze_engine(cfg)) if hash_engine else mb.read(Path(cfg['reference_root'])/'engine_identity.json')
-    if cfg.get('backend')!='ssh3090' and api.digest(engine) != original['engine_sha256']:
+    if arm=='MAXCTX':
+        check_maximum_engine(cfg,mb.read(Path(cfg['reference_root'])/'engine_identity.json'),engine)
+    elif cfg.get('backend')!='ssh3090' and api.digest(engine) != original['engine_sha256']:
         raise ValueError('reference/current engine differs')
-    manifest = dict(protocol=VERSION, configuration=cfg, selected=original['selected'],
+    manifest = dict(protocol=cfg['protocol'], configuration=cfg, selected=original['selected'],
         demo_ids=original['demo_ids'], engine_sha256=api.digest(engine),
         reference_engine_sha256=original['engine_sha256'],
         reference_manifest_sha256=mb.sha(Path(cfg['reference_root'])/'manifest.json'),
         initial_jobs_sha256=api.digest(jobs), upstream_vc1_completion_sha256=upstream,
         expected_initial=len(jobs), source_code=cfg['source_commits'])
-    name = {'N1':'diverse', 'N2':'sampled', 'VC1':'screen', 'W4':'filter', 'MV2':'direct'}[arm]
+    if arm=='MAXCTX':
+        manifest['native_context_budget']=dict(context=262144,thinking=253952,answer=4096,
+            max_prompt_tokens=max(j['prompt_tokens'] for j in jobs),safety_tokens=32,
+            config_sha256=mb.sha(Path(cfg['model_path'])/'config.json'))
+    name = PHASES[arm]
     for filename, value in [('manifest',manifest),(name+'_jobs',jobs),('public',public),
                             ('documents',docs),('doc_structure',structure),('base_jobs',bases),
                             ('baseline',{d:sorted(ps) for d,ps in baseline.items()}),
@@ -323,7 +376,6 @@ def prepare(cfg, hash_engine=True):
 
 
 class Reader:
-    smoke = mb.Reader.smoke
 
     def __init__(self, cfg, manifest, url):
         from transformers import AutoTokenizer
@@ -331,6 +383,11 @@ class Reader:
         self.tok = AutoTokenizer.from_pretrained(cfg['model_path'], trust_remote_code=True)
         self.client = api.Client(url, os.environ['MB_API_KEY'], self.out/'http-cache',
                                  api.digest(manifest), timeout=cfg.get('request_timeout_seconds',21600))
+        if cfg['arm']=='MAXCTX':
+            self.thinking_client=api.Client(url,os.environ['MB_API_KEY'],self.out/'http-cache',
+                api.digest(manifest),timeout=cfg['thinking_request_timeout_seconds'])
+            self.smoke_client=api.Client(url,os.environ['MB_API_KEY'],self.out/'http-cache',
+                api.digest(manifest),timeout=cfg['context_smoke_timeout_seconds'])
         entry = next(x for x in self.client.call('/models')[0]['data'] if x['id']==cfg['model'])
         if entry.get('max_model_len') != cfg['engine']['max_model_len']:
             raise ValueError('server context mismatch')
@@ -338,6 +395,28 @@ class Reader:
         tokenized = self.client.call('/../tokenize',dict(model=cfg['model'],prompt=text,add_special_tokens=False))[0]
         if tokenized['tokens'] != ids:
             raise ValueError('tokenizer mismatch')
+
+    def smoke(self):
+        if self.cfg['arm']!='MAXCTX':
+            return mb.Reader.smoke(self)
+        text=self.tok.apply_chat_template([dict(role='user',content='Return exactly {"relations": []}.')],
+                    tokenize=False,add_generation_prompt=True,enable_thinking=False)
+        short=self.tok.encode(text,add_special_tokens=False)
+        filler=self.tok.encode('This is neutral padding. ',add_special_tokens=False)
+        size=self.cfg['engine']['max_model_len']-128
+        long=(filler*(size//len(filler)+1))[:size-len(short)]+short
+        def probe(client,ids):
+            body=api.payload(self.cfg['model'],[ids],64,'direct')
+            body['structured_outputs']['json']=vp.document_schema()
+            reply,_,_=client.call('/completions',body)
+            item=api.ordered_choices(reply,1)[0]
+            if item['finish_reason']!='stop' or vp.document_parse(item['text']) is None:
+                raise ValueError('native-context structured-output preflight failed')
+        probe(self.smoke_client,long)
+        with ThreadPoolExecutor(max_workers=self.cfg['engine']['concurrency']) as pool:
+            list(pool.map(lambda ids:probe(self.client,ids),[short]*self.cfg['engine']['concurrency']))
+        print('MAXCTX_SMOKE',api.canonical(dict(context_tokens=len(long),max_model_len=size+128,
+              concurrent_requests=self.cfg['engine']['concurrency'],status='passed')),flush=True)
 
     def check(self, jobs):
         for req in jobs:
@@ -360,7 +439,7 @@ class Reader:
             text, ids = mp.prompt_tokens(self.tok,req['messages'])
             body = api.payload(self.cfg['model'],[ids],req['thinking'])
             body.update(temperature=req.get('temperature',0.),seed=req.get('seed',20261115))
-            result, _, elapsed = self.client.call('/completions',body)
+            result, _, elapsed = getattr(self,'thinking_client',self.client).call('/completions',body)
             choice = api.ordered_choices(result,1)[0]
             if choice['finish_reason'] not in ('length','stop'):
                 raise ValueError('unexpected thinking termination')
@@ -379,7 +458,7 @@ class Reader:
         final = api.ordered_choices(result,1)[0]
         obj = None
         if final['finish_reason']=='stop':
-            if req['phase'] in ('diverse','sampled','verification'):
+            if req['phase'] in ('diverse','sampled','verification','maxctx'):
                 obj = vp.document_parse(final['text'])
             elif req['phase']=='direct':
                 obj = adjudicate.parse_final(final['text'],'direct')
@@ -436,8 +515,8 @@ def paired_systems(cfg, out):
     baseline = {d:{tuple(p) for p in ps} for d,ps in mb.read(out/'baseline.json').items()}
     manifest = mb.read(out/'manifest.json')
     systems, all_jobs, stats = dict(D=baseline), [], {}
-    if cfg['arm'] in ('N1','N2'):
-        name = 'diverse' if cfg['arm']=='N1' else 'sampled'
+    if cfg['arm'] in ('N1','N2','MAXCTX'):
+        name = PHASES[cfg['arm']]
         jobs = mb.read(out/(name+'_jobs.json'))
         rows = checked_rows(out,manifest,jobs)
         all_jobs += jobs
@@ -455,7 +534,7 @@ def paired_systems(cfg, out):
             if set(systems['N2']) != set(public):
                 raise ValueError('incomplete N2 final panel')
         else:
-            systems['N1'] = systems['diverse_vote5']
+            systems[cfg['arm']] = systems[name+'_vote5']
     elif cfg['arm']=='VC1':
         jobs = mb.read(out/'screen_jobs.json')
         all_jobs += jobs
@@ -526,14 +605,14 @@ def score(cfg):
     for name,ref in comparisons:
         contrasts[name+' - '+ref] = dict(delta_ci95=paired_delta(per_doc[name]['all'],per_doc[ref]['all'],
             draws=5000,seed=20261112),primary=ref=='D',unit='document')
-    report = dict(protocol=VERSION,configuration=cfg,manifest_sha256=mb.sha(out/'manifest.json'),
+    report = dict(protocol=cfg['protocol'],configuration=cfg,manifest_sha256=mb.sha(out/'manifest.json'),
         jobs_done=len(rows),jobs_expected=len(jobs),metrics=metrics,contrasts=contrasts,per_document=per_doc,
         invalid=sum(r['object'] is None for r in rows),truncated=sum(r['truncated'] for r in rows),
         forced=sum(r['forced'] for r in rows),stats=stats,
         cost=dict(think_tokens=sum(r['think_tokens'] for r in rows),answer_tokens=sum(r['answer_tokens'] for r in rows),
                   source_D_cost='Retain full C+D reference recipe cost; new calls are incremental.',
                   upstream_VC1_cost_required=cfg['arm']=='MV2'),
-        runs=sorted({r['run'] for r in rows}),scope='Previously exposed200docs. Recipe transfers, not equal-budget ablations. Five exploratory comparisons; nominal unadjusted intervals.')
+        runs=sorted({r['run'] for r in rows}),scope=cfg.get('analysis_scope','Previously exposed200docs. Recipe transfers, not equal-budget ablations. Five exploratory comparisons; nominal unadjusted intervals.'))
     mb.atomic(out/'report.json',report)
     mb.atomic(out/'predictions.json',{name:{d:sorted(ps) for d,ps in pred.items()} for name,pred in systems.items()})
     freeze(out/'complete.json',dict(arm=cfg['arm'],experiment_id=cfg['experiment_id'],
@@ -554,12 +633,12 @@ def run(cfg,url):
         reader = Reader(cfg,manifest,url)
         reader.smoke()
         tick = time.monotonic()
-        deadline = tick+cfg['lease_seconds']
+        deadline = work_deadline(cfg,tick,time.time(),os.environ.get('REPLAY_ALLOCATION_END_UNIX'))
         attempt = out/'attempts'/(os.environ['ORX_RUN_ID']+'-'+os.environ.get('SLURM_JOB_ID',os.environ.get('REPLAY_LEASE_ID','gpu'))+'.json')
         record = dict(run=os.environ['ORX_RUN_ID'],commit=os.environ['ORX_COMMIT'],started_unix=time.time())
         mb.atomic(attempt,record)
         try:
-            name = {'N1':'diverse','N2':'sampled','VC1':'screen','W4':'filter','MV2':'direct'}[cfg['arm']]
+            name = PHASES[cfg['arm']]
             jobs = mb.read(out/(name+'_jobs.json'))
             if api.digest(jobs)!=manifest['initial_jobs_sha256']:
                 raise ValueError('initial job list changed')
