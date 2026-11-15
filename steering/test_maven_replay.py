@@ -24,6 +24,18 @@ def bases():
 
 
 class Transfers(unittest.TestCase):
+    def test_allocation_reserves_startup_and_bounded_drain_time(self):
+        cfg=dict(protocol=r.VERSION,arm='VC1',documents=200,passes=5,
+                 engine=dict(max_model_len=65536),reference_completion_sha256=r.SOURCE_HASH,
+                 allocation_seconds=64800,lease_seconds=57600,request_timeout_seconds=1200)
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'config.json'
+            path.write_text(json.dumps(cfg))
+            self.assertEqual(r.config(path),cfg)
+            for bad in [dict(lease_seconds=64800),dict(request_timeout_seconds=21600)]:
+                path.write_text(json.dumps(cfg|bad))
+                with self.assertRaises(ValueError): r.config(path)
+
     def test_diversity_and_sampling_have_exact_five_read_contract(self):
         source=bases()
         greedy=r.document_jobs(source)

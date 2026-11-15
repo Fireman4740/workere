@@ -10,7 +10,10 @@ c=json.load(open('steering/maven_replay_config.json'))
 for k,v in {'ARM':c['arm'], 'ROOT':c['campaign_root'], 'SIF':c['container'],
             'W4':c['model_path'], 'CONC':c['engine']['concurrency'],
             'MAX_LEN':c['engine']['max_model_len'], 'INT8_ACT':c['engine']['int8_act'],
-            'INT8_LAYERS':c['engine']['int8_layers'], 'MAX_LEASES':c['max_gpu_leases']}.items():
+            'INT8_LAYERS':c['engine']['int8_layers'], 'MAX_LEASES':c['max_gpu_leases'],
+            'ALLOCATION_TIME':f"{c.get('allocation_seconds',86400)//3600:02d}:"
+              f"{c.get('allocation_seconds',86400)%3600//60:02d}:"
+              f"{c.get('allocation_seconds',86400)%60:02d}"}.items():
  print(k+'='+shlex.quote(str(v)))
 PY
 )"
@@ -53,7 +56,7 @@ if [ "${1:-}" != _gpu ]; then
     echo "MC_LEASE arm=$ARM lease=$lease maximum=$MAX_LEASES"
     rm -f "$ATTEMPT/gpu_job_id"
     srun --partition=gpu_l40s_interactive --qos=gpu --account=liris --gpus=1 --ntasks=1 \
-      --cpus-per-task=8 --mem=96G --time=1-00:00:00 --licenses=sps --job-name="mc-$ARM" \
+      --cpus-per-task=8 --mem=96G --time="$ALLOCATION_TIME" --licenses=sps --job-name="mc-$ARM" \
       bash "$REPO/steering/exp/maven_replay_l40s.sh" _gpu &
     CHILD=$!
     set +e
