@@ -260,6 +260,22 @@ def producer(cfg):
     return jobs, checked_rows(out, manifest, jobs), mb.sha(out/'complete.json')
 
 
+def ssh_engine(cfg):
+    from importlib.metadata import version
+    previous = mb.read(Path(cfg['reference_root'])/'engine_identity.json')
+    model = Path(cfg['model_path'])
+    files = {name:mb.sha(model/name) for name in previous['files']}
+    if files != previous['files']:
+        raise ValueError('3090 model/tokenizer bytes differ from the frozen D checkpoint')
+    identity = dict(files=files, engine=cfg['engine'], served_model=cfg['model'],
+        container_image=cfg['container_image'],vllm_version=version('vllm'),
+        torch_version=version('torch'),batch_launcher_sha256=mb.sha('/app/batch/start_qwen.sh'))
+    freeze(Path(cfg['campaign_root'])/'engine_identity.json',identity)
+    print('MC_SSH_ENGINE',api.canonical(dict(sha256=api.digest(identity),files=len(files),
+          reference_weights_identical=True,runtime_matches_L40S=False)),flush=True)
+    return identity
+
+
 def prepare(cfg, hash_engine=True):
     out = mb.output_dir(cfg)
     if (out/'complete.json').exists():
@@ -281,11 +297,12 @@ def prepare(cfg, hash_engine=True):
     else:
         source_jobs, source_rows, upstream = producer(cfg)
         jobs, routes = direct_jobs(public, rules, baseline, views(source_jobs, source_rows))
-    engine = mb.freeze_engine(cfg) if hash_engine else mb.read(Path(cfg['reference_root'])/'engine_identity.json')
-    if api.digest(engine) != original['engine_sha256']:
+    engine = (ssh_engine(cfg) if cfg.get('backend')=='ssh3090' else mb.freeze_engine(cfg)) if hash_engine else mb.read(Path(cfg['reference_root'])/'engine_identity.json')
+    if cfg.get('backend')!='ssh3090' and api.digest(engine) != original['engine_sha256']:
         raise ValueError('reference/current engine differs')
     manifest = dict(protocol=VERSION, configuration=cfg, selected=original['selected'],
         demo_ids=original['demo_ids'], engine_sha256=api.digest(engine),
+        reference_engine_sha256=original['engine_sha256'],
         reference_manifest_sha256=mb.sha(Path(cfg['reference_root'])/'manifest.json'),
         initial_jobs_sha256=api.digest(jobs), upstream_vc1_completion_sha256=upstream,
         expected_initial=len(jobs), source_code=cfg['source_commits'])
@@ -533,7 +550,7 @@ def run(cfg,url):
         reader.smoke()
         tick = time.monotonic()
         deadline = tick+cfg['lease_seconds']
-        attempt = out/'attempts'/(os.environ['ORX_RUN_ID']+'-'+os.environ.get('SLURM_JOB_ID','gpu')+'.json')
+        attempt = out/'attempts'/(os.environ['ORX_RUN_ID']+'-'+os.environ.get('SLURM_JOB_ID',os.environ.get('REPLAY_LEASE_ID','gpu'))+'.json')
         record = dict(run=os.environ['ORX_RUN_ID'],commit=os.environ['ORX_COMMIT'],started_unix=time.time())
         mb.atomic(attempt,record)
         try:
@@ -560,11 +577,12 @@ def main():
     args = parser.parse_args()
     cfg = config(args.config)
     if args.cmd=='wait-source':
-        if cfg['arm']=='MV2':
-            deadline=time.monotonic()+5*86400
-            while not (Path(cfg['campaign_root'])/'VC1'/'complete.json').exists():
-                if time.monotonic()>deadline: raise TimeoutError('VC1 producer not complete')
-                print('MC_WAIT VC1 complete screen panel; no GPU reserved',flush=True)
+        predecessor = cfg.get('predecessor') if cfg.get('backend')=='ssh3090' else ('VC1' if cfg['arm']=='MV2' else None)
+        if predecessor:
+            deadline=time.monotonic()+14*86400
+            while not (Path(cfg['campaign_root'])/predecessor/'complete.json').exists():
+                if time.monotonic()>deadline: raise TimeoutError(predecessor+' producer not complete')
+                print('MC_WAIT '+predecessor+' complete; no GPU reserved',flush=True)
                 time.sleep(60)
     elif args.cmd=='prepare': prepare(cfg)
     elif args.cmd=='score': score(cfg)

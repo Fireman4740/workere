@@ -165,5 +165,24 @@ class Transfers(unittest.TestCase):
             self.assertEqual(len(reader.client.calls),3)
             self.assertIn('structured_outputs',reader.client.calls[-1])
 
+    def test_3090_requires_identical_model_bytes_and_records_distinct_runtime(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); model=root/'model'; model.mkdir()
+            (model/'config.json').write_text('{}')
+            previous=dict(files={'config.json':mb.sha(model/'config.json')},container_sha256='old-sif')
+            mb.atomic(root/'D'/'engine_identity.json',previous)
+            cfg=dict(reference_root=str(root/'D'),model_path=str(model),campaign_root=str(root/'new'),
+                     engine={'concurrency':16},model='qwen',container_image='pinned-image')
+            original=mb.sha
+            def sha(path):
+                return 'batch-launcher' if str(path)=='/app/batch/start_qwen.sh' else original(path)
+            with patch('importlib.metadata.version',return_value='test'), patch.object(mb,'sha',side_effect=sha):
+                identity=r.ssh_engine(cfg)
+                self.assertEqual(identity['files'],previous['files'])
+                self.assertEqual(identity['container_image'],'pinned-image')
+                self.assertNotEqual(api.digest(identity),api.digest(previous))
+                (model/'config.json').write_text('{"changed":true}')
+                with self.assertRaises(ValueError): r.ssh_engine(cfg)
+
 
 if __name__=='__main__': unittest.main()
