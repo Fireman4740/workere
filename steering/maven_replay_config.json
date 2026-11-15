@@ -2,7 +2,7 @@
   "protocol": "maven-replay-20261115-v1",
   "arm": "VC1",
   "experiment_id": "08c1351e-6ac9-4471-aca9-1d608aeb7527",
-  "campaign_root": "/sps/liris/mcarlesso/maven-compare-20261115",
+  "campaign_root": "/sps/liris/mcarlesso/maven-compare-20261115-3090",
   "historical_root": "/sps/liris/mcarlesso/maven-pool/out",
   "historical_sha256": {
     "manifest.json": "6cce38c8ac0981582b6859fe8890dd75fc963af36f70b548486e1dcfaf6b3230",
@@ -12,16 +12,15 @@
     "reads_compact.json": "93198f49fa48423faad38d5567336a356ba7132a09470b44b2874029eee75e3e"
   },
   "model": "qwen3.8-27b",
-  "model_path": "/pbs/throng/liris/mcarlesso/steer/models/Qwen3.8-27B-W4A16-AutoRound",
-  "container": "/pbs/throng/liris/mcarlesso/steer/hyperqwen.sif",
+  "model_path": "/app/models/Qwen3.8-27B-W4A16-AutoRound",
   "engine": {
     "max_model_len": 65536,
-    "concurrency": 32,
+    "concurrency": 16,
     "kv_cache_dtype": "fp8",
     "mode": "batch",
     "int8_act": "int8",
     "int8_layers": "mlp",
-    "gpu_memory_utilization": 0.94,
+    "gpu_memory_utilization": 0.9,
     "max_num_batched_tokens": 2048
   },
   "documents": 200,
@@ -39,5 +38,8 @@
     "VC1": "f6fca6c31dd520c01ac3ee24e314a49ce70ee0bf",
     "W4": "8c0d8261320e03cd2e1a5891deaa1df3c0373ea4",
     "MV2": "c28119b6c4038d707698b675daefec4d22358cd5"
-  }
+  },
+  "backend": "ssh3090",
+  "predecessor": "W4",
+  "container_image": "sha256:f706b092aabb156c23fe98c312ba7912fb8dbc0c107d4f152382113e33762f1c"
 }
