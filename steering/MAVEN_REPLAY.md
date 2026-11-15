@@ -73,3 +73,29 @@ Source implementations are pinned by commit in each config: N1 d5060c5,
 N2 80649a7, VC1 f6fca6c, W4 8c0d826 and MV2 c28119b. Scientific adaptations
 are the new MAVEN source reference, input/prompt contract and routing described
 above; historical output numbers are not imported as new results.
+
+
+## User-authorized RTX3090 migration (2026-11-15)
+
+L40S jobs were blocked with Reserved for maintenance before any GPU inference.
+The user explicitly authorized the RTX3090 and HyperQwen batch container.
+The same provisional nodes move to SSH, preserving the fixed entry point.
+They run sequentially N1 -> N2 -> W4 -> VC1 -> MV2, behind a common GPU lock.
+The new container image is pinned to f706b092aabb156c23fe98c312ba7912fb8dbc0c107d4f152382113e33762f1c.
+Context remains65536; concurrency16 and GPU utilization0.90 fit24GB.
+INT8 MLP activations, FP8 KV and FP16 recurrent states are retained.
+Every model/config/tokenizer byte must match the frozen D checkpoint.
+The image/vLLM/runtime hashes are recorded separately from D's L40S engine;
+new-runtime results are recipe comparisons with a fixed cached D reference,
+not a hardware-controlled causal ablation. All five transfers use the same
+3090 runtime; the N1/N2 control comparison is on that shared runtime.
+
+Original scientific files remain on SPS. Their required immutable input subset
+is streamed directly into a dedicated Windows-mounted volume under
+F:/IA/Qwen3.8/server-extensions/steering/maven3090/sps, mounted at the same
+/sps/liris/mcarlesso paths inside batch. No model weights are transferred.
+New outputs use maven-compare-20261115-3090, preserving the earlier prepared
+L40S manifests. Final outputs must be archived back to SPS after completion.
+The batch container was recreated after the older idle container lost GPU
+access; host and fresh-container CUDA preflights passed. No active API or
+scientific process was stopped. No model/image update was downloaded.
