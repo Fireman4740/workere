@@ -135,3 +135,12 @@ N1's nearly complete3090 run stays untouched. Scientific recipes and engine
 identity are unchanged. The fresh12h diagnostic at20:16CET was pending for
 maintenance, unlike the successful12h diagnostic at19:21CET; monitor actual
 allocation status rather than treating submission as GPU execution.
+
+
+## Other-GPU request msg_e0c5a49f
+
+N1 is complete and frozen. N2 returns to the now-free RTX3090 batch container,
+with the same pinned image, model bytes and runtime settings as N1. The N1/N2
+contrast consequently again shares hardware/runtime, while scientific sampling
+and proposal-review differences remain part of the recipes. No L40S answers
+exist to transfer; the empty historical3090 N2 namespace is reused.
