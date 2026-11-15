@@ -64,13 +64,28 @@ if [ "${1:-}" != _gpu ]; then
     RC=$?
     set -e
     CHILD=''
+    gpu_job=''
+    ACCOUNTING=$ATTEMPT/accounting-lease-$lease.txt
+    : > "$ACCOUNTING"
+    STATE=''
     if [ -f "$ATTEMPT/gpu_job_id" ]; then
       gpu_job=$(cat "$ATTEMPT/gpu_job_id")
-      sacct -j "$gpu_job" --parsable2 -o JobID,State,ElapsedRaw,AllocTRES,ExitCode \
-        > "$ATTEMPT/accounting-$gpu_job.txt" || true
+      # Accounting may lag process exit; never confuse a timed-out step with
+      # an OOM or an explicit cancellation of its parent allocation.
+      for poll in 1 2 3 4 5; do
+        sacct -j "$gpu_job" --parsable2 -o JobID,State,ElapsedRaw,AllocTRES,ExitCode \
+          > "$ACCOUNTING" || true
+        STATE=$("$PY_HOST" "$REPO/steering/maven_replay_allocation.py" \
+          --accounting "$ACCOUNTING" --job-id "$gpu_job" --field state)
+        case "$STATE" in ''|PENDING|RUNNING|COMPLETING) sleep 2;; *) break;; esac
+      done
+      cp "$ACCOUNTING" "$ATTEMPT/accounting-$gpu_job.txt"
     fi
-    if [ "$RC" -eq 75 ]; then
-      echo "MC_CHECKPOINT arm=$ARM lease=$lease; planned allocation rollover, responses retained"
+    REASON=$("$PY_HOST" "$REPO/steering/maven_replay_allocation.py" \
+      --accounting "$ACCOUNTING" --job-id "$gpu_job" --return-code "$RC" --field reason)
+    echo "MC_ALLOCATION arm=$ARM lease=$lease job=$gpu_job rc=$RC scheduler_state=$STATE"
+    if [ -n "$REASON" ]; then
+      echo "MC_CHECKPOINT arm=$ARM lease=$lease reason=$REASON; responses retained, requesting next allocation"
       continue
     fi
     echo "MC_EXIT arm=$ARM rc=$RC"
