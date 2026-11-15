@@ -25,6 +25,13 @@ def bases():
 
 
 class Transfers(unittest.TestCase):
+    def test_site_resource_shapes_are_frozen_for_each_preflighted_gpu(self):
+        self.assertEqual(allocations.gpu_resources({}),
+                         dict(GPU_KIND='L40S',GPU_PARTITION='gpu_l40s_interactive',GPU_CPUS=8,GPU_MEM='96G'))
+        self.assertEqual(allocations.gpu_resources(dict(gpu_kind='H100')),
+                         dict(GPU_KIND='H100',GPU_PARTITION='gpu_h100_interactive',GPU_CPUS=4,GPU_MEM='64G'))
+        with self.assertRaises(ValueError): allocations.gpu_resources(dict(gpu_kind='V100'))
+
     def test_controller_requests_next_allocation_after_scheduler_timeout(self):
         import os
         import shutil
@@ -36,6 +43,7 @@ class Transfers(unittest.TestCase):
             source=Path(__file__).parent
             shutil.copy(source/'exp/maven_replay_l40s.sh',scripts)
             shutil.copy(source/'maven_replay_allocation.py',repo/'steering')
+            (repo/'steering/__init__.py').touch()
             output=root/'output'
             cfg=dict(arm='VC1',campaign_root=str(output),container='test.sif',model_path='test-model',
                      engine=dict(concurrency=1,max_model_len=65536,int8_act='int8',int8_layers='mlp'),
