@@ -9,6 +9,7 @@ from unittest.mock import patch
 from steering import campaign_api as api
 from steering import maven_budget as mb
 from steering import maven_replay as r
+from steering import maven_replay_allocation as allocations
 
 
 def public():
@@ -24,6 +25,85 @@ def bases():
 
 
 class Transfers(unittest.TestCase):
+    def test_controller_requests_next_allocation_after_scheduler_timeout(self):
+        import os
+        import shutil
+        import subprocess
+        import sys
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); repo=root/'repo'; scripts=repo/'steering/exp'
+            scripts.mkdir(parents=True); tools=root/'bin'; tools.mkdir()
+            source=Path(__file__).parent
+            shutil.copy(source/'exp/maven_replay_l40s.sh',scripts)
+            shutil.copy(source/'maven_replay_allocation.py',repo/'steering')
+            output=root/'output'
+            cfg=dict(arm='VC1',campaign_root=str(output),container='test.sif',model_path='test-model',
+                     engine=dict(concurrency=1,max_model_len=65536,int8_act='int8',int8_layers='mlp'),
+                     allocation_seconds=43200,max_gpu_leases=3)
+            (repo/'steering/maven_replay_config.json').write_text(json.dumps(cfg))
+            def executable(name,body):
+                path=tools/name
+                path.write_text('#!'+sys.executable+'\n'+body)
+                path.chmod(0o755)
+            executable('python3','import os,sys\nos.execv(sys.executable,[sys.executable]+sys.argv[1:])\n')
+            executable('apptainer','raise SystemExit(0)\n')
+            executable('flock','raise SystemExit(0)\n')
+            executable('srun',
+                'from pathlib import Path\nimport os,sys\n'
+                'root=Path(os.environ["TEST_OUTPUT"])/"VC1"\n'
+                'counter=root/"counter"\nn=int(counter.read_text())+1 if counter.exists() else 1\n'
+                'counter.write_text(str(n))\n'
+                '(root/"logs"/os.environ["ORX_RUN_ID"]/"gpu_job_id").write_text(str(n))\n'
+                'saved=root/"saved-response"\n'
+                'if n==1: saved.write_text("preserved"); raise SystemExit(124)\n'
+                'assert saved.read_text()=="preserved"\nraise SystemExit(0)\n')
+            executable('sacct',
+                'import sys\njob=sys.argv[sys.argv.index("-j")+1]\n'
+                'print("JobID|State|ElapsedRaw|AllocTRES|ExitCode")\n'
+                'print(job+"|"+("TIMEOUT" if job=="1" else "COMPLETED")+"|1||0:0")\n')
+            env=os.environ|dict(PATH=str(tools)+os.pathsep+os.environ['PATH'],TEST_OUTPUT=str(output),
+                                ORX_RUN_ID='controller-test',ORX_COMMIT='test-commit')
+            result=subprocess.run(['bash',str(scripts/'maven_replay_l40s.sh')],env=env,
+                                  capture_output=True,text=True,timeout=20)
+            self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+            self.assertEqual((output/'VC1/counter').read_text(),'2')
+            self.assertIn('reason=allocation_expired',result.stdout)
+            self.assertEqual((output/'VC1/saved-response').read_text(),'preserved')
+
+    def test_only_checkpoint_and_actual_allocation_timeout_resume(self):
+        accounting='JobID|State|ElapsedRaw|\n42|TIMEOUT+|43200|\n42.0|CANCELLED|43200|\n'
+        state=allocations.allocation_state(accounting,'42')
+        self.assertEqual(state,'TIMEOUT')
+        self.assertEqual(allocations.resume_reason(124,state),'allocation_expired')
+        self.assertEqual(allocations.resume_reason(75,'FAILED'),'planned_checkpoint')
+        for state in ['CANCELLED','OUT_OF_MEMORY','NODE_FAIL','FAILED']:
+            self.assertEqual(allocations.resume_reason(1,state),'')
+        self.assertEqual(allocations.resume_reason(75,'CANCELLED'),'')
+        # A timeout of a step alone must not override a failed parent job.
+        state=allocations.allocation_state('JobID|State|\n42|FAILED|\n42.0|TIMEOUT|\n','42')
+        self.assertEqual(allocations.resume_reason(1,state),'')
+
+    def test_next_lease_keeps_completed_responses_and_only_executes_missing_jobs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            class Fake:
+                out=Path(tmp)
+                manifest={'panel':'unchanged'}
+                cfg=dict(arm='VC1',engine=dict(concurrency=1))
+                calls=[]
+                def check(self,jobs): pass
+                def one(self,req):
+                    self.calls.append(req['key'])
+                    value={'object':None}
+                    mb.atomic(self.out/'responses'/(req['key']+'.json'),
+                              dict(contract=api.digest([self.manifest,req]),sha256=api.digest(value),data=value))
+            reader=Fake(); jobs=[dict(key='saved'),dict(key='missing')]
+            reader.one(jobs[0]); reader.calls.clear()
+            saved=(reader.out/'responses/saved.json').read_bytes()
+            self.assertFalse(r.phase(reader,'screen',jobs,time.monotonic()-1))
+            self.assertTrue(r.phase(reader,'screen',jobs,time.monotonic()+10))
+            self.assertEqual(reader.calls,['missing'])
+            self.assertEqual((reader.out/'responses/saved.json').read_bytes(),saved)
+
     def test_allocation_reserves_startup_and_bounded_drain_time(self):
         cfg=dict(protocol=r.VERSION,arm='VC1',documents=200,passes=5,
                  engine=dict(max_model_len=65536),reference_completion_sha256=r.SOURCE_HASH,
