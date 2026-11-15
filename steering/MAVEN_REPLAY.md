@@ -99,3 +99,23 @@ L40S manifests. Final outputs must be archived back to SPS after completion.
 The batch container was recreated after the older idle container lost GPU
 access; host and fresh-container CUDA preflights passed. No active API or
 scientific process was stopped. No model/image update was downloaded.
+# IN2P3 return: 18-hour allocations (2026-11-15 evening)
+
+User request msg_3b1b0dcb authorizes 18-hour L40S allocations. Pending N2,
+W4, VC1 and MV2 move to a fresh SPS namespace, with the original L40S engine
+identity and concurrency32. N1 keeps its already-running 3090 panel; none of
+its partial responses are mixed with L40S generations or regenerated.
+N1-versus-N2 is consequently a descriptive recipe comparison with different
+hardware/runtime settings, not a controlled test of demonstration diversity.
+
+Each GPU allocation requests 64800 seconds; the worker stops scheduling after
+57600 seconds (16h), retains immutable traces and answers, drains work, and
+resumes missing requests on the next allocation. HTTP calls time out after
+1200 seconds so draining cannot wait indefinitely. Six GPU allocations are
+allowed. The tracked CPU controller may wait for allocation availability;
+MV2 waits for the validated VC1 completion before requesting a GPU. The
+scientific prompts, budgets, routing and scoring are unchanged.
+
+Diagnostics obtained L40S allocations for6h and12h, while18h requests remained
+pending with `ReqNodeNotAvail, Reserved for maintenance`. An18h submission is
+therefore a queued request, not evidence that scientific inference has begun.

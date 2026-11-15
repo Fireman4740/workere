@@ -47,6 +47,11 @@ def config(path):
             or cfg['engine']['max_model_len'] != 65536
             or cfg['reference_completion_sha256'] != SOURCE_HASH):
         raise ValueError('frozen transfer contract changed')
+    if cfg.get('allocation_seconds') is not None:
+        if not (0 < cfg['lease_seconds'] <= cfg['allocation_seconds'] - 7200):
+            raise ValueError('GPU work budget must leave two hours for startup and checkpoint drain')
+        if not (0 < cfg.get('request_timeout_seconds', 1200) <= 1200):
+            raise ValueError('bounded transport timeout required for planned GPU rollover')
     return cfg
 
 
@@ -325,7 +330,7 @@ class Reader:
         self.cfg, self.manifest, self.out = cfg, manifest, mb.output_dir(cfg)
         self.tok = AutoTokenizer.from_pretrained(cfg['model_path'], trust_remote_code=True)
         self.client = api.Client(url, os.environ['MB_API_KEY'], self.out/'http-cache',
-                                 api.digest(manifest), timeout=21600)
+                                 api.digest(manifest), timeout=cfg.get('request_timeout_seconds',21600))
         entry = next(x for x in self.client.call('/models')[0]['data'] if x['id']==cfg['model'])
         if entry.get('max_model_len') != cfg['engine']['max_model_len']:
             raise ValueError('server context mismatch')
