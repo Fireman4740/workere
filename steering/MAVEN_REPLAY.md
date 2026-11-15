@@ -135,3 +135,16 @@ N1's nearly complete3090 run stays untouched. Scientific recipes and engine
 identity are unchanged. The fresh12h diagnostic at20:16CET was pending for
 maintenance, unlike the successful12h diagnostic at19:21CET; monitor actual
 allocation status rather than treating submission as GPU execution.
+
+## Other GPUs, msg_e0c5a49f
+
+The H100 interactive12h allocation and the pinned HyperQwen SIF CUDA tensor
+smoke test both succeeded. The H100 batch diagnostic instead failed on a node
+communication error after allocation, so only the interactive partition is used.
+W4,VC1,MV2 move to a fresh `maven-compare-20261115-h10012h` namespace;
+each gets oneH100,4CPUs,64GiB RAM per12h allocation with10h work windows.
+All checkpoint/SlurmTIMEOUT continuation rules remain unchanged. N2 returns
+to the freeRTX3090 with the same engine identity as the completed N1. N1 is
+frozen. Scientific prompts,budgets,routing and scoring are unchanged. H100
+results use the same model files and engine configuration as D but another
+GPU architecture; report that hardware difference in comparisons to cached D.
