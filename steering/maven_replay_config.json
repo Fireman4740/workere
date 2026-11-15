@@ -2,7 +2,7 @@
   "protocol": "maven-replay-20261115-v1",
   "arm": "VC1",
   "experiment_id": "08c1351e-6ac9-4471-aca9-1d608aeb7527",
-  "campaign_root": "/sps/liris/mcarlesso/maven-compare-20261115-l40s12h",
+  "campaign_root": "/sps/liris/mcarlesso/maven-compare-20261115-h10012h",
   "historical_root": "/sps/liris/mcarlesso/maven-pool/out",
   "historical_sha256": {
     "manifest.json": "6cce38c8ac0981582b6859fe8890dd75fc963af36f70b548486e1dcfaf6b3230",
@@ -42,5 +42,6 @@
   },
   "backend": "slurm",
   "allocation_seconds": 43200,
-  "request_timeout_seconds": 1200
+  "request_timeout_seconds": 1200,
+  "gpu_kind": "H100"
 }
