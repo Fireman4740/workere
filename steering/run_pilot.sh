@@ -7,7 +7,11 @@ REPO=$(cd "$(dirname "$0")/.." && pwd)
 # Per-experiment settings live in steering/config.env on each experiment branch; a MECH entry
 # routes the run to the reasoning-mechanism driver (E1-E5) instead of the steering sweep.
 if [ -f "$REPO/steering/config.env" ]; then set -a; . "$REPO/steering/config.env"; set +a; fi
-if [ "${CAMPAIGN:-}" = "MAVEN_REPLAY" ]; then exec bash "$REPO/steering/exp/maven_replay_l40s.sh"; fi
+if [ "${CAMPAIGN:-}" = "MAVEN_REPLAY" ]; then
+  REPLAY_BACKEND=$(/app/venv/bin/python -c 'import json; print(json.load(open("steering/maven_replay_config.json")).get("backend","slurm"))' 2>/dev/null || python3 -c 'import json; print(json.load(open("steering/maven_replay_config.json")).get("backend","slurm"))')
+  if [ "$REPLAY_BACKEND" = ssh3090 ]; then exec bash "$REPO/steering/exp/maven_replay_3090.sh"; fi
+  exec bash "$REPO/steering/exp/maven_replay_l40s.sh"
+fi
 if [ "${CAMPAIGN:-}" = "MAVEN_BUDGET" ]; then exec bash "$REPO/steering/exp/maven_budget_l40s.sh"; fi
 if [ "${CAMPAIGN:-}" = "VC" ]; then exec bash "$REPO/steering/exp/run_validation.sh"; fi
 if [ "${CAMPAIGN:-}" = "AP" ]; then exec bash "$REPO/steering/exp/run_ap.sh"; fi
