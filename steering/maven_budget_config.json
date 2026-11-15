@@ -6,7 +6,7 @@
   "answer_tokens": 4096,
   "source_arm": "C",
   "source_experiment_id": "79f493a7-a02d-4a3a-b6ef-3777e459c83f",
-  "source_completion_sha256": null,
+  "source_completion_sha256": "6da6131d61b0d20f136e5c2b2b3a92c9103da9ab742dfd0e8026d45c2fd733b9",
   "campaign_root": "/sps/liris/mcarlesso/maven-budget-20261113",
   "historical_root": "/sps/liris/mcarlesso/maven-pool/out",
   "historical_sha256": {
