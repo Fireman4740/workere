@@ -119,3 +119,19 @@ scientific prompts, budgets, routing and scoring are unchanged.
 Diagnostics obtained L40S allocations for6h and12h, while18h requests remained
 pending with `ReqNodeNotAvail, Reserved for maintenance`. An18h submission is
 therefore a queued request, not evidence that scientific inference has begun.
+
+## Superseding request: 12-hour automatic continuation
+
+User msg_b8f873fc requests12h allocations and automatic continuation. N2,W4,
+VC1,MV2 now use a fresh `maven-compare-20261115-l40s12h` namespace,12h GPU
+allocations and10h of new work per allocation. Immutable completed responses
+and intermediate thinking traces survive each rollover; only missing work is
+resubmitted. The CPU controller requests another GPU on worker exit75 or a
+verified parent-allocation SlurmTIMEOUT, independent of srun's exit code.
+It does not automatically retry cancellation,OOM or unrelated failures.
+Accounting polling tolerates delayed final Slurm state. There is a ceiling of
+12allocations (up to120h of scheduled work) and no score on an incomplete panel.
+N1's nearly complete3090 run stays untouched. Scientific recipes and engine
+identity are unchanged. The fresh12h diagnostic at20:16CET was pending for
+maintenance, unlike the successful12h diagnostic at19:21CET; monitor actual
+allocation status rather than treating submission as GPU execution.
