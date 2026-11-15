@@ -44,7 +44,9 @@ def atomic(path, value, immutable=False):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     if immutable and path.exists():
-        if read(path) != value:
+        # Tuples become arrays on disk. Compare the serialized JSON contract,
+        # including nested structures, rather than Python container types.
+        if api.canonical(read(path)) != api.canonical(value):
             raise ValueError(f'immutable file changed: {path}')
         return
     with tempfile.NamedTemporaryFile('w', dir=path.parent, delete=False, suffix='.tmp') as stream:

@@ -156,6 +156,18 @@ class BudgetTests(unittest.TestCase):
             mb.atomic(p, {'a': 2}, immutable=True)
         self.assertEqual(mb.read(p), {'a': 1})
 
+    def test_immutable_json_roundtrip_accepts_tuples_without_rewriting(self):
+        p = Path(self.tmp.name, 'baseline.json')
+        pairs = {'d': [('e1', 'e2'), ('e2', 'e3')]}
+        mb.atomic(p, pairs, immutable=True)
+        original = p.read_bytes()
+        mb.atomic(p, pairs, immutable=True)
+        mb.atomic(p, {'d': [['e1', 'e2'], ['e2', 'e3']]}, immutable=True)
+        self.assertEqual(p.read_bytes(), original)
+        with self.assertRaises(ValueError):
+            mb.atomic(p, {'d': [('e1', 'e3')]}, immutable=True)
+        self.assertEqual(p.read_bytes(), original)
+
 
 if __name__ == '__main__':
     unittest.main()
