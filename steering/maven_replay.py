@@ -510,7 +510,7 @@ def score(cfg):
         forced=sum(r['forced'] for r in rows),stats=stats,
         cost=dict(think_tokens=sum(r['think_tokens'] for r in rows),answer_tokens=sum(r['answer_tokens'] for r in rows),
                   source_D_cost='Retain full C+D reference recipe cost; new calls are incremental.',
-                  upstream_VC1_cost_included=cfg['arm']=='MV2'),
+                  upstream_VC1_cost_required=cfg['arm']=='MV2'),
         runs=sorted({r['run'] for r in rows}),scope='Previously exposed200docs. Recipe transfers, not equal-budget ablations. Five exploratory comparisons; nominal unadjusted intervals.')
     mb.atomic(out/'report.json',report)
     mb.atomic(out/'predictions.json',{name:{d:sorted(ps) for d,ps in pred.items()} for name,pred in systems.items()})
