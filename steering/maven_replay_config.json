@@ -2,7 +2,7 @@
   "protocol": "maven-replay-20261115-v1",
   "arm": "W4",
   "experiment_id": "3298ff8c-06a9-4c06-81a3-b59d3712b6d9",
-  "campaign_root": "/sps/liris/mcarlesso/maven-compare-20261115-l40s18h",
+  "campaign_root": "/sps/liris/mcarlesso/maven-compare-20261115-l40s12h",
   "historical_root": "/sps/liris/mcarlesso/maven-pool/out",
   "historical_sha256": {
     "manifest.json": "6cce38c8ac0981582b6859fe8890dd75fc963af36f70b548486e1dcfaf6b3230",
@@ -31,8 +31,8 @@
   "seed": 20261112,
   "reference_root": "/sps/liris/mcarlesso/maven-budget-20261113/D",
   "reference_completion_sha256": "9098b43d14473cc4f6f44cedd43351f590aeb6e21e87aaa1abb88ef0f6b89366",
-  "lease_seconds": 57600,
-  "max_gpu_leases": 6,
+  "lease_seconds": 36000,
+  "max_gpu_leases": 12,
   "source_commits": {
     "N1": "d5060c5dff21e83987b523fbaa124773a58269da",
     "N2": "80649a7db8a3c38ea459d3ef73781d8d09601a8c",
@@ -41,6 +41,6 @@
     "MV2": "c28119b6c4038d707698b675daefec4d22358cd5"
   },
   "backend": "slurm",
-  "allocation_seconds": 64800,
+  "allocation_seconds": 43200,
   "request_timeout_seconds": 1200
 }
